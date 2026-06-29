@@ -26,7 +26,7 @@
 
   /* ── Camera ───────────────────────────────────────────── */
   const camera   = new THREE.PerspectiveCamera(30, 1, 0.1, 100);
-  camera.position.set(isMobile ? 0 : -1.8, 0.2, isMobile ? 7.5 : 11.5);
+  camera.position.set(isMobile ? 0 : -1.8, 0.2, isMobile ? 10.5 : 11.5);
 
   /* ── Scene + Fog ──────────────────────────────────────── */
   const scene = new THREE.Scene();
