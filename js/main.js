@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function () {
      Invia a info@shapeless.shop via Web3Forms API.
      Funziona su qualsiasi hosting statico (GitHub Pages, Netlify, ecc.)
      ───────────────────────────────────────────────────────── */
-  var W3F_KEY = 'b4007891-4fab-4094-b49b-941fdcbcf022';
+  var W3F_KEY = '3a7d3d19-a98c-4862-9524-8542e870b2ba';
 
   function submitWeb3Form(form) {
     form.addEventListener('submit', function(e) {
