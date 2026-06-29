@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Torsione — Configuratore 3D | Shapeless</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body { overflow-x: hidden; }
+
+    /* VIEWER */
+    .viewer-wrap {
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      height: calc(100vh - var(--nav-h));
+      margin-top: var(--nav-h);
+    }
+
+    /* CANVAS AREA */
+    .canvas-area {
+      position: relative;
+      background: linear-gradient(170deg, #ffffff 0%, #e8e8e8 50%, #d0d0d0 100%);
+      overflow: hidden;
+    }
+
+    #canvas-3d {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .canvas-hint {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 24px;
+      pointer-events: none;
+    }
+
+    .canvas-hint span {
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(60,60,60,0.45);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .loading-overlay {
+      position: absolute;
+      inset: 0;
+      background: #e8e8e8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      z-index: 10;
+      transition: opacity 0.6s;
+    }
+
+    .loading-overlay.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .loading-bar-wrap {
+      width: 160px;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .loading-bar {
+      height: 100%;
+      background: var(--accent);
+      width: 0%;
+      transition: width 0.3s;
+    }
+
+    .loading-text {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      background: var(--bg2);
+      border-left: 1px solid var(--border);
+      padding: 40px 32px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+
+    .sidebar-section { }
+
+    .sidebar-section .label { margin-bottom: 20px; }
+
+    .sidebar-title {
+      font-family: var(--font-serif);
+      font-size: 28px;
+      font-weight: 400;
+      color: var(--text);
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+
+    .sidebar-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* COLOR PICKER */
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+    }
+
+    .color-swatch {
+      aspect-ratio: 1;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: transform 0.2s, border-color 0.2s;
+      position: relative;
+    }
+
+    .color-swatch:hover {
+      transform: scale(1.15);
+    }
+
+    .color-swatch.active {
+      border-color: var(--text);
+      transform: scale(1.1);
+    }
+
+    .color-swatch::after {
+      content: '';
+      position: absolute;
+      inset: 2px;
+      border-radius: 50%;
+      background: inherit;
+    }
+
+    /* Color name */
+    .color-name {
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-top: 12px;
+      min-height: 16px;
+    }
+
+    /* Surface finish */
+    .finish-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .finish-btn {
+      padding: 12px 16px;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-family: var(--font-body);
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .finish-btn:hover, .finish-btn.active {
+      border-color: var(--accent);
+      color: var(--text);
+      background: rgba(200,184,154,0.05);
+    }
+
+    .finish-btn .finish-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .finish-btn.active .finish-dot { opacity: 1; }
+
+    /* Divider */
+    .sidebar-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+    }
+
+    /* Info specs */
+    .spec-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .spec-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .spec-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+    .spec-item .spec-label {
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .spec-item .spec-val {
+      font-size: 13px;
+      color: var(--text);
+    }
+
+    /* CTA */
+    .sidebar-cta {
+      margin-top: auto;
+    }
+
+    .cta-note {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-align: center;
+      margin-top: 12px;
+    }
+
+    /* Back link */
+    .demo-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      transition: color 0.2s;
+      margin-bottom: 16px;
+    }
+    .demo-back:hover { color: var(--accent); }
+
+    /* Pulsante per espandere/chiudere sidebar su mobile */
+    .sidebar-toggle-btn {
+      display: none;
+      width: 100%;
+      padding: 14px 20px;
+      background: var(--bg2);
+      border: none;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-align: left;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .sidebar-toggle-btn .toggle-arrow {
+      transition: transform 0.3s;
+      font-size: 14px;
+    }
+
+    .sidebar-toggle-btn.open .toggle-arrow {
+      transform: rotate(180deg);
+    }
+
+    @media (max-width: 900px) {
+      .viewer-wrap {
+        grid-template-columns: 1fr;
+        grid-template-rows: 58vh auto;
+        height: auto;
+        min-height: auto;
+      }
+      .canvas-area { height: 58vh; }
+
+      /* Sidebar collassabile su mobile */
+      .sidebar-toggle-btn { display: flex; }
+
+      .sidebar {
+        padding: 0;
+        overflow: hidden;
+        max-height: 0;
+        gap: 0;
+        transition: max-height 0.4s ease, padding 0.3s;
+        border-left: none;
+        border-top: 1px solid var(--border);
+      }
+
+      .sidebar.open {
+        max-height: 2000px;
+        padding: 24px 20px;
+        gap: 32px;
+      }
+
+      .color-grid { grid-template-columns: repeat(8, 1fr); gap: 8px; }
+
+      .sidebar-cta { margin-top: 0; }
+    }
+
+    @media (max-width: 480px) {
+      .canvas-area { height: 55vw; min-height: 260px; }
+      .viewer-wrap { grid-template-rows: auto auto; }
+      .color-grid { grid-template-columns: repeat(6, 1fr); }
+      .canvas-hint { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><img src="images/Logo Shapeless.png" alt="Shapeless" class="nav-logo-img"></a>
+    <ul class="nav-links">
+      <li class="nav-item">
+        <span>About</span>
+        <div class="dropdown">
+          <a href="chi-siamo.html">Chi siamo</a>
+          <a href="il-mais.html">Il Mais</a>
+          <a href="shapeless-brand.html">Shapeless</a>
+        </div>
+      </li>
+      <li class="nav-item"><a href="collab.html">Collab</a>
+        <div class="dropdown">
+          <a href="hospitality.html">Hospitality & Architettura</a>
+          <a href="creativi.html">Creativi</a>
+        </div>
+      </li>
+      <li class="nav-item"><a href="rivenditori.html">Rivenditori</a></li>
+      <li class="nav-item">
+        <span>Community</span>
+        <div class="dropdown">
+          <a href="faq.html">FAQ</a>
+          <a href="blog.html">Blog</a>
+        </div>
+      </li>
+      <li class="nav-item"><a href="contatti.html">Contatti</a></li>
+      <li class="nav-item"><a href="demo-3d.html" style="color:var(--accent);font-weight:600;">Demo 3D ✦</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+  <div class="nav-mobile">
+    <span class="mob-section-title">About</span>
+    <div class="mob-sub">
+      <a href="chi-siamo.html">Chi siamo</a>
+      <a href="il-mais.html">Il Mais</a>
+      <a href="shapeless-brand.html">Shapeless</a>
+    </div>
+    <a href="collab.html" class="mob-section-title">Collab</a>
+    <div class="mob-sub">
+      <a href="hospitality.html">Hospitality & Architettura</a>
+      <a href="creativi.html">Creativi</a>
+    </div>
+    <a href="rivenditori.html">Rivenditori</a>
+    <span class="mob-section-title">Community</span>
+    <div class="mob-sub">
+      <a href="faq.html">FAQ</a>
+      <a href="blog.html">Blog</a>
+    </div>
+    <a href="contatti.html">Contatti</a>
+  </div>
+
+  <!-- VIEWER -->
+  <div class="viewer-wrap">
+
+    <!-- CANVAS -->
+    <div class="canvas-area">
+      <canvas id="canvas-3d"></canvas>
+
+      <!-- Loading -->
+      <div class="loading-overlay" id="loading">
+        <p class="loading-text">Caricamento modello</p>
+        <div class="loading-bar-wrap">
+          <div class="loading-bar" id="loading-bar"></div>
+        </div>
+      </div>
+
+      <!-- Hints -->
+      <div class="canvas-hint">
+        <span>⟳ Trascina per ruotare</span>
+        <span>⊕ Scroll per zoom</span>
+      </div>
+    </div>
+
+    <!-- SIDEBAR TOGGLE (mobile) -->
+    <button class="sidebar-toggle-btn" id="sidebar-toggle" aria-expanded="false">
+      <span>Configura il tuo pezzo</span>
+      <span class="toggle-arrow">▼</span>
+    </button>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar" id="sidebar">
+
+      <div>
+        <a href="index.html" class="demo-back" data-i18n="demo.back">← Torna al sito</a>
+        <p class="label" data-i18n="demo.label">Configuratore</p>
+        <h2 class="sidebar-title">Torsione</h2>
+        <p class="sidebar-sub" data-i18n="demo.sub">Vaso decorativo in PLA — stampa 3D</p>
+      </div>
+
+      <hr class="sidebar-divider">
+
+      <!-- COLORI -->
+      <div class="sidebar-section">
+        <p class="label" data-i18n="demo.color">Scegli il colore</p>
+        <div class="color-grid" id="color-grid">
+          <!-- Palette soft -->
+          <div class="color-swatch active" data-color="#e8ddd0" data-name="Avorio" style="background:#e8ddd0;"></div>
+          <div class="color-swatch" data-color="#c8b89a" data-name="Sabbia" style="background:#c8b89a;"></div>
+          <div class="color-swatch" data-color="#a09080" data-name="Grigio caldo" style="background:#a09080;"></div>
+          <div class="color-swatch" data-color="#7a6a5a" data-name="Terracotta scura" style="background:#7a6a5a;"></div>
+          <div class="color-swatch" data-color="#d4c5b0" data-name="Lino" style="background:#d4c5b0;"></div>
+          <!-- Palette pop -->
+          <div class="color-swatch" data-color="#2d4a3e" data-name="Verde foresta" style="background:#2d4a3e;"></div>
+          <div class="color-swatch" data-color="#1a2f4a" data-name="Blu notte" style="background:#1a2f4a;"></div>
+          <div class="color-swatch" data-color="#4a1a1a" data-name="Bordeaux" style="background:#4a1a1a;"></div>
+          <div class="color-swatch" data-color="#d4a017" data-name="Ocra" style="background:#d4a017;"></div>
+          <div class="color-swatch" data-color="#c0392b" data-name="Rosso" style="background:#c0392b;"></div>
+          <!-- Neutri -->
+          <div class="color-swatch" data-color="#1a1a1a" data-name="Nero" style="background:#1a1a1a;"></div>
+          <div class="color-swatch" data-color="#f5f5f0" data-name="Bianco puro" style="background:#f5f5f0; border-color: var(--border);"></div>
+          <div class="color-swatch" data-color="#888880" data-name="Grigio" style="background:#888880;"></div>
+          <div class="color-swatch" data-color="#3d5a3e" data-name="Salvia" style="background:#3d5a3e;"></div>
+          <div class="color-swatch" data-color="#5c4033" data-name="Cacao" style="background:#5c4033;"></div>
+        </div>
+        <p class="color-name" id="color-name">Avorio</p>
+      </div>
+
+      <hr class="sidebar-divider">
+
+      <!-- FINITURA -->
+      <div class="sidebar-section">
+        <p class="label" data-i18n="demo.finish">Finitura</p>
+        <div class="finish-grid">
+          <button class="finish-btn active" data-roughness="0.85" data-metalness="0.0">
+            <span data-i18n="demo.opaco">Opaco</span> <span class="finish-dot"></span>
+          </button>
+          <button class="finish-btn" data-roughness="0.3" data-metalness="0.1">
+            <span data-i18n="demo.sat">Satinato</span> <span class="finish-dot"></span>
+          </button>
+          <button class="finish-btn" data-roughness="0.05" data-metalness="0.3">
+            <span data-i18n="demo.luc">Lucido</span> <span class="finish-dot"></span>
+          </button>
+        </div>
+      </div>
+
+      <hr class="sidebar-divider">
+
+      <!-- SPECS -->
+      <div class="sidebar-section">
+        <p class="label" data-i18n="demo.specs">Specifiche</p>
+        <div class="spec-list">
+          <div class="spec-item">
+            <span class="spec-label">Materiale</span>
+            <span class="spec-val">PLA — mais</span>
+          </div>
+          <div class="spec-item">
+            <span class="spec-label">Produzione</span>
+            <span class="spec-val">Stampa 3D</span>
+          </div>
+          <div class="spec-item">
+            <span class="spec-label">Tempo stampa</span>
+            <span class="spec-val">6–14 ore</span>
+          </div>
+          <div class="spec-item">
+            <span class="spec-label">Consegna</span>
+            <span class="spec-val">12 giorni</span>
+          </div>
+        </div>
+      </div>
+
+      <hr class="sidebar-divider">
+
+      <!-- CTA -->
+      <div class="sidebar-cta">
+        <a href="contatti.html" class="btn btn-fill" style="width:100%; text-align:center; display:block;">
+          Richiedi questo pezzo
+        </a>
+        <p class="cta-note">Il negozio online aprirà presto.<br>Nel frattempo scrivici direttamente.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- THREE.JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="js/OBJLoader.js"></script>
+  <script src="js/OrbitControls.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/lang.js"></script>
+
+  <script>
+    (function () {
+
+      const canvas = document.getElementById('canvas-3d');
+      const loading = document.getElementById('loading');
+      const loadingBar = document.getElementById('loading-bar');
+      const loadingText = loading.querySelector('.loading-text');
+
+      // Catch global errors and show them on screen
+      function showError(msg) {
+        loadingText.textContent = msg;
+        loadingText.style.color = '#c0392b';
+        console.error('[Shapeless 3D]', msg);
+      }
+
+      window.addEventListener('error', function(e) {
+        showError('Errore JS: ' + e.message);
+      });
+
+      // Check Three.js
+      if (typeof THREE === 'undefined') { showError('Three.js non caricato'); return; }
+      if (!THREE.OBJLoader)    { showError('OBJLoader non trovato'); return; }
+      if (!THREE.OrbitControls){ showError('OrbitControls non trovato'); return; }
+
+      /* --- Renderer: alpha=true per far vedere lo sfondo CSS --- */
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      renderer.outputEncoding = THREE.sRGBEncoding;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.0;
+      renderer.setClearColor(0x000000, 0); // trasparente
+
+      const scene = new THREE.Scene();
+      // Nessun background — mostra il gradiente CSS
+
+      const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 10000);
+      camera.position.set(0, 100, 300);
+
+      /* --- Controls --- */
+      const controls = new THREE.OrbitControls(camera, canvas);
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.07;
+      controls.minDistance = 50;
+      controls.maxDistance = 800;
+      controls.autoRotate = true;
+      controls.autoRotateSpeed = 0.5;
+
+      /* --- Luci calibrate per sfondo chiaro --- */
+      const ambient = new THREE.AmbientLight(0xffffff, 0.6);
+      scene.add(ambient);
+
+      const keyLight = new THREE.DirectionalLight(0xfff8f0, 1.4);
+      keyLight.position.set(150, 300, 200);
+      keyLight.castShadow = true;
+      keyLight.shadow.mapSize.width = 2048;
+      keyLight.shadow.mapSize.height = 2048;
+      scene.add(keyLight);
+
+      const fillLight = new THREE.DirectionalLight(0xf0f5ff, 0.5);
+      fillLight.position.set(-200, 100, -100);
+      scene.add(fillLight);
+
+      const topLight = new THREE.DirectionalLight(0xffffff, 0.3);
+      topLight.position.set(0, 400, 0);
+      scene.add(topLight);
+
+      /* === TEXTURE LAYER STAMPA 3D ===
+         Oggetto: 300mm alto, layer 0.2mm → 1500 layer
+         La texture mostra 20 layer e si ripete 75x in verticale */
+      function createLayerBumpMap() {
+        const w = 128, h = 512;
+        const c = document.createElement('canvas');
+        c.width = w; c.height = h;
+        const ctx = c.getContext('2d');
+
+        const numLayers = 20;           // layer per tile di texture
+        const lh = h / numLayers;       // pixel per layer
+
+        for (let y = 0; y < h; y++) {
+          const t = (y % lh) / lh;      // 0→1 all'interno del layer
+          // Profilo: piatto in cima, ombra nella giunzione
+          let v;
+          if (t < 0.75) {
+            v = 200; // superficie piana del layer
+          } else {
+            // Giunzione: piccola depressione
+            const s = (t - 0.75) / 0.25;
+            v = Math.round(200 - s * 60);
+          }
+          ctx.fillStyle = `rgb(${v},${v},${v})`;
+          ctx.fillRect(0, y, w, 1);
+        }
+
+        const tex = new THREE.CanvasTexture(c);
+        tex.wrapS = THREE.RepeatWrapping;
+        tex.wrapT = THREE.RepeatWrapping;
+        tex.repeat.set(1, 75); // 1500 layer totali / 20 per tile = 75 ripetizioni
+        return tex;
+      }
+
+      /* === TEXTURE MARMO NERO per la base === */
+      function createMarbleTexture() {
+        const size = 1024;
+        const c = document.createElement('canvas');
+        c.width = size; c.height = size;
+        const ctx = c.getContext('2d');
+
+        // Fondo quasi nero
+        ctx.fillStyle = '#111111';
+        ctx.fillRect(0, 0, size, size);
+
+        // Venature chiare su sfondo scuro
+        const drawVein = (alpha, width, gray) => {
+          const x1 = Math.random() * size;
+          const y1 = -30;
+          const x2 = x1 + (Math.random() - 0.5) * 300;
+          const y2 = size + 30;
+          const cp1x = x1 + (Math.random() - 0.5) * 200;
+          const cp1y = size * (0.2 + Math.random() * 0.3);
+          const cp2x = x2 + (Math.random() - 0.5) * 200;
+          const cp2y = size * (0.5 + Math.random() * 0.3);
+
+          ctx.beginPath();
+          ctx.moveTo(x1, y1);
+          ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x2, y2);
+          ctx.strokeStyle = `rgba(${gray},${gray},${gray},${alpha})`;
+          ctx.lineWidth = width;
+          ctx.stroke();
+        };
+
+        // Rng stabile
+        const seed = 42;
+        const rng = (s) => { const x = Math.sin(s + seed) * 9999; return x - Math.floor(x); };
+
+        // Venature principali grigio scuro
+        for (let i = 0; i < 4; i++) {
+          Math.random = () => rng(i * 13 + 1);
+          drawVein(0.55, 1.2, 55);
+        }
+        // Venature sottili grigio medio
+        for (let i = 0; i < 8; i++) {
+          Math.random = () => rng(i * 7 + 50);
+          drawVein(0.3, 0.5, 70);
+        }
+        // Venature finissime quasi bianche
+        for (let i = 0; i < 5; i++) {
+          Math.random = () => rng(i * 3 + 100);
+          drawVein(0.15, 0.3, 120);
+        }
+
+        // Ripristina Math.random nativo
+        delete Math.random;
+
+        const tex = new THREE.CanvasTexture(c);
+        tex.wrapS = THREE.RepeatWrapping;
+        tex.wrapT = THREE.RepeatWrapping;
+        return tex;
+      }
+
+      const layerBump = createLayerBumpMap();
+      const marbleTex = createMarbleTexture();
+
+      /* --- Materiale vaso con bump layer --- */
+      const mat = new THREE.MeshStandardMaterial({
+        color: new THREE.Color('#e8ddd0'),
+        roughness: 0.85,
+        metalness: 0.0,
+        bumpMap: layerBump,
+        bumpScale: 0.6,
+      });
+
+      /* --- Base in marmo --- */
+      let baseMesh = null;
+
+      function addMarbleBase(objHeight, objScale) {
+        if (baseMesh) scene.remove(baseMesh);
+
+        const bW = objHeight * objScale * 0.7;
+        const bH = objHeight * objScale * 0.04;
+        const bD = objHeight * objScale * 0.7;
+
+        const geo = new THREE.BoxGeometry(bW, bH, bD);
+        const marbleMat = new THREE.MeshStandardMaterial({
+          color: new THREE.Color('#0e0e0e'),
+          roughness: 0.15,
+          metalness: 0.05,
+          map: marbleTex,
+        });
+
+        baseMesh = new THREE.Mesh(geo, marbleMat);
+        baseMesh.receiveShadow = true;
+        baseMesh.castShadow = false;
+        scene.add(baseMesh);
+        return bH;
+      }
+
+      /* --- Shadow plane invisibile --- */
+      const shadowGeo = new THREE.PlaneGeometry(2000, 2000);
+      const shadowMat = new THREE.ShadowMaterial({ opacity: 0.12 });
+      const shadowPlane = new THREE.Mesh(shadowGeo, shadowMat);
+      shadowPlane.rotation.x = -Math.PI / 2;
+      shadowPlane.receiveShadow = true;
+      scene.add(shadowPlane);
+
+      /* --- Load OBJ --- */
+      let objMesh = null;
+
+      loadingText.textContent = 'Caricamento modello';
+
+      const loader = new THREE.OBJLoader();
+      loader.load(
+        'models/torsione.obj',
+        function (obj) {
+          obj.traverse(child => {
+            if (child.isMesh) {
+              child.material = mat;
+              child.castShadow = true;
+              child.receiveShadow = true;
+            }
+          });
+
+          // Centra e scala
+          const box = new THREE.Box3().setFromObject(obj);
+          const center = box.getCenter(new THREE.Vector3());
+          const size = box.getSize(new THREE.Vector3());
+          const maxDim = Math.max(size.x, size.y, size.z);
+          const scale = 150 / maxDim;
+
+          obj.scale.setScalar(scale);
+
+          // Posiziona con fondo a Y=0
+          const scaledHalfH = (size.y * scale) / 2;
+          obj.position.set(
+            -center.x * scale,
+            -center.y * scale + scaledHalfH,
+            -center.z * scale
+          );
+
+          scene.add(obj);
+          objMesh = obj;
+
+          // Base marmo
+          const baseH = addMarbleBase(size.y, scale);
+          // Offset: base centrata, oggetto sopra
+          obj.position.y += baseH / 2;
+          shadowPlane.position.y = -baseH / 2;
+          baseMesh.position.y = 0;
+
+          // Camera
+          camera.position.set(0, size.y * scale * 0.4, size.y * scale * 2.2);
+          controls.target.set(0, size.y * scale * 0.3, 0);
+          controls.update();
+
+          loading.classList.add('hidden');
+        },
+        function (xhr) {
+          if (xhr.lengthComputable) {
+            loadingBar.style.width = (xhr.loaded / xhr.total * 100) + '%';
+          }
+        },
+        function (err) {
+          showError('Modello non trovato — assicurati che models/torsione.obj sia nel deploy');
+          console.error(err);
+        }
+      );
+
+      /* --- Resize --- */
+      function resize() {
+        const w = canvas.parentElement.clientWidth;
+        const h = canvas.parentElement.clientHeight;
+        renderer.setSize(w, h);
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      /* --- Animate --- */
+      function animate() {
+        requestAnimationFrame(animate);
+        controls.update();
+        renderer.render(scene, camera);
+      }
+      animate();
+
+      controls.addEventListener('start', () => { controls.autoRotate = false; });
+
+      /* --- Sidebar toggle su mobile --- */
+      const sidebarToggle = document.getElementById('sidebar-toggle');
+      const sidebar = document.getElementById('sidebar');
+      if (sidebarToggle && sidebar) {
+        sidebarToggle.addEventListener('click', function () {
+          const isOpen = sidebar.classList.toggle('open');
+          sidebarToggle.classList.toggle('open', isOpen);
+          sidebarToggle.setAttribute('aria-expanded', isOpen);
+        });
+      }
+
+      /* === COLOR SWATCHES === */
+      const swatches = document.querySelectorAll('.color-swatch');
+      const colorName = document.getElementById('color-name');
+
+      swatches.forEach(sw => {
+        sw.addEventListener('click', function () {
+          swatches.forEach(s => s.classList.remove('active'));
+          this.classList.add('active');
+          mat.color.set(this.dataset.color);
+          colorName.textContent = this.dataset.name;
+          controls.autoRotate = false;
+        });
+      });
+
+      /* === FINISH BUTTONS === */
+      const finishBtns = document.querySelectorAll('.finish-btn');
+
+      finishBtns.forEach(btn => {
+        btn.addEventListener('click', function () {
+          finishBtns.forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          mat.roughness = parseFloat(this.dataset.roughness);
+          mat.metalness = parseFloat(this.dataset.metalness);
+          // Bump più visibile su opaco, meno su lucido
+          mat.bumpScale = this.dataset.roughness > 0.5 ? 0.6 : 0.2;
+          mat.needsUpdate = true;
+        });
+      });
+
+    })();
+  </script>
+
+</body>
+</html>
+                                                                                                   

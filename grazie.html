@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grazie | Shapeless</title>
+  <meta name="description" content="Grazie per averci contattato. Ti risponderemo al più presto.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .grazie-section {
+      min-height: calc(100vh - var(--nav-h));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: calc(var(--nav-h) + 40px) 24px 80px;
+    }
+
+    .grazie-inner {
+      max-width: 560px;
+      text-align: center;
+    }
+
+    .grazie-icon {
+      width: 64px;
+      height: 64px;
+      border: 1px solid var(--accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 32px;
+    }
+
+    .grazie-icon svg {
+      width: 28px;
+      height: 28px;
+      stroke: var(--accent);
+      fill: none;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .grazie-inner h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(32px, 5vw, 56px);
+      font-weight: 400;
+      line-height: 1.15;
+      margin-bottom: 20px;
+    }
+
+    .grazie-inner p {
+      font-size: 17px;
+      color: var(--text-muted);
+      line-height: 1.75;
+      margin-bottom: 40px;
+    }
+
+    .grazie-actions {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><img src="images/Logo Shapeless.png" alt="Shapeless" class="nav-logo-img"></a>
+      <ul class="nav-links">
+        <li class="nav-item">
+          <span>About</span>
+          <div class="dropdown">
+            <a href="chi-siamo.html">Chi siamo</a>
+            <a href="il-mais.html">Il Mais</a>
+            <a href="shapeless-brand.html">Shapeless</a>
+          </div>
+        </li>
+        <li class="nav-item"><a href="collab.html">Collab</a>
+          <div class="dropdown">
+            <a href="hospitality.html">Hospitality & Architettura</a>
+            <a href="creativi.html">Creativi</a>
+          </div>
+        </li>
+        <li class="nav-item"><a href="rivenditori.html">Rivenditori</a></li>
+        <li class="nav-item">
+          <span>Community</span>
+          <div class="dropdown">
+            <a href="faq.html">FAQ</a>
+            <a href="blog.html">Blog</a>
+          </div>
+        </li>
+        <li class="nav-item"><a href="contatti.html">Contatti</a></li>
+        <li class="nav-item"><a href="demo-3d.html" style="color:var(--accent);font-weight:600;">Demo 3D ✦</a></li>
+      </ul>
+      <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <!-- MOBILE NAV -->
+  <div class="nav-mobile">
+    <span class="mob-section-title">About</span>
+    <div class="mob-sub">
+      <a href="chi-siamo.html">Chi siamo</a>
+      <a href="il-mais.html">Il Mais</a>
+      <a href="shapeless-brand.html">Shapeless</a>
+    </div>
+    <a href="collab.html" class="mob-section-title">Collab</a>
+    <div class="mob-sub">
+      <a href="hospitality.html">Hospitality & Architettura</a>
+      <a href="creativi.html">Creativi</a>
+    </div>
+    <a href="rivenditori.html">Rivenditori</a>
+    <span class="mob-section-title">Community</span>
+    <div class="mob-sub">
+      <a href="faq.html">FAQ</a>
+      <a href="blog.html">Blog</a>
+    </div>
+    <a href="contatti.html">Contatti</a>
+  </div>
+
+  <!-- GRAZIE -->
+  <section class="grazie-section">
+    <div class="grazie-inner">
+
+      <div class="grazie-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </div>
+
+      <p class="label">Messaggio ricevuto</p>
+      <h1>Grazie per<br><em>averci scritto.</em></h1>
+      <p>
+        Abbiamo ricevuto il tuo messaggio e ti risponderemo entro 24 ore
+        all'indirizzo email che hai indicato.<br>
+        Nel frattempo, esplora il nostro mondo.
+      </p>
+
+      <div class="grazie-actions">
+        <a href="index.html" class="btn">Torna alla home</a>
+        <a href="collab.html" class="btn btn-accent">Scopri le collaborazioni</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="images/Logo Shapeless.png" alt="Shapeless" class="footer-logo-img">
+          <p>Design di oggetti decorativi realizzati con stampa 3D e materiali ecosostenibili.
+          Ogni pezzo è prodotto su richiesta, senza sprechi.</p>
+          <div class="social-links" style="margin-top: 24px;">
+            <a href="https://www.instagram.com/shapeless.di/" target="_blank">Instagram</a>
+            <a href="https://www.facebook.com/Shapeless.di" target="_blank">Facebook</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h5>Esplora</h5>
+          <a href="chi-siamo.html">Chi siamo</a>
+          <a href="il-mais.html">Il Mais</a>
+          <a href="shapeless-brand.html">Il Brand</a>
+          <a href="collab.html">Collab</a>
+          <a href="rivenditori.html">Rivenditori</a>
+        </div>
+        <div class="footer-col">
+          <h5>Community</h5>
+          <a href="faq.html">FAQ</a>
+          <a href="blog.html">Blog</a>
+          <a href="contatti.html">Contatti</a>
+        </div>
+        <div class="footer-col">
+          <h5>Contatti</h5>
+          <a href="mailto:info@shapeless.shop">info@shapeless.shop</a>
+          <a href="tel:+393274465586">+39 327 446 5586</a>
+          <a href="tel:+390934591960">+39 0934 591960</a>
+          <p style="font-size:12px; margin-top:12px; color:var(--text-muted);">
+            Viale della Regione 32B<br>93100 Caltanissetta (IT)
+          </p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 Shapeless — Larecchiuta Angelo — P.IVA 01927390854</p>
+        <div style="display:flex; gap:24px; flex-wrap:wrap;">
+          <a href="#" style="font-size:12px; color:var(--text-muted);">Privacy Policy</a>
+          <a href="#" style="font-size:12px; color:var(--text-muted);">Cookie Policy</a>
+          <a href="#" style="font-size:12px; color:var(--text-muted);">Termini e condizioni</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/lang.js"></script>
+
+</body>
+</html>

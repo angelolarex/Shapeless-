@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Creativi | Shapeless</title>
+  <meta name="description" content="Collabora con Shapeless come fotografo, stylist, content creator o artista. Progetti speciali, capsule collection e co-creazione per creativi.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><img src="images/Logo Shapeless.png" alt="Shapeless" class="nav-logo-img"></a>
+    <ul class="nav-links">
+      <li class="nav-item">
+        <span>About</span>
+        <div class="dropdown">
+          <a href="chi-siamo.html">Chi siamo</a>
+          <a href="il-mais.html">Il Mais</a>
+          <a href="shapeless-brand.html">Shapeless</a>
+        </div>
+      </li>
+      <li class="nav-item active"><a href="collab.html">Collab</a>
+        <div class="dropdown">
+          <a href="hospitality.html">Hospitality & Architettura</a>
+          <a href="creativi.html">Creativi</a>
+        </div>
+      </li>
+      <li class="nav-item"><a href="rivenditori.html">Rivenditori</a></li>
+      <li class="nav-item">
+        <span>Community</span>
+        <div class="dropdown">
+          <a href="faq.html">FAQ</a>
+          <a href="blog.html">Blog</a>
+        </div>
+      </li>
+      <li class="nav-item"><a href="contatti.html">Contatti</a></li>
+      <li class="nav-item"><a href="demo-3d.html" style="color:var(--accent);font-weight:600;">Demo 3D ✦</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+  <div class="nav-mobile">
+    <span class="mob-section-title">About</span>
+    <div class="mob-sub">
+      <a href="chi-siamo.html">Chi siamo</a>
+      <a href="il-mais.html">Il Mais</a>
+      <a href="shapeless-brand.html">Shapeless</a>
+    </div>
+    <a href="collab.html" class="mob-section-title">Collab</a>
+    <div class="mob-sub">
+      <a href="hospitality.html">Hospitality & Architettura</a>
+      <a href="creativi.html">Creativi</a>
+    </div>
+    <a href="rivenditori.html">Rivenditori</a>
+    <span class="mob-section-title">Community</span>
+    <div class="mob-sub">
+      <a href="faq.html">FAQ</a>
+      <a href="blog.html">Blog</a>
+    </div>
+    <a href="contatti.html">Contatti</a>
+  </div>
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <div class="container">
+      <p class="label">Collab → Creativi</p>
+      <h1>Sei un creativo?<br>Lavoriamo insieme.</h1>
+    </div>
+  </div>
+
+  <!-- INTRO -->
+  <section class="section" style="border-bottom: 1px solid var(--border);">
+    <div class="container">
+      <div class="grid-2" style="gap: 80px; align-items: start;">
+        <div>
+          <p style="font-size:18px; color:var(--accent2); line-height:1.8; margin-bottom: 24px;">
+            Fotografo, stylist, content creator, artista, illustratore: se crei, possiamo fare qualcosa di bello insieme.
+          </p>
+          <p>
+            Shapeless lavora con creativi che condividono la nostra visione per realizzare contenuti,
+            capsule collection e progetti speciali. Crediamo che le collaborazioni più interessanti
+            nascano quando le prospettive si mescolano.
+          </p>
+          <p>
+            Se hai un progetto in mente — uno shooting, una collezione limitata, una capsule, un
+            contenuto editoriale — scrivici. Valutiamo ogni proposta con curiosità.
+          </p>
+        </div>
+        <div>
+          <div class="placeholder" style="aspect-ratio:4/5;"><span>Immagine shooting / creativo</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COSA POSSIAMO FARE -->
+  <section class="section" style="border-bottom: 1px solid var(--border);">
+    <div class="container">
+      <p class="label text-center mb-48">Cosa possiamo fare insieme</p>
+      <div class="feature-grid">
+        <div class="feature">
+          <div class="feature-icon">📸</div>
+          <h4>Shooting e contenuti</h4>
+          <p>Metti i nostri pezzi nella tua fotografia, nel tuo set, nel tuo video. Forniamo pezzi
+          selezionati per progetti editoriali e campagne visual.</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">✦</div>
+          <h4>Capsule collection</h4>
+          <p>Co-progettiamo una collezione limitata che porta la tua firma. Dal concept al pezzo
+          finito, lavoriamo fianco a fianco.</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">🤝</div>
+          <h4>Partnership continuative</h4>
+          <p>Se i valori e l'estetica si allineano, possiamo costruire una collaborazione duratura
+          con contenuti, prodotti e presenza condivisa.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FORM -->
+  <section class="section">
+    <div class="container">
+      <div class="grid-2" style="gap: 80px; align-items: start;">
+        <div>
+          <p class="label">Candidatura</p>
+          <h2 class="mb-16">Connettiti con noi</h2>
+          <p>Raccontaci chi sei e cosa vorresti creare insieme. Leggiamo tutto.</p>
+        </div>
+        <div>
+          <form data-form="creativi" name="creativi" method="POST" action="grazie.html" data-netlify="true">
+            <div class="form-group">
+              <label>Nome *</label>
+              <input type="text" name="nome" required>
+            </div>
+            <div class="form-group">
+              <label>Email *</label>
+              <input type="email" name="email" required>
+            </div>
+            <div class="form-group">
+              <label>Professione *</label>
+              <input type="text" name="professione" placeholder="es. Fotografo, Stylist, Content creator..." required>
+            </div>
+            <div class="form-group">
+              <label>Instagram o Portfolio *</label>
+              <input type="text" name="portfolio" placeholder="@username o URL" required>
+            </div>
+            <div class="form-group">
+              <label>Cosa vorresti creare insieme?</label>
+              <textarea name="messaggio" placeholder="Descrivi brevemente il progetto o l'idea..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-fill">Connettiti con noi</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="images/Logo Shapeless.png" alt="Shapeless" class="footer-logo-img">
+          <p>Design di oggetti decorativi realizzati con stampa 3D e materiali ecosostenibili.</p>
+          <div class="social-links" style="margin-top: 24px;">
+            <a href="https://www.instagram.com/shapeless.di/" target="_blank">Instagram</a>
+            <a href="https://www.facebook.com/Shapeless.di" target="_blank">Facebook</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h5>Esplora</h5>
+          <a href="chi-siamo.html">Chi siamo</a>
+          <a href="il-mais.html">Il Mais</a>
+          <a href="shapeless-brand.html">Il Brand</a>
+          <a href="collab.html">Collab</a>
+          <a href="rivenditori.html">Rivenditori</a>
+        </div>
+        <div class="footer-col">
+          <h5>Community</h5>
+          <a href="faq.html">FAQ</a>
+          <a href="blog.html">Blog</a>
+          <a href="contatti.html">Contatti</a>
+        </div>
+        <div class="footer-col">
+          <h5>Contatti</h5>
+          <a href="mailto:info@shapeless.shop">info@shapeless.shop</a>
+          <a href="tel:+393274465586">+39 327 446 5586</a>
+          <p style="font-size:12px; margin-top:12px; color:var(--text-muted);">Viale della Regione 32B<br>93100 Caltanissetta (IT)</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 Shapeless — Larecchiuta Angelo — P.IVA 01927390854</p>
+        <div style="display:flex; gap:24px; flex-wrap:wrap;">
+          <a href="#" style="font-size:12px; color:var(--text-muted);">Privacy Policy</a>
+          <a href="#" style="font-size:12px; color:var(--text-muted);">Cookie Policy</a>
+          <a href="#" style="font-size:12px; color:var(--text-muted);">Termini e condizioni</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

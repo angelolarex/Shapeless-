@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shapeless | Versione Grigio</title>
+  <meta name="description" content="Shapeless offre vasi decorativi e oggetti esclusivi realizzati con stampa 3D e materiali ecosostenibili. Design contemporaneo, forme organiche, personalizzazione.">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ── VERSIONE GRIGIO CHIARO — PREMIUM ── */
+    :root {
+      --bg:           #eef1f8;
+      --bg2:          #e6eaf3;
+      --bg3:          #dde2ee;
+      --text:         #0f0f12;
+      --text-muted:   #6a3955;   /* tinta bordeaux nei muted */
+      --accent:       #6e3955;   /* bordeaux del modello */
+      --accent2:      #4a2438;
+      --border:       #d8dae8;
+    }
+
+    /* Reset totale */
+    html, body { background: transparent !important; color: #0f0f12; }
+
+    /* Sfondo fisso — soft-box da destra */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(ellipse 75% 110% at 108% 42%,
+          rgba(255,255,255,0.92) 0%,
+          rgba(250,252,255,0.55) 28%,
+          transparent 58%),
+        radial-gradient(ellipse 50% 70% at 105% 95%,
+          rgba(245,248,255,0.45) 0%,
+          transparent 50%),
+        linear-gradient(112deg,
+          #d4d8e6 0%,
+          #dde0ec 18%,
+          #e5e8f2 38%,
+          #eef1f8 58%,
+          #f3f5fb 76%,
+          #f9fafd 100%);
+    }
+
+    /* ── NAV ── */
+    .nav {
+      background: rgba(200,204,215,0.72);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(110,57,85,0.10);
+    }
+    .nav a, .nav span, .nav-links li a {
+      color: #1a1218;
+      letter-spacing: 0.04em;
+      font-size: 13px;
+      font-weight: 500;
+    }
+    .nav-links li a:hover, .nav-links li span:hover { color: var(--accent); }
+    .nav-logo-img { filter: none; }
+    .nav-logo { margin-left: 20px; }
+
+    /* Dropdown */
+    .dropdown {
+      background: rgba(238,236,242,0.98);
+      border: 1px solid rgba(110,57,85,0.10);
+      border-radius: 2px;
+    }
+    .dropdown a { color: #1a1218; font-size: 13px; }
+    .dropdown a:hover { color: var(--accent); }
+
+    /* ── HERO ── */
+    .hero { background: transparent; align-items: center; }
+    .hero-content {
+      padding-bottom: 0;
+      padding-top: 60px;
+      align-self: center;
+      margin-top: 20px;
+      padding-left: clamp(100px, 10vw, 160px);
+      max-width: 620px;
+    }
+    .hero .label {
+      font-weight: 600;
+      letter-spacing: 0.26em;
+      font-size: 11px;
+      color: var(--accent);
+      opacity: 0.80;
+    }
+    .hero h1 {
+      color: #0f0f12;
+      letter-spacing: -0.02em;
+      line-height: 1.08;
+    }
+    .hero h1 em { color: var(--accent); font-style: italic; }
+    .hero p {
+      color: #50485a;
+      font-size: 16px;
+      line-height: 1.65;
+      letter-spacing: 0.01em;
+    }
+
+    /* Overlay rimosso */
+    .hero-overlay, body.page-home .hero-overlay { display: none; }
+
+    /* ── SEZIONI ── */
+    .section, .section-sm, section, footer,
+    .color-block, .color-block-overlay,
+    .newsletter-form, .container { background: transparent !important; }
+
+    [style*="border-bottom"] { border-bottom-color: rgba(110,57,85,0.08) !important; }
+
+    /* Titoli sezioni */
+    h2 { color: #0f0f12; letter-spacing: -0.02em; }
+    h2 em, h2 i { color: var(--accent); }
+    h3 { color: #1a1218; }
+    p { color: #3a3248; }
+    .label {
+      color: var(--accent);
+      letter-spacing: 0.24em;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    /* ── CARDS ── */
+    .card, .product-card, .press-card {
+      background: rgba(255,255,255,0.50);
+      border: 1px solid rgba(110,57,85,0.08);
+      backdrop-filter: blur(8px);
+    }
+    .product-card-title { color: #0f0f12; font-weight: 500; }
+
+    /* Placeholder */
+    .placeholder { background: #d8d4dc; color: #9a8898; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: rgba(215,212,224,0.70) !important;
+      border-top: 1px solid rgba(110,57,85,0.10);
+    }
+    footer p, footer a { color: #2a2232; font-size: 13px; }
+    footer h5 { color: #0f0f12; letter-spacing: 0.08em; font-size: 12px; }
+    footer a:hover { color: var(--accent); }
+
+    /* ── BOTTONI ── */
+    .btn {
+      border-color: #2a1a22;
+      color: #2a1a22;
+      letter-spacing: 0.14em;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 14px 28px;
+    }
+    .btn:hover {
+      background: #2a1a22;
+      color: #f5f2f4;
+    }
+
+    /* Newsletter input */
+    .newsletter-form input {
+      background: rgba(255,255,255,0.60);
+      border: 1px solid rgba(110,57,85,0.18);
+      color: #0f0f12;
+    }
+    .newsletter-form input::placeholder { color: #9a8898; }
+    .newsletter-form button {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+    }
+    .newsletter-form button:hover { background: #4a2438; }
+
+    /* Separatori */
+    [style*="border-bottom: 1px solid var(--border)"] {
+      border-bottom: 1px solid rgba(110,57,85,0.08) !important;
+    }
+  </style>
+</head>
+<body class="page-home">
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><img src="images/Logo Shapeless.png" alt="Shapeless" class="nav-logo-img"></a>
+    <ul class="nav-links">
+      <li class="nav-item">
+        <span>About</span>
+        <div class="dropdown">
+          <a href="chi-siamo.html">Chi siamo</a>
+          <a href="il-mais.html">Il Mais</a>
+          <a href="shapeless-brand.html">Shapeless</a>
+        </div>
+      </li>
+      <li class="nav-item"><a href="collab.html">Collab</a>
+        <div class="dropdown">
+          <a href="hospitality.html">Hospitality &amp; Architettura</a>
+          <a href="creativi.html">Creativi</a>
+        </div>
+      </li>
+      <li class="nav-item"><a href="rivenditori.html">Rivenditori</a></li>
+      <li class="nav-item">
+        <span>Community</span>
+        <div class="dropdown">
+          <a href="faq.html">FAQ</a>
+          <a href="blog.html">Blog</a>
+        </div>
+      </li>
+      <li class="nav-item"><a href="contatti.html">Contatti</a></li>
+      <li class="nav-item"><a href="demo-3d.html" style="color:var(--accent);font-weight:600;">Demo 3D ✦</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    </div>
+  </nav>
+
+  <!-- MOBILE NAV -->
+  <div class="nav-mobile">
+    <span class="mob-section-title">About</span>
+    <div class="mob-sub">
+      <a href="chi-siamo.html">Chi siamo</a>
+      <a href="il-mais.html">Il Mais</a>
+      <a href="shapeless-brand.html">Shapeless</a>
+    </div>
+    <a href="collab.html" class="mob-section-title">Collab</a>
+    <div class="mob-sub">
+      <a href="hospitality.html">Hospitality &amp; Architettura</a>
+      <a href="creativi.html">Creativi</a>
+    </div>
+    <a href="rivenditori.html">Rivenditori</a>
+    <span class="mob-section-title">Community</span>
+    <div class="mob-sub">
+      <a href="faq.html">FAQ</a>
+      <a href="blog.html">Blog</a>
+    </div>
+    <a href="contatti.html">Contatti</a>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero" id="hero3d">
+    <canvas id="vaseCanvas" class="hero-canvas"></canvas>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="label" data-i18n="index.label">Design in movimento</p>
+      <h1 data-i18n="index.h1">Forme che<br><em>trasformano</em><br>ogni spazio.</h1>
+      <p data-i18n="index.sub">Sculture organiche e dinamiche,<br>modellate con stampanti 3D e materiali ecosostenibili.</p>
+      <a href="collab.html" class="btn" data-i18n="index.cta">Scopri il design</a>
+    </div>
+  </section>
+
+  <!-- BRAND STATEMENT -->
+  <section class="section" style="border-bottom: 1px solid var(--border);">
+    <div class="container text-center">
+      <p class="label reveal">Il progetto</p>
+      <h2 class="reveal" style="max-width: 800px; margin: 0 auto 32px; font-style: italic;">
+        Shapeless esplora l'armonia tra arte, tecnologia e natura.
+      </h2>
+      <p class="reveal" style="max-width: 640px; margin: 0 auto 40px;">
+        Forme scultoree e organiche, in continua evoluzione, che si adattano e trasformano ogni spazio.
+        Ogni vaso e lampada nasce dal movimento delle forme e diventa una piccola scultura sostenibile,
+        capace di accompagnare il tuo stile nel tempo.
+      </p>
+      <a href="shapeless-brand.html" class="btn reveal">Il brand</a>
+    </div>
+  </section>
+
+  <!-- DUE VALORI -->
+  <section class="section" style="border-bottom: 1px solid var(--border);">
+    <div class="container">
+      <div class="grid-2">
+        <div class="reveal">
+          <p class="label">Design</p>
+          <h2>Design e armonia naturale</h2>
+          <p style="margin-top: 20px;">Uniamo la bellezza del design contemporaneo con l'ispirazione della natura,
+          creando prodotti che mescolano innovazione e forme organiche. Ogni pezzo è pensato per
+          integrarsi e dialogare con lo spazio che lo accoglie.</p>
+          <a href="shapeless-brand.html" class="btn" style="margin-top: 32px;">Scopri di più</a>
+        </div>
+        <div class="reveal reveal-delay-2">
+          <p class="label">Sostenibilità</p>
+          <h2>Rispetto per l'ambiente</h2>
+          <p style="margin-top: 20px;">Ci impegniamo per un futuro più verde utilizzando materiali di origine vegetale,
+          riciclabili e processi produttivi a basso impatto. Produzione on demand: niente stock,
+          niente sprechi, rispetto per l'ambiente in ogni fase.</p>
+          <a href="il-mais.html" class="btn" style="margin-top: 32px;">Il materiale</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODOTTI IN EVIDENZA -->
+  <section class="section" style="border-bottom: 1px solid var(--border);">
+    <div class="container">
+      <div class="reveal" style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 48px; flex-wrap: wrap; gap: 20px;">
+        <div>
+          <p class="label">Collezione</p>
+          <h2>I più amati</h2>
+        </div>
+        <a href="collab.html" class="btn">Tutti i design</a>
+      </div>
+      <div class="grid-3 products-grid">
+        <div class="product-card reveal">
+          <div class="placeholder card-img" style="aspect-ratio:3/4;"><span>Torsione</span></div>
+          <p class="product-card-title">Torsione</p>
+          <p style="font-size:13px; color:var(--text-muted); margin-top:6px;">Vaso decorativo in PLA — stampa 3D</p>
+          <a href="demo-3d.html" style="display:inline-block; margin-top:12px; font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent);">Vedi in 3D →</a>
+        </div>
+        <div class="product-card reveal reveal-delay-2">
+          <div class="placeholder card-img" style="aspect-ratio:3/4;"><span>Blade</span></div>
+          <p class="product-card-title">Blade</p>
+          <p style="font-size:13px; color:var(--text-muted); margin-top:6px;">Vaso decorativo in PLA — stampa 3D</p>
+        </div>
+        <div class="product-card reveal reveal-delay-3">
+          <div class="placeholder card-img" style="aspect-ratio:3/4;"><span>Vulcano</span></div>
+          <p class="product-card-title">Vulcano</p>
+          <p style="font-size:13px; color:var(--text-muted); margin-top:6px;">Vaso decorativo in PLA — stampa 3D</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section class="section-sm" style="border-bottom: 1px solid var(--border);">
+    <div class="container text-center">
+      <p class="label">Newsletter</p>
+      <h2 class="mb-16">Resta nel mondo Shapeless</h2>
+      <p class="mb-32" style="max-width: 400px; margin-left: auto; margin-right: auto;">
+        Unisciti alla nostra community e ricevi aggiornamenti su nuovi design, eventi e collaborazioni.
+      </p>
+      <form class="newsletter-form" style="margin: 0 auto;" onsubmit="return false;">
+        <input type="email" placeholder="La tua email" required>
+        <button type="submit">Iscriviti</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="images/Logo Shapeless.png" alt="Shapeless" class="footer-logo-img">
+          <p>Design di oggetti decorativi realizzati con stampa 3D e materiali ecosostenibili.
+          Ogni pezzo è prodotto su richiesta, senza sprechi.</p>
+          <div class="social-links" style="margin-top: 24px;">
+            <a href="https://www.instagram.com/shapeless.di/" target="_blank">Instagram</a>
+            <a href="https://www.facebook.com/Shapeless.di" target="_blank">Facebook</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h5>Esplora</h5>
+          <a href="chi-siamo.html">Chi siamo</a>
+          <a href="il-mais.html">Il Mais</a>
+          <a href="shapeless-brand.html">Il Brand</a>
+          <a href="collab.html">Collab</a>
+          <a href="rivenditori.html">Rivenditori</a>
+        </div>
+        <div class="footer-col">
+          <h5>Community</h5>
+          <a href="faq.html">FAQ</a>
+          <a href="blog.html">Blog</a>
+          <a href="contatti.html">Contatti</a>
+        </div>
+        <div class="footer-col">
+          <h5>Contatti</h5>
+          <a href="mailto:info@shapeless.shop">info@shapeless.shop</a>
+          <a href="tel:+393274465586">+39 327 446 5586</a>
+          <a href="tel:+390934591960">+39 0934 591960</a>
+          <p style="font-size:12px; margin-top:12px; color:var(--text-muted);">
+            Viale della Regione 32B<br>93100 Caltanissetta (IT)
+          </p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 Shapeless — Larecchiuta Angelo — P.IVA 01927390854</p>
+        <div style="display:flex; gap:24px; flex-wrap:wrap;">
+          <a href="#" style="font-size:12px; color:var(--text-muted);">Privacy Policy</a>
+          <a href="#" style="font-size:12px; color:var(--text-muted);">Cookie Policy</a>
+          <a href="#" style="font-size:12px; color:var(--text-muted);">Termini e condizioni</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+  /* Override nav scroll — MutationObserver intercetta ogni cambio inline di main.js */
+  (function () {
+    var nav = document.querySelector('.nav');
+    if (!nav) return;
+    var NAV_TOP    = 'rgba(200,204,215,0.72)';
+    var NAV_SCROLL = 'rgba(195,199,211,0.90)';
+    function applyNavBg() {
+      nav.style.setProperty('background', window.scrollY > 80 ? NAV_SCROLL : NAV_TOP, 'important');
+    }
+    applyNavBg();
+    /* Osserva ogni modifica all'attributo style e ripristina */
+    var obs = new MutationObserver(applyNavBg);
+    obs.observe(nav, { attributes: true, attributeFilter: ['style'] });
+    window.addEventListener('scroll', applyNavBg, { passive: true });
+  })();
+  </script>
+  <script src="js/lang.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="js/poly_geo.js"></script>
+  <script src="js/blade_geo.js"></script>
+
+  <!-- ══════════════════════════════════════════════════════
+       BLADE 3D — VERSIONE GRIGIO CHIARO
+       Colori adattati per fondo chiaro: edges scuri, facce bordeaux
+       ══════════════════════════════════════════════════════ -->
+  <script>
+  (function () {
+    'use strict';
+
+    const canvas = document.getElementById('vaseCanvas');
+    if (!canvas || typeof THREE === 'undefined') return;
+
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setClearColor(0x000000, 0);
+    renderer.localClippingEnabled = true;
+
+    const isMobile = window.innerWidth < 768;
+    const camera   = new THREE.PerspectiveCamera(28, 1, 0.1, 100);
+    camera.position.set(isMobile ? 0 : -2.2, 0.2, isMobile ? 7.5 : 11.0);
+
+    const scene = new THREE.Scene();
+
+    /* Luci neutrali — non aggiungono tinta, lasciano leggere il colore puro */
+    scene.add(new THREE.AmbientLight(0xffffff, 1.2));
+    const sun = new THREE.DirectionalLight(0xffffff, 1.0);
+    sun.position.set(3, 5, 4); scene.add(sun);
+    const fillL = new THREE.DirectionalLight(0xffffff, 0.4);
+    fillL.position.set(-3, -1, -2.5); scene.add(fillL);
+    const rimL = new THREE.PointLight(0xffffff, 0.8, 18);
+    rimL.position.set(-1.5, 4, -3); scene.add(rimL);
+
+    const YMIN = -2.2, YMAX = 2.2;
+    const clipPlane = new THREE.Plane(new THREE.Vector3(0, -1, 0), YMIN - 0.05);
+
+    function buildShadow() {
+      var sc = document.createElement('canvas'); sc.width = sc.height = 512;
+      var ctx = sc.getContext('2d');
+      /* Ombra molto diffusa: ellisse larga, quasi invisibile ai bordi */
+      /* Ombra tono bordeaux #6e3955 = rgb(110,57,85) */
+      var g = ctx.createRadialGradient(256, 220, 0, 256, 220, 256);
+      g.addColorStop(0,    'rgba(110,57,85,0.18)');
+      g.addColorStop(0.22, 'rgba(110,57,85,0.10)');
+      g.addColorStop(0.50, 'rgba(110,57,85,0.04)');
+      g.addColorStop(0.78, 'rgba(110,57,85,0.01)');
+      g.addColorStop(1,    'rgba(110,57,85,0.00)');
+      ctx.fillStyle = g; ctx.fillRect(0, 0, 512, 512);
+      var m = new THREE.Mesh(
+        new THREE.PlaneGeometry(9.0, 7.0),   /* piano molto più grande */
+        new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(sc), transparent: true, depthWrite: false })
+      );
+      m.rotation.x = -Math.PI / 2;
+      m.position.y = YMIN - 0.05;
+      m.renderOrder = -1;
+      return m;
+    }
+
+    var matFace = null, matEdge = null;
+
+    function initVase() {
+      var group = new THREE.Group();
+      group.add(buildShadow());
+
+      if (!window.POLY_V || !window.POLY_F) { return group; }
+
+      var geoIdx = new THREE.BufferGeometry();
+      geoIdx.setAttribute('position', new THREE.BufferAttribute(window.POLY_V.slice(), 3));
+      geoIdx.setIndex(new THREE.BufferAttribute(window.POLY_F.slice(), 1));
+      geoIdx.computeVertexNormals();
+
+      /* LAYER 1 — STRIPS bordeaux (funzionano bene su chiaro) */
+      var geoFlat = geoIdx.toNonIndexed();
+      geoFlat.computeVertexNormals();
+
+      /*
+       * Correzione colore per sfondo chiaro:
+       * DoubleSide + trasparenza su bianco → rosa. Soluzione:
+       * - FrontSide (una sola passata → metà trasparenza)
+       * - Opacità 0.93 → pochissimo bianco trapela
+       * - Colore base scuro #3d1428 → mescolato con il 7% bianco → risulta visivamente ~#6e3955
+       * - emissive quasi zero → lighting neutro non aggiunge tinta
+       */
+      matFace = new THREE.MeshPhongMaterial({
+        color:     0x3d1428,
+        emissive:  0x060205,
+        specular:  0x804060,
+        shininess: 20,
+        flatShading: true, transparent: true, opacity: 0.93,
+        side: THREE.FrontSide,
+        depthWrite: true,
+        clippingPlanes: [clipPlane],
+        polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1,
+      });
+      group.add(new THREE.Mesh(geoFlat, matFace));
+
+      /* LAYER 2 — EDGES: tono scuro della stessa famiglia bordeaux */
+      var edgeGeo = new THREE.EdgesGeometry(geoIdx, 22);
+      matEdge = new THREE.LineBasicMaterial({
+        color: 0x2a1020, transparent: true, opacity: 0.65, clippingPlanes: [clipPlane],
+      });
+      group.add(new THREE.LineSegments(edgeGeo, matEdge));
+
+      scene.add(group);
+      return group;
+    }
+
+    var VaseGroup = initVase();
+    VaseGroup.scale.set(0.78, 0.78, 0.78);  /* modello leggermente più piccolo */
+
+    var ringMat = new THREE.MeshBasicMaterial({
+      color: 0xc01840, transparent: true, opacity: 0,
+      blending: THREE.AdditiveBlending, depthWrite: false,
+    });
+    var ring = new THREE.Mesh(new THREE.TorusGeometry(0.72, 0.009, 8, 100), ringMat);
+    ring.rotation.x = Math.PI / 2; scene.add(ring);
+    var glowMat = new THREE.MeshBasicMaterial({
+      color: 0x901020, transparent: true, opacity: 0,
+      side: THREE.BackSide, blending: THREE.AdditiveBlending, depthWrite: false,
+    });
+    var glow = new THREE.Mesh(new THREE.TorusGeometry(0.72, 0.048, 8, 100), glowMat);
+    glow.rotation.x = Math.PI / 2; scene.add(glow);
+
+    var BUILD_MS = 5000;
+    var buildStart = null, built = false;
+    var tgtX = 0, tgtY = 0, curX = 0, curY = 0, idleY = 0;
+
+    var hero = document.getElementById('hero3d');
+    if (hero) {
+      hero.addEventListener('mousemove', function (e) {
+        if (!built) return;
+        var r = hero.getBoundingClientRect();
+        tgtY =  ((e.clientX - r.left) / r.width  * 2 - 1) * 0.55;
+        tgtX = -((e.clientY - r.top)  / r.height * 2 - 1) * 0.32;
+      });
+      hero.addEventListener('mouseleave', function () { tgtX = 0; tgtY = 0; });
+      hero.addEventListener('touchmove', function (e) {
+        if (!built) return;
+        var t = e.touches[0], r = hero.getBoundingClientRect();
+        tgtY =  ((t.clientX - r.left) / r.width  * 2 - 1) * 0.45;
+        tgtX = -((t.clientY - r.top)  / r.height * 2 - 1) * 0.25;
+      }, { passive: true });
+    }
+
+    function resize() {
+      var p = canvas.parentElement; if (!p) return;
+      renderer.setSize(p.offsetWidth, p.offsetHeight, false);
+      camera.aspect = p.offsetWidth / p.offsetHeight;
+      camera.updateProjectionMatrix();
+    }
+    resize(); window.addEventListener('resize', resize);
+
+    function c01(v) { return Math.max(0, Math.min(1, v)); }
+
+    function tick(t) {
+      requestAnimationFrame(tick);
+      if (!buildStart) buildStart = t;
+      var p = Math.min((t - buildStart) / BUILD_MS, 1.0);
+
+      if (!built) {
+        clipPlane.constant = YMIN + (YMAX - YMIN) * p;
+        VaseGroup.rotation.y = p * Math.PI * 2.5;
+        ring.position.y = clipPlane.constant;
+        glow.position.y = clipPlane.constant;
+        var alpha = p < 0.04 ? p / 0.04 : p > 0.94 ? (1 - p) / 0.06 : 1;
+        ringMat.opacity = alpha * 0.65;
+        glowMat.opacity = alpha * 0.18;
+
+        if (p >= 1.0) {
+          built = true;
+          ring.visible = glow.visible = false;
+          idleY = VaseGroup.rotation.y;
+          VaseGroup.traverse(function (o) {
+            if (!o.material) return;
+            (Array.isArray(o.material) ? o.material : [o.material])
+              .forEach(function (m) { m.clippingPlanes = []; });
+          });
+        }
+      } else {
+        curX  += (tgtX - curX) * 0.055;
+        curY  += (tgtY - curY) * 0.055;
+        idleY += 0.0008;
+        VaseGroup.rotation.y = idleY + curY;
+        VaseGroup.rotation.x = curX;
+
+        if (matFace && matEdge) {
+          matEdge.opacity  = c01(0.75 + 0.10 * Math.sin(t * 0.00120 + 1.4));
+          matFace.opacity  = c01(0.62 + 0.08 * Math.sin(t * 0.00095 + 2.8));
+        }
+      }
+
+      renderer.render(scene, camera);
+    }
+    requestAnimationFrame(tick);
+  })();
+  </script>
+
+</body>
+</html>
