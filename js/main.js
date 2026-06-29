@@ -56,18 +56,44 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   /* ─────────────────────────────────────────────────────────
-     FORM SUBMIT — Netlify Forms (POST nativo HTML)
-     Netlify intercetta il POST automaticamente durante il deploy.
-     Nessun JS necessario per l'invio: solo UX (bottone loading).
-     Notifiche email configurabili dal dashboard Netlify → Forms.
+     FORM SUBMIT — Web3Forms (AJAX)
+     Invia a info@shapeless.shop via Web3Forms API.
+     Funziona su qualsiasi hosting statico (GitHub Pages, Netlify, ecc.)
      ───────────────────────────────────────────────────────── */
-  document.querySelectorAll('form[data-netlify="true"]').forEach(function(form) {
-    form.addEventListener('submit', function() {
+  var W3F_KEY = 'b4007891-4fab-4094-b49b-941fdcbcf022';
+
+  function submitWeb3Form(form) {
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
       var btn = form.querySelector('button[type="submit"]');
       if (btn) { btn.disabled = true; btn.textContent = 'Invio in corso…'; }
-      // Nessun preventDefault: il form si invia normalmente a Netlify
+
+      var data = new FormData(form);
+      data.append('access_key', W3F_KEY);
+      data.append('subject', 'Nuovo messaggio — ' + (form.getAttribute('name') || 'Shapeless') + ' | Shapeless');
+      data.append('from_name', 'Shapeless Website');
+
+      fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: data
+      })
+      .then(function(res) { return res.json(); })
+      .then(function(json) {
+        if (json.success) {
+          window.location.href = 'grazie.html';
+        } else {
+          if (btn) { btn.disabled = false; btn.textContent = btn._orig || 'Invia'; }
+          alert('Errore nell\'invio. Riprova o scrivi a info@shapeless.shop');
+        }
+      })
+      .catch(function() {
+        window.location.href = 'grazie.html';
+      });
     });
-  });
+  }
+
+  document.querySelectorAll('form[data-form]').forEach(submitWeb3Form);
+  document.querySelectorAll('form.newsletter-form').forEach(submitWeb3Form);
 
   /* --- Scroll reveal con stagger --- */
   const revealEls = document.querySelectorAll('.reveal');
