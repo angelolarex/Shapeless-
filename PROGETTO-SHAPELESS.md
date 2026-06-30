@@ -104,18 +104,23 @@ Il sito è in HTML/CSS/JS puro (no framework). File principali nella cartella de
 
 ## Deploy & Hosting
 
-**Piattaforma consigliata: Netlify**
-- Trascina la cartella `02 - Restyling sito` su https://app.netlify.com/drop
-- In 30 secondi hai un URL pubblico da aprire dal telefono
-- Per collegare il dominio shapeless.shop: Netlify > Domain management > Add custom domain
-- Per vedere il sito da mobile durante lo sviluppo: usa il link Netlify oppure apri l'HTML direttamente su Chrome mobile via USB debugging
+**Piattaforma attiva: GitHub Pages**
+- Repository: `github.com/angelolarex/Shapeless-`
+- URL pubblico: `https://angelolarex.github.io/Shapeless-/`
+- Branch: `main`
+- Per aggiornare il sito: carica i file su GitHub (Add file > Upload files) nella cartella corretta, poi aspetta 1-2 minuti che il deploy finisca (pallino verde su Actions)
+- ⚠️ La cartella `models/` (167MB, contiene `Blade h37.obj` da 120MB) è esclusa da GitHub per il limite 25MB — l'animazione 3D funziona perché usa `js/blade_geo.js` che contiene la geometria precompilata
 
 **Form → Email:**
-- Tutti i form usano **Netlify Forms** (attributo `netlify` nell'HTML)
-- Dopo il primo deploy, vai su Netlify > Forms > Form notifications > Add notification > Email
-- Inserisci `info@shapeless.shop` come destinatario
+- I form usano **Web3Forms** (AJAX via `js/main.js`) — funziona su qualsiasi hosting statico
+- Account Web3Forms: `angelolare@gmail.com` (NON usare info@shapeless.shop come account login)
+- Access key attiva: `3a7d3d19-a98c-4862-9524-8542e870b2ba`
+- Linked email verificata: `info@shapeless.shop`
+- Recipient configurato nelle Settings del form "Angelo": `angelolare@gmail.com` (le email arrivano qui, in spam la prima volta — segnarle come "non spam")
+- ⚠️ Se si imposta `info@shapeless.shop` come recipient, Google Workspace blocca le email di Web3Forms silenziosamente
 - I form attivi: `contatti`, `collab`, `creativi`, `hospitality`, `rivenditori`, `newsletter`
-- Tutti i form reindirizzano a `/grazie.html` dopo il submit
+- Tutti i form reindirizzano a `grazie.html` dopo il submit (gestito da JS, non da POST diretto)
+- I form nei file HTML hanno ancora `data-netlify="true"` come attributo residuo — non causa problemi
 
 ---
 
@@ -123,8 +128,11 @@ Il sito è in HTML/CSS/JS puro (no framework). File principali nella cartella de
 
 - Struttura e design completati
 - Ottimizzazione mobile completa (CSS responsive, touch targets 44px, font-size 16px su input)
-- Form collegati a Netlify Forms → info@shapeless.shop ✓
+- Hero 3D (wireframe Blade) funzionante su desktop e mobile ✓
+- Camera mobile zoom-out a Z=10.5 (era 7.5) per mostrare il modello completo senza tagli ✓
+- Form collegati a Web3Forms → email a `angelolare@gmail.com` ✓
 - Pagina ringraziamento `grazie.html` creata ✓
+- Deploy su GitHub Pages attivo ✓
 - Molte immagini ancora placeholder (da sostituire con foto reali)
 - Demo 3D presente (demo-3d.html)
 - Presenze: Milano Home 2025, Design Week Milano, Fiera Vebo Napoli
@@ -140,7 +148,7 @@ Non servono modifiche pagina per pagina.
 **Quando aggiungi una nuova pagina:**
 1. Copia nav + nav-mobile + footer da una pagina esistente (es. `chi-siamo.html`)
 2. Collega `css/style.css` e `js/main.js`
-3. Se la pagina ha un form, aggiungi attributi `netlify`, `name`, `method="POST"`, `action="/grazie.html"`
+3. Se la pagina ha un form, aggiungi `data-form="nome-form"` al tag `<form>` — il JS gestisce tutto automaticamente via Web3Forms
 4. Aggiungi la pagina in questo file MD
 
 ---
