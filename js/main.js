@@ -15,12 +15,29 @@ document.addEventListener('DOMContentLoaded', function () {
       document.body.style.overflow = mobileNav.classList.contains('open') ? 'hidden' : '';
     });
 
-    // Chiudi il menu quando si clicca su un link
+    // Chiudi il menu quando si clicca su un link (non sui bottoni accordion)
     mobileNav.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         toggle.classList.remove('open');
         mobileNav.classList.remove('open');
         document.body.style.overflow = '';
+      });
+    });
+
+    // Accordion: About / Collab / Community si aprono/chiudono al tocco
+    mobileNav.querySelectorAll('.mob-section-title').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const sub = btn.nextElementSibling;
+        const isOpen = btn.classList.contains('open');
+        // chiudi gli altri gruppi aperti (un accordion alla volta)
+        mobileNav.querySelectorAll('.mob-section-title.open').forEach(other => {
+          if (other !== btn) {
+            other.classList.remove('open');
+            if (other.nextElementSibling) other.nextElementSibling.classList.remove('open');
+          }
+        });
+        btn.classList.toggle('open', !isOpen);
+        if (sub) sub.classList.toggle('open', !isOpen);
       });
     });
   }

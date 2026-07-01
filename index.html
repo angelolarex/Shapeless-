@@ -51,24 +51,32 @@
 
   <!-- MOBILE NAV -->
   <div class="nav-mobile">
-    <span class="mob-section-title">About</span>
-    <div class="mob-sub">
-      <a href="chi-siamo.html">Chi siamo</a>
-      <a href="il-mais.html">Il Mais</a>
-      <a href="shapeless-brand.html">Shapeless</a>
+    <div class="mob-group">
+      <button type="button" class="mob-section-title">About<span class="mob-chevron"></span></button>
+      <div class="mob-sub">
+        <a href="chi-siamo.html">Chi siamo</a>
+        <a href="il-mais.html">Il Mais</a>
+        <a href="shapeless-brand.html">Shapeless</a>
+      </div>
     </div>
-    <a href="collab.html" class="mob-section-title">Collab</a>
-    <div class="mob-sub">
-      <a href="hospitality.html">Hospitality & Architettura</a>
-      <a href="creativi.html">Creativi</a>
+    <div class="mob-group">
+      <button type="button" class="mob-section-title">Collab<span class="mob-chevron"></span></button>
+      <div class="mob-sub">
+        <a href="collab.html">Panoramica Collab</a>
+        <a href="hospitality.html">Hospitality & Architettura</a>
+        <a href="creativi.html">Creativi</a>
+      </div>
     </div>
     <a href="rivenditori.html">Rivenditori</a>
-    <span class="mob-section-title">Community</span>
-    <div class="mob-sub">
-      <a href="faq.html">FAQ</a>
-      <a href="blog.html">Blog</a>
+    <div class="mob-group">
+      <button type="button" class="mob-section-title">Community<span class="mob-chevron"></span></button>
+      <div class="mob-sub">
+        <a href="faq.html">FAQ</a>
+        <a href="blog.html">Blog</a>
+      </div>
     </div>
     <a href="contatti.html">Contatti</a>
+    <a href="demo-3d.html" class="mob-link-accent">Demo 3D ✦</a>
   </div>
 
   <!-- HERO -->
@@ -136,25 +144,25 @@
       <div class="grid-3 products-grid">
 
         <div class="product-card reveal">
-          <div class="placeholder card-img" style="aspect-ratio:3/4;">
-            <span>Torsione</span>
+          <div class="card-img card-img--flat" style="display:flex; align-items:flex-end; justify-content:center; padding:12px 12px 0;">
+            <img src="images/bombato-transparent.png" alt="Bombato" style="width:82%; height:82%; object-fit:contain; object-position:center bottom;">
           </div>
-          <p class="product-card-title">Torsione</p>
+          <p class="product-card-title">Bombato</p>
           <p style="font-size:13px; color:var(--text-muted); margin-top:6px;">Vaso decorativo in PLA — stampa 3D</p>
           <a href="demo-3d.html" style="display:inline-block; margin-top:12px; font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent);">Vedi in 3D →</a>
         </div>
 
         <div class="product-card reveal reveal-delay-2">
-          <div class="placeholder card-img" style="aspect-ratio:3/4;">
-            <span>Blade</span>
+          <div class="card-img card-img--flat" style="display:flex; align-items:flex-end; justify-content:center; padding:12px 12px 0;">
+            <img src="images/blade-transparent.png" alt="Blade" style="width:82%; height:82%; object-fit:contain; object-position:center bottom;">
           </div>
           <p class="product-card-title">Blade</p>
           <p style="font-size:13px; color:var(--text-muted); margin-top:6px;">Vaso decorativo in PLA — stampa 3D</p>
         </div>
 
         <div class="product-card reveal reveal-delay-3">
-          <div class="placeholder card-img" style="aspect-ratio:3/4;">
-            <span>Vulcano</span>
+          <div class="card-img card-img--flat" style="display:flex; align-items:flex-end; justify-content:center; padding:12px 12px 0;">
+            <img src="images/vulcano-transparent.png" alt="Vulcano" style="width:66%; height:66%; object-fit:contain; object-position:center bottom;">
           </div>
           <p class="product-card-title">Vulcano</p>
           <p style="font-size:13px; color:var(--text-muted); margin-top:6px;">Vaso decorativo in PLA — stampa 3D</p>
@@ -165,26 +173,36 @@
   </section>
 
   <!-- COLORI - SOFT -->
-  <section class="color-block" style="border-bottom: 1px solid var(--border);">
-    <div class="placeholder color-block-img" style="background: #1c1a18;"><span></span></div>
-    <div class="color-block-overlay"></div>
-    <div class="color-block-content">
-      <p class="label">Palette soft</p>
-      <h3>Eleganza nelle nuance soft</h3>
-      <p>Le tonalità materiche e delicate esaltano la nostra forma organica in modo discreto.
-      La scelta perfetta per un'eleganza che si integra armonicamente in ogni spazio.</p>
+  <section class="section" style="border-bottom: 1px solid var(--border);">
+    <div class="container">
+      <div class="grid-2" style="align-items: center; gap: 72px;">
+        <div class="color-media">
+          <img src="images/Shapeless%201-46_edited.jpg" alt="Vasi Shapeless in palette soft" style="width:100%; aspect-ratio:3/2; object-fit:cover; object-position:center 65%;">
+        </div>
+        <div class="color-text">
+          <p class="label">Palette soft</p>
+          <h3 class="mb-16">Eleganza nelle nuance soft</h3>
+          <p>Le tonalità materiche e delicate esaltano la nostra forma organica in modo discreto.
+          La scelta perfetta per un'eleganza che si integra armonicamente in ogni spazio.</p>
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- COLORI - VIBRANTI -->
-  <section class="color-block" style="border-bottom: 1px solid var(--border);">
-    <div class="placeholder color-block-img" style="background: #1a1218;"><span></span></div>
-    <div class="color-block-overlay"></div>
-    <div class="color-block-content" style="margin-left: auto;">
-      <p class="label">Palette pop</p>
-      <h3>L'espressione vibrante</h3>
-      <p>Le nostre palette POP e audaci danno vita alle forme. Perfetti per creare un punto focale
-      vibrante e di tendenza che esprime la tua personalità.</p>
+  <section class="section" style="border-bottom: 1px solid var(--border);">
+    <div class="container">
+      <div class="grid-2" style="align-items: center; gap: 72px;">
+        <div class="color-media" style="order:2;">
+          <img src="images/IMG_5106.jpg" alt="Vasi Shapeless in palette vibrante" style="width:100%; aspect-ratio:3/2; object-fit:cover; object-position:center 65%;">
+        </div>
+        <div class="color-text" style="order:1;">
+          <p class="label">Palette pop</p>
+          <h3 class="mb-16">L'espressione vibrante</h3>
+          <p>Le nostre palette POP e audaci danno vita alle forme. Perfetti per creare un punto focale
+          vibrante e di tendenza che esprime la tua personalità.</p>
+        </div>
+      </div>
     </div>
   </section>
 

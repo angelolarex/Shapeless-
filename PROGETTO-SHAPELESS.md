@@ -54,6 +54,10 @@ Il sito è in HTML/CSS/JS puro (no framework). File principali nella cartella de
 - `contatti.html` — Contatti
 - `demo-3d.html` — Demo configuratore 3D
 - `grazie.html` — Pagina di ringraziamento post-form (redirect da tutti i form)
+- `articolo-materiali-stampa-3d-fdm.html` — Articolo blog: materiali stampa 3D FDM (non in nav, linkata da blog.html)
+- `articolo-architettura-nel-design.html` — Articolo blog: architettura e design (non in nav, linkata da blog.html)
+- `articolo-ia-strumenti-render.html` — Articolo blog: IA e render (non in nav, linkata da blog.html)
+- `articolo-pla-design-futuro.html` — Articolo blog: PLA e design sostenibile (non in nav, linkata da blog.html)
 
 **Struttura file:**
 - `css/style.css` — Stile globale
@@ -70,35 +74,52 @@ Il sito è in HTML/CSS/JS puro (no framework). File principali nella cartella de
 
 ## Design System
 
-**Colori (dark theme):**
-- `--bg: #0d0d0d` — sfondo principale
-- `--bg2: #161616` — sfondo secondario
-- `--bg3: #1f1f1f` — sfondo terziario
-- `--text: #f0ede8` — testo principale
-- `--text-muted: #888880` — testo secondario
-- `--accent: #c8b89a` — accento (beige caldo)
-- `--accent2: #e8ddd0` — accento secondario
-- `--border: #2a2a2a` — bordi
+**Tema:** Light (sfondo neutro-freddo, non caldo/crema)
 
-**Font:**
-- Body: `Inter` (300, 400, 500, 600)
-- Serif/titoli: `Playfair Display` (italic, 400, 600)
+**Colori:**
+- `--bg: #f5f5f3` — sfondo principale (neutro, meno crema)
+- `--bg2: #ececea` — sfondo secondario
+- `--bg3: #e4e4e2` — sfondo terziario
+- `--text: #0a0a0a` — testo principale
+- `--text-muted: #4a4848` — testo secondario
+- `--accent: #6b1f45` — bordeaux (accento principale)
+- `--accent2: #8a3060` — bordeaux chiaro
+- `--border: rgba(0,0,0,0.09)` — bordi
+
+**Font — sistema Inter puro (zero serif):**
+- Unico font: `Inter` (pesi 200, 300, 400, 500, 600, 700, 800)
+- **NON si usa più Playfair Display**
+- `--font-body` e `--font-serif` puntano entrambi a Inter
+
+**Regola tipografica chiave — contrasto bold/ultralight:**
+- `h1`: Inter 700 (bold) — la parola/frase secondaria in `<em>` diventa Inter 200 (ultralight, non italic)
+- `h2`: Inter 200 (ultralight) di default — la parola chiave dentro `<strong>` diventa Inter 700 (bold)
+- Questo crea un ritmo visivo premium in tutti i titoli, applicato sistematicamente in ogni pagina
+- Esempio h1: `Forme che<br><em>trasformano</em><br>ogni spazio.`
+- Esempio h2: `<strong>Design</strong> e armonia naturale`
+- `.label`: 9px, letter-spacing 0.38em, uppercase, colore accent
+- `body`: font-weight 300, font-size 15px
 
 **Componenti chiave:**
 - Nav fissa con blur, dropdown su hover, hamburger mobile
+- Nav padding allineato al contenuto hero: `clamp(110px, 11vw, 180px)`
+- Hero content padding-left: `clamp(110px, 11vw, 180px)` — logo nav e testo hero allineati
 - `.btn` — bottone outline | `.btn-accent` — bottone filled
 - `.section` — padding 80px | `.section-sm` — padding 48px
 - `.grid-2`, `.grid-3` — layout a colonne
 - `.feature-grid` — 3 colonne per feature/pilastri
 - `.card`, `.product-card`, `.press-card`
+- `.press-card-img` — default quasi-quadrato (padding-bottom 82%), hover si allunga (130%) con effetto zoom
+- `.press-pub-name` — Inter 700, uppercase, 13px, letter-spacing 0.10em
+- `.product-card-title` — Inter 600, uppercase, 11px
 - `.placeholder` — segnaposto grigio per immagini non ancora inserite
 - `.page-header` — header pagine interne
 - `.color-block` — sezione full-width con immagine di sfondo
 - Footer a 4 colonne con social, link, contatti
 
-**Lingua:** Italiano (con alcune frasi in inglese nel copy, es. "Apply Now", "Together We Shape Design")
+**Lingua:** Italiano (con alcune frasi in inglese nel copy, es. "Together We Shape Design")
 
-**Tono:** Premium, contemporaneo, minimalista, diretto.
+**Tono:** Premium, contemporaneo, minimalista, diretto. Ispirazione: Molteni, Nagami, Poltrona Frau.
 
 ---
 

@@ -245,22 +245,27 @@ ul { list-style: none; }
   position: fixed;
   top: var(--nav-h);
   left: 0; right: 0;
+  bottom: 0;
   background: rgba(250,250,248,0.98);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(0,0,0,0.10);
-  padding: 24px 40px 32px;
+  padding: 8px 24px 32px;
   z-index: 999;
   flex-direction: column;
   gap: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .nav-mobile.open { display: flex; }
 
-.nav-mobile a,
-.nav-mobile .mob-section-title {
-  display: block;
-  padding: 12px 0;
+/* Link di primo livello senza sotto-voci (Rivenditori, Contatti, Demo 3D) */
+.nav-mobile > a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 16px 0;
   font-size: 13px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -269,18 +274,77 @@ ul { list-style: none; }
   transition: color 0.2s;
 }
 
+.nav-mobile > a:active,
+.nav-mobile > a:hover { color: var(--text); }
+
+.nav-mobile .mob-link-accent {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* Gruppi con accordion (About, Collab, Community) */
+.mob-group { border-bottom: 1px solid var(--border); }
+
 .nav-mobile .mob-section-title {
-  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 44px;
+  padding: 16px 0;
+  font-family: var(--font-body);
+  font-size: 13px;
   font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
 }
 
-.nav-mobile a:hover { color: var(--text); }
+.mob-chevron {
+  flex-shrink: 0;
+  width: 8px; height: 8px;
+  border-right: 1px solid var(--text-muted);
+  border-bottom: 1px solid var(--text-muted);
+  transform: rotate(45deg);
+  transition: transform 0.25s;
+  margin-left: 12px;
+}
 
-.nav-mobile .mob-sub a {
-  padding-left: 16px;
-  font-size: 11px;
+.mob-section-title.open .mob-chevron {
+  transform: rotate(-135deg);
+}
+
+.mob-sub {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.mob-sub.open {
+  max-height: 240px;
+}
+
+.mob-sub a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 10px 0 10px 16px;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
   color: var(--text-muted);
+  border-top: 1px solid var(--border);
+  transition: color 0.2s;
 }
+
+.mob-sub a:first-child { border-top: none; }
+
+.mob-sub a:active,
+.mob-sub a:hover { color: var(--accent); }
 
 /* ===========================
    LAYOUT UTILITIES
@@ -495,10 +559,12 @@ p + p { margin-top: 16px; }
   z-index: 2;
   max-width: 600px;
   padding-left: clamp(110px, 11vw, 180px);
+  padding-top: 4vh;
   padding-bottom: 0;
 }
 
 .hero h1 {
+  font-size: clamp(38px, 5.2vw, 72px);
   margin-bottom: 24px;
 }
 
@@ -580,6 +646,16 @@ p + p { margin-top: 16px; }
 
 .product-card:hover .card-img {
   border-color: var(--border);
+}
+
+/* Vasi con sfondo trasparente: nessun riquadro, appoggiati direttamente sullo sfondo pagina */
+.product-card .card-img.card-img--flat {
+  background: transparent;
+  border-color: transparent;
+}
+
+.product-card:hover .card-img.card-img--flat {
+  border-color: transparent;
 }
 
 .product-card .card-title,
@@ -1054,6 +1130,120 @@ p + p { margin-top: 16px; }
 .read-more:hover { gap: 12px; }
 
 /* ===========================
+   ARTICOLO (single post)
+   =========================== */
+
+.post-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+
+.post-meta span:not(:last-child)::after {
+  content: '•';
+  margin-left: 16px;
+  color: var(--border);
+}
+
+.post-hero-img { aspect-ratio: 16/9; margin-bottom: 0; }
+
+.post-body {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.post-body p {
+  margin-bottom: 22px;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.post-body h2 {
+  font-size: clamp(24px, 3vw, 32px);
+  margin: 48px 0 20px;
+}
+
+.post-body h3 {
+  font-size: clamp(18px, 2.2vw, 22px);
+  margin: 36px 0 16px;
+}
+
+.post-body strong { color: var(--text); font-weight: 600; }
+
+.post-body ul {
+  margin: 0 0 22px;
+  padding-left: 0;
+}
+
+.post-body ul li {
+  position: relative;
+  padding-left: 22px;
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+.post-body ul li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 6px;
+  height: 6px;
+  background: var(--accent);
+}
+
+.post-body a { color: var(--accent); border-bottom: 1px solid var(--accent2); }
+
+.post-body figure { margin: 32px 0; }
+
+.post-body figure img { width: 100%; }
+
+.post-body figcaption {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 10px;
+  font-style: italic;
+}
+
+.post-callout {
+  border-left: 2px solid var(--accent);
+  padding: 4px 0 4px 24px;
+  margin: 32px 0;
+  font-size: 16px;
+  color: var(--text);
+}
+
+.post-back {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  gap: 8px;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 24px;
+  transition: gap 0.2s;
+}
+
+.post-back:hover { gap: 12px; }
+
+.post-footer-cta {
+  max-width: 720px;
+  margin: 56px auto 0;
+  padding-top: 40px;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+
+/* ===========================
    FOOTER
    =========================== */
 
@@ -1220,6 +1410,10 @@ footer {
   .color-block { min-height: 400px; }
   .color-block-content { padding: 32px 24px; }
 
+  /* Sezioni palette soft/vibrante: immagine sempre sopra il testo quando impilate */
+  .color-media { order: 1 !important; }
+  .color-text { order: 2 !important; }
+
   .newsletter-form { flex-direction: column; }
   .newsletter-form input { border-right: 1px solid var(--border); }
 }
@@ -1248,9 +1442,10 @@ footer {
 @media (max-width: 600px) {
   :root { --nav-h: 64px; }
   .nav { padding: 0 16px; }
-  .nav-mobile { padding: 24px 16px 32px; }
-  .nav-mobile a,
+  .nav-mobile { padding: 8px 16px 32px; }
+  .nav-mobile > a { padding: 14px 0; font-size: 14px; }
   .nav-mobile .mob-section-title { padding: 14px 0; font-size: 14px; }
+  .mob-sub a { font-size: 13px; }
   .container { padding: 0 16px; }
 
   /* Hero mobile: testo al centro verticale, non in fondo */
@@ -1302,6 +1497,7 @@ footer {
   .color-block { min-height: 320px; }
   .color-block-content { padding: 28px 20px; }
   .color-block-content h3 { font-size: clamp(18px, 5vw, 26px); }
+}
 
 /* ============================================================
    HOMEPAGE — overrides specifici per la pagina con canvas hero
@@ -1411,9 +1607,7 @@ body.page-home .hero-overlay {
    ============================================================ */
 
 /* Touch targets minimi 44px per tutti i bottoni e link nav */
-.btn,
-.nav-mobile a,
-.nav-mobile .mob-section-title {
+.btn {
   min-height: 44px;
   display: inline-flex;
   align-items: center;
