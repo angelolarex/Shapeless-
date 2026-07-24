@@ -277,8 +277,25 @@
   function c01(v) { return Math.max(0, Math.min(1, v)); }
 
   /* ── Render loop ──────────────────────────────────────── */
+  /* Pausa il loop quando la hero non è visibile: evita di renderizzare
+     ogni frame mentre l'utente ha scrollato oltre, alleggerendo lo scroll */
+  let rafId = null, isVisible = true;
+  function scheduleTick() { rafId = requestAnimationFrame(tick); }
+
+  if (hero && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting && !isVisible) { isVisible = true; scheduleTick(); }
+        else if (!entry.isIntersecting && isVisible) {
+          isVisible = false;
+          if (rafId) cancelAnimationFrame(rafId);
+        }
+      });
+    }, { threshold: 0 }).observe(hero);
+  }
+
   function tick(t) {
-    requestAnimationFrame(tick);
+    scheduleTick();
     if (!buildStart) buildStart = t;
     const p = Math.min((t - buildStart) / BUILD_MS, 1.0);
 
@@ -321,5 +338,5 @@
 
     renderer.render(scene, camera);
   }
-  requestAnimationFrame(tick);
+  scheduleTick();
 })();

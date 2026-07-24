@@ -264,6 +264,23 @@
       'demo.prod.label': 'Production',
       'demo.time.label': 'Print time',
       'demo.del.label':  'Delivery',
+
+      /* ----- RESTYLING / COMING SOON ----- */
+      'soon.badge':     'Site restyling in progress',
+      'soon.h1':        'We\'re changing<br><em>shape.</em>',
+      'soon.sub':       'Our site is taking on a new form — considered and rebuilt, the way every Shapeless piece is. We\'ll be back online as soon as possible.',
+      'soon.contact':   'For collaborations or information, DM us on <a href="https://www.instagram.com/shapeless.di/" target="_blank" rel="noopener">Instagram</a>.',
+      'soon.or':        'Or',
+      'soon.form.label':'Write to us here',
+      'soon.form.note': 'Your message goes straight to our inbox.',
+      'soon.form.name.ph':    'Your name',
+      'soon.form.email.ph':   'Your email',
+      'soon.form.msg.ph':     'Your message...',
+      'soon.form.btn':  'Send',
+      'soon.form.sent': 'Message sent — thank you.',
+      'soon.form.error':'Something went wrong. Please try again or write to info@shapeless.shop',
+      'soon.music.on':  'Music on',
+      'soon.music.off': 'Music off',
     }
   };
 

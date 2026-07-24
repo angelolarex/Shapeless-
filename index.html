@@ -3,331 +3,366 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shapeless | Vasi Decorativi in 3D</title>
-  <meta name="description" content="Shapeless offre vasi decorativi e oggetti esclusivi realizzati con stampa 3D e materiali ecosostenibili. Design contemporaneo, forme organiche, personalizzazione.">
+  <title>Shapeless | Restyling del sito in corso</title>
+  <meta name="description" content="Il sito Shapeless sta cambiando forma. Torniamo online il prima possibile — per collaborazioni o informazioni scrivici in DM o a info@shapeless.shop.">
+  <meta name="robots" content="noindex, follow">
   <link rel="stylesheet" href="css/style.css">
   <style>
-    /* Homepage: label hero più marcata */
-    .hero .label { font-weight: 600; letter-spacing: 0.22em; }
+    /* ===========================
+       RESTYLING / COMING SOON — pagina temporanea
+       =========================== */
+    body.page-soon { overflow-x: hidden; }
+
+    .nav.nav-soon { position: relative; }
+    .nav.nav-soon .nav-inner { justify-content: center; }
+    .nav.nav-soon .nav-logo { pointer-events: none; }
+
+    /* Tasto lingua: spostato dal bordo estremo verso l'interno,
+       allineato ai margini di contenuto del sito */
+    .nav.nav-soon #lang-toggle {
+      position: absolute;
+      top: 50%;
+      right: clamp(24px, 8vw, 100px);
+      transform: translateY(-50%);
+      margin-left: 0;
+    }
+    @media (max-width: 900px) {
+      .nav.nav-soon #lang-toggle { right: clamp(16px, 4vw, 40px); }
+    }
+    @media (max-width: 600px) {
+      .nav.nav-soon #lang-toggle { right: 14px; padding: 5px 10px; font-size: 10px; }
+    }
+
+    .soon-hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: calc(var(--nav-h) + 40px) 24px 60px;
+      overflow: hidden;
+      background: var(--bg);
+    }
+
+    /* --- sfondo animato: forme organiche sfocate --- */
+    .soon-blob {
+      position: absolute;
+      border-radius: 42% 58% 65% 35% / 45% 40% 60% 55%;
+      filter: blur(70px);
+      opacity: 0.55;
+      will-change: transform, border-radius;
+      pointer-events: none;
+    }
+    .soon-blob--1 {
+      width: 560px; height: 560px;
+      top: -160px; left: -140px;
+      background: radial-gradient(circle at 30% 30%, #ffffff, var(--bg3));
+      opacity: 0.6;
+      animation: blobMove1 26s ease-in-out infinite;
+    }
+    .soon-blob--2 {
+      width: 480px; height: 480px;
+      bottom: -180px; right: -120px;
+      background: radial-gradient(circle at 60% 40%, var(--bg2), var(--bg3));
+      opacity: 0.55;
+      animation: blobMove2 32s ease-in-out infinite;
+    }
+    .soon-blob--3 {
+      width: 360px; height: 360px;
+      top: 40%; left: 55%;
+      background: radial-gradient(circle at 50% 50%, #ffffff, transparent 70%);
+      opacity: 0.3;
+      animation: blobMove3 22s ease-in-out infinite;
+    }
+    @keyframes blobMove1 {
+      0%, 100% { transform: translate(0, 0) scale(1); border-radius: 42% 58% 65% 35% / 45% 40% 60% 55%; }
+      50%      { transform: translate(60px, 40px) scale(1.08); border-radius: 60% 40% 35% 65% / 55% 60% 40% 45%; }
+    }
+    @keyframes blobMove2 {
+      0%, 100% { transform: translate(0, 0) scale(1); border-radius: 55% 45% 40% 60% / 40% 55% 45% 60%; }
+      50%      { transform: translate(-50px, -30px) scale(1.1); border-radius: 40% 60% 55% 45% / 60% 45% 55% 40%; }
+    }
+    @keyframes blobMove3 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50%      { transform: translate(-40px, 30px) scale(1.15); }
+    }
+
+    /* --- grana leggera sopra i blob, texture premium --- */
+    .soon-grain {
+      position: absolute;
+      inset: 0;
+      opacity: 0.035;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    .soon-content {
+      position: relative;
+      z-index: 2;
+      max-width: 720px;
+      text-align: center;
+    }
+
+    .soon-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.30em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid var(--border);
+      padding: 8px 18px;
+      border-radius: 999px;
+      margin-bottom: 32px;
+    }
+
+    .soon-content h1 {
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: clamp(40px, 7vw, 76px);
+      line-height: 1.08;
+      letter-spacing: -0.01em;
+      margin-bottom: 26px;
+    }
+    .soon-content h1 em {
+      font-weight: 200;
+      font-style: normal;
+    }
+
+    .soon-content > p.soon-sub {
+      font-size: 17px;
+      color: var(--text-muted);
+      line-height: 1.8;
+      max-width: 560px;
+      margin: 0 auto 36px;
+    }
+
+    .soon-contact {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 24px;
+    }
+    .soon-contact a {
+      color: var(--accent);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+    }
+    .soon-contact a:hover { border-color: var(--accent); }
+
+    .soon-or {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      max-width: 300px;
+      margin: 0 auto 20px;
+    }
+    .soon-or-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .soon-or-text {
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    /* --- form messaggio diretto --- */
+    .soon-form-wrap { max-width: 460px; margin: 0 auto; text-align: left; }
+    .soon-form-label {
+      display: block;
+      text-align: center;
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text);
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .soon-form-note {
+      display: block;
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 22px;
+    }
+
+    .soon-form .form-group { margin-bottom: 14px; }
+
+    .soon-form textarea {
+      min-height: 96px;
+      resize: none;
+    }
+
+    .soon-form-row {
+      display: flex;
+      align-items: flex-end;
+      gap: 10px;
+    }
+    .soon-form-row .form-group { flex: 1; margin-bottom: 0; }
+
+    .soon-form-btn {
+      flex-shrink: 0;
+      height: 46px;
+      padding: 0 22px;
+    }
+
+    .soon-form-hint {
+      text-align: center;
+      font-size: 11px;
+      color: var(--text-muted);
+      opacity: 0.7;
+      margin-top: 10px;
+    }
+
+    .soon-form-status {
+      text-align: center;
+      font-size: 13px;
+      margin-top: 16px;
+      min-height: 18px;
+      color: var(--accent);
+    }
+
+    /* --- footer minimale --- */
+    .soon-footer {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 28px 24px 34px;
+      border-top: 1px solid var(--border);
+    }
+    .soon-footer p {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .soon-footer .soon-footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 22px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+    .soon-footer .soon-footer-links a {
+      font-size: 12px;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+    .soon-footer .soon-footer-links a:hover { color: var(--accent); }
+
+    /* --- tablet --- */
+    @media (max-width: 900px) {
+      .soon-hero { padding: calc(var(--nav-h) + 32px) 20px 50px; }
+      .soon-blob--1 { width: 420px; height: 420px; }
+      .soon-blob--2 { width: 360px; height: 360px; }
+      .soon-blob--3 { width: 280px; height: 280px; }
+    }
+
+    /* --- mobile --- */
+    @media (max-width: 600px) {
+      .soon-hero { padding: calc(var(--nav-h) + 24px) 16px 44px; min-height: 100svh; }
+      .soon-badge { font-size: 9px; padding: 7px 14px; margin-bottom: 22px; }
+      .soon-content h1 { margin-bottom: 18px; }
+      .soon-sub { font-size: 15px; margin-bottom: 24px; }
+      .soon-contact { font-size: 13px; margin-bottom: 18px; }
+      .soon-or { margin-bottom: 18px; max-width: 220px; }
+      .soon-form-wrap { max-width: 100%; }
+      .soon-form-row { flex-direction: column; align-items: stretch; }
+      .soon-form-btn { width: 100%; }
+      .soon-footer { padding: 24px 16px 28px; }
+      .soon-footer .soon-footer-links { gap: 16px; }
+    }
+
+    @media (max-width: 380px) {
+      .soon-hero { padding-top: calc(var(--nav-h) + 16px); }
+      .soon-content h1 { font-size: clamp(32px, 10vw, 40px); }
+    }
   </style>
 </head>
-<body class="page-home">
+<body class="page-soon">
 
   <!-- NAV -->
-  <nav class="nav">
+  <nav class="nav nav-soon">
     <div class="nav-inner">
-    <a href="index.html" class="nav-logo"><img src="images/Logo Shapeless.png" alt="Shapeless" class="nav-logo-img"></a>
-    <ul class="nav-links">
-      <li class="nav-item">
-        <span>About</span>
-        <div class="dropdown">
-          <a href="chi-siamo.html">Chi siamo</a>
-          <a href="il-mais.html">Il Mais</a>
-          <a href="shapeless-brand.html">Shapeless</a>
-        </div>
-      </li>
-      <li class="nav-item"><a href="collab.html">Collab</a>
-        <div class="dropdown">
-          <a href="hospitality.html">Hospitality & Architettura</a>
-          <a href="creativi.html">Creativi</a>
-        </div>
-      </li>
-      <li class="nav-item"><a href="rivenditori.html">Rivenditori</a></li>
-      <li class="nav-item">
-        <span>Community</span>
-        <div class="dropdown">
-          <a href="faq.html">FAQ</a>
-          <a href="blog.html">Blog</a>
-        </div>
-      </li>
-      <li class="nav-item"><a href="contatti.html">Contatti</a></li>
-      <li class="nav-item"><a href="demo-3d.html" style="color:var(--accent);font-weight:600;">Demo 3D ✦</a></li>
-    </ul>
-    <button class="nav-toggle" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
+      <div class="nav-logo"><img src="images/Logo Shapeless.png" alt="Shapeless" class="nav-logo-img"></div>
     </div>
   </nav>
 
-  <!-- MOBILE NAV -->
-  <div class="nav-mobile">
-    <div class="mob-group">
-      <button type="button" class="mob-section-title">About<span class="mob-chevron"></span></button>
-      <div class="mob-sub">
-        <a href="chi-siamo.html">Chi siamo</a>
-        <a href="il-mais.html">Il Mais</a>
-        <a href="shapeless-brand.html">Shapeless</a>
-      </div>
-    </div>
-    <div class="mob-group">
-      <button type="button" class="mob-section-title">Collab<span class="mob-chevron"></span></button>
-      <div class="mob-sub">
-        <a href="collab.html">Panoramica Collab</a>
-        <a href="hospitality.html">Hospitality & Architettura</a>
-        <a href="creativi.html">Creativi</a>
-      </div>
-    </div>
-    <a href="rivenditori.html">Rivenditori</a>
-    <div class="mob-group">
-      <button type="button" class="mob-section-title">Community<span class="mob-chevron"></span></button>
-      <div class="mob-sub">
-        <a href="faq.html">FAQ</a>
-        <a href="blog.html">Blog</a>
-      </div>
-    </div>
-    <a href="contatti.html">Contatti</a>
-    <a href="demo-3d.html" class="mob-link-accent">Demo 3D ✦</a>
-  </div>
+  <!-- HERO / COMING SOON -->
+  <section class="soon-hero">
+    <div class="soon-blob soon-blob--1" aria-hidden="true"></div>
+    <div class="soon-blob soon-blob--2" aria-hidden="true"></div>
+    <div class="soon-blob soon-blob--3" aria-hidden="true"></div>
+    <div class="soon-grain" aria-hidden="true"></div>
 
-  <!-- HERO -->
-  <section class="hero" id="hero3d">
-    <canvas id="vaseCanvas" class="hero-canvas"></canvas>
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-      <p class="label" data-i18n="index.label">Design in movimento</p>
-      <h1 data-i18n="index.h1">Forme che<br><em>trasformano</em><br>ogni spazio.</h1>
-      <p data-i18n="index.sub">Sculture organiche e dinamiche,<br>modellate con stampanti 3D e materiali ecosostenibili.</p>
-      <a href="collab.html" class="btn" data-i18n="index.cta">Scopri il design</a>
-    </div>
-  </section>
+    <div class="soon-content">
+      <span class="soon-badge" data-i18n="soon.badge">Restyling del sito in corso</span>
 
-  <!-- BRAND STATEMENT -->
-  <section class="section" style="border-bottom: 1px solid var(--border);">
-    <div class="container text-center">
-      <p class="label reveal">Il progetto</p>
-      <h2 class="reveal" style="max-width: 800px; margin: 0 auto 32px;">
-        Shapeless esplora l'<strong>armonia</strong> tra arte, tecnologia e natura.
-      </h2>
-      <p class="reveal" style="max-width: 640px; margin: 0 auto 40px;">
-        Forme scultoree e organiche, in continua evoluzione, che si adattano e trasformano ogni spazio.
-        Ogni vaso e lampada nasce dal movimento delle forme e diventa una piccola scultura sostenibile,
-        capace di accompagnare il tuo stile nel tempo.
+      <h1 data-i18n="soon.h1">Stiamo cambiando<br><em>forma.</em></h1>
+
+      <p class="soon-sub" data-i18n="soon.sub">
+        Il nostro sito si sta trasformando — pensato e ricostruito con la stessa cura di ogni pezzo Shapeless. Torniamo online il prima possibile.
       </p>
-      <a href="shapeless-brand.html" class="btn reveal">Il brand</a>
-    </div>
-  </section>
 
-  <!-- DUE VALORI -->
-  <section class="section" style="border-bottom: 1px solid var(--border);">
-    <div class="container">
-      <div class="grid-2">
-        <div class="reveal">
-          <p class="label">Design</p>
-          <h2><strong>Design</strong> e armonia naturale</h2>
-          <p style="margin-top: 20px;">Uniamo la bellezza del design contemporaneo con l'ispirazione della natura,
-          creando prodotti che mescolano innovazione e forme organiche. Ogni pezzo è pensato per
-          integrarsi e dialogare con lo spazio che lo accoglie.</p>
-          <a href="shapeless-brand.html" class="btn" style="margin-top: 32px;">Scopri di più</a>
-        </div>
-        <div class="reveal reveal-delay-2">
-          <p class="label">Sostenibilità</p>
-          <h2><strong>Rispetto</strong> per l'ambiente</h2>
-          <p style="margin-top: 20px;">Ci impegniamo per un futuro più verde utilizzando materiali di origine vegetale,
-          riciclabili e processi produttivi a basso impatto. Produzione on demand: niente stock,
-          niente sprechi, rispetto per l'ambiente in ogni fase.</p>
-          <a href="il-mais.html" class="btn" style="margin-top: 32px;">Il materiale</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PRODOTTI IN EVIDENZA -->
-  <section class="section" style="border-bottom: 1px solid var(--border);">
-    <div class="container">
-      <div class="reveal" style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 48px; flex-wrap: wrap; gap: 20px;">
-        <div>
-          <p class="label">Collezione</p>
-          <h2><strong>I più</strong> amati</h2>
-        </div>
-        <a href="collab.html" class="btn">Tutti i design</a>
-      </div>
-      <div class="grid-3 products-grid">
-
-        <div class="product-card reveal">
-          <div class="card-img card-img--flat" style="display:flex; align-items:flex-end; justify-content:center; padding:12px 12px 0;">
-            <img src="images/bombato-transparent.png" alt="Bombato" style="width:82%; height:82%; object-fit:contain; object-position:center bottom;">
-          </div>
-          <p class="product-card-title">Bombato</p>
-          <p style="font-size:13px; color:var(--text-muted); margin-top:6px;">Vaso decorativo in PLA — stampa 3D</p>
-          <a href="demo-3d.html" style="display:inline-block; margin-top:12px; font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent);">Vedi in 3D →</a>
-        </div>
-
-        <div class="product-card reveal reveal-delay-2">
-          <div class="card-img card-img--flat" style="display:flex; align-items:flex-end; justify-content:center; padding:12px 12px 0;">
-            <img src="images/blade-transparent.png" alt="Blade" style="width:82%; height:82%; object-fit:contain; object-position:center bottom;">
-          </div>
-          <p class="product-card-title">Blade</p>
-          <p style="font-size:13px; color:var(--text-muted); margin-top:6px;">Vaso decorativo in PLA — stampa 3D</p>
-        </div>
-
-        <div class="product-card reveal reveal-delay-3">
-          <div class="card-img card-img--flat" style="display:flex; align-items:flex-end; justify-content:center; padding:12px 12px 0;">
-            <img src="images/vulcano-transparent.png" alt="Vulcano" style="width:66%; height:66%; object-fit:contain; object-position:center bottom;">
-          </div>
-          <p class="product-card-title">Vulcano</p>
-          <p style="font-size:13px; color:var(--text-muted); margin-top:6px;">Vaso decorativo in PLA — stampa 3D</p>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- COLORI - SOFT -->
-  <section class="section" style="border-bottom: 1px solid var(--border);">
-    <div class="container">
-      <div class="grid-2" style="align-items: center; gap: 72px;">
-        <div class="color-media">
-          <img src="images/Shapeless%201-46_edited.jpg" alt="Vasi Shapeless in palette soft" style="width:100%; aspect-ratio:3/2; object-fit:cover; object-position:center 65%;">
-        </div>
-        <div class="color-text">
-          <p class="label">Palette soft</p>
-          <h3 class="mb-16">Eleganza nelle nuance soft</h3>
-          <p>Le tonalità materiche e delicate esaltano la nostra forma organica in modo discreto.
-          La scelta perfetta per un'eleganza che si integra armonicamente in ogni spazio.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- COLORI - VIBRANTI -->
-  <section class="section" style="border-bottom: 1px solid var(--border);">
-    <div class="container">
-      <div class="grid-2" style="align-items: center; gap: 72px;">
-        <div class="color-media" style="order:2;">
-          <img src="images/IMG_5106.jpg" alt="Vasi Shapeless in palette vibrante" style="width:100%; aspect-ratio:3/2; object-fit:cover; object-position:center 65%;">
-        </div>
-        <div class="color-text" style="order:1;">
-          <p class="label">Palette pop</p>
-          <h3 class="mb-16">L'espressione vibrante</h3>
-          <p>Le nostre palette POP e audaci danno vita alle forme. Perfetti per creare un punto focale
-          vibrante e di tendenza che esprime la tua personalità.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PRESS -->
-  <section class="section" style="border-bottom: 1px solid var(--border);">
-    <div class="container">
-      <p class="label text-center">Stampa</p>
-      <h2 class="text-center mb-48"><strong>Cosa dicono</strong> di Shapeless</h2>
-      <div class="grid-3 press-grid">
-
-        <a class="press-card" href="https://www.milanohome.com/news/spotlight/con-shapeless-e-il-cliente-a-dare-forma-ai-suoi-vasi.html" target="_blank" rel="noopener">
-          <div class="press-card-img">
-            <div class="press-label">
-              <p class="press-pub-name">Milano<br>Home</p>
-              <span class="press-rule"></span>
-              <p class="press-year">2025</p>
-            </div>
-            <img src="images/press/press-milano-home.jpg" alt="Milano Home 2025" loading="lazy" class="press-hover-img">
-          </div>
-          <div class="press-card-body">
-            <p class="source">Milano Home 2025</p>
-            <h4>Con Shapeless è il cliente a dare forma ai suoi vasi</h4>
-          </div>
-        </a>
-
-        <a class="press-card" href="https://thenycjournal.com/top-10-interior-designers-to-look-out-for-in-2024/" target="_blank" rel="noopener">
-          <div class="press-card-img">
-            <div class="press-label">
-              <p class="press-pub-name">The NYC<br>Journal</p>
-              <span class="press-rule"></span>
-              <p class="press-year">2024</p>
-            </div>
-            <img src="images/press/press-nyc-journal-cover.jpg" alt="The NYC Journal" loading="lazy" class="press-hover-img">
-          </div>
-          <div class="press-card-body">
-            <p class="source">The NYC Journal</p>
-            <h4>Top 10 Interior Designers To Look Out For In 2024</h4>
-          </div>
-        </a>
-
-        <a class="press-card" href="https://www.entrepreneursherald.com/blog/shaping-stories-through-design-an-interview-with-angelo-larecchiuta-founder?categoryId=105" target="_blank" rel="noopener">
-          <div class="press-card-img">
-            <div class="press-label">
-              <p class="press-pub-name">Entrepreneurs<br>Herald</p>
-              <span class="press-rule"></span>
-              <p class="press-year">2024</p>
-            </div>
-            <img src="images/press/press-entrepreneurs-herald.jpg" alt="Entrepreneurs Herald" loading="lazy" class="press-hover-img">
-          </div>
-          <div class="press-card-body">
-            <p class="source">Entrepreneurs Herald</p>
-            <h4>Shaping Stories Through Design: An Interview with Angelo Larecchiuta</h4>
-          </div>
-        </a>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- NEWSLETTER -->
-  <section class="section-sm" style="border-bottom: 1px solid var(--border);">
-    <div class="container text-center">
-      <p class="label">Newsletter</p>
-      <h2 class="mb-16">Resta nel <strong>mondo</strong> Shapeless</h2>
-      <p class="mb-32" style="max-width: 400px; margin-left: auto; margin-right: auto;">
-        Unisciti alla nostra community e ricevi aggiornamenti su nuovi design, eventi e collaborazioni.
+      <p class="soon-contact" data-i18n="soon.contact">
+        Per collaborazioni o informazioni scrivici in DM su <a href="https://www.instagram.com/shapeless.di/" target="_blank" rel="noopener">Instagram</a>.
       </p>
-      <form class="newsletter-form" style="margin: 0 auto;" name="newsletter" method="POST" action="grazie.html" data-netlify="true">
-        <input type="email" name="email" placeholder="La tua email" required>
-        <button type="submit">Iscriviti</button>
-      </form>
+
+      <div class="soon-or">
+        <span class="soon-or-line"></span>
+        <span class="soon-or-text" data-i18n="soon.or">Oppure</span>
+        <span class="soon-or-line"></span>
+      </div>
+
+      <div class="soon-form-wrap">
+        <span class="soon-form-label" data-i18n="soon.form.label">Scrivici qui sotto</span>
+        <span class="soon-form-note" data-i18n="soon.form.note">Il messaggio arriva dritto nella nostra casella.</span>
+
+        <form class="soon-form" data-form="restyling" name="restyling" method="POST" action="grazie.html" data-netlify="true">
+          <div class="form-group">
+            <input type="email" name="email" data-i18n-ph="soon.form.email.ph" placeholder="La tua email" required>
+          </div>
+          <div class="soon-form-row">
+            <div class="form-group">
+              <textarea name="messaggio" id="soon-message" data-i18n-ph="soon.form.msg.ph" placeholder="Il tuo messaggio... (premi Invio per inviare)" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-accent soon-form-btn" data-i18n="soon.form.btn">Invia</button>
+          </div>
+        </form>
+      </div>
     </div>
   </section>
 
   <!-- FOOTER -->
-  <footer>
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <img src="images/Logo Shapeless.png" alt="Shapeless" class="footer-logo-img">
-          <p>Design di oggetti decorativi realizzati con stampa 3D e materiali ecosostenibili.
-          Ogni pezzo è prodotto su richiesta, senza sprechi.</p>
-          <div class="social-links" style="margin-top: 24px;">
-            <a href="https://www.instagram.com/shapeless.di/" target="_blank">Instagram</a>
-            <a href="https://www.facebook.com/Shapeless.di" target="_blank">Facebook</a>
-          </div>
-        </div>
-        <div class="footer-col">
-          <h5>Esplora</h5>
-          <a href="chi-siamo.html">Chi siamo</a>
-          <a href="il-mais.html">Il Mais</a>
-          <a href="shapeless-brand.html">Il Brand</a>
-          <a href="collab.html">Collab</a>
-          <a href="rivenditori.html">Rivenditori</a>
-        </div>
-        <div class="footer-col">
-          <h5>Community</h5>
-          <a href="faq.html">FAQ</a>
-          <a href="blog.html">Blog</a>
-          <a href="contatti.html">Contatti</a>
-        </div>
-        <div class="footer-col">
-          <h5>Contatti</h5>
-          <a href="mailto:info@shapeless.shop">info@shapeless.shop</a>
-          <a href="tel:+393274465586">+39 327 446 5586</a>
-          <a href="tel:+390934591960">+39 0934 591960</a>
-          <p style="font-size:12px; margin-top:12px; color:var(--text-muted);">
-            Viale della Regione 32B<br>93100 Caltanissetta (IT)
-          </p>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p>© 2025 Shapeless — Larecchiuta Angelo — P.IVA 01927390854</p>
-        <div style="display:flex; gap:24px; flex-wrap:wrap;">
-          <a href="#" style="font-size:12px; color:var(--text-muted);">Privacy Policy</a>
-          <a href="#" style="font-size:12px; color:var(--text-muted);">Cookie Policy</a>
-          <a href="#" style="font-size:12px; color:var(--text-muted);">Termini e condizioni</a>
-        </div>
-      </div>
+  <footer class="soon-footer">
+    <div class="soon-footer-links">
+      <a href="https://www.instagram.com/shapeless.di/" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.facebook.com/Shapeless.di" target="_blank" rel="noopener">Facebook</a>
+      <a href="mailto:info@shapeless.shop">info@shapeless.shop</a>
     </div>
+    <p>&copy; <span id="soon-year"></span> Shapeless — Larecchiuta Angelo — P.IVA 01927390854</p>
   </footer>
 
   <script src="js/main.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="js/blade_geo.js"></script>
-  <script src="js/vase3d.js"></script>
+  <script src="js/lang.js"></script>
+  <script>
+    document.getElementById('soon-year').textContent = new Date().getFullYear();
+
+    // Premi Invio nella textarea del messaggio per inviare il form (Shift+Invio = a capo)
+    (function () {
+      var msg = document.getElementById('soon-message');
+      if (!msg) return;
+      msg.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          var form = msg.closest('form');
+          if (form) form.requestSubmit ? form.requestSubmit() : form.dispatchEvent(new Event('submit', { cancelable: true }));
+        }
+      });
+    })();
+  </script>
+
 </body>
 </html>

@@ -224,8 +224,25 @@
   function easeOut3(t)   { return 1 - Math.pow(1 - t, 3); }
 
   /* ── Render loop ──────────────────────────────────────── */
+  /* Pausa il loop quando la hero non è visibile: evita di renderizzare
+     ogni frame (doppio render target) mentre l'utente ha scrollato oltre */
+  let rafId = null, isVisible = true;
+  function scheduleTick() { rafId = requestAnimationFrame(tick); }
+
+  if (hero && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting && !isVisible) { isVisible = true; scheduleTick(); }
+        else if (!entry.isIntersecting && isVisible) {
+          isVisible = false;
+          if (rafId) cancelAnimationFrame(rafId);
+        }
+      });
+    }, { threshold: 0 }).observe(hero);
+  }
+
   function tick(t) {
-    requestAnimationFrame(tick);
+    scheduleTick();
     if (!buildStart) buildStart = t;
     const p = Math.min((t - buildStart) / BUILD_MS, 1.0);
 
@@ -292,5 +309,5 @@
     quadMat.uniforms.uTime.value = t * 0.001;
     renderer.render(quadScene, quadCamera);
   }
-  requestAnimationFrame(tick);
+  scheduleTick();
 })();
