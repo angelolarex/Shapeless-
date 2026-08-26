@@ -24,7 +24,8 @@
     .cfg-hint{
       position:absolute; left:0; right:0; bottom:14px; text-align:center;
       font-size:10px; letter-spacing:0.18em; text-transform:uppercase;
-      color:var(--text-muted); pointer-events:none; opacity:.75;
+      color:#fff; pointer-events:none; opacity:.9;
+      text-shadow:0 1px 6px rgba(0,0,0,.75);
     }
     .cfg-block{ margin-bottom:36px; }
     .cfg-colorname{
@@ -146,7 +147,7 @@
         <!-- VISUALIZZATORE -->
         <div class="cfg-stage">
           <model-viewer id="mv"
-            src="models-web/blade-pied-e8b923.gltf"
+            src="models-web/blade-web-e8b923.gltf"
             alt="Vaso Blade di Shapeless, modello 3D interattivo"
             camera-controls
             disable-pan
@@ -155,12 +156,12 @@
             auto-rotate-delay="2500"
             rotation-per-second="6deg"
             interaction-prompt="none"
-            camera-orbit="22deg 74deg 1.32m"
-            camera-target="0m 0.19m 0m"
-            min-camera-orbit="auto 0deg 1.0m"
-            max-camera-orbit="auto 90deg 1.9m"
+            camera-orbit="22deg 77deg 1.24m"
+            camera-target="0m 0.27m 0m"
+            min-camera-orbit="auto 35deg 1.05m"
+            max-camera-orbit="auto 84deg 1.45m"
             field-of-view="30deg"
-            shadow-intensity="0.4"
+            shadow-intensity="0"
             shadow-softness="1"
             exposure="1"
             environment-image="neutral"
@@ -171,6 +172,14 @@
             ar-placement="floor">
           </model-viewer>
           <span class="cfg-hint">Trascina per ruotare · scorri per avvicinare</span>
+          <!-- Visore nascosto: serve SOLO ad aprire la realtà aumentata, con il
+               piedistallo reale da 6 cm appoggiato a terra. Quello visibile qui
+               sopra ha il basamento lungo, che in AR sprofonderebbe. -->
+          <model-viewer id="mv-ar" src="models-web/blade-ar-e8b923.gltf" loading="eager"
+            alt="" aria-hidden="true" tabindex="-1"
+            ar ar-modes="scene-viewer webxr quick-look" ar-scale="fixed" ar-placement="floor"
+            style="position:absolute; left:0; top:0; width:2px; height:2px;
+                   opacity:0; pointer-events:none;"></model-viewer>
         </div>
 
         <!-- COMANDI -->
@@ -286,12 +295,16 @@
     // Serve perche' la realta' aumentata di Android riscarica il modello dal
     // server e non vedrebbe un colore applicato solo qui nel browser.
     function fileDelColore(hex) {
-      return 'models-web/blade-pied-' + hex.replace('#', '') + '.gltf';
+      return 'models-web/blade-web-' + hex.replace('#', '') + '.gltf';
     }
+
+    var mvAr = document.getElementById('mv-ar');
 
     function apply() {
       var voluto = fileDelColore(state.color);
       if (mv.getAttribute('src') !== voluto) mv.setAttribute('src', voluto);
+      var vAr = 'models-web/blade-ar-' + state.color.replace('#', '') + '.gltf';
+      if (mvAr && mvAr.getAttribute('src') !== vAr) mvAr.setAttribute('src', vAr);
       if (!mv.model || !mv.model.materials.length) return;
       var pbr = mv.model.materials[0].pbrMetallicRoughness;
       pbr.setBaseColorFactor(state.color);
@@ -308,7 +321,7 @@
       var locale = location.protocol === 'file:' ||
                    /^(localhost|127\.|0\.0\.0\.0|\[::1\])/.test(location.hostname);
 
-      if (mv.canActivateAR) {
+      if (mvAr.canActivateAR) {
         arBtn.hidden = false;
         arNote.textContent = 'Inquadra il pavimento e appoggia il vaso dove vuoi. ' +
                              'Il colore che hai scelto qui viene mantenuto.';
@@ -344,11 +357,12 @@
       }
     }
 
-    mv.addEventListener('load', function () { apply(); impostaAR(); });
+    mv.addEventListener('load', function () { apply(); });
+    mvAr.addEventListener('load', function () { impostaAR(); });
 
-    arBtn.addEventListener('click', function () { mv.activateAR(); });
+    arBtn.addEventListener('click', function () { mvAr.activateAR(); });
 
-    mv.addEventListener('ar-status', function (e) {
+    mvAr.addEventListener('ar-status', function (e) {
       if (e.detail.status === 'failed') {
         arNote.textContent = 'Non è stato possibile avviare la realtà aumentata su questo dispositivo.';
       }
