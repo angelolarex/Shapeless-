@@ -172,9 +172,9 @@
             field-of-view="30deg"
             shadow-intensity="0"
             shadow-softness="1"
-            exposure="1"
-            environment-image="neutral"
-            tone-mapping="neutral">
+            exposure="0.85"
+            environment-image="models-web/studio.hdr"
+            tone-mapping="commerce">
           </model-viewer>
           <button type="button" class="ar-mini" id="ar-mini" hidden>
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -189,7 +189,7 @@
                della stanza. Il basamento esiste solo nella vetrina qui sopra. -->
           <model-viewer id="mv-ar" src="models-web/blade-solo-e8b923.glb" loading="eager"
             alt="" aria-hidden="true" tabindex="-1"
-            ar ar-modes="scene-viewer webxr quick-look" ar-scale="fixed" ar-placement="floor"
+            ar ar-modes="scene-viewer webxr quick-look" ar-scale="fixed" ar-placement="floor" shadow-intensity="0.9" shadow-softness="1"
             style="position:absolute; left:0; top:0; width:2px; height:2px;
                    opacity:0; pointer-events:none;"></model-viewer>
         </div>
