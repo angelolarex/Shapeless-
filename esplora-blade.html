@@ -57,8 +57,19 @@
       font-size:12px; line-height:1.7; color:var(--text-muted); margin-top:18px;
     }
     @media (max-width:980px){
-      .cfg-grid{ grid-template-columns:1fr; gap:40px; }
       model-viewer{ height:min(60vh,460px); }
+      /* Su telefono l'ordine cambia: i colori salgono subito sotto il modello 3D.
+         display:contents "scioglie" il blocco comandi, così i suoi figli
+         diventano elementi della colonna e si possono riordinare con order. */
+      .cfg-grid{ display:flex; flex-direction:column; gap:0; }
+      .cfg-controls{ display:contents; }
+      .cfg-stage{ order:1; }
+      .cfg-controls > .cfg-block{ order:2; margin:28px 0 0; }
+      .cfg-controls > .label{ order:3; margin-top:44px; }
+      .cfg-controls > h1{ order:4; }
+      .cfg-controls > p{ order:5; }
+      .cfg-controls > .ar-box{ order:6; }
+      .cfg-controls > .cfg-actions{ order:7; }
     }
   </style>
 </head>
@@ -155,7 +166,7 @@
             environment-image="neutral"
             tone-mapping="neutral"
             ar
-            ar-modes="webxr quick-look"
+            ar-modes="scene-viewer webxr quick-look"
             ar-scale="fixed"
             ar-placement="floor">
           </model-viewer>
@@ -163,7 +174,7 @@
         </div>
 
         <!-- COMANDI -->
-        <div>
+        <div class="cfg-controls">
           <div class="label">Configuratore 3D</div>
           <h1 style="margin-bottom:20px;">Blade<br><em>in ogni colore.</em></h1>
           <p style="color:var(--text-muted); margin-bottom:44px;">
