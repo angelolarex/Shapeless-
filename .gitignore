@@ -1,0 +1,46 @@
+# ─────────────────────────────────────────────────────────────
+#  Cosa NON va online. Tutto ciò che è elencato qui resta sul
+#  tuo PC: non viene caricato, non appesantisce il sito.
+# ─────────────────────────────────────────────────────────────
+
+# --- File di lavoro pesanti ---
+models/
+_versioni/
+_strumenti/
+images/_originali/
+videos/
+PUBBLICA-SU-GITHUB/
+
+# --- Anteprime, appunti, scorciatoie ---
+ANTEPRIMA*.html
+*.md
+*.bat
+
+# --- Immagini che nessuna pagina usa più ---
+images/Solaris.jpg
+images/Gemini_Generated_Image_twt981twt981twt9.png
+images/Gemini_Generated_Image_x3fuijx3fuijx3fu.png
+images/IMG_5106.jpg
+images/Design week Milano_edited.jpg
+images/Fiera Vebo Napoli_edited_edited.jpg
+images/Milano Home_edited.jpg
+images/illustrazione-hospitality.svg
+images/Bicchieri - Hidden nest/6x 20h cm .png
+images/Bicchieri - Hidden nest/6x30 h cm .png
+images/Bicchieri - Hidden nest/8x15h cm .png
+images/Partner/EH .jpg
+images/Partner/La tecnica.png
+images/Partner/Larecchiuta.png
+images/Partner/Totum 3d.jpg
+images/Partner/logo.png
+images/press/Angelo Larecchiuta.jpg
+images/press/Angelo Larecchiuta(1).jpg
+images/press/Progetto senza titolo(11).jpg
+images/press/Progetto senza titolo(12).jpg
+images/press/press-nyc-journal-article.jpg
+
+# --- Roba di sistema ---
+.fuse_hidden*
+Thumbs.db
+desktop.ini
+.DS_Store

@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Community | Shapeless</title>
-  <meta name="description" content="Esplora il mondo Shapeless. Idee, connessioni e valori che danno forma a un design autentico, innovativo e sostenibile.">
+  <title>Anteprima 3D & AR | Shapeless</title>
+  <meta name="description" content="Guarda il tuo vaso Shapeless in anteprima: scegli il colore e visualizzalo nel tuo spazio con la realtà aumentata.">
+  <meta name="robots" content="noindex, follow">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -28,7 +29,7 @@
         </div>
       </li>
       <li class="nav-item"><a href="rivenditori.html">Rivenditori</a></li>
-      <li class="nav-item active">
+      <li class="nav-item">
         <span>Community</span>
         <div class="dropdown">
           <a href="faq.html">FAQ</a>
@@ -68,56 +69,63 @@
     <a href="contatti.html">Contatti</a>
   </div>
 
-  <!-- HEADER -->
+  <!-- PAGE HEADER -->
   <div class="page-header">
     <div class="container">
-      <p class="label" data-i18n="comm.label">Community</p>
-      <h1 data-i18n="comm.h1">Esplora il <em>mondo</em><br>Shapeless.</h1>
-      <p style="margin-top:20px; max-width:500px; color:var(--text-muted);">
-        Idee, connessioni e valori che danno forma a un design autentico, innovativo e sostenibile.
+      <p class="label">Anteprima 3D & AR</p>
+      <h1>Guarda <span id="vaso-nome">il tuo vaso</span><br><em>in anteprima.</em></h1>
+      <p style="margin-top:24px; max-width:520px; font-size:16px;">
+        Scegli il colore e prova a vedere il pezzo nel tuo spazio, in realtà aumentata, prima di ordinarlo.
       </p>
     </div>
   </div>
 
-  <!-- DUE CARD -->
-  <section class="section">
+  <!-- VIEWER (placeholder) -->
+  <section class="section" style="border-bottom: 1px solid var(--border);">
     <div class="container">
-      <div class="grid-2" style="gap: 32px;">
+      <div class="grid-2" style="align-items:center; gap:72px;">
 
-        <a href="faq.html" style="display:block;">
-          <div class="card" style="height:100%; cursor:pointer;">
-            <p class="label">Domande & Risposte</p>
-            <h2 class="mb-16">FAQ</h2>
-            <p>Tutto quello che vuoi sapere su materiali, personalizzazione, tempi di produzione e collaborazioni. Risposta immediata alle domande più comuni.</p>
-            <span class="read-more" style="margin-top:28px; display:inline-flex;">Vai alle FAQ →</span>
+        <div class="reveal">
+          <div class="placeholder" style="aspect-ratio:4/5; width:100%;">
+            <span>Viewer 3D interattivo — in arrivo</span>
           </div>
-        </a>
+        </div>
 
-        <a href="blog.html" style="display:block;">
-          <div class="card" style="height:100%; cursor:pointer;">
-            <p class="label">Articoli & Storie</p>
-            <h2 class="mb-16">Blog</h2>
-            <p>Design sostenibile, stampa 3D, forme organiche, fiere ed eventi. Raccontiamo il mondo Shapeless dall'interno — con curiosità e senza filtri.</p>
-            <span class="read-more" style="margin-top:28px; display:inline-flex;">Vai al Blog →</span>
+        <div class="reveal reveal-delay-2">
+          <p class="label">Colori disponibili</p>
+          <div class="color-swatches" style="margin-bottom:32px;">
+            <button type="button" class="color-swatch active" style="background:#e8b923;" aria-label="Giallo ocra"></button>
+            <button type="button" class="color-swatch" style="background:#f2efe9;" aria-label="Bianco crema"></button>
+            <button type="button" class="color-swatch" style="background:#b5651d;" aria-label="Terracotta"></button>
+            <button type="button" class="color-swatch" style="background:#6b1f45;" aria-label="Bordeaux"></button>
+            <button type="button" class="color-swatch" style="background:#3a4a40;" aria-label="Verde salvia scuro"></button>
+            <button type="button" class="color-swatch" style="background:#2f2f2f;" aria-label="Antracite"></button>
           </div>
-        </a>
+
+          <p>
+            Qui potrai ruotare il modello 3D, cambiare colore in tempo reale e — tramite la fotocamera del
+            telefono — vedere come il vaso si inserisce nel tuo ambiente, in scala reale, con la realtà aumentata.
+          </p>
+
+          <div style="display:flex; gap:16px; flex-wrap:wrap; margin-top:32px;">
+            <a href="#" class="btn btn-accent">Visualizza in realtà aumentata</a>
+            <a href="demo-3d.html" class="btn">Demo 3D attuale</a>
+          </div>
+
+          <p style="font-size:12px; color:var(--text-muted); margin-top:24px;">
+            Questa pagina è ancora in costruzione: il configuratore colori e la funzione AR verranno sviluppati
+            nelle prossime fasi del progetto.
+          </p>
+        </div>
 
       </div>
     </div>
   </section>
 
-  <!-- NEWSLETTER -->
-  <section class="section-sm" style="border-top: 1px solid var(--border);">
+  <!-- CTA -->
+  <section class="section-sm">
     <div class="container text-center">
-      <p class="label">Newsletter</p>
-      <h2 class="mb-16">Resta nel <strong>mondo</strong> Shapeless</h2>
-      <p class="mb-32" style="max-width:380px; margin-left:auto; margin-right:auto;">
-        Aggiornamenti su nuovi design, eventi e collaborazioni. Niente spam.
-      </p>
-      <form class="newsletter-form" style="margin:0 auto;" name="newsletter" method="POST" action="grazie.html" data-netlify="true">
-        <input type="email" name="email" placeholder="La tua email" required>
-        <button type="submit">Iscriviti</button>
-      </form>
+      <a href="tutti-i-design.html" class="btn">← Tutti i design</a>
     </div>
   </section>
 
@@ -165,5 +173,19 @@
   </footer>
 
   <script src="js/main.js"></script>
+  <script src="js/lang.js"></script>
+  <script>
+    // Legge ?vaso=Nome dall'URL per mostrare il nome del prodotto nel titolo
+    var params = new URLSearchParams(window.location.search);
+    var nome = params.get('vaso');
+    if (nome) document.getElementById('vaso-nome').textContent = nome;
+
+    document.querySelectorAll('.color-swatch').forEach(function (sw) {
+      sw.addEventListener('click', function () {
+        document.querySelectorAll('.color-swatch').forEach(function (s) { s.classList.remove('active'); });
+        this.classList.add('active');
+      });
+    });
+  </script>
 </body>
 </html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Il tuo carrello | Shapeless</title>
+  <meta name="description" content="Rivedi i pezzi Shapeless nel tuo carrello prima di procedere con l'ordine.">
+  <meta name="robots" content="noindex, follow">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><img src="images/Logo Shapeless.png" alt="Shapeless" class="nav-logo-img"></a>
+    <ul class="nav-links">
+      <li class="nav-item">
+        <span>About</span>
+        <div class="dropdown">
+          <a href="chi-siamo.html">Chi siamo</a>
+          <a href="il-mais.html">Il Mais</a>
+          <a href="shapeless-brand.html">Shapeless</a>
+        </div>
+      </li>
+      <li class="nav-item"><a href="collab.html">Collab</a>
+        <div class="dropdown">
+          <a href="hospitality.html">Hospitality & Architettura</a>
+          <a href="creativi.html">Creativi</a>
+        </div>
+      </li>
+      <li class="nav-item"><a href="rivenditori.html">Rivenditori</a></li>
+      <li class="nav-item">
+        <span>Community</span>
+        <div class="dropdown">
+          <a href="faq.html">FAQ</a>
+          <a href="blog.html">Blog</a>
+        </div>
+      </li>
+      <li class="nav-item"><a href="contatti.html">Contatti</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+  <div class="nav-mobile">
+    <div class="mob-group">
+      <button type="button" class="mob-section-title">About<span class="mob-chevron"></span></button>
+      <div class="mob-sub">
+        <a href="chi-siamo.html">Chi siamo</a>
+        <a href="il-mais.html">Il Mais</a>
+        <a href="shapeless-brand.html">Shapeless</a>
+      </div>
+    </div>
+    <div class="mob-group">
+      <button type="button" class="mob-section-title">Collab<span class="mob-chevron"></span></button>
+      <div class="mob-sub">
+        <a href="collab.html">Panoramica Collab</a>
+        <a href="hospitality.html">Hospitality & Architettura</a>
+        <a href="creativi.html">Creativi</a>
+      </div>
+    </div>
+    <a href="rivenditori.html">Rivenditori</a>
+    <div class="mob-group">
+      <button type="button" class="mob-section-title">Community<span class="mob-chevron"></span></button>
+      <div class="mob-sub">
+        <a href="faq.html">FAQ</a>
+        <a href="blog.html">Blog</a>
+      </div>
+    </div>
+    <a href="contatti.html">Contatti</a>
+  </div>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="container">
+      <p class="label">Il tuo ordine</p>
+      <h1>Il tuo <em>carrello.</em></h1>
+    </div>
+  </div>
+
+  <!-- CARRELLO -->
+  <section class="section">
+    <div class="container">
+
+      <!-- Stato: carrello vuoto -->
+      <div id="cart-empty" style="display:none; text-align:center; padding:40px 0;">
+        <p class="mb-24" style="font-size:17px;">Il tuo carrello è vuoto.</p>
+        <a href="tutti-i-design.html" class="btn btn-accent">Scopri i design</a>
+      </div>
+
+      <!-- Stato: carrello con articoli -->
+      <div id="cart-content" style="display:none;">
+        <div class="grid-2" style="align-items:start; gap:64px;">
+
+          <div style="grid-column: 1 / -1; max-width: 760px;">
+            <div id="cart-items"></div>
+          </div>
+
+        </div>
+
+        <div style="max-width: 420px; margin-top: 40px; padding-top: 32px; border-top: 1px solid var(--border);">
+          <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
+            <p style="color:var(--text-muted); font-size:14px;">Subtotale</p>
+            <p id="cart-subtotal" style="font-size:14px;">€ 0,00</p>
+          </div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
+            <p style="color:var(--text-muted); font-size:13px;">Spedizione</p>
+            <p style="color:var(--text-muted); font-size:13px;">Calcolata al passaggio successivo</p>
+          </div>
+          <div style="display:flex; justify-content:space-between; padding-top:16px; border-top:1px solid var(--border); margin-bottom:28px;">
+            <p style="font-weight:600; font-size:16px;">Totale</p>
+            <p id="cart-total" style="font-weight:600; font-size:16px;">€ 0,00</p>
+          </div>
+          <div style="display:flex; gap:16px; flex-wrap:wrap;">
+            <a href="accedi.html" class="btn btn-accent">Procedi all'ordine</a>
+            <a href="tutti-i-design.html" class="btn">Continua lo shopping</a>
+          </div>
+          <p style="font-size:12px; color:var(--text-muted); margin-top:20px;">
+            Ogni pezzo è prodotto su richiesta: dopo aver ricevuto la tua richiesta ti contattiamo per confermare colore, dimensione e tempi di consegna prima di procedere.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="images/Logo Shapeless.png" alt="Shapeless" class="footer-logo-img">
+          <p>Design di oggetti decorativi realizzati con stampa 3D e materiali ecosostenibili.</p>
+          <div class="social-links" style="margin-top: 24px;">
+            <a href="https://www.instagram.com/shapeless.di/" target="_blank">Instagram</a>
+            <a href="https://www.facebook.com/Shapeless.di" target="_blank">Facebook</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h5>Esplora</h5>
+          <a href="tutti-i-design.html">Tutti i design</a>
+          <a href="chi-siamo.html">Chi siamo</a>
+          <a href="il-mais.html">Il Mais</a>
+          <a href="shapeless-brand.html">Il Brand</a>
+          <a href="collab.html">Collab</a>
+          <a href="rivenditori.html">Rivenditori</a>
+        </div>
+        <div class="footer-col">
+          <h5>Community</h5>
+          <a href="faq.html">FAQ</a>
+          <a href="blog.html">Blog</a>
+          <a href="contatti.html">Contatti</a>
+        </div>
+        <div class="footer-col">
+          <h5>Contatti</h5>
+          <a href="mailto:info@shapeless.shop">info@shapeless.shop</a>
+          <a href="tel:+393274465586">+39 327 446 5586</a>
+          <p style="font-size:12px; margin-top:12px; color:var(--text-muted);">Viale della Regione 32B<br>93100 Caltanissetta (IT)</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 Shapeless — Larecchiuta Angelo — P.IVA 01927390854</p>
+        <div style="display:flex; gap:24px; flex-wrap:wrap;">
+          <a href="#" style="font-size:12px; color:var(--text-muted);">Privacy Policy</a>
+          <a href="#" style="font-size:12px; color:var(--text-muted);">Cookie Policy</a>
+          <a href="#" style="font-size:12px; color:var(--text-muted);">Termini e condizioni</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/lang.js"></script>
+  <script src="js/cart.js"></script>
+  <script>
+    function renderCart() {
+      var cart = ShapelessCart.getCart();
+      var emptyEl = document.getElementById('cart-empty');
+      var contentEl = document.getElementById('cart-content');
+      var itemsEl = document.getElementById('cart-items');
+
+      if (!cart.length) {
+        emptyEl.style.display = 'block';
+        contentEl.style.display = 'none';
+        return;
+      }
+      emptyEl.style.display = 'none';
+      contentEl.style.display = 'block';
+
+      itemsEl.innerHTML = '';
+      cart.forEach(function (item, index) {
+        var row = document.createElement('div');
+        row.className = 'cart-row';
+        row.innerHTML =
+          '<div class="cart-row-img"><img src="' + item.immagine + '" alt="' + item.nome + '"></div>' +
+          '<div class="cart-row-info">' +
+            '<p class="product-card-title" style="margin-top:0;">' + item.nome + '</p>' +
+            (item.colore ? '<p style="font-size:12px; color:var(--text-muted); margin-top:4px;">Colore: ' + item.colore + '</p>' : '') +
+            '<p style="font-size:13px; color:var(--text-muted); margin-top:6px;">' + ShapelessCart.formatPrice(item.prezzo) + ' cad.</p>' +
+          '</div>' +
+          '<div class="qty-control">' +
+            '<button type="button" class="qty-btn" data-action="dec" data-index="' + index + '" aria-label="Diminuisci quantità">−</button>' +
+            '<span class="qty-value">' + item.qty + '</span>' +
+            '<button type="button" class="qty-btn" data-action="inc" data-index="' + index + '" aria-label="Aumenta quantità">+</button>' +
+          '</div>' +
+          '<p class="cart-row-price">' + ShapelessCart.formatPrice(item.prezzo * item.qty) + '</p>' +
+          '<button type="button" class="remove-btn" data-index="' + index + '" aria-label="Rimuovi articolo">×</button>';
+        itemsEl.appendChild(row);
+      });
+
+      document.getElementById('cart-subtotal').textContent = ShapelessCart.formatPrice(ShapelessCart.cartTotal());
+      document.getElementById('cart-total').textContent = ShapelessCart.formatPrice(ShapelessCart.cartTotal());
+
+      itemsEl.querySelectorAll('.qty-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var i = parseInt(this.getAttribute('data-index'), 10);
+          var cart = ShapelessCart.getCart();
+          var current = cart[i] ? cart[i].qty : 1;
+          var next = this.getAttribute('data-action') === 'inc' ? current + 1 : current - 1;
+          if (next < 1) next = 1;
+          ShapelessCart.updateQty(i, next);
+          renderCart();
+        });
+      });
+
+      itemsEl.querySelectorAll('.remove-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var i = parseInt(this.getAttribute('data-index'), 10);
+          ShapelessCart.removeItem(i);
+          renderCart();
+        });
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', renderCart);
+  </script>
+</body>
+</html>

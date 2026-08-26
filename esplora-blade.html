@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blade in 3D | Shapeless</title>
+  <meta name="description" content="Esplora Blade in 3D: ruota il vaso, scegli il colore e la finitura, e guardalo in scala reale nel tuo spazio con la realtà aumentata.">
+  <link rel="stylesheet" href="css/style.css">
+  <script type="module" src="js/model-viewer.min.js"></script>
+  <style>
+    /* ---- Configuratore 3D (scoped a questa pagina) ---- */
+    .cfg-grid{
+      display:grid; grid-template-columns:1.15fr 1fr; gap:64px; align-items:start;
+    }
+    .cfg-stage{
+      position:relative; background:var(--bg2); border:1px solid var(--border);
+      border-radius:2px; overflow:hidden;
+    }
+    model-viewer{
+      width:100%; height:min(72vh,640px); display:block;
+      background:transparent; --poster-color:transparent;
+      --progress-bar-color:var(--accent); --progress-bar-height:2px;
+    }
+    .cfg-hint{
+      position:absolute; left:0; right:0; bottom:14px; text-align:center;
+      font-size:10px; letter-spacing:0.18em; text-transform:uppercase;
+      color:var(--text-muted); pointer-events:none; opacity:.75;
+    }
+    .cfg-block{ margin-bottom:36px; }
+    .cfg-colorname{
+      margin-top:14px; font-size:11px; letter-spacing:0.14em;
+      text-transform:uppercase; color:var(--text-muted);
+    }
+    /* bottone AR: mostrato via JS solo dove la realtà aumentata è disponibile.
+       Serve !important perché .btn imposta un display che vincerebbe su [hidden]. */
+    .ar-btn{ width:100%; justify-content:center; text-align:center; }
+    .ar-btn[hidden]{ display:none !important; }
+    .cfg-actions{ display:flex; flex-direction:column; gap:12px; margin-top:8px; }
+    /* ---- Riquadro "vedilo nel tuo spazio" ---- */
+    .ar-box{
+      margin-top:36px; padding:22px 24px; background:var(--bg2);
+      border:1px solid var(--border); border-radius:2px;
+    }
+    .ar-box .label{ margin-bottom:16px; display:block; }
+    .ar-qr{ display:flex; gap:20px; align-items:center; }
+    /* come per .ar-btn: display:flex vincerebbe sull'attributo hidden */
+    .ar-qr[hidden]{ display:none !important; }
+    .ar-qr .qr{
+      flex:none; width:116px; height:116px; padding:8px; background:#fff;
+      border:1px solid var(--border); border-radius:2px;
+    }
+    .ar-qr .qr svg{ width:100%; height:100%; display:block; }
+    .ar-qr p{ margin:0; font-size:12.5px; line-height:1.7; color:var(--text-muted); }
+    .ar-qr strong{ color:var(--text); font-weight:600; }
+    @media (max-width:520px){ .ar-qr{ flex-direction:column; align-items:flex-start; } }
+    .cfg-note{
+      font-size:12px; line-height:1.7; color:var(--text-muted); margin-top:18px;
+    }
+    @media (max-width:980px){
+      .cfg-grid{ grid-template-columns:1fr; gap:40px; }
+      model-viewer{ height:min(60vh,460px); }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><img src="images/Logo Shapeless.png" alt="Shapeless" class="nav-logo-img"></a>
+    <ul class="nav-links">
+      <li class="nav-item">
+        <span>About</span>
+        <div class="dropdown">
+          <a href="chi-siamo.html">Chi siamo</a>
+          <a href="il-mais.html">Il Mais</a>
+          <a href="shapeless-brand.html">Shapeless</a>
+        </div>
+      </li>
+      <li class="nav-item"><a href="collab.html">Collab</a>
+        <div class="dropdown">
+          <a href="hospitality.html">Hospitality &amp; Architettura</a>
+          <a href="creativi.html">Creativi</a>
+        </div>
+      </li>
+      <li class="nav-item"><a href="rivenditori.html">Rivenditori</a></li>
+      <li class="nav-item">
+        <span>Community</span>
+        <div class="dropdown">
+          <a href="faq.html">FAQ</a>
+          <a href="blog.html">Blog</a>
+        </div>
+      </li>
+      <li class="nav-item"><a href="contatti.html">Contatti</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <div class="nav-mobile">
+    <div class="mob-group">
+      <button type="button" class="mob-section-title">About<span class="mob-chevron"></span></button>
+      <div class="mob-sub">
+        <a href="chi-siamo.html">Chi siamo</a>
+        <a href="il-mais.html">Il Mais</a>
+        <a href="shapeless-brand.html">Shapeless</a>
+      </div>
+    </div>
+    <div class="mob-group">
+      <button type="button" class="mob-section-title">Collab<span class="mob-chevron"></span></button>
+      <div class="mob-sub">
+        <a href="collab.html">Panoramica Collab</a>
+        <a href="hospitality.html">Hospitality &amp; Architettura</a>
+        <a href="creativi.html">Creativi</a>
+      </div>
+    </div>
+    <a href="rivenditori.html">Rivenditori</a>
+    <div class="mob-group">
+      <button type="button" class="mob-section-title">Community<span class="mob-chevron"></span></button>
+      <div class="mob-sub">
+        <a href="faq.html">FAQ</a>
+        <a href="blog.html">Blog</a>
+      </div>
+    </div>
+    <a href="contatti.html">Contatti</a>
+  </div>
+
+  <!-- CONFIGURATORE -->
+  <section class="section" style="padding-top: calc(var(--nav-h) + 48px);">
+    <div class="container">
+
+      <a href="prodotto-blade.html" style="display:inline-block; margin-bottom:32px; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--text-muted);">← Torna a Blade</a>
+
+      <div class="cfg-grid">
+
+        <!-- VISUALIZZATORE -->
+        <div class="cfg-stage">
+          <model-viewer id="mv"
+            src="models-web/blade.glb"
+            alt="Vaso Blade di Shapeless, modello 3D interattivo"
+            camera-controls
+            disable-pan
+            touch-action="pan-y"
+            auto-rotate
+            auto-rotate-delay="2500"
+            rotation-per-second="6deg"
+            interaction-prompt="none"
+            camera-orbit="20deg 78deg 1.05m"
+            camera-target="0m 0.185m 0m"
+            min-camera-orbit="auto 0deg 0.78m"
+            max-camera-orbit="auto 92deg 1.32m"
+            field-of-view="28deg"
+            shadow-intensity="0.4"
+            shadow-softness="1"
+            exposure="1"
+            environment-image="neutral"
+            tone-mapping="neutral"
+            ar
+            ar-modes="webxr quick-look"
+            ar-scale="fixed"
+            ar-placement="floor">
+          </model-viewer>
+          <span class="cfg-hint">Trascina per ruotare · scorri per avvicinare</span>
+        </div>
+
+        <!-- COMANDI -->
+        <div>
+          <div class="label">Configuratore 3D</div>
+          <h1 style="margin-bottom:20px;">Blade<br><em>in ogni colore.</em></h1>
+          <p style="color:var(--text-muted); margin-bottom:44px;">
+            Ruotalo, guardalo da ogni lato, scegli il colore. Poi, dal telefono,
+            appoggialo nel tuo spazio in scala reale — è alto 37 cm.
+          </p>
+
+          <div class="cfg-block">
+            <div class="label">Scegli il colore</div>
+            <div class="color-swatches" id="colors" style="margin-top:16px;">
+              <button type="button" class="color-swatch active" data-color="#e8b923" data-name="Giallo ocra"      style="background:#e8b923;" aria-label="Giallo ocra"></button>
+              <button type="button" class="color-swatch"        data-color="#f2efe9" data-name="Bianco crema"     style="background:#f2efe9;" aria-label="Bianco crema"></button>
+              <button type="button" class="color-swatch"        data-color="#b5651d" data-name="Terracotta"       style="background:#b5651d;" aria-label="Terracotta"></button>
+              <button type="button" class="color-swatch"        data-color="#6b1f45" data-name="Bordeaux"         style="background:#6b1f45;" aria-label="Bordeaux"></button>
+              <button type="button" class="color-swatch"        data-color="#3a4a40" data-name="Verde salvia"     style="background:#3a4a40;" aria-label="Verde salvia scuro"></button>
+              <button type="button" class="color-swatch"        data-color="#2f2f2f" data-name="Antracite"        style="background:#2f2f2f;" aria-label="Antracite"></button>
+            </div>
+            <div class="cfg-colorname" id="colorname">Giallo ocra</div>
+          </div>
+
+          <!-- REALTA' AUMENTATA -->
+          <div class="ar-box">
+            <span class="label">Vedilo nel tuo spazio</span>
+
+            <!-- su telefono e tablet: il bottone che apre la realtà aumentata -->
+            <button type="button" class="btn btn-accent ar-btn" id="ar-btn" hidden>
+              Appoggia Blade nella tua stanza
+            </button>
+
+            <!-- su computer: il QR da inquadrare col telefono -->
+            <div class="ar-qr" id="ar-qr" hidden>
+              <div class="qr" id="qr-target"></div>
+              <p><strong>Inquadra il codice con la fotocamera del telefono.</strong>
+                 Si aprirà questa pagina, e da lì potrai appoggiare Blade sul pavimento
+                 di casa tua in scala reale — è alto 37 cm.</p>
+            </div>
+
+            <p class="cfg-note" id="ar-note" style="margin-top:14px;"></p>
+          </div>
+
+          <div class="cfg-actions">
+            <a href="prodotto-blade.html" class="btn" style="text-align:center;">Torna alla scheda prodotto</a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="images/Logo Shapeless.png" alt="Shapeless" class="footer-logo-img">
+          <p>Design di oggetti decorativi realizzati con stampa 3D e materiali ecosostenibili.</p>
+          <div class="social-links" style="margin-top: 24px;">
+            <a href="https://www.instagram.com/shapeless.di/" target="_blank">Instagram</a>
+            <a href="https://www.facebook.com/Shapeless.di" target="_blank">Facebook</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h5>Esplora</h5>
+          <a href="tutti-i-design.html">Tutti i design</a>
+          <a href="chi-siamo.html">Chi siamo</a>
+          <a href="il-mais.html">Il Mais</a>
+          <a href="shapeless-brand.html">Il Brand</a>
+          <a href="collab.html">Collab</a>
+          <a href="rivenditori.html">Rivenditori</a>
+          <a href="carrello.html">Il tuo carrello <span class="cart-badge">0</span></a>
+        </div>
+        <div class="footer-col">
+          <h5>Community</h5>
+          <a href="faq.html">FAQ</a>
+          <a href="blog.html">Blog</a>
+          <a href="contatti.html">Contatti</a>
+        </div>
+        <div class="footer-col">
+          <h5>Contatti</h5>
+          <a href="mailto:info@shapeless.shop">info@shapeless.shop</a>
+          <a href="tel:+393274465586">+39 327 446 5586</a>
+          <p style="font-size:12px; margin-top:12px; color:var(--text-muted);">Viale della Regione 32B<br>93100 Caltanissetta (IT)</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 Shapeless — Larecchiuta Angelo — P.IVA 01927390854</p>
+        <div style="display:flex; gap:24px; flex-wrap:wrap;">
+          <a href="#" style="font-size:12px; color:var(--text-muted);">Privacy Policy</a>
+          <a href="#" style="font-size:12px; color:var(--text-muted);">Cookie Policy</a>
+          <a href="#" style="font-size:12px; color:var(--text-muted);">Termini e condizioni</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/lang.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/qrcode.js"></script>
+  <script>
+  (function () {
+    var mv   = document.getElementById('mv');
+    var arBtn= document.getElementById('ar-btn');
+    var name = document.getElementById('colorname');
+
+    var state = { color: '#e8b923' };
+
+    function apply() {
+      if (!mv.model || !mv.model.materials.length) return;
+      var pbr = mv.model.materials[0].pbrMetallicRoughness;
+      pbr.setBaseColorFactor(state.color);
+    }
+
+    var arQr  = document.getElementById('ar-qr');
+    var arNote = document.getElementById('ar-note');
+
+    // Tre situazioni diverse, tre risposte diverse:
+    //  - telefono/tablet  -> bottone che apre la realtà aumentata
+    //  - computer, online -> QR di QUESTA pagina, da inquadrare col telefono
+    //  - file:// o localhost -> nota, perché il QR non porterebbe da nessuna parte
+    function impostaAR() {
+      var locale = location.protocol === 'file:' ||
+                   /^(localhost|127\.|0\.0\.0\.0|\[::1\])/.test(location.hostname);
+
+      if (mv.canActivateAR) {
+        arBtn.hidden = false;
+        arNote.textContent = 'Inquadra il pavimento e appoggia il vaso dove vuoi. ' +
+                             'Il colore che hai scelto qui viene mantenuto.';
+        return;
+      }
+      if (locale) {
+        arNote.textContent = 'La realtà aumentata funziona da smartphone e tablet, e solo con ' +
+          'il sito pubblicato online. Da questa copia locale non è raggiungibile: qui il codice ' +
+          'da inquadrare comparirà una volta caricata la pagina su shapeless.shop.';
+        return;
+      }
+      // telefono/tablet SENZA supporto AR: il QR punterebbe alla pagina che stai
+      // gia' guardando. Meglio dirlo che mostrare un codice inutile.
+      var tattile = window.matchMedia &&
+        window.matchMedia('(pointer: coarse)').matches && window.innerWidth < 1024;
+      if (tattile) {
+        arNote.textContent = 'Questo dispositivo o browser non supporta la realtà aumentata. ' +
+          'Su iPhone funziona con Safari, su Android con Chrome e i servizi ARCore aggiornati.';
+        return;
+      }
+
+      // computer, pagina online: genera il QR dell'indirizzo corrente
+      try {
+        var q = qrcode(0, 'M');
+        q.addData(location.href.split('#')[0]);
+        q.make();
+        document.getElementById('qr-target').innerHTML =
+          q.createSvgTag({ cellSize: 4, margin: 1, scalable: true });
+        arQr.hidden = false;
+        arNote.hidden = true;
+      } catch (err) {
+        arNote.textContent = 'Apri questa pagina dal telefono per vedere Blade nel tuo spazio.';
+      }
+    }
+
+    mv.addEventListener('load', function () { apply(); impostaAR(); });
+
+    arBtn.addEventListener('click', function () { mv.activateAR(); });
+
+    mv.addEventListener('ar-status', function (e) {
+      if (e.detail.status === 'failed') {
+        arNote.textContent = 'Non è stato possibile avviare la realtà aumentata su questo dispositivo.';
+      }
+    });
+
+    document.getElementById('colors').addEventListener('click', function (e) {
+      var b = e.target.closest('.color-swatch'); if (!b) return;
+      this.querySelectorAll('.color-swatch').forEach(function (s) { s.classList.remove('active'); });
+      b.classList.add('active');
+      state.color = b.dataset.color;
+      name.textContent = b.dataset.name;
+      apply();
+    });
+  })();
+  </script>
+</body>
+</html>
