@@ -147,7 +147,7 @@
         <!-- VISUALIZZATORE -->
         <div class="cfg-stage">
           <model-viewer id="mv"
-            src="models-web/blade-web-v2-e8b923.gltf"
+            src="models-web/blade-web-v3-e8b923.gltf"
             alt="Vaso Blade di Shapeless, modello 3D interattivo"
             camera-controls
             disable-pan
@@ -165,17 +165,13 @@
             shadow-softness="1"
             exposure="1"
             environment-image="neutral"
-            tone-mapping="neutral"
-            ar
-            ar-modes="scene-viewer webxr quick-look"
-            ar-scale="fixed"
-            ar-placement="floor">
+            tone-mapping="neutral">
           </model-viewer>
           <span class="cfg-hint">Trascina per ruotare · scorri per avvicinare</span>
           <!-- Visore nascosto: serve SOLO ad aprire la realtà aumentata, con il
-               piedistallo reale da 6 cm appoggiato a terra. Quello visibile qui
-               sopra ha il basamento lungo, che in AR sprofonderebbe. -->
-          <model-viewer id="mv-ar" src="models-web/blade-ar-v2-e8b923.gltf" loading="eager"
+               SOLO vaso, senza piedistallo: appoggia sulla superficie vera
+               della stanza. Il basamento esiste solo nella vetrina qui sopra. -->
+          <model-viewer id="mv-ar" src="models-web/blade-e8b923.gltf" loading="eager"
             alt="" aria-hidden="true" tabindex="-1"
             ar ar-modes="scene-viewer webxr quick-look" ar-scale="fixed" ar-placement="floor"
             style="position:absolute; left:0; top:0; width:2px; height:2px;
@@ -188,7 +184,7 @@
           <h1 style="margin-bottom:20px;">Blade<br><em>sul piedistallo.</em></h1>
           <p style="color:var(--text-muted); margin-bottom:44px;">
             Ruotalo, guardalo da ogni lato, scegli il colore. Poi, dal telefono,
-            appoggialo nel tuo spazio in scala reale. Piedistallo in marmo nero 45 × 45 cm, vaso alto 37 cm: 43 cm in tutto.
+            appoggialo nel tuo spazio in scala reale. In realtà aumentata arriva il solo vaso, alto 37 cm, appoggiato dove lo metti.
           </p>
 
           <div class="cfg-block">
@@ -218,7 +214,7 @@
               <div class="qr" id="qr-target"></div>
               <p><strong>Inquadra il codice con la fotocamera del telefono.</strong>
                  Si aprirà questa pagina, e da lì potrai appoggiare Blade sul pavimento
-                 di casa tua in scala reale — 43 cm in tutto, piedistallo compreso.</p>
+                 di casa tua in scala reale — il vaso è alto 37 cm.</p>
             </div>
 
             <p class="cfg-note" id="ar-note" style="margin-top:14px;"></p>
@@ -295,7 +291,7 @@
     // Serve perche' la realta' aumentata di Android riscarica il modello dal
     // server e non vedrebbe un colore applicato solo qui nel browser.
     function fileDelColore(hex) {
-      return 'models-web/blade-web-v2-' + hex.replace('#', '') + '.gltf';
+      return 'models-web/blade-web-v3-' + hex.replace('#', '') + '.gltf';
     }
 
     var mvAr = document.getElementById('mv-ar');
@@ -303,7 +299,7 @@
     function apply() {
       var voluto = fileDelColore(state.color);
       if (mv.getAttribute('src') !== voluto) mv.setAttribute('src', voluto);
-      var vAr = 'models-web/blade-ar-v2-' + state.color.replace('#', '') + '.gltf';
+      var vAr = 'models-web/blade-' + state.color.replace('#', '') + '.gltf';
       if (mvAr && mvAr.getAttribute('src') !== vAr) mvAr.setAttribute('src', vAr);
       if (!mv.model || !mv.model.materials.length) return;
       var pbr = mv.model.materials[0].pbrMetallicRoughness;
