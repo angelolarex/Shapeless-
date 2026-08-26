@@ -21,6 +21,15 @@
       background:transparent; --poster-color:transparent;
       --progress-bar-color:var(--accent); --progress-bar-height:2px;
     }
+    .ar-mini{
+      position:absolute; right:14px; bottom:40px; z-index:2;
+      display:flex; align-items:center; gap:8px;
+      padding:10px 14px; border:0; border-radius:999px; cursor:pointer;
+      background:rgba(255,255,255,.94); color:#1a1a1a;
+      font-size:11px; letter-spacing:.12em; text-transform:uppercase; font-weight:600;
+      box-shadow:0 2px 12px rgba(0,0,0,.28);
+    }
+    .ar-mini[hidden]{ display:none !important; }
     .cfg-hint{
       position:absolute; left:0; right:0; bottom:14px; text-align:center;
       font-size:10px; letter-spacing:0.18em; text-transform:uppercase;
@@ -147,7 +156,7 @@
         <!-- VISUALIZZATORE -->
         <div class="cfg-stage">
           <model-viewer id="mv"
-            src="models-web/blade-web-v5-e8b923.gltf"
+            src="models-web/blade-web-v6-e8b923.gltf"
             alt="Vaso Blade di Shapeless, modello 3D interattivo"
             camera-controls
             disable-pan
@@ -167,6 +176,13 @@
             environment-image="neutral"
             tone-mapping="neutral">
           </model-viewer>
+          <button type="button" class="ar-mini" id="ar-mini" hidden>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 2.6 3.5 7v10L12 21.4 20.5 17V7z"/><path d="M3.5 7 12 11.6 20.5 7"/><path d="M12 11.6v9.8"/>
+            </svg>
+            Nella tua stanza
+          </button>
           <span class="cfg-hint">Trascina per ruotare · scorri per avvicinare</span>
           <!-- Visore nascosto: serve SOLO ad aprire la realtà aumentata, con il
                SOLO vaso, senza piedistallo: appoggia sulla superficie vera
@@ -282,6 +298,7 @@
   (function () {
     var mv   = document.getElementById('mv');
     var arBtn= document.getElementById('ar-btn');
+    var arMini=document.getElementById('ar-mini');
     var name = document.getElementById('colorname');
 
     var state = { color: '#e8b923' };
@@ -291,7 +308,7 @@
     // Serve perche' la realta' aumentata di Android riscarica il modello dal
     // server e non vedrebbe un colore applicato solo qui nel browser.
     function fileDelColore(hex) {
-      return 'models-web/blade-web-v5-' + hex.replace('#', '') + '.gltf';
+      return 'models-web/blade-web-v6-' + hex.replace('#', '') + '.gltf';
     }
 
     var mvAr = document.getElementById('mv-ar');
@@ -319,6 +336,7 @@
 
       if (mvAr.canActivateAR) {
         arBtn.hidden = false;
+        arMini.hidden = false;
         arNote.textContent = 'Inquadra il pavimento e appoggia il vaso dove vuoi. ' +
                              'Il colore che hai scelto qui viene mantenuto.';
         return;
@@ -357,6 +375,7 @@
     mvAr.addEventListener('load', function () { impostaAR(); });
 
     arBtn.addEventListener('click', function () { mvAr.activateAR(); });
+    arMini.addEventListener('click', function () { mvAr.activateAR(); });
 
     mvAr.addEventListener('ar-status', function (e) {
       if (e.detail.status === 'failed') {
