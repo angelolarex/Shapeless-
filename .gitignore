@@ -45,8 +45,6 @@ Thumbs.db
 desktop.ini
 .DS_Store
 
-# Il .glb sorgente resta sul PC: online servono solo le varianti .gltf + blade.bin
-models-web/blade.glb
 
 # prova di spessore: resta in locale, non va online
 models-web/blade-spesso.glb
