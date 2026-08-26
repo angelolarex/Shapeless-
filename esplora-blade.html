@@ -61,7 +61,7 @@
       /* Su telefono l'ordine cambia: i colori salgono subito sotto il modello 3D.
          display:contents "scioglie" il blocco comandi, così i suoi figli
          diventano elementi della colonna e si possono riordinare con order. */
-      .cfg-grid{ display:flex; flex-direction:column; gap:0; }
+      .cfg-grid{ display:flex; flex-direction:column; gap:0; align-items:stretch; }
       .cfg-controls{ display:contents; }
       .cfg-stage{ order:1; }
       .cfg-controls > .cfg-block{ order:2; margin:28px 0 0; }
