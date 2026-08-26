@@ -147,7 +147,7 @@
         <!-- VISUALIZZATORE -->
         <div class="cfg-stage">
           <model-viewer id="mv"
-            src="models-web/blade-web-e8b923.gltf"
+            src="models-web/blade-web-v2-e8b923.gltf"
             alt="Vaso Blade di Shapeless, modello 3D interattivo"
             camera-controls
             disable-pan
@@ -175,7 +175,7 @@
           <!-- Visore nascosto: serve SOLO ad aprire la realtà aumentata, con il
                piedistallo reale da 6 cm appoggiato a terra. Quello visibile qui
                sopra ha il basamento lungo, che in AR sprofonderebbe. -->
-          <model-viewer id="mv-ar" src="models-web/blade-ar-e8b923.gltf" loading="eager"
+          <model-viewer id="mv-ar" src="models-web/blade-ar-v2-e8b923.gltf" loading="eager"
             alt="" aria-hidden="true" tabindex="-1"
             ar ar-modes="scene-viewer webxr quick-look" ar-scale="fixed" ar-placement="floor"
             style="position:absolute; left:0; top:0; width:2px; height:2px;
@@ -295,7 +295,7 @@
     // Serve perche' la realta' aumentata di Android riscarica il modello dal
     // server e non vedrebbe un colore applicato solo qui nel browser.
     function fileDelColore(hex) {
-      return 'models-web/blade-web-' + hex.replace('#', '') + '.gltf';
+      return 'models-web/blade-web-v2-' + hex.replace('#', '') + '.gltf';
     }
 
     var mvAr = document.getElementById('mv-ar');
@@ -303,7 +303,7 @@
     function apply() {
       var voluto = fileDelColore(state.color);
       if (mv.getAttribute('src') !== voluto) mv.setAttribute('src', voluto);
-      var vAr = 'models-web/blade-ar-' + state.color.replace('#', '') + '.gltf';
+      var vAr = 'models-web/blade-ar-v2-' + state.color.replace('#', '') + '.gltf';
       if (mvAr && mvAr.getAttribute('src') !== vAr) mvAr.setAttribute('src', vAr);
       if (!mv.model || !mv.model.materials.length) return;
       var pbr = mv.model.materials[0].pbrMetallicRoughness;
