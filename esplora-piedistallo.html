@@ -156,7 +156,7 @@
         <!-- VISUALIZZATORE -->
         <div class="cfg-stage">
           <model-viewer id="mv"
-            src="models-web/blade-web-v13-e8b923.gltf"
+            src="models-web/blade-web-v15-e8b923.gltf"
             alt="Vaso Blade di Shapeless, modello 3D interattivo"
             camera-controls
             disable-pan
@@ -172,8 +172,8 @@
             field-of-view="30deg"
             shadow-intensity="0"
             shadow-softness="1"
-            exposure="0.82"
-            environment-image="models-web/studio3.hdr"
+            exposure="0.86"
+            environment-image="models-web/studio4.hdr"
             tone-mapping="commerce">
           </model-viewer>
           <button type="button" class="ar-mini" id="ar-mini" hidden>
@@ -308,7 +308,7 @@
     // Serve perche' la realta' aumentata di Android riscarica il modello dal
     // server e non vedrebbe un colore applicato solo qui nel browser.
     function fileDelColore(hex) {
-      return 'models-web/blade-web-v13-' + hex.replace('#', '') + '.gltf';
+      return 'models-web/blade-web-v15-' + hex.replace('#', '') + '.gltf';
     }
 
     var mvAr = document.getElementById('mv-ar');
