@@ -156,7 +156,7 @@
         <!-- VISUALIZZATORE -->
         <div class="cfg-stage">
           <model-viewer id="mv"
-            src="models-web/blade-web-v19-e8b923.gltf"
+            src="models-web/scena-a1-e8b923.gltf"
             alt="Vaso Blade di Shapeless, modello 3D interattivo"
             camera-controls
             disable-pan
@@ -165,15 +165,15 @@
             auto-rotate-delay="2500"
             rotation-per-second="6deg"
             interaction-prompt="none"
-            camera-orbit="22deg 77deg 1.24m"
-            camera-target="0m 0.27m 0m"
-            min-camera-orbit="auto 35deg 1.05m"
-            max-camera-orbit="auto 84deg 1.45m"
-            field-of-view="30deg"
+            camera-orbit="16deg 79deg 0.88m"
+            camera-target="0m 0.185m 0m"
+            min-camera-orbit="-88deg 52deg 0.66m"
+            max-camera-orbit="88deg 88deg 1.15m"
+            field-of-view="26deg"
             shadow-intensity="0"
             shadow-softness="1"
-            exposure="0.86"
-            environment-image="models-web/studio4.hdr"
+            exposure="0.95"
+            environment-image="models-web/studio5.hdr"
             tone-mapping="commerce">
           </model-viewer>
           <button type="button" class="ar-mini" id="ar-mini" hidden>
@@ -196,8 +196,8 @@
 
         <!-- COMANDI -->
         <div class="cfg-controls">
-          <div class="label">Prova — piedistallo in marmo</div>
-          <h1 style="margin-bottom:20px;">Blade<br><em>sul piedistallo.</em></h1>
+          <div class="label">Prova — scena da studio</div>
+          <h1 style="margin-bottom:20px;">Blade<br><em>in studio.</em></h1>
           <p style="color:var(--text-muted); margin-bottom:44px;">
             Ruotalo, guardalo da ogni lato, scegli il colore. Poi, dal telefono,
             appoggialo nel tuo spazio in scala reale. In realtà aumentata arriva il solo vaso, alto 37 cm, appoggiato dove lo metti.
@@ -308,7 +308,7 @@
     // Serve perche' la realta' aumentata di Android riscarica il modello dal
     // server e non vedrebbe un colore applicato solo qui nel browser.
     function fileDelColore(hex) {
-      return 'models-web/blade-web-v19-' + hex.replace('#', '') + '.gltf';
+      return 'models-web/scena-a1-' + hex.replace('#', '') + '.gltf';
     }
 
     var mvAr = document.getElementById('mv-ar');
