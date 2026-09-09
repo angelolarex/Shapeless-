@@ -148,7 +148,7 @@
       var r = document.createElement('div');
       r.className = 'riep-articolo';
       r.innerHTML =
-        '<div class="riep-img"><img src="' + it.immagine + '" alt="' + it.nome + '">' +
+        '<div class="riep-img"><img src="' + Cart.immagineDi(it) + '" alt="' + it.nome + '">' +
           '<span class="riep-qty">' + it.qty + '</span></div>' +
         '<div class="riep-testo"><p class="riep-nome">' + it.nome + '</p>' +
           (it.colore ? '<p class="riep-colore"><span class="riep-pallino" style="background:' +

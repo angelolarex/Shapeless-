@@ -44,7 +44,7 @@
         <p class="label">Cassa</p>
         <h1 class="cassa-titolo">Ci siamo <em>quasi.</em></h1>
         <p class="cassa-sottotitolo">
-          Nessun account da creare. Tre campi, l'indirizzo, e hai finito.
+          Nessun account da creare. Due campi, l'indirizzo, e hai finito.
         </p>
 
         <!-- ---------- CLIENTE GIA' NOTO ---------- -->
@@ -167,33 +167,21 @@
               <label for="note">Note per il corriere <span class="facolt">facoltativo</span></label>
               <input type="text" id="note" name="note" placeholder="Citofono, orari, punto di consegna…">
             </div>
-          </section>
 
-          <!-- ---------- 3. FATTURAZIONE ---------- -->
-          <section class="cassa-blocco">
-            <h2 class="cassa-blocco-titolo"><span class="cassa-num">3</span> Documento fiscale</h2>
+            <!-- La fattura elettronica va chiesta al momento dell'acquisto, non
+                 dopo: per questo resta una casella, chiusa, che non allunga il
+                 modulo a nessuno tranne a chi ne ha davvero bisogno. -->
+            <label class="cassa-check">
+              <input type="checkbox" id="vuoleFattura" name="vuoleFattura">
+              <span>Mi serve la fattura (azienda o partita IVA)</span>
+            </label>
 
-            <div class="scelta-doppia">
-              <label class="scelta-carta attiva">
-                <input type="radio" name="tipoCliente" value="privato" checked>
-                <span class="scelta-titolo">Privato</span>
-                <span class="scelta-nota">Ricevuta via email. Non serve altro.</span>
-              </label>
-              <label class="scelta-carta">
-                <input type="radio" name="tipoCliente" value="azienda">
-                <span class="scelta-titolo">Azienda o P. IVA</span>
-                <span class="scelta-nota">Fattura elettronica intestata all'attività.</span>
-              </label>
-            </div>
-
-            <!-- campi azienda: compaiono solo se serve -->
-            <div id="campi-azienda" hidden>
+            <div id="campi-fattura" hidden style="margin-top:18px;">
               <div class="form-group">
                 <label for="ragioneSociale">Ragione sociale <span class="obbl">*</span></label>
                 <input type="text" id="ragioneSociale" name="ragioneSociale" autocomplete="organization">
                 <p class="campo-errore" data-per="ragioneSociale"></p>
               </div>
-
               <div class="form-row">
                 <div class="form-group">
                   <label for="piva">Partita IVA <span class="obbl">*</span></label>
@@ -201,67 +189,47 @@
                   <p class="campo-errore" data-per="piva"></p>
                 </div>
                 <div class="form-group">
-                  <label for="codiceFiscaleAz">Codice fiscale <span class="facolt">se diverso</span></label>
-                  <input type="text" id="codiceFiscaleAz" name="codiceFiscaleAz" style="text-transform:uppercase;">
+                  <label for="sdi">Codice SDI o PEC <span class="obbl">*</span></label>
+                  <input type="text" id="sdi" name="sdi" placeholder="ABC1234 · 0000000 · pec@azienda.it">
+                  <p class="campo-errore" data-per="sdi"></p>
                 </div>
               </div>
-
-              <div class="form-group" id="gruppo-sdi">
-                <label for="sdi">Codice destinatario SDI o PEC <span class="obbl">*</span></label>
-                <input type="text" id="sdi" name="sdi" placeholder="ABC1234 oppure pec@azienda.it">
-                <p class="campo-aiuto">
-                  Serve per recapitare la fattura elettronica. Se non lo conosci scrivi
-                  <strong>0000000</strong>: la fattura resterà disponibile nel tuo cassetto fiscale.
-                </p>
-                <p class="campo-errore" data-per="sdi"></p>
-              </div>
-
-              <label class="cassa-check">
-                <input type="checkbox" id="fatturaDiverso" name="fatturaDiverso">
-                <span>L'indirizzo di fatturazione è diverso da quello di spedizione</span>
-              </label>
-
-              <div id="campi-indirizzo-fattura" hidden style="margin-top:20px;">
-                <div class="form-group">
-                  <label for="fatt_indirizzo">Indirizzo di fatturazione <span class="obbl">*</span></label>
-                  <input type="text" id="fatt_indirizzo" name="fatt_indirizzo">
-                  <p class="campo-errore" data-per="fatt_indirizzo"></p>
-                </div>
-                <div class="form-row form-row-3">
-                  <div class="form-group">
-                    <label for="fatt_cap">CAP <span class="obbl">*</span></label>
-                    <input type="text" id="fatt_cap" name="fatt_cap" inputmode="numeric" maxlength="10">
-                    <p class="campo-errore" data-per="fatt_cap"></p>
-                  </div>
-                  <div class="form-group">
-                    <label for="fatt_citta">Città <span class="obbl">*</span></label>
-                    <input type="text" id="fatt_citta" name="fatt_citta">
-                    <p class="campo-errore" data-per="fatt_citta"></p>
-                  </div>
-                  <div class="form-group">
-                    <label for="fatt_provincia">Provincia <span class="obbl">*</span></label>
-                    <input type="text" id="fatt_provincia" name="fatt_provincia" maxlength="2"
-                           style="text-transform:uppercase;">
-                    <p class="campo-errore" data-per="fatt_provincia"></p>
-                  </div>
-                </div>
-              </div>
+              <p class="campo-aiuto" style="margin-top:-8px;">
+                Se non conosci il codice SDI scrivi <strong>0000000</strong>: la fattura
+                resterà comunque nel tuo cassetto fiscale.
+              </p>
             </div>
 
-            <label class="cassa-check" style="margin-top:22px;">
+            <label class="cassa-check" style="margin-top:14px;">
               <input type="checkbox" id="salvaDati" name="salvaDati" checked>
               <span>Ricorda i miei dati su questo dispositivo, così la prossima volta è un clic solo.</span>
             </label>
           </section>
 
-          <!-- ---------- 4. PAGAMENTO ---------- -->
+          <!-- ---------- 3. PAGAMENTO ---------- -->
           <section class="cassa-blocco cassa-blocco-ultimo">
-            <h2 class="cassa-blocco-titolo"><span class="cassa-num">4</span> Pagamento</h2>
+            <h2 class="cassa-blocco-titolo"><span class="cassa-num">3</span> Come vuoi pagare</h2>
 
-            <div class="metodi-pagamento" id="metodi-pagamento"></div>
-            <p class="cassa-blocco-nota">
-              Al clic si apre la pagina di pagamento protetta. I dati della carta viaggiano
-              cifrati e non passano mai da questo sito.
+            <div class="scelta-tripla">
+              <label class="scelta-carta attiva">
+                <input type="radio" name="metodo" value="card" checked>
+                <span class="scelta-titolo">Carta</span>
+                <span class="scelta-nota">Visa, Mastercard, American&nbsp;Express.</span>
+              </label>
+              <label class="scelta-carta">
+                <input type="radio" name="metodo" value="paypal">
+                <span class="scelta-titolo">PayPal</span>
+                <span class="scelta-nota">Col tuo conto, senza carta.</span>
+              </label>
+              <label class="scelta-carta scelta-rate">
+                <input type="radio" name="metodo" value="klarna">
+                <span class="scelta-titolo">In 3 rate</span>
+                <span class="scelta-nota" id="nota-rate">Con Klarna.</span>
+              </label>
+            </div>
+            <p class="cassa-blocco-nota" style="margin-top:20px;">
+              Al clic si apre la pagina di pagamento protetta, già sul metodo che hai scelto.
+              I dati della carta viaggiano cifrati e non passano mai da questo sito.
             </p>
 
             <label class="cassa-check cassa-check-obbl">

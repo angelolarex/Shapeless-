@@ -219,7 +219,7 @@
         var r = document.createElement('div');
         r.className = 'carrello-riga';
         r.innerHTML =
-          '<div class="carrello-img"><img src="' + it.immagine + '" alt="' + it.nome + '"></div>' +
+          '<div class="carrello-img"><img src="' + Cart.immagineDi(it) + '" alt="' + it.nome + '"></div>' +
           '<div>' +
             '<p class="carrello-nome">' + it.nome + '</p>' +
             (it.colore

@@ -40,11 +40,17 @@
        forte e va detta chiaramente in ogni pagina.
        ------------------------------------------------------------------ */
     spedizione: {
+      /* la soglia italiana, quella citata nelle pagine */
       sogliaGratis: 150,
+      /* sogliaGratis per zona: null = non e' mai gratis.
+         Fuori dall'Italia il corriere costa troppo per regalarlo. */
       zone: [
-        { id: 'IT', nome: 'Italia',           paesi: ['IT'],            costo: 9.90,  giorni: '2-3' },
-        { id: 'EU', nome: 'Unione Europea',   paesi: ['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IE','LV','LT','LU','MT','NL','PL','PT','RO','SK','SI','ES','SE'], costo: 24.90, giorni: '4-7' },
-        { id: 'XX', nome: 'Resto del mondo',  paesi: [],                costo: 49.90, giorni: '7-14' }
+        { id: 'IT', nome: 'Italia',          paesi: ['IT'],
+          costo:  9.90, sogliaGratis: 150,  giorni: '2-3'  },
+        { id: 'EU', nome: 'Unione Europea',  paesi: ['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IE','LV','LT','LU','MT','NL','PL','PT','RO','SK','SI','ES','SE'],
+          costo: 24.90, sogliaGratis: 400,  giorni: '4-7'  },
+        { id: 'XX', nome: 'Resto del mondo', paesi: [],
+          costo: 49.90, sogliaGratis: null, giorni: '7-14' }
       ]
     },
 
@@ -66,13 +72,22 @@
         altezzaCm: 37,
         immagine: 'images/blade-transparent.png',
         pagina: 'prodotto-blade.html',
-        configuratore: 'esplora-blade.html'
+        configuratore: 'esplora-blade.html',
+        /* Un'immagine per colore, generata dal modello 3D con la stessa luce
+           della foto (vedi RENDER-COLORI.md). Se manca il file per un colore
+           si torna automaticamente all'immagine qui sopra. */
+        render: 'images/render/blade-{hex}.webp',
+        /* Disegno tecnico a tratto: e' quello che va nel carrello e in cassa.
+           Uno solo per tutti i colori — a dire il colore ci pensano il pallino
+           e il nome scritto accanto. Pesa 38 KB compresso invece di uno
+           scaricamento per ogni tinta, ed e' sempre esatto. */
+        disegno: 'images/blade-linea.svg'
       },
       vulcano: {
         id: 'vulcano',
         nome: 'Vulcano',
-        prezzo: 149.00,
-        altezzaCm: 30,
+        prezzo: 189.00,
+        altezzaCm: 32,
         immagine: 'images/vulcano-transparent.png',
         pagina: 'prodotto-vulcano.html',
         configuratore: null
@@ -80,8 +95,8 @@
       bombato: {
         id: 'bombato',
         nome: 'Bombato',
-        prezzo: 139.00,
-        altezzaCm: 25,
+        prezzo: 149.00,
+        altezzaCm: 28,
         immagine: 'images/bombato-transparent.png',
         pagina: 'prodotto-bombato.html',
         configuratore: null
@@ -149,6 +164,23 @@
       if (zone[i].paesi.indexOf(codicePaese) !== -1) return zone[i];
     }
     return zone[zone.length - 1];   // resto del mondo
+  };
+
+  /* L'immagine giusta per un prodotto nel colore scelto. E' quello che rende
+     coerente il carrello: il vaso mostrato e' del colore che c'e' scritto. */
+  CONFIG.immagine = function (idProdotto, hex) {
+    var p = CONFIG.prodotti[idProdotto];
+    if (!p) return '';
+    if (p.render && hex) {
+      return p.render.replace('{hex}', hex.replace('#', '').toLowerCase());
+    }
+    return p.immagine;
+  };
+
+  /* Il disegno a tratto del prodotto, se ce l'ha. */
+  CONFIG.disegno = function (idProdotto) {
+    var p = CONFIG.prodotti[idProdotto];
+    return (p && p.disegno) || null;
   };
 
   CONFIG.nomeColore = function (hex) {

@@ -124,7 +124,9 @@
   width: 96px; height: 112px; background: var(--bg2);
   display: flex; align-items: center; justify-content: center; overflow: hidden;
 }
-.carrello-img img { max-height: 100%; width: auto; object-fit: contain; }
+.carrello-img img {
+  max-height: 82%; max-width: 82%; width: auto; object-fit: contain;
+}
 .carrello-nome { font-size: 17px; font-weight: 500; letter-spacing: -.01em; }
 .carrello-colore {
   display: flex; align-items: center; gap: 8px;
@@ -303,7 +305,17 @@ body.pagina-cassa { background: var(--bg); }
 .scelta-carta.attiva .scelta-titolo { color: var(--accent); }
 .scelta-nota { display: block; font-size: 12.5px; color: var(--text-muted); line-height: 1.55; }
 
-#campi-azienda { margin-top: 26px; }
+/* tre metodi affiancati; su telefono uno sotto l'altro */
+.scelta-tripla { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+@media (max-width: 640px) { .scelta-tripla { grid-template-columns: 1fr; } }
+
+.scelta-rate .scelta-titolo::after {
+  content: 'SENZA INTERESSI';
+  display: block; margin-top: 3px;
+  font-size: 8.5px; letter-spacing: .16em; color: var(--accent); font-weight: 400;
+}
+
+#campi-fattura { margin-top: 4px; }
 
 /* ---- caselle ---- */
 .cassa-check {
@@ -373,7 +385,9 @@ body.pagina-cassa { background: var(--bg); }
   position: relative; width: 62px; height: 72px; background: var(--bg3);
   display: flex; align-items: center; justify-content: center; overflow: hidden;
 }
-.riep-img img { max-height: 100%; width: auto; object-fit: contain; }
+.riep-img img {
+  max-height: 80%; max-width: 80%; width: auto; object-fit: contain;
+}
 .riep-qty {
   position: absolute; top: -7px; right: -7px;
   min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px;

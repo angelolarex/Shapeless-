@@ -164,10 +164,20 @@ async function creaSessione(richiesta, env, origine) {
                     ? 0 : zona.costo;
 
   /* --- la sessione --- */
+  /* Metodi offerti. Quello scelto sul sito va per primo: Stripe rispetta
+     l'ordine, quindi il cliente ritrova la pagina gia' come se l'aspetta.
+     La carta resta SEMPRE nell'elenco: Klarna e PayPal possono non essere
+     disponibili per certi importi o certi paesi, e senza carta di riserva
+     il cliente resterebbe a piedi. */
+  const TUTTI = ['card', 'paypal', 'klarna', 'satispay'];
+  const scelto = TUTTI.includes(corpo.metodo) ? corpo.metodo : 'card';
+  const metodi = [scelto, ...TUTTI.filter(m => m !== scelto)];
+
   const sessione = await chiamaStripe('checkout/sessions', {
     mode: 'payment',
     ui_mode: 'hosted',
     locale: 'it',
+    payment_method_types: metodi,
 
     line_items: righe,
 
@@ -201,6 +211,7 @@ async function creaSessione(richiesta, env, origine) {
     metadata: {
       numeroOrdine:   corpo.numeroOrdine || '',
       tipoCliente:    cliente.tipoCliente || 'privato',
+      metodoScelto:   scelto,
       ragioneSociale: cliente.ragioneSociale || '',
       piva:           cliente.piva || '',
       sdi:            cliente.sdi || '',

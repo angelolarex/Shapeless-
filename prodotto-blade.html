@@ -372,11 +372,25 @@
                  : { hex: C.colori[0].hex, nome: C.colori[0].nome };
       }
 
+      /* L'immagine grande segue la pastiglia scelta. Prima non lo faceva, e
+         la scheda mostrava un vaso Bordeaux mentre il colore selezionato era
+         Red Wine: chi sceglieva un colore non vedeva cambiare niente. */
+      var principale = document.getElementById('gallery-main-img');
+
       function aggiorna() {
         var c = coloreAttivo();
         if (nomeCol) nomeCol.textContent = c.nome;
         if (pallino) pallino.style.background = c.hex;
         if (testo)   testo.textContent = 'Aggiungi al carrello — ' + Cart.formatPrice(prodotto.prezzo);
+        if (principale) {
+          var img = C.immagine(prodotto.id, c.hex);
+          if (img && principale.getAttribute('src') !== img) {
+            principale.src = img;
+            document.querySelectorAll('.gallery-thumb').forEach(function (t) {
+              t.classList.remove('active');
+            });
+          }
+        }
       }
 
       document.querySelectorAll('.color-swatch').forEach(function (sw) {

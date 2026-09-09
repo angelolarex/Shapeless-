@@ -176,6 +176,17 @@
            '-' + String(Math.floor(1000 + Math.random() * 9000));
   }
 
+  /* L'immagine da mostrare per una riga di carrello: il disegno tecnico se
+     il prodotto ce l'ha, altrimenti il render del colore, altrimenti la foto.
+     La risolvo QUI e non quando l'articolo viene aggiunto, cosi' anche i
+     carrelli gia' aperti nel browser di qualcuno prendono l'immagine nuova
+     senza che debbano svuotare niente. */
+  function immagineDi(item) {
+    return cfg().disegno(item.id) ||
+           cfg().immagine(item.id, item.coloreHex) ||
+           item.immagine;
+  }
+
   /* ------------------------------------------------------------ formattazione */
 
   function formatPrice(n) {
@@ -256,6 +267,7 @@
     saveOrdine: saveOrdine,
     getOrdine: getOrdine,
     nuovoNumeroOrdine: nuovoNumeroOrdine,
+    immagineDi: immagineDi,
     formatPrice: formatPrice,
     dataConsegna: dataConsegna,
     updateBadges: updateBadges,

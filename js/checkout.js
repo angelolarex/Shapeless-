@@ -47,7 +47,6 @@
     $('cassa-corpo').hidden = false;
 
     riempiPaesi();
-    riempiMetodi();
     mostraGaranzie();
     riconosciCliente();
     collegaEventi();
@@ -65,16 +64,6 @@
       sel.appendChild(o);
     });
     sel.value = 'IT';
-  }
-
-  function riempiMetodi() {
-    var box = $('metodi-pagamento');
-    C.pagamenti.metodi.forEach(function (m) {
-      var s = document.createElement('span');
-      s.className = 'metodo-chip';
-      s.textContent = m;
-      box.appendChild(s);
-    });
   }
 
   function mostraGaranzie() {
@@ -109,15 +98,12 @@
 
   function riempiCon(c) {
     ['email','telefono','nome','cognome','indirizzo','indirizzo2','cap','citta',
-     'provincia','ragioneSociale','piva','sdi','codiceFiscaleAz'].forEach(function (k) {
+     'provincia','ragioneSociale','piva','sdi'].forEach(function (k) {
       var el = $(k);
       if (el && c[k]) el.value = c[k];
     });
     if (c.paese) $('paese').value = c.paese;
-    if (c.tipoCliente === 'azienda') {
-      qs('input[name="tipoCliente"][value="azienda"]').checked = true;
-      aggiornaTipoCliente();
-    }
+    if (c.piva) { $('vuoleFattura').checked = true; mostraFattura(); }
     aggiornaRiepilogo();
   }
 
@@ -125,14 +111,16 @@
 
   function collegaEventi() {
 
-    /* privato / azienda */
-    document.querySelectorAll('input[name="tipoCliente"]').forEach(function (r) {
-      r.addEventListener('change', aggiornaTipoCliente);
-    });
+    /* la fattura, per chi la vuole */
+    $('vuoleFattura').addEventListener('change', mostraFattura);
 
-    /* indirizzo di fatturazione diverso */
-    $('fatturaDiverso').addEventListener('change', function () {
-      $('campi-indirizzo-fattura').hidden = !this.checked;
+    /* metodo di pagamento */
+    document.querySelectorAll('input[name="metodo"]').forEach(function (r) {
+      r.addEventListener('change', function () {
+        document.querySelectorAll('.scelta-tripla .scelta-carta').forEach(function (l) {
+          l.classList.toggle('attiva', qs('input', l).checked);
+        });
+      });
     });
 
     /* il paese cambia spedizione, provincia e IVA */
@@ -177,13 +165,13 @@
     });
   }
 
-  function aggiornaTipoCliente() {
-    var azienda = qs('input[name="tipoCliente"]:checked').value === 'azienda';
-    $('campi-azienda').hidden = !azienda;
-    document.querySelectorAll('.scelta-carta').forEach(function (l) {
-      l.classList.toggle('attiva', qs('input', l).checked);
-    });
-    if (!azienda) $('campi-indirizzo-fattura').hidden = true;
+  function mostraFattura() {
+    $('campi-fattura').hidden = !$('vuoleFattura').checked;
+  }
+
+  function metodoScelto() {
+    var r = qs('input[name="metodo"]:checked');
+    return r ? r.value : 'card';
   }
 
   /* ====================================================== riepilogo */
@@ -200,7 +188,7 @@
       var r = document.createElement('div');
       r.className = 'riep-articolo';
       r.innerHTML =
-        '<div class="riep-img"><img src="' + it.immagine + '" alt="' + it.nome + '">' +
+        '<div class="riep-img"><img src="' + Cart.immagineDi(it) + '" alt="' + it.nome + '">' +
           '<span class="riep-qty">' + it.qty + '</span></div>' +
         '<div class="riep-testo">' +
           '<p class="riep-nome">' + it.nome + '</p>' +
@@ -265,11 +253,7 @@
     ragioneSociale:'Scrivi la ragione sociale dell\'azienda.',
     piva:         'La partita IVA italiana ha 11 cifre.',
     sdi:          'Scrivi il codice SDI (7 caratteri), una PEC, oppure 0000000.',
-    accettoTermini:'Per proseguire devi accettare i termini di vendita.',
-    fatt_indirizzo:'Scrivi l\'indirizzo di fatturazione.',
-    fatt_cap:     'CAP non valido.',
-    fatt_citta:   'Scrivi la città di fatturazione.',
-    fatt_provincia:'Due lettere, per esempio MI.'
+    accettoTermini:'Per proseguire devi accettare i termini di vendita.'
   };
 
   function valore(id) { var e = $(id); return e ? e.value.trim() : ''; }
@@ -281,10 +265,8 @@
     switch (id) {
       case 'email':     return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
       case 'telefono':  return v.replace(/[^\d]/g, '').length >= 8;
-      case 'cap':
-      case 'fatt_cap':  return italia ? /^\d{5}$/.test(v) : v.length >= 3;
-      case 'provincia':
-      case 'fatt_provincia': return italia ? /^[A-Za-z]{2}$/.test(v) : true;
+      case 'cap':       return italia ? /^\d{5}$/.test(v) : v.length >= 3;
+      case 'provincia': return italia ? /^[A-Za-z]{2}$/.test(v) : true;
       case 'piva':      return /^(IT)?\d{11}$/i.test(v.replace(/\s/g, ''));
       case 'sdi':       return /^[A-Za-z0-9]{6,7}$/.test(v) ||
                                /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
@@ -298,13 +280,9 @@
     var lista = ['email','telefono','nome','cognome','paese','indirizzo','cap','citta'];
     if ($('paese').value === 'IT') lista.push('provincia');
 
-    if (qs('input[name="tipoCliente"]:checked').value === 'azienda') {
+    if ($('vuoleFattura').checked) {
       lista.push('ragioneSociale', 'piva');
       if ($('paese').value === 'IT') lista.push('sdi');
-      if ($('fatturaDiverso').checked) {
-        lista.push('fatt_indirizzo', 'fatt_cap', 'fatt_citta');
-        if ($('paese').value === 'IT') lista.push('fatt_provincia');
-      }
     }
     lista.push('accettoTermini');
     return lista;
@@ -354,7 +332,7 @@
   /* ====================================================== invio */
 
   function raccogliDati() {
-    var azienda = qs('input[name="tipoCliente"]:checked').value === 'azienda';
+    var fattura = $('vuoleFattura').checked;
     var d = {
       email:      valore('email'),
       telefono:   valore('telefono'),
@@ -368,22 +346,14 @@
       citta:      valore('citta'),
       provincia:  valore('provincia').toUpperCase(),
       note:       valore('note'),
-      tipoCliente: azienda ? 'azienda' : 'privato'
+      metodo:     metodoScelto(),
+      tipoCliente: fattura ? 'azienda' : 'privato'
     };
 
-    if (azienda) {
-      d.ragioneSociale   = valore('ragioneSociale');
-      d.piva             = valore('piva').toUpperCase().replace(/\s/g, '');
-      d.codiceFiscaleAz  = valore('codiceFiscaleAz').toUpperCase();
-      d.sdi              = valore('sdi').toUpperCase();
-      if ($('fatturaDiverso').checked) {
-        d.fatturazione = {
-          indirizzo: valore('fatt_indirizzo'),
-          cap:       valore('fatt_cap'),
-          citta:     valore('fatt_citta'),
-          provincia: valore('fatt_provincia').toUpperCase()
-        };
-      }
+    if (fattura) {
+      d.ragioneSociale = valore('ragioneSociale');
+      d.piva           = valore('piva').toUpperCase().replace(/\s/g, '');
+      d.sdi            = valore('sdi').toUpperCase();
     }
     return d;
   }
@@ -429,6 +399,7 @@
           return { id: i.id, colore: i.colore, coloreHex: i.coloreHex, qty: i.qty };
         }),
         cliente: cliente,
+        metodo: opzioni.express ? opzioni.express : cliente.metodo,
         express: opzioni.express || null,
         numeroOrdine: ordine.numero
       })
