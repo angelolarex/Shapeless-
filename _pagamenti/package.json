@@ -1,0 +1,14 @@
+{
+  "name": "shapeless-pagamenti",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Micro-servizio che crea le sessioni di pagamento Stripe per shapeless.shop",
+  "scripts": {
+    "prova": "wrangler dev",
+    "pubblica": "wrangler deploy",
+    "log": "wrangler tail"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}

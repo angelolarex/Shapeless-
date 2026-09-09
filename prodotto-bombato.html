@@ -6,6 +6,7 @@
   <title>Bombato | Shapeless</title>
   <meta name="description" content="Bombato, vaso decorativo dalle forme piene e sinuose. Stampato in 3D con PLA vegetale, prodotto su richiesta e personalizzabile. Include l'inserto Hidden Nest.">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/negozio.css">
 </head>
 <body>
 
@@ -36,6 +37,7 @@
         </div>
       </li>
       <li class="nav-item"><a href="contatti.html">Contatti</a></li>
+      <li class="nav-item nav-cart"><a href="carrello.html">Carrello <span class="cart-badge">0</span></a></li>
     </ul>
     <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
@@ -66,6 +68,7 @@
       </div>
     </div>
     <a href="contatti.html">Contatti</a>
+    <a href="carrello.html">Carrello <span class="cart-badge">0</span></a>
   </div>
 
   <!-- HERO PRODOTTO -->
@@ -108,16 +111,17 @@
 
           <p class="label" style="margin-top:28px; margin-bottom:0;">Colori disponibili</p>
           <div class="color-swatches">
-            <button type="button" class="color-swatch active" style="background:#a3444d;" aria-label="Red Wine"></button>
-            <button type="button" class="color-swatch" style="background:#91535d;" aria-label="Bordeaux"></button>
-            <button type="button" class="color-swatch" style="background:#bcbfb0;" aria-label="Sage"></button>
-            <button type="button" class="color-swatch" style="background:#646666;" aria-label="Antracite"></button>
-            <button type="button" class="color-swatch" style="background:#d8d0cd;" aria-label="Off White"></button>
-            <button type="button" class="color-swatch" style="background:#e2cbc5;" aria-label="Rosè"></button>
-            <button type="button" class="color-swatch" style="background:#346371;" aria-label="Emerald Green"></button>
-            <button type="button" class="color-swatch" style="background:#00924f;" aria-label="Verde"></button>
-            <button type="button" class="color-swatch" style="background:#5b644f;" aria-label="Forest Green"></button>
+            <button type="button" class="color-swatch active" style="background:#a3444d;" data-color="#a3444d" data-name="Red Wine" aria-label="Red Wine"></button>
+            <button type="button" class="color-swatch" style="background:#91535d;" data-color="#91535d" data-name="Bordeaux" aria-label="Bordeaux"></button>
+            <button type="button" class="color-swatch" style="background:#bcbfb0;" data-color="#bcbfb0" data-name="Sage" aria-label="Sage"></button>
+            <button type="button" class="color-swatch" style="background:#646666;" data-color="#646666" data-name="Antracite" aria-label="Antracite"></button>
+            <button type="button" class="color-swatch" style="background:#d8d0cd;" data-color="#d8d0cd" data-name="Off White" aria-label="Off White"></button>
+            <button type="button" class="color-swatch" style="background:#e2cbc5;" data-color="#e2cbc5" data-name="Rosè" aria-label="Rosè"></button>
+            <button type="button" class="color-swatch" style="background:#346371;" data-color="#346371" data-name="Emerald Green" aria-label="Emerald Green"></button>
+            <button type="button" class="color-swatch" style="background:#00924f;" data-color="#00924f" data-name="Verde" aria-label="Verde"></button>
+            <button type="button" class="color-swatch" style="background:#5b644f;" data-color="#5b644f" data-name="Forest Green" aria-label="Forest Green"></button>
           </div>
+          <p id="nome-colore" style="margin-top:12px; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--text-muted);">Red Wine</p>
 
           <ul style="margin-top:28px; display:flex; flex-direction:column; gap:10px;">
             <li style="font-size:13px; color:var(--text-muted);">— Materiale: PLA vegetale (mais e canna da zucchero)</li>
@@ -132,14 +136,19 @@
 
           <p style="font-size:13px; color:var(--text-muted); margin-top:14px;">— Personalizzabile su misura</p>
 
-          <div style="display:flex; gap:16px; flex-wrap:wrap; margin-top:24px; align-items:center;">
-            <button type="button" class="btn btn-accent" id="add-to-cart-btn"
-              data-id="bombato" data-nome="Bombato" data-prezzo="149"
-              data-immagine="images/bombato-transparent.png">Aggiungi al carrello</button>
-            <a href="carrello.html" class="btn" id="go-to-cart-link" style="display:none;">Vai al carrello →</a>
-            <a href="demo-3d.html" class="btn">Esplora in 3D</a>
+          <div class="cfg-acquisto" style="border-top:0; padding-top:0; margin-top:28px;">
+            <button type="button" class="btn btn-fill cfg-add" id="add-to-cart-btn" data-id="bombato">
+              <span class="cfg-add-pallino" id="cfg-add-pallino" style="background:#a3444d"></span>
+              <span id="cfg-add-testo">Aggiungi al carrello</span>
+            </button>
+            <div class="cfg-actions" style="margin-top:14px;">
+              <a href="vedi-in-anteprima.html?vaso=Bombato" class="btn" style="text-align:center;">Guardalo in anteprima →</a>
+            </div>
+            <p class="cfg-rassicura">
+              Stampato su ordinazione. <strong>Consegna stimata entro il <span id="cfg-consegna">—</span></strong> ·
+              spedizione gratuita in Italia · reso entro 14 giorni.
+            </p>
           </div>
-          <a href="vedi-in-anteprima.html?vaso=Bombato" style="display:inline-block; margin-top:20px; font-size:12px; letter-spacing:0.06em; color:var(--accent);">Guarda il tuo vaso in anteprima — colori e realtà aumentata →</a>
         </div>
 
       </div>
@@ -329,6 +338,7 @@
 
   <script src="js/main.js"></script>
   <script src="js/lang.js"></script>
+  <script src="js/shop-config.js"></script>
   <script src="js/cart.js"></script>
   <script>
     // Galleria foto prodotto: click su thumbnail cambia immagine principale
@@ -342,32 +352,56 @@
         if (mainImg) mainImg.src = full;
       });
     });
-    // Selezione colore (placeholder visivo, usata anche per il carrello)
-    document.querySelectorAll('.color-swatch').forEach(function (sw) {
-      sw.addEventListener('click', function () {
-        document.querySelectorAll('.color-swatch').forEach(function (s) { s.classList.remove('active'); });
-        this.classList.add('active');
+    /* ---- Colore e carrello ------------------------------------------
+       Prezzo, nome e immagine arrivano da js/shop-config.js: la scheda,
+       il carrello e la cassa non possono piu' mostrare cifre diverse. */
+    (function () {
+      var C = window.ShapelessConfig;
+      var Cart = window.ShapelessCart;
+      var prodotto = C.prodotti['bombato'];
+
+      var btn     = document.getElementById('add-to-cart-btn');
+      var testo   = document.getElementById('cfg-add-testo');
+      var pallino = document.getElementById('cfg-add-pallino');
+      var nomeCol = document.getElementById('nome-colore');
+      var consegna= document.getElementById('cfg-consegna');
+
+      if (consegna) consegna.textContent = Cart.dataConsegna();
+
+      function coloreAttivo() {
+        var b = document.querySelector('.color-swatch.active');
+        return b ? { hex: b.dataset.color || '#a3444d',
+                     nome: b.dataset.name || b.getAttribute('aria-label') || '' }
+                 : { hex: C.colori[0].hex, nome: C.colori[0].nome };
+      }
+
+      function aggiorna() {
+        var c = coloreAttivo();
+        if (nomeCol) nomeCol.textContent = c.nome;
+        if (pallino) pallino.style.background = c.hex;
+        if (testo)   testo.textContent = 'Aggiungi al carrello — ' + Cart.formatPrice(prodotto.prezzo);
+      }
+
+      document.querySelectorAll('.color-swatch').forEach(function (sw) {
+        sw.addEventListener('click', function () {
+          document.querySelectorAll('.color-swatch').forEach(function (s) { s.classList.remove('active'); });
+          this.classList.add('active');
+          aggiorna();
+        });
       });
-    });
-    // Aggiungi al carrello
-    var addBtn = document.getElementById('add-to-cart-btn');
-    if (addBtn) {
-      addBtn.addEventListener('click', function () {
-        var activeColor = document.querySelector('.color-swatch.active');
-        ShapelessCart.addToCart({
-          id: addBtn.getAttribute('data-id'),
-          nome: addBtn.getAttribute('data-nome'),
-          prezzo: parseFloat(addBtn.getAttribute('data-prezzo')),
-          immagine: addBtn.getAttribute('data-immagine'),
-          colore: activeColor ? activeColor.getAttribute('aria-label') : ''
+
+      if (btn) btn.addEventListener('click', function () {
+        var c = coloreAttivo();
+        Cart.addToCart({
+          id: prodotto.id, nome: prodotto.nome, prezzo: prodotto.prezzo,
+          immagine: prodotto.immagine, colore: c.nome, coloreHex: c.hex
         }, 1);
-        var goToCart = document.getElementById('go-to-cart-link');
-        if (goToCart) goToCart.style.display = 'inline-block';
-        var originalText = addBtn.textContent;
-        addBtn.textContent = 'Aggiunto ✓';
-        setTimeout(function () { addBtn.textContent = originalText; }, 1400);
+        Cart.avviso(prodotto.nome + ' <strong>' + c.nome + '</strong> è nel carrello.',
+                    { href: 'carrello.html', testo: 'Vai al carrello' });
       });
-    }
+
+      aggiorna();
+    })();
   </script>
 </body>
 </html>

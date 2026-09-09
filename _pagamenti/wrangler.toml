@@ -1,0 +1,28 @@
+# Configurazione del micro-servizio di pagamento su Cloudflare Workers.
+# Vedi CHECKOUT-E-PAGAMENTI.md per la procedura completa.
+
+name = "shapeless-pagamenti"
+main = "worker.js"
+compatibility_date = "2026-09-01"
+
+# Il servizio risponde su api.shapeless.shop.
+# Richiede che il dominio shapeless.shop sia gestito da Cloudflare.
+# Se non lo e' ancora, commenta queste tre righe: il Worker restera'
+# raggiungibile all'indirizzo shapeless-pagamenti.<tuo-account>.workers.dev,
+# che funziona benissimo lo stesso.
+[[routes]]
+pattern = "api.shapeless.shop/*"
+custom_domain = true
+
+# Archivio degli ordini pagati.
+# Crealo con:  npx wrangler kv namespace create ORDINI
+# e incolla qui sotto l'id che ti restituisce.
+# [[kv_namespaces]]
+# binding = "ORDINI"
+# id = "incolla-qui-l-id"
+
+# I due segreti NON si scrivono in questo file: si caricano cifrati con
+#   npx wrangler secret put STRIPE_SECRET_KEY
+#   npx wrangler secret put STRIPE_WEBHOOK_SECRET
+# e, se usi un foglio Google o Airtable per gli ordini:
+#   npx wrangler secret put WEBHOOK_INTERNO

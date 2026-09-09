@@ -6,6 +6,7 @@
   <title>Blade in 3D | Shapeless</title>
   <meta name="description" content="Esplora Blade in 3D: ruota il vaso, scegli il colore e la finitura, e guardalo in scala reale nel tuo spazio con la realtà aumentata.">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/negozio.css">
   <script type="module" src="js/model-viewer.min.js"></script>
   <style>
     /* ---- Configuratore 3D (scoped a questa pagina) ---- */
@@ -77,11 +78,11 @@
       .cfg-controls{ display:contents; }
       .cfg-stage{ order:1; }
       .cfg-controls > .cfg-block{ order:2; margin:28px 0 0; }
-      .cfg-controls > .label{ order:3; margin-top:44px; }
-      .cfg-controls > h1{ order:4; }
-      .cfg-controls > p{ order:5; }
-      .cfg-controls > .ar-box{ order:6; }
-      .cfg-controls > .cfg-actions{ order:7; }
+      .cfg-controls > .cfg-acquisto{ order:3; }
+      .cfg-controls > .label{ order:4; margin-top:44px; }
+      .cfg-controls > h1{ order:5; }
+      .cfg-controls > p{ order:6; }
+      .cfg-controls > .ar-box{ order:7; }
     }
   </style>
 </head>
@@ -114,6 +115,7 @@
         </div>
       </li>
       <li class="nav-item"><a href="contatti.html">Contatti</a></li>
+      <li class="nav-item nav-cart"><a href="carrello.html">Carrello <span class="cart-badge">0</span></a></li>
     </ul>
     <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
@@ -145,6 +147,7 @@
       </div>
     </div>
     <a href="contatti.html">Contatti</a>
+    <a href="carrello.html">Carrello <span class="cart-badge">0</span></a>
   </div>
 
   <!-- CONFIGURATORE -->
@@ -231,8 +234,30 @@
             <p class="cfg-note" id="ar-note" style="margin-top:14px;"></p>
           </div>
 
-          <div class="cfg-actions">
-            <a href="prodotto-blade.html" class="btn" style="text-align:center;">Torna alla scheda prodotto</a>
+          <!-- ACQUISTO
+               Il colore scelto qui sopra e' quello che finisce nel carrello,
+               nell'ordine e nella fattura: il bottone lo dice per nome e lo
+               mostra col pallino, cosi' non c'e' modo di sbagliarsi. -->
+          <div class="cfg-acquisto">
+            <div class="cfg-prezzo">
+              <strong id="cfg-prezzo">€ 169,00</strong>
+              <span id="cfg-prezzo-nota">IVA inclusa · spedizione gratuita in Italia</span>
+            </div>
+
+            <button type="button" class="btn btn-fill cfg-add" id="cfg-add">
+              <span class="cfg-add-pallino" id="cfg-add-pallino" style="background:#a3444d"></span>
+              <span id="cfg-add-testo">Aggiungi al carrello — Red Wine</span>
+            </button>
+
+            <p class="cfg-rassicura">
+              Stampato su ordinazione nel colore che hai scelto.
+              <strong>Consegna stimata entro il <span id="cfg-consegna">—</span></strong> ·
+              reso entro 14 giorni · inserto Hidden Nest in vetro incluso.
+            </p>
+
+            <div class="cfg-actions" style="margin-top:18px;">
+              <a href="prodotto-blade.html" class="btn" style="text-align:center;">Vedi la scheda completa</a>
+            </div>
           </div>
 
         </div>
@@ -287,6 +312,7 @@
 
   <script src="js/main.js"></script>
   <script src="js/lang.js"></script>
+  <script src="js/shop-config.js"></script>
   <script src="js/cart.js"></script>
   <script src="js/qrcode.js"></script>
   <script>
@@ -431,6 +457,66 @@
       if (!arQr.hidden) disegnaQr();
       if (history.replaceState) history.replaceState(null, '', urlColore());
     });
+  })();
+  </script>
+
+  <script>
+  /* ---- Dal 3D al carrello -------------------------------------------------
+     Vive fuori dallo script del configuratore e legge il colore attivo dal
+     DOM: cosi' i due pezzi restano indipendenti e questo blocco si copia
+     tale e quale sugli altri vasi cambiando una sola riga (ID_PRODOTTO). */
+  (function () {
+    var ID_PRODOTTO = 'blade';
+
+    var C = window.ShapelessConfig;
+    var Cart = window.ShapelessCart;
+    var prodotto = C.prodotti[ID_PRODOTTO];
+
+    var btn      = document.getElementById('cfg-add');
+    var testo    = document.getElementById('cfg-add-testo');
+    var pallino  = document.getElementById('cfg-add-pallino');
+
+    document.getElementById('cfg-prezzo').textContent   = Cart.formatPrice(prodotto.prezzo);
+    document.getElementById('cfg-consegna').textContent = Cart.dataConsegna();
+
+    if (C.iva.regime === 'forfettario') {
+      document.getElementById('cfg-prezzo-nota').textContent =
+        'Spedizione gratuita in Italia';
+    }
+
+    function coloreAttivo() {
+      var b = document.querySelector('#colors .color-swatch.active');
+      return b ? { hex: b.dataset.color, nome: b.dataset.name }
+               : { hex: C.colori[0].hex, nome: C.colori[0].nome };
+    }
+
+    function aggiornaBottone() {
+      var c = coloreAttivo();
+      testo.textContent = 'Aggiungi al carrello — ' + c.nome;
+      pallino.style.background = c.hex;
+    }
+
+    // il click sulle pastiglie e' gia' gestito sopra: qui ci si accoda
+    document.getElementById('colors').addEventListener('click', function (e) {
+      if (e.target.closest('.color-swatch')) setTimeout(aggiornaBottone, 0);
+    });
+
+    btn.addEventListener('click', function () {
+      var c = coloreAttivo();
+      Cart.addToCart({
+        id:        prodotto.id,
+        nome:      prodotto.nome,
+        prezzo:    prodotto.prezzo,
+        immagine:  prodotto.immagine,
+        colore:    c.nome,
+        coloreHex: c.hex
+      }, 1);
+
+      Cart.avviso(prodotto.nome + ' <strong>' + c.nome + '</strong> è nel carrello.',
+                  { href: 'carrello.html', testo: 'Vai al carrello' });
+    });
+
+    aggiornaBottone();
   })();
   </script>
 </body>

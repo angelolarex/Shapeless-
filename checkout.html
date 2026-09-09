@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cassa | Shapeless</title>
+  <meta name="description" content="Completa il tuo ordine Shapeless. Pagamento sicuro, senza registrazione obbligatoria.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/negozio.css">
+</head>
+<body class="pagina-cassa">
+
+  <!-- Intestazione ridotta: in cassa il menu completo e' una via di fuga.
+       Restano solo il logo, il passo indietro e il rassicurante "pagamento
+       sicuro". E' lo standard di ogni e-commerce che converte. -->
+  <header class="cassa-header">
+    <div class="cassa-header-inner">
+      <a href="index.html" class="nav-logo"><img src="images/Logo Shapeless.png" alt="Shapeless" class="nav-logo-img"></a>
+      <div class="cassa-header-side">
+        <span class="cassa-lucchetto"><svg viewBox="0 0 11 13" fill="none" aria-hidden="true"><rect x="0.75" y="5.25" width="9.5" height="7" rx="1" stroke="currentColor" stroke-width="1.2"/><path d="M3 5.25V3.5a2.5 2.5 0 0 1 5 0v1.75" stroke="currentColor" stroke-width="1.2"/></svg>Pagamento sicuro</span>
+        <a href="carrello.html" class="cassa-indietro">← Torna al carrello</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="cassa-wrap">
+
+    <!-- Carrello vuoto: non ha senso mostrare un modulo -->
+    <div id="cassa-vuota" class="cassa-vuota" hidden>
+      <p class="label">Cassa</p>
+      <h1>Il carrello è <em>vuoto</em>.</h1>
+      <p style="color:var(--text-muted); margin:20px 0 32px;">
+        Scegli il tuo vaso, poi torna qui: ci vogliono due minuti.
+      </p>
+      <a href="tutti-i-design.html" class="btn btn-fill">Scopri i design</a>
+    </div>
+
+    <div id="cassa-corpo" class="cassa-grid" hidden>
+
+      <!-- ================= COLONNA MODULO ================= -->
+      <div class="cassa-form">
+
+        <p class="label">Cassa</p>
+        <h1 class="cassa-titolo">Ci siamo <em>quasi.</em></h1>
+        <p class="cassa-sottotitolo">
+          Nessun account da creare. Tre campi, l'indirizzo, e hai finito.
+        </p>
+
+        <!-- ---------- CLIENTE GIA' NOTO ---------- -->
+        <div class="cassa-ritorno" id="cassa-ritorno" hidden>
+          <div>
+            <strong id="ritorno-nome">Bentornato</strong>
+            <span id="ritorno-dettaglio"></span>
+          </div>
+          <div class="cassa-ritorno-azioni">
+            <button type="button" class="btn btn-accent btn-piccolo" id="usa-dati-salvati">Usa questi dati</button>
+            <button type="button" class="link-sobrio" id="scarta-dati-salvati">Non sono io</button>
+          </div>
+        </div>
+
+        <!-- ---------- PAGAMENTO RAPIDO ---------- -->
+        <section class="cassa-express">
+          <div class="express-riga">
+            <button type="button" class="express-btn" data-express="apple">
+              Apple&nbsp;Pay
+            </button>
+            <button type="button" class="express-btn" data-express="google">
+              Google&nbsp;Pay
+            </button>
+            <button type="button" class="express-btn" data-express="paypal">
+              PayPal
+            </button>
+          </div>
+          <p class="express-nota">
+            Paghi in due tocchi: indirizzo e contatti arrivano dal telefono, non devi scrivere niente.
+          </p>
+          <div class="cassa-oppure"><span>oppure compila qui sotto</span></div>
+        </section>
+
+        <form id="modulo-cassa" novalidate>
+
+          <!-- ---------- 1. CONTATTI ---------- -->
+          <section class="cassa-blocco">
+            <h2 class="cassa-blocco-titolo"><span class="cassa-num">1</span> Come ti contattiamo</h2>
+            <p class="cassa-blocco-nota">
+              Ti servono per la conferma d'ordine e per il corriere. Niente password, niente registrazione.
+            </p>
+
+            <div class="form-group">
+              <label for="email">Email <span class="obbl">*</span></label>
+              <input type="email" id="email" name="email" autocomplete="email"
+                     inputmode="email" placeholder="nome@esempio.it" required>
+              <p class="campo-errore" data-per="email"></p>
+            </div>
+
+            <div class="form-group">
+              <label for="telefono">Telefono <span class="obbl">*</span></label>
+              <input type="tel" id="telefono" name="telefono" autocomplete="tel"
+                     inputmode="tel" placeholder="+39 327 446 5586" required>
+              <p class="campo-aiuto">Il corriere ti avvisa via SMS il giorno della consegna.</p>
+              <p class="campo-errore" data-per="telefono"></p>
+            </div>
+
+            <label class="cassa-check">
+              <input type="checkbox" id="newsletter" name="newsletter">
+              <span>Avvisami quando escono nuovi design. Poche email, mai spam.</span>
+            </label>
+          </section>
+
+          <!-- ---------- 2. SPEDIZIONE ---------- -->
+          <section class="cassa-blocco">
+            <h2 class="cassa-blocco-titolo"><span class="cassa-num">2</span> Dove lo spediamo</h2>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="nome">Nome <span class="obbl">*</span></label>
+                <input type="text" id="nome" name="nome" autocomplete="given-name" required>
+                <p class="campo-errore" data-per="nome"></p>
+              </div>
+              <div class="form-group">
+                <label for="cognome">Cognome <span class="obbl">*</span></label>
+                <input type="text" id="cognome" name="cognome" autocomplete="family-name" required>
+                <p class="campo-errore" data-per="cognome"></p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="paese">Paese <span class="obbl">*</span></label>
+              <select id="paese" name="paese" autocomplete="country" required></select>
+              <p class="campo-errore" data-per="paese"></p>
+            </div>
+
+            <div class="form-group">
+              <label for="indirizzo">Indirizzo e numero civico <span class="obbl">*</span></label>
+              <input type="text" id="indirizzo" name="indirizzo" autocomplete="address-line1"
+                     placeholder="Viale della Regione 32B" required>
+              <p class="campo-errore" data-per="indirizzo"></p>
+            </div>
+
+            <div class="form-group">
+              <label for="indirizzo2">Scala, interno, presso <span class="facolt">facoltativo</span></label>
+              <input type="text" id="indirizzo2" name="indirizzo2" autocomplete="address-line2">
+            </div>
+
+            <div class="form-row form-row-3">
+              <div class="form-group">
+                <label for="cap">CAP <span class="obbl">*</span></label>
+                <input type="text" id="cap" name="cap" autocomplete="postal-code"
+                       inputmode="numeric" maxlength="10" required>
+                <p class="campo-errore" data-per="cap"></p>
+              </div>
+              <div class="form-group">
+                <label for="citta">Città <span class="obbl">*</span></label>
+                <input type="text" id="citta" name="citta" autocomplete="address-level2" required>
+                <p class="campo-errore" data-per="citta"></p>
+              </div>
+              <div class="form-group" id="gruppo-provincia">
+                <label for="provincia">Provincia <span class="obbl">*</span></label>
+                <input type="text" id="provincia" name="provincia" autocomplete="address-level1"
+                       maxlength="2" placeholder="CL" style="text-transform:uppercase;">
+                <p class="campo-errore" data-per="provincia"></p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="note">Note per il corriere <span class="facolt">facoltativo</span></label>
+              <input type="text" id="note" name="note" placeholder="Citofono, orari, punto di consegna…">
+            </div>
+          </section>
+
+          <!-- ---------- 3. FATTURAZIONE ---------- -->
+          <section class="cassa-blocco">
+            <h2 class="cassa-blocco-titolo"><span class="cassa-num">3</span> Documento fiscale</h2>
+
+            <div class="scelta-doppia">
+              <label class="scelta-carta attiva">
+                <input type="radio" name="tipoCliente" value="privato" checked>
+                <span class="scelta-titolo">Privato</span>
+                <span class="scelta-nota">Ricevuta via email. Non serve altro.</span>
+              </label>
+              <label class="scelta-carta">
+                <input type="radio" name="tipoCliente" value="azienda">
+                <span class="scelta-titolo">Azienda o P. IVA</span>
+                <span class="scelta-nota">Fattura elettronica intestata all'attività.</span>
+              </label>
+            </div>
+
+            <!-- campi azienda: compaiono solo se serve -->
+            <div id="campi-azienda" hidden>
+              <div class="form-group">
+                <label for="ragioneSociale">Ragione sociale <span class="obbl">*</span></label>
+                <input type="text" id="ragioneSociale" name="ragioneSociale" autocomplete="organization">
+                <p class="campo-errore" data-per="ragioneSociale"></p>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="piva">Partita IVA <span class="obbl">*</span></label>
+                  <input type="text" id="piva" name="piva" inputmode="numeric" placeholder="01927390854">
+                  <p class="campo-errore" data-per="piva"></p>
+                </div>
+                <div class="form-group">
+                  <label for="codiceFiscaleAz">Codice fiscale <span class="facolt">se diverso</span></label>
+                  <input type="text" id="codiceFiscaleAz" name="codiceFiscaleAz" style="text-transform:uppercase;">
+                </div>
+              </div>
+
+              <div class="form-group" id="gruppo-sdi">
+                <label for="sdi">Codice destinatario SDI o PEC <span class="obbl">*</span></label>
+                <input type="text" id="sdi" name="sdi" placeholder="ABC1234 oppure pec@azienda.it">
+                <p class="campo-aiuto">
+                  Serve per recapitare la fattura elettronica. Se non lo conosci scrivi
+                  <strong>0000000</strong>: la fattura resterà disponibile nel tuo cassetto fiscale.
+                </p>
+                <p class="campo-errore" data-per="sdi"></p>
+              </div>
+
+              <label class="cassa-check">
+                <input type="checkbox" id="fatturaDiverso" name="fatturaDiverso">
+                <span>L'indirizzo di fatturazione è diverso da quello di spedizione</span>
+              </label>
+
+              <div id="campi-indirizzo-fattura" hidden style="margin-top:20px;">
+                <div class="form-group">
+                  <label for="fatt_indirizzo">Indirizzo di fatturazione <span class="obbl">*</span></label>
+                  <input type="text" id="fatt_indirizzo" name="fatt_indirizzo">
+                  <p class="campo-errore" data-per="fatt_indirizzo"></p>
+                </div>
+                <div class="form-row form-row-3">
+                  <div class="form-group">
+                    <label for="fatt_cap">CAP <span class="obbl">*</span></label>
+                    <input type="text" id="fatt_cap" name="fatt_cap" inputmode="numeric" maxlength="10">
+                    <p class="campo-errore" data-per="fatt_cap"></p>
+                  </div>
+                  <div class="form-group">
+                    <label for="fatt_citta">Città <span class="obbl">*</span></label>
+                    <input type="text" id="fatt_citta" name="fatt_citta">
+                    <p class="campo-errore" data-per="fatt_citta"></p>
+                  </div>
+                  <div class="form-group">
+                    <label for="fatt_provincia">Provincia <span class="obbl">*</span></label>
+                    <input type="text" id="fatt_provincia" name="fatt_provincia" maxlength="2"
+                           style="text-transform:uppercase;">
+                    <p class="campo-errore" data-per="fatt_provincia"></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <label class="cassa-check" style="margin-top:22px;">
+              <input type="checkbox" id="salvaDati" name="salvaDati" checked>
+              <span>Ricorda i miei dati su questo dispositivo, così la prossima volta è un clic solo.</span>
+            </label>
+          </section>
+
+          <!-- ---------- 4. PAGAMENTO ---------- -->
+          <section class="cassa-blocco cassa-blocco-ultimo">
+            <h2 class="cassa-blocco-titolo"><span class="cassa-num">4</span> Pagamento</h2>
+
+            <div class="metodi-pagamento" id="metodi-pagamento"></div>
+            <p class="cassa-blocco-nota">
+              Al clic si apre la pagina di pagamento protetta. I dati della carta viaggiano
+              cifrati e non passano mai da questo sito.
+            </p>
+
+            <label class="cassa-check cassa-check-obbl">
+              <input type="checkbox" id="accettoTermini" name="accettoTermini" required>
+              <span>Ho letto e accetto i <a href="#" target="_blank">termini di vendita</a> e la
+                    <a href="#" target="_blank">privacy policy</a>. <span class="obbl">*</span></span>
+            </label>
+            <p class="campo-errore" data-per="accettoTermini"></p>
+
+            <button type="submit" class="btn btn-fill cassa-paga" id="btn-paga">
+              <span id="btn-paga-testo">Paga in modo sicuro</span>
+              <span id="btn-paga-cifra"></span>
+            </button>
+
+            <p class="cassa-esito" id="cassa-esito" hidden></p>
+
+            <ul class="cassa-garanzie">
+              <li>Pagamento cifrato, gestito da Stripe</li>
+              <li id="garanzia-reso">Reso entro 14 giorni</li>
+              <li>Imballaggio protetto, tracciabile</li>
+              <li>Assistenza reale: <a href="mailto:info@shapeless.shop">info@shapeless.shop</a></li>
+            </ul>
+          </section>
+
+        </form>
+      </div>
+
+      <!-- ================= COLONNA RIEPILOGO ================= -->
+      <aside class="cassa-riepilogo" id="cassa-riepilogo">
+
+        <!-- Su telefono il riepilogo e' chiuso: si apre toccando la barra.
+             Cosi' la prima cosa che si vede e' il modulo, non l'elenco. -->
+        <button type="button" class="riepilogo-barra" id="riepilogo-barra">
+          <span class="riepilogo-barra-txt">Riepilogo ordine <span class="riepilogo-freccia"></span></span>
+          <span class="riepilogo-barra-cifra" id="barra-totale">€ 0,00</span>
+        </button>
+
+        <div class="riepilogo-corpo" id="riepilogo-corpo">
+          <h2 class="riepilogo-titolo">Il tuo ordine</h2>
+
+          <div id="riepilogo-articoli"></div>
+
+          <div class="riepilogo-conti">
+            <div class="conto-riga">
+              <span>Subtotale</span>
+              <span id="riep-subtotale">€ 0,00</span>
+            </div>
+            <div class="conto-riga">
+              <span>Spedizione</span>
+              <span id="riep-spedizione">—</span>
+            </div>
+            <div class="conto-riga conto-iva" id="riga-iva" hidden>
+              <span id="riep-iva-etichetta">di cui IVA 22%</span>
+              <span id="riep-iva">€ 0,00</span>
+            </div>
+            <div class="conto-riga conto-totale">
+              <span>Totale</span>
+              <span id="riep-totale">€ 0,00</span>
+            </div>
+            <p class="conto-nota" id="conto-nota-fiscale" hidden></p>
+          </div>
+
+          <div class="riepilogo-consegna">
+            <p class="riepilogo-consegna-titolo">Consegna stimata</p>
+            <p class="riepilogo-consegna-data" id="riep-consegna">—</p>
+            <p class="riepilogo-consegna-nota" id="riep-consegna-nota"></p>
+          </div>
+        </div>
+      </aside>
+
+    </div>
+  </main>
+
+  <footer class="cassa-footer">
+    <div class="container">
+      <p>© 2025 Shapeless — Larecchiuta Angelo — P.IVA 01927390854</p>
+      <div>
+        <a href="faq.html">FAQ</a>
+        <a href="contatti.html">Contatti</a>
+        <a href="#">Termini di vendita</a>
+        <a href="#">Privacy</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/shop-config.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/checkout.js"></script>
+</body>
+</html>

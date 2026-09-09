@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ordine ricevuto | Shapeless</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/negozio.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><img src="images/Logo Shapeless.png" alt="Shapeless" class="nav-logo-img"></a>
+    <ul class="nav-links">
+      <li class="nav-item"><a href="tutti-i-design.html">Tutti i design</a></li>
+      <li class="nav-item"><a href="faq.html">FAQ</a></li>
+      <li class="nav-item"><a href="contatti.html">Contatti</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+  <div class="nav-mobile">
+    <a href="tutti-i-design.html">Tutti i design</a>
+    <a href="faq.html">FAQ</a>
+    <a href="contatti.html">Contatti</a>
+  </div>
+
+  <section class="section" style="padding-top: calc(var(--nav-h) + 72px);">
+    <div class="container">
+      <div class="grazie-wrap">
+
+        <div class="grazie-segno" aria-hidden="true"></div>
+
+        <p class="label" style="text-align:center;">Ordine ricevuto</p>
+        <h1>Grazie, <em id="grazie-nome">ci siamo</em>.</h1>
+        <p style="color:var(--text-muted); margin-top:20px; font-size:16px;">
+          Il tuo pezzo entra in produzione. Ti abbiamo scritto a
+          <strong id="grazie-email">—</strong> con tutti i dettagli.
+        </p>
+
+        <div class="grazie-numero">Ordine <strong id="grazie-numero">—</strong></div>
+
+        <!-- avviso visibile solo finche' Stripe non e' collegato -->
+        <div class="grazie-avviso" id="grazie-demo" hidden>
+          <strong>Modalità dimostrativa.</strong> Il sistema di ordini è completo e funzionante,
+          ma il pagamento non è ancora attivo: nessun importo è stato addebitato e nessuna email
+          è partita. Per incassare davvero serve collegare Stripe — le istruzioni sono nel file
+          <em>CHECKOUT-E-PAGAMENTI.md</em> del progetto.
+        </div>
+
+        <!-- riepilogo -->
+        <div class="grazie-riquadro" id="grazie-riquadro" hidden>
+          <h2>Cosa hai ordinato</h2>
+          <div id="grazie-articoli"></div>
+
+          <div class="riepilogo-conti" style="border-color:var(--border);">
+            <div class="conto-riga"><span>Subtotale</span><span id="grazie-subtotale">—</span></div>
+            <div class="conto-riga"><span>Spedizione</span><span id="grazie-spedizione">—</span></div>
+            <div class="conto-riga conto-totale"><span>Totale</span><span id="grazie-totale">—</span></div>
+          </div>
+
+          <div style="margin-top:26px; padding-top:22px; border-top:1px solid var(--border);">
+            <p class="riepilogo-consegna-titolo">Spedizione a</p>
+            <p id="grazie-indirizzo" style="font-size:14px; line-height:1.75; color:var(--text-muted);"></p>
+          </div>
+        </div>
+
+        <!-- cosa succede adesso: toglie ansia e riduce le email di sollecito -->
+        <div class="grazie-riquadro" style="margin-top:24px;">
+          <h2>Cosa succede adesso</h2>
+          <div class="grazie-passi">
+            <div class="grazie-passo">
+              <span class="grazie-passo-num">1</span>
+              <div>
+                <strong>Conferma via email</strong>
+                <p>Entro pochi minuti ricevi il riepilogo con il numero d'ordine e la ricevuta.</p>
+              </div>
+            </div>
+            <div class="grazie-passo">
+              <span class="grazie-passo-num">2</span>
+              <div>
+                <strong>Produzione</strong>
+                <p id="grazie-produzione">Il tuo vaso viene stampato su ordinazione, nel colore che hai scelto.</p>
+              </div>
+            </div>
+            <div class="grazie-passo">
+              <span class="grazie-passo-num">3</span>
+              <div>
+                <strong>Spedizione tracciata</strong>
+                <p>Ti mandiamo il codice di tracciamento appena il pacco parte. Il corriere ti avvisa via SMS.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:16px; justify-content:center; flex-wrap:wrap; margin-top:44px;">
+          <a href="tutti-i-design.html" class="btn btn-fill">Scopri gli altri design</a>
+          <a href="contatti.html" class="btn">Scrivici</a>
+        </div>
+
+        <p style="font-size:12.5px; color:var(--text-muted); margin-top:28px;">
+          Hai bisogno di cambiare qualcosa? Scrivi a
+          <a href="mailto:info@shapeless.shop" style="color:var(--accent);">info@shapeless.shop</a>
+          entro 24 ore, prima che la stampa cominci.
+        </p>
+
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-bottom" style="border:0; padding-top:0;">
+        <p>© 2025 Shapeless — Larecchiuta Angelo — P.IVA 01927390854</p>
+        <div style="display:flex; gap:24px; flex-wrap:wrap;">
+          <a href="#" style="font-size:12px; color:var(--text-muted);">Privacy Policy</a>
+          <a href="#" style="font-size:12px; color:var(--text-muted);">Termini e condizioni</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/shop-config.js"></script>
+  <script src="js/cart.js"></script>
+  <script>
+  (function () {
+    var C = window.ShapelessConfig;
+    var Cart = window.ShapelessCart;
+    var o = Cart.getOrdine();
+
+    if (!o) {
+      document.getElementById('grazie-nome').textContent = 'a presto';
+      document.getElementById('grazie-email').textContent = 'la tua email';
+      return;
+    }
+
+    document.getElementById('grazie-nome').textContent   = o.cliente.nome || 'ci siamo';
+    document.getElementById('grazie-email').textContent  = o.cliente.email;
+    document.getElementById('grazie-numero').textContent = o.numero;
+    document.getElementById('grazie-demo').hidden        = o.stato !== 'dimostrativo';
+    document.getElementById('grazie-riquadro').hidden    = false;
+
+    var box = document.getElementById('grazie-articoli');
+    o.articoli.forEach(function (it) {
+      var r = document.createElement('div');
+      r.className = 'riep-articolo';
+      r.innerHTML =
+        '<div class="riep-img"><img src="' + it.immagine + '" alt="' + it.nome + '">' +
+          '<span class="riep-qty">' + it.qty + '</span></div>' +
+        '<div class="riep-testo"><p class="riep-nome">' + it.nome + '</p>' +
+          (it.colore ? '<p class="riep-colore"><span class="riep-pallino" style="background:' +
+            (it.coloreHex || '#000') + '"></span>' + it.colore + '</p>' : '') + '</div>' +
+        '<div class="riep-prezzo">' + Cart.formatPrice(it.prezzo * it.qty) + '</div>';
+      box.appendChild(r);
+    });
+
+    document.getElementById('grazie-subtotale').textContent = Cart.formatPrice(o.totali.subtotale);
+    document.getElementById('grazie-spedizione').innerHTML =
+      o.totali.spedizione === 0 ? '<span class="gratis">Gratuita</span>'
+                                : Cart.formatPrice(o.totali.spedizione);
+    document.getElementById('grazie-totale').textContent = Cart.formatPrice(o.totali.totale);
+
+    var c = o.cliente;
+    document.getElementById('grazie-indirizzo').innerHTML =
+      [c.nome + ' ' + c.cognome,
+       c.indirizzo + (c.indirizzo2 ? ' — ' + c.indirizzo2 : ''),
+       c.cap + ' ' + c.citta + (c.provincia ? ' (' + c.provincia + ')' : ''),
+       c.paese].join('<br>');
+
+    document.getElementById('grazie-produzione').textContent =
+      'Il tuo vaso viene stampato su ordinazione, nel colore che hai scelto: ' +
+      C.produzione.giorniLavorativi + ' giorni lavorativi. Consegna stimata entro il ' +
+      o.consegna + '.';
+  })();
+  </script>
+</body>
+</html>

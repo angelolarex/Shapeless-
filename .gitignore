@@ -49,3 +49,19 @@ desktop.ini
 # prova di spessore: resta in locale, non va online
 models-web/blade-spesso.glb
 models-web/blade-spesso-radiale.glb
+models-web/blade-ao.glb
+
+# Prove intermedie del modello 3D: restano sul computer, non servono online.
+# I file buoni sono blade-<colore>.gltf, blade-solo-<colore>.glb,
+# scena-b1-<colore>.gltf con i loro .bin, e studio5.hdr.
+models-web/blade-ar-v*.gltf
+models-web/blade-web-v*.gltf
+models-web/blade-pied-v*.bin
+models-web/scena-a*
+models-web/studio.hdr
+models-web/studio2.hdr
+models-web/studio3.hdr
+models-web/studio4.hdr
+
+# Schermate di lavoro
+Claude outputs/
