@@ -162,7 +162,7 @@
             alt="Vaso Blade di Shapeless, modello 3D interattivo"
             camera-controls
             disable-pan
-            touch-action="pan-y"
+            touch-action="none"
             auto-rotate
             auto-rotate-delay="2500"
             rotation-per-second="6deg"
@@ -371,6 +371,24 @@
       } catch (err) {
         arNote.textContent = 'Apri questa pagina dal telefono per vedere Blade nel tuo spazio.';
       }
+    }
+
+    // Telefono: alzo di poco il vaso nell'inquadratura abbassando il bersaglio
+    // della camera. Solo qui, sul desktop resta centrato com'era.
+    var stretto = window.matchMedia && window.matchMedia('(max-width: 980px)');
+    function altezzaInquadratura() {
+      mv.setAttribute('camera-target', stretto && stretto.matches ? '0m 0.155m 0m'
+                                                                 : '0m 0.185m 0m');
+    }
+    if (stretto) {
+      altezzaInquadratura();
+      if (stretto.addEventListener) stretto.addEventListener('change', altezzaInquadratura);
+    }
+
+    // sul touch non si "scorre" per avvicinare: si pizzica
+    if (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) {
+      var hint = document.querySelector('.cfg-hint');
+      if (hint) hint.textContent = 'Trascina per ruotare · pizzica per avvicinare';
     }
 
     // se si arriva dal QR (o da un link condiviso) l'indirizzo dice il colore
