@@ -12,9 +12,12 @@
     .cfg-grid{
       display:grid; grid-template-columns:1.15fr 1fr; gap:64px; align-items:start;
     }
+    /* Nessun riquadro: il modello galleggia sullo sfondo della pagina.
+       Il contenitore c'e' ancora (serve a dare i limiti al visualizzatore e a
+       posizionare il suggerimento), ma non si vede: stesso fondo, niente bordo. */
     .cfg-stage{
-      position:relative; background:var(--bg2); border:1px solid var(--border);
-      border-radius:2px; overflow:hidden;
+      position:relative; background:transparent; border:0;
+      border-radius:0; overflow:hidden;
     }
     model-viewer{
       width:100%; height:min(72vh,640px); display:block;
@@ -55,6 +58,11 @@
     @media (max-width:520px){ .ar-qr{ flex-direction:column; align-items:flex-start; } }
     .cfg-note{
       font-size:12px; line-height:1.7; color:var(--text-muted); margin-top:18px;
+    }
+    /* nove pallini su una riga sola anche a 360 px */
+    @media (max-width:520px){
+      .color-swatches{ gap:10px; }
+      .color-swatch{ width:26px; height:26px; }
     }
     @media (max-width:980px){
       model-viewer{ height:min(60vh,460px); }
@@ -334,10 +342,20 @@
         return;
       }
 
-      // computer, pagina online: genera il QR dell'indirizzo corrente
+      // computer, pagina online: genera il QR dell'indirizzo CON il colore scelto,
+      // cosi' il telefono apre la pagina gia' del colore giusto e la realta'
+      // aumentata parte con quello, non col colore di partenza.
+      disegnaQr();
+    }
+
+    function urlColore() {
+      return location.origin + location.pathname + '?colore=' + state.color.replace('#', '');
+    }
+
+    function disegnaQr() {
       try {
         var q = qrcode(0, 'M');
-        q.addData(location.href.split('#')[0]);
+        q.addData(urlColore());
         q.make();
         document.getElementById('qr-target').innerHTML =
           q.createSvgTag({ cellSize: 4, margin: 1, scalable: true });
@@ -347,6 +365,22 @@
         arNote.textContent = 'Apri questa pagina dal telefono per vedere Blade nel tuo spazio.';
       }
     }
+
+    // se si arriva dal QR (o da un link condiviso) l'indirizzo dice il colore
+    (function coloreDallIndirizzo() {
+      var m = /[?&]colore=([0-9a-fA-F]{6})/.exec(location.search);
+      if (!m) return;
+      var b = document.querySelector('#colors .color-swatch[data-color="#' +
+                                     m[1].toLowerCase() + '"]');
+      if (!b) return;
+      document.querySelectorAll('#colors .color-swatch').forEach(function (s) {
+        s.classList.remove('active');
+      });
+      b.classList.add('active');
+      state.color = b.dataset.color;
+      name.textContent = b.dataset.name;
+      mv.setAttribute('src', fileDelColore(state.color));
+    })();
 
     mv.addEventListener('load', function () { apply(); impostaAR(); });
 
@@ -365,6 +399,8 @@
       state.color = b.dataset.color;
       name.textContent = b.dataset.name;
       apply();
+      if (!arQr.hidden) disegnaQr();
+      if (history.replaceState) history.replaceState(null, '', urlColore());
     });
   })();
   </script>
