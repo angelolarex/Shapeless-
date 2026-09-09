@@ -88,9 +88,6 @@
             <button type="button" class="gallery-thumb" data-full="images/blade%20.png">
               <img src="images/blade%20.png" alt="Blade — vista 2">
             </button>
-            <button type="button" class="gallery-thumb" data-full="">
-              <div class="placeholder" style="width:100%; height:100%;"><span>Foto 3</span></div>
-            </button>
           </div>
         </div>
 
@@ -100,7 +97,23 @@
           <p style="font-size:18px; color:var(--accent2); margin-top:20px; line-height:1.7;">
             Lame verticali, in equilibrio dinamico.
           </p>
-          <p style="margin-top:20px;">
+          <p class="product-price">€ 169,00<span class="price-note">A partire da — varia in base a dimensione e finitura</span></p>
+
+          <!-- L'AZIONE, subito sotto il prezzo.
+               Il colore non si sceglie qui: si sceglie nel 3D, guardando il vaso
+               girare. Una strada sola, e chi arriva da telefono la trova senza
+               scorrere mezza pagina. -->
+          <div class="azione">
+            <a href="esplora-blade.html" class="btn btn-fill azione-primaria">
+              Scegli il colore in 3D →
+            </a>
+            <p class="azione-nota">
+              Nove colori sul modello che gira. Dal telefono lo appoggi nella tua
+              stanza in scala reale — e da lì lo metti nel carrello.
+            </p>
+          </div>
+
+          <p>
             Blade è il vaso che ha dato forma all'identità di Shapeless: superfici a lamelle che si intrecciano
             in verticale, come un movimento sospeso a metà tra scultura e architettura.
           </p>
@@ -109,42 +122,17 @@
             processo di modellazione parametrica dietro ogni pezzo Shapeless.
           </p>
 
-          <p class="product-price">€ 169,00<span class="price-note">A partire da — varia in base a dimensione e finitura</span></p>
-
-          <p class="label" style="margin-top:28px; margin-bottom:0;">Colori disponibili</p>
-          <div class="color-swatches">
-            <button type="button" class="color-swatch active" style="background:#a3444d;" data-color="#a3444d" data-name="Red Wine" aria-label="Red Wine"></button>
-            <button type="button" class="color-swatch" style="background:#91535d;" data-color="#91535d" data-name="Bordeaux" aria-label="Bordeaux"></button>
-            <button type="button" class="color-swatch" style="background:#bcbfb0;" data-color="#bcbfb0" data-name="Sage" aria-label="Sage"></button>
-            <button type="button" class="color-swatch" style="background:#646666;" data-color="#646666" data-name="Antracite" aria-label="Antracite"></button>
-            <button type="button" class="color-swatch" style="background:#d8d0cd;" data-color="#d8d0cd" data-name="Off White" aria-label="Off White"></button>
-            <button type="button" class="color-swatch" style="background:#e2cbc5;" data-color="#e2cbc5" data-name="Rosè" aria-label="Rosè"></button>
-            <button type="button" class="color-swatch" style="background:#346371;" data-color="#346371" data-name="Emerald Green" aria-label="Emerald Green"></button>
-            <button type="button" class="color-swatch" style="background:#00924f;" data-color="#00924f" data-name="Verde" aria-label="Verde"></button>
-            <button type="button" class="color-swatch" style="background:#5b644f;" data-color="#5b644f" data-name="Forest Green" aria-label="Forest Green"></button>
-          </div>
-          <p id="nome-colore" style="margin-top:12px; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--text-muted);">Red Wine</p>
-
           <ul style="margin-top:28px; display:flex; flex-direction:column; gap:10px;">
             <li style="font-size:13px; color:var(--text-muted);">— Materiale: PLA vegetale (mais e canna da zucchero)</li>
+            <li style="font-size:13px; color:var(--text-muted);">— Nove colori, alto 37 cm</li>
             <li style="font-size:13px; color:var(--text-muted);">— Prodotto su richiesta, nessuno stock</li>
             <li style="font-size:13px; color:var(--text-muted);">— Hidden Nest in vetro incluso</li>
-            <li style="font-size:13px; color:var(--text-muted);">— Personalizzabile su misura</li>
           </ul>
 
-          <div class="cfg-acquisto" style="border-top:0; padding-top:0; margin-top:36px;">
-            <button type="button" class="btn btn-fill cfg-add" id="add-to-cart-btn" data-id="blade">
-              <span class="cfg-add-pallino" id="cfg-add-pallino" style="background:#a3444d"></span>
-              <span id="cfg-add-testo">Aggiungi al carrello</span>
-            </button>
-            <div class="cfg-actions" style="margin-top:14px;">
-              <a href="esplora-blade.html" class="btn" style="text-align:center;">Provalo in 3D e nella tua stanza →</a>
-            </div>
-            <p class="cfg-rassicura">
-              Stampato su ordinazione. <strong>Consegna stimata entro il <span id="cfg-consegna">—</span></strong> ·
-              spedizione gratuita in Italia · reso entro 14 giorni.
-            </p>
-          </div>
+          <p class="cfg-rassicura" style="margin-top:24px;">
+            Stampato su ordinazione. <strong>Consegna stimata entro il <span id="cfg-consegna">—</span></strong> ·
+            spedizione gratuita in Italia · reso entro 14 giorni.
+          </p>
         </div>
 
       </div>
@@ -333,6 +321,16 @@
     </div>
   </footer>
 
+  <!-- Barra fissa su telefono: compare quando il bottone grande esce dallo
+       schermo, così l'azione non è mai più lontana di un pollice. -->
+  <div class="barra-mobile" id="barra-mobile">
+    <div class="barra-mobile-txt">
+      <strong>Blade</strong>
+      <span>€ 169,00</span>
+    </div>
+    <a href="esplora-blade.html" class="btn btn-fill">Scegli il colore →</a>
+  </div>
+
   <script src="js/main.js"></script>
   <script src="js/lang.js"></script>
   <script src="js/shop-config.js"></script>
@@ -349,69 +347,23 @@
         if (mainImg) mainImg.src = full;
       });
     });
-    /* ---- Colore e carrello ------------------------------------------
-       Prezzo, nome e immagine arrivano da js/shop-config.js: la scheda,
-       il carrello e la cassa non possono piu' mostrare cifre diverse. */
+    /* ---- Data di consegna e barra fissa ------------------------------
+       Sulla scheda non si sceglie piu' il colore ne' si aggiunge al carrello:
+       si fa tutto nel 3D. Qui resta solo cio' che serve a portarcisi. */
     (function () {
-      var C = window.ShapelessConfig;
       var Cart = window.ShapelessCart;
-      var prodotto = C.prodotti['blade'];
 
-      var btn     = document.getElementById('add-to-cart-btn');
-      var testo   = document.getElementById('cfg-add-testo');
-      var pallino = document.getElementById('cfg-add-pallino');
-      var nomeCol = document.getElementById('nome-colore');
-      var consegna= document.getElementById('cfg-consegna');
-
+      var consegna = document.getElementById('cfg-consegna');
       if (consegna) consegna.textContent = Cart.dataConsegna();
 
-      function coloreAttivo() {
-        var b = document.querySelector('.color-swatch.active');
-        return b ? { hex: b.dataset.color || '#a3444d',
-                     nome: b.dataset.name || b.getAttribute('aria-label') || '' }
-                 : { hex: C.colori[0].hex, nome: C.colori[0].nome };
+      /* la barra compare quando il bottone grande e' uscito dallo schermo */
+      var barra = document.getElementById('barra-mobile');
+      var bottone = document.querySelector('.azione-primaria');
+      if (barra && bottone && 'IntersectionObserver' in window) {
+        new IntersectionObserver(function (voci) {
+          barra.classList.toggle('visibile', !voci[0].isIntersecting);
+        }, { rootMargin: '-80px 0px 0px 0px' }).observe(bottone);
       }
-
-      /* L'immagine grande segue la pastiglia scelta. Prima non lo faceva, e
-         la scheda mostrava un vaso Bordeaux mentre il colore selezionato era
-         Red Wine: chi sceglieva un colore non vedeva cambiare niente. */
-      var principale = document.getElementById('gallery-main-img');
-
-      function aggiorna() {
-        var c = coloreAttivo();
-        if (nomeCol) nomeCol.textContent = c.nome;
-        if (pallino) pallino.style.background = c.hex;
-        if (testo)   testo.textContent = 'Aggiungi al carrello — ' + Cart.formatPrice(prodotto.prezzo);
-        if (principale) {
-          var img = C.immagine(prodotto.id, c.hex);
-          if (img && principale.getAttribute('src') !== img) {
-            principale.src = img;
-            document.querySelectorAll('.gallery-thumb').forEach(function (t) {
-              t.classList.remove('active');
-            });
-          }
-        }
-      }
-
-      document.querySelectorAll('.color-swatch').forEach(function (sw) {
-        sw.addEventListener('click', function () {
-          document.querySelectorAll('.color-swatch').forEach(function (s) { s.classList.remove('active'); });
-          this.classList.add('active');
-          aggiorna();
-        });
-      });
-
-      if (btn) btn.addEventListener('click', function () {
-        var c = coloreAttivo();
-        Cart.addToCart({
-          id: prodotto.id, nome: prodotto.nome, prezzo: prodotto.prezzo,
-          immagine: prodotto.immagine, colore: c.nome, coloreHex: c.hex
-        }, 1);
-        Cart.avviso(prodotto.nome + ' <strong>' + c.nome + '</strong> è nel carrello.',
-                    { href: 'carrello.html', testo: 'Vai al carrello' });
-      });
-
-      aggiorna();
     })();
   </script>
 </body>

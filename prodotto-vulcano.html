@@ -132,7 +132,7 @@
             <li style="font-size:13px; color:var(--text-muted);">— Personalizzabile su misura</li>
           </ul>
 
-          <div class="cfg-acquisto" style="border-top:0; padding-top:0; margin-top:36px;">
+          <div class="cfg-acquisto" id="acquisto" style="border-top:0; padding-top:0; margin-top:36px;">
             <button type="button" class="btn btn-fill cfg-add" id="add-to-cart-btn" data-id="vulcano">
               <span class="cfg-add-pallino" id="cfg-add-pallino" style="background:#a3444d"></span>
               <span id="cfg-add-testo">Aggiungi al carrello</span>
@@ -332,6 +332,15 @@
     </div>
   </footer>
 
+  <!-- Barra fissa su telefono: porta al blocco d'acquisto senza scorrere. -->
+  <div class="barra-mobile" id="barra-mobile">
+    <div class="barra-mobile-txt">
+      <strong>Vulcano</strong>
+      <span>€ 189,00</span>
+    </div>
+    <a href="#acquisto" class="btn btn-fill">Aggiungi al carrello</a>
+  </div>
+
   <script src="js/main.js"></script>
   <script src="js/lang.js"></script>
   <script src="js/shop-config.js"></script>
@@ -371,25 +380,11 @@
                  : { hex: C.colori[0].hex, nome: C.colori[0].nome };
       }
 
-      /* L'immagine grande segue la pastiglia scelta. Prima non lo faceva, e
-         la scheda mostrava un vaso Bordeaux mentre il colore selezionato era
-         Red Wine: chi sceglieva un colore non vedeva cambiare niente. */
-      var principale = document.getElementById('gallery-main-img');
-
       function aggiorna() {
         var c = coloreAttivo();
         if (nomeCol) nomeCol.textContent = c.nome;
         if (pallino) pallino.style.background = c.hex;
         if (testo)   testo.textContent = 'Aggiungi al carrello — ' + Cart.formatPrice(prodotto.prezzo);
-        if (principale) {
-          var img = C.immagine(prodotto.id, c.hex);
-          if (img && principale.getAttribute('src') !== img) {
-            principale.src = img;
-            document.querySelectorAll('.gallery-thumb').forEach(function (t) {
-              t.classList.remove('active');
-            });
-          }
-        }
       }
 
       document.querySelectorAll('.color-swatch').forEach(function (sw) {
@@ -411,6 +406,13 @@
       });
 
       aggiorna();
+
+      var barra = document.getElementById('barra-mobile');
+      if (barra && btn && 'IntersectionObserver' in window) {
+        new IntersectionObserver(function (voci) {
+          barra.classList.toggle('visibile', !voci[0].isIntersecting);
+        }, { rootMargin: '-80px 0px 0px 0px' }).observe(btn);
+      }
     })();
   </script>
 </body>

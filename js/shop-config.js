@@ -73,14 +73,12 @@
         immagine: 'images/blade-transparent.png',
         pagina: 'prodotto-blade.html',
         configuratore: 'esplora-blade.html',
-        /* Un'immagine per colore, generata dal modello 3D con la stessa luce
-           della foto (vedi RENDER-COLORI.md). Se manca il file per un colore
-           si torna automaticamente all'immagine qui sopra. */
-        render: 'images/render/blade-{hex}.webp',
         /* Disegno tecnico a tratto: e' quello che va nel carrello e in cassa.
            Uno solo per tutti i colori — a dire il colore ci pensano il pallino
            e il nome scritto accanto. Pesa 38 KB compresso invece di uno
-           scaricamento per ogni tinta, ed e' sempre esatto. */
+           scaricamento per ogni tinta, ed e' sempre esatto.
+           (I render a colori sono stati tolti: sulla scheda prodotto vince la
+           fotografia. Si rigenerano in un comando, vedi RENDER-COLORI.md.) */
         disegno: 'images/blade-linea.svg'
       },
       vulcano: {
@@ -166,8 +164,9 @@
     return zone[zone.length - 1];   // resto del mondo
   };
 
-  /* L'immagine giusta per un prodotto nel colore scelto. E' quello che rende
-     coerente il carrello: il vaso mostrato e' del colore che c'e' scritto. */
+  /* L'immagine di un prodotto. Il secondo parametro e' il gancio pronto per
+     quando ci saranno le foto vere colore per colore: basta aggiungere il
+     campo "render" al prodotto e tutto il resto funziona da solo. */
   CONFIG.immagine = function (idProdotto, hex) {
     var p = CONFIG.prodotti[idProdotto];
     if (!p) return '';

@@ -103,6 +103,56 @@
   .cfg-controls > .cfg-acquisto { order: 3; }        /* subito sotto i colori */
 }
 
+/* ======================================================== SCHEDA PRODOTTO
+   Il prezzo e l'azione stanno vicini e in alto: su telefono, che e' da dove
+   arriva la gran parte del traffico, non si deve scorrere per trovarli. */
+
+.azione { margin: 26px 0 34px; max-width: 420px; }
+
+/* su telefono la foto non si prende tutto il primo schermo: cosi' il titolo
+   entra subito e il prezzo arriva a meta' della prima scorsa */
+@media (max-width: 900px) {
+  .gallery-main { aspect-ratio: auto; height: min(56vh, 420px); }
+}
+
+.azione-primaria {
+  display: block; width: 100%; text-align: center;
+  padding: 19px 24px; font-size: 12px;
+}
+
+.azione-nota {
+  font-size: 13px; line-height: 1.7; color: var(--text-muted); margin-top: 13px;
+}
+
+/* ---- barra fissa su telefono ---- */
+.barra-mobile { display: none; }
+
+@media (max-width: 900px) {
+  .barra-mobile {
+    display: flex; align-items: center; gap: 14px;
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 900;
+    padding: 11px 16px;
+    padding-bottom: calc(11px + env(safe-area-inset-bottom, 0px));
+    background: rgba(250, 250, 248, 0.97);
+    border-top: 1px solid var(--border);
+    box-shadow: 0 -6px 24px rgba(0, 0, 0, .06);
+    transform: translateY(115%);
+    transition: transform .28s ease;
+  }
+  .barra-mobile.visibile { transform: none; }
+
+  .barra-mobile-txt { display: flex; flex-direction: column; line-height: 1.3; }
+  .barra-mobile-txt strong { font-size: 13px; font-weight: 600; }
+  .barra-mobile-txt span { font-size: 15px; font-weight: 600; }
+
+  .barra-mobile .btn {
+    margin-left: auto; padding: 14px 20px; font-size: 10.5px; white-space: nowrap;
+  }
+
+  /* il piede non finisce sotto la barra */
+  body:has(.barra-mobile.visibile) footer { padding-bottom: 84px; }
+}
+
 /* =============================================================== CARRELLO */
 
 .carrello-vuoto { text-align: center; padding: 40px 0 20px; }
