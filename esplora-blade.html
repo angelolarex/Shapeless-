@@ -146,7 +146,7 @@
         <!-- VISUALIZZATORE -->
         <div class="cfg-stage">
           <model-viewer id="mv"
-            src="models-web/blade-e8b923.gltf"
+            src="models-web/blade-a3444d.gltf"
             alt="Vaso Blade di Shapeless, modello 3D interattivo"
             camera-controls
             disable-pan
@@ -186,14 +186,16 @@
           <div class="cfg-block">
             <div class="label">Scegli il colore</div>
             <div class="color-swatches" id="colors" style="margin-top:16px;">
-              <button type="button" class="color-swatch active" data-color="#e8b923" data-name="Giallo ocra"      style="background:#e8b923;" aria-label="Giallo ocra"></button>
-              <button type="button" class="color-swatch"        data-color="#f2efe9" data-name="Bianco crema"     style="background:#f2efe9;" aria-label="Bianco crema"></button>
-              <button type="button" class="color-swatch"        data-color="#b5651d" data-name="Terracotta"       style="background:#b5651d;" aria-label="Terracotta"></button>
-              <button type="button" class="color-swatch"        data-color="#6b1f45" data-name="Bordeaux"         style="background:#6b1f45;" aria-label="Bordeaux"></button>
-              <button type="button" class="color-swatch"        data-color="#3a4a40" data-name="Verde salvia"     style="background:#3a4a40;" aria-label="Verde salvia scuro"></button>
-              <button type="button" class="color-swatch"        data-color="#2f2f2f" data-name="Antracite"        style="background:#2f2f2f;" aria-label="Antracite"></button>
+              <button type="button" class="color-swatch active" data-color="#a3444d" data-name="Red Wine" style="background:#a3444d;" aria-label="Red Wine"></button>
+              <button type="button" class="color-swatch" data-color="#91535d" data-name="Bordeaux" style="background:#91535d;" aria-label="Bordeaux"></button>
+              <button type="button" class="color-swatch" data-color="#bcbfb0" data-name="Sage" style="background:#bcbfb0;" aria-label="Sage"></button>
+              <button type="button" class="color-swatch" data-color="#646666" data-name="Antracite" style="background:#646666;" aria-label="Antracite"></button>
+              <button type="button" class="color-swatch" data-color="#d8d0cd" data-name="Off White" style="background:#d8d0cd;" aria-label="Off White"></button>
+              <button type="button" class="color-swatch" data-color="#e2cbc5" data-name="Rosè" style="background:#e2cbc5;" aria-label="Rosè"></button>
+              <button type="button" class="color-swatch" data-color="#038a98" data-name="Blu Lagoon" style="background:#038a98;" aria-label="Blu Lagoon"></button>
+              <button type="button" class="color-swatch" data-color="#00924f" data-name="Verde" style="background:#00924f;" aria-label="Verde"></button>
             </div>
-            <div class="cfg-colorname" id="colorname">Giallo ocra</div>
+            <div class="cfg-colorname" id="colorname">Red Wine</div>
           </div>
 
           <!-- REALTA' AUMENTATA -->
@@ -280,7 +282,7 @@
     var arBtn= document.getElementById('ar-btn');
     var name = document.getElementById('colorname');
 
-    var state = { color: '#e8b923' };
+    var state = { color: '#a3444d' };
 
     // Ogni colore ha il suo file .gltf (pochi KB l'uno): tutti puntano allo stesso
     // blade.bin, che il browser scarica una volta sola e tiene in cache.
