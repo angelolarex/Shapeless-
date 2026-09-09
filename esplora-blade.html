@@ -24,6 +24,10 @@
       background:transparent; --poster-color:transparent;
       --progress-bar-color:var(--accent); --progress-bar-height:2px;
     }
+    /* A modello caricato model-viewer mette la classe "hide" sulla barra di
+       avanzamento ma non la spegne: senza il riquadro intorno restava una
+       riga bordeaux sospesa sopra il vaso. La spengo io quando ha finito. */
+    model-viewer.pronto{ --progress-bar-color:transparent; }
     .cfg-hint{
       position:absolute; left:0; right:0; bottom:14px; text-align:center;
       font-size:10px; letter-spacing:0.18em; text-transform:uppercase;
@@ -171,7 +175,7 @@
             min-field-of-view="20deg"
             shadow-intensity="0.4"
             shadow-softness="1"
-            exposure="1"
+            exposure="0.92"
             environment-image="neutral"
             tone-mapping="neutral"
             ar
@@ -303,7 +307,10 @@
 
     function apply() {
       var voluto = fileDelColore(state.color);
-      if (mv.getAttribute('src') !== voluto) mv.setAttribute('src', voluto);
+      if (mv.getAttribute('src') !== voluto) {
+        mv.classList.remove('pronto');      // riparte il caricamento: barra di nuovo visibile
+        mv.setAttribute('src', voluto);
+      }
       if (!mv.model || !mv.model.materials.length) return;
       var pbr = mv.model.materials[0].pbrMetallicRoughness;
       pbr.setBaseColorFactor(state.color);
@@ -382,7 +389,11 @@
       mv.setAttribute('src', fileDelColore(state.color));
     })();
 
-    mv.addEventListener('load', function () { apply(); impostaAR(); });
+    mv.addEventListener('load', function () {
+      mv.classList.add('pronto');
+      apply();
+      impostaAR();
+    });
 
     arBtn.addEventListener('click', function () { mv.activateAR(); });
 
