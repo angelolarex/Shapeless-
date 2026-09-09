@@ -59,25 +59,6 @@
           </div>
         </div>
 
-        <!-- ---------- PAGAMENTO RAPIDO ---------- -->
-        <section class="cassa-express">
-          <div class="express-riga">
-            <button type="button" class="express-btn" data-express="apple">
-              Apple&nbsp;Pay
-            </button>
-            <button type="button" class="express-btn" data-express="google">
-              Google&nbsp;Pay
-            </button>
-            <button type="button" class="express-btn" data-express="paypal">
-              PayPal
-            </button>
-          </div>
-          <p class="express-nota">
-            Paghi in due tocchi: indirizzo e contatti arrivano dal telefono, non devi scrivere niente.
-          </p>
-          <div class="cassa-oppure"><span>oppure compila qui sotto</span></div>
-        </section>
-
         <form id="modulo-cassa" novalidate>
 
           <!-- ---------- 1. CONTATTI ---------- -->
@@ -210,24 +191,55 @@
           <section class="cassa-blocco cassa-blocco-ultimo">
             <h2 class="cassa-blocco-titolo"><span class="cassa-num">3</span> Come vuoi pagare</h2>
 
-            <div class="scelta-tripla">
-              <label class="scelta-carta attiva">
+            <!-- Un elenco solo. I tre bottoni che stavano in cima sono spariti:
+                 nel nostro flusso non saltavano il modulo, quindi erano una
+                 seconda scelta per le stesse cose. Apple Pay e Google Pay
+                 compaiono qui, e solo dove il dispositivo li supporta. -->
+            <div class="metodi" id="metodi">
+
+              <label class="metodo attiva">
                 <input type="radio" name="metodo" value="card" checked>
-                <span class="scelta-titolo">Carta</span>
-                <span class="scelta-nota">Visa, Mastercard, American&nbsp;Express.</span>
+                <span class="metodo-loghi" data-loghi="visa,mastercard,amex"></span>
+                <span class="metodo-testo">
+                  <strong>Carta</strong>
+                  <small>Credito o debito</small>
+                </span>
+                <span class="metodo-segno"></span>
               </label>
-              <label class="scelta-carta">
+
+              <label class="metodo">
                 <input type="radio" name="metodo" value="paypal">
-                <span class="scelta-titolo">PayPal</span>
-                <span class="scelta-nota">Col tuo conto, senza carta.</span>
+                <span class="metodo-loghi" data-loghi="paypal"></span>
+                <span class="metodo-testo">
+                  <strong>PayPal</strong>
+                  <small>Col tuo conto — dentro PayPal puoi scegliere <em>Paga in 3 rate</em></small>
+                </span>
+                <span class="metodo-segno"></span>
               </label>
-              <label class="scelta-carta scelta-rate">
+
+              <label class="metodo">
                 <input type="radio" name="metodo" value="klarna">
-                <span class="scelta-titolo">In 3 rate</span>
-                <span class="scelta-nota" id="nota-rate">Con Klarna.</span>
+                <span class="metodo-loghi" data-loghi="klarna"></span>
+                <span class="metodo-testo">
+                  <strong>Klarna</strong>
+                  <small>Tre rate senza interessi — <strong>&euro;&nbsp;<span id="rata">56,33</span></strong> al mese</small>
+                </span>
+                <span class="metodo-segno"></span>
               </label>
+
+              <label class="metodo" id="metodo-wallet" hidden>
+                <input type="radio" name="metodo" value="wallet">
+                <span class="metodo-loghi" id="loghi-wallet"></span>
+                <span class="metodo-testo">
+                  <strong id="nome-wallet">Apple Pay</strong>
+                  <small>Due tocchi: indirizzo e carta arrivano dal telefono</small>
+                </span>
+                <span class="metodo-segno"></span>
+              </label>
+
             </div>
-            <p class="cassa-blocco-nota" style="margin-top:20px;">
+
+            <p class="cassa-blocco-nota" style="margin-top:18px;">
               Al clic si apre la pagina di pagamento protetta, già sul metodo che hai scelto.
               I dati della carta viaggiano cifrati e non passano mai da questo sito.
             </p>
@@ -245,6 +257,7 @@
             </button>
 
             <p class="cassa-esito" id="cassa-esito" hidden></p>
+
 
             <ul class="cassa-garanzie">
               <li>Pagamento cifrato, gestito da Stripe</li>

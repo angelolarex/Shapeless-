@@ -47,6 +47,7 @@
     $('cassa-corpo').hidden = false;
 
     riempiPaesi();
+    riempiLoghi();
     mostraGaranzie();
     riconosciCliente();
     collegaEventi();
@@ -64,6 +65,65 @@
       sel.appendChild(o);
     });
     sel.value = 'IT';
+  }
+
+  /* ------------------------------------------------------ loghi e portafogli
+
+     I file dei marchi stanno in images/pagamenti/<nome>.svg. Finche' non ci
+     sono, al loro posto compare una sigla pulita: la pagina resta finita e i
+     loghi veri si aggiungono senza toccare il codice.                       */
+
+  var ETICHETTE = {
+    visa: 'Visa', mastercard: 'Mastercard', amex: 'Amex', paypal: 'PayPal',
+    klarna: 'Klarna', applepay: 'Apple Pay', googlepay: 'Google Pay',
+    satispay: 'Satispay'
+  };
+
+  function sigla(nome) {
+    var t = document.createElement('span');
+    t.className = 'logo-testo';
+    t.textContent = ETICHETTE[nome] || nome;
+    return t;
+  }
+
+  /* metto subito la sigla (cosi' l'ordine e' giusto e non si vede mai
+     un'immagine rotta) e la sostituisco col logo solo se il file esiste */
+  function logo(box, nome) {
+    var segno = sigla(nome);
+    box.appendChild(segno);
+    var img = new Image();
+    img.alt = ETICHETTE[nome] || nome;
+    img.onload = function () { segno.replaceWith(img); };
+    img.src = 'images/pagamenti/' + nome + '.svg';
+  }
+
+  /* Il portafoglio del telefono: si mostra solo dove funziona davvero.
+     Su Stripe compare comunque, ma sceglierlo qui evita un passaggio. */
+  function portafoglio() {
+    try {
+      if (window.ApplePaySession && ApplePaySession.canMakePayments()) {
+        return { nome: 'Apple Pay', file: 'applepay' };
+      }
+    } catch (e) { /* Safari lo vieta in certi contesti: si prosegue */ }
+    var ua = navigator.userAgent;
+    if (/Chrome|Chromium|Edg\//.test(ua) && !/OPR\//.test(ua)) {
+      return { nome: 'Google Pay', file: 'googlepay' };
+    }
+    return null;
+  }
+
+  function riempiLoghi() {
+    document.querySelectorAll('[data-loghi]').forEach(function (box) {
+      box.dataset.loghi.split(',').forEach(function (n) { logo(box, n.trim()); });
+    });
+
+    var w = portafoglio();
+    if (w) {
+      $('metodo-wallet').hidden = false;
+      $('nome-wallet').textContent = w.nome;
+      logo($('loghi-wallet'), w.file);
+    }
+
   }
 
   function mostraGaranzie() {
@@ -117,7 +177,7 @@
     /* metodo di pagamento */
     document.querySelectorAll('input[name="metodo"]').forEach(function (r) {
       r.addEventListener('change', function () {
-        document.querySelectorAll('.scelta-tripla .scelta-carta').forEach(function (l) {
+        document.querySelectorAll('#metodi .metodo').forEach(function (l) {
           l.classList.toggle('attiva', qs('input', l).checked);
         });
       });
@@ -144,24 +204,10 @@
       $('cassa-riepilogo').classList.toggle('aperto');
     });
 
-    /* pagamento rapido: in modalita' dimostrativa spiega, non finge */
-    document.querySelectorAll('.express-btn').forEach(function (b) {
-      b.addEventListener('click', function () {
-        if (!C.pagamenti.endpoint) {
-          esito('Il pagamento rapido si attiva insieme a Stripe: comparirà qui ' +
-                'automaticamente sui dispositivi che lo supportano. Per ora ' +
-                'completa il modulo qui sotto.', 'nota');
-          $('email').focus();
-          return;
-        }
-        inviaOrdine({ express: b.dataset.express });
-      });
-    });
-
     $('modulo-cassa').addEventListener('submit', function (e) {
       e.preventDefault();
       if (!validaTutto()) return;
-      inviaOrdine({});
+      inviaOrdine();
     });
   }
 
@@ -224,6 +270,8 @@
     }
 
     $('riep-totale').textContent = Cart.formatPrice(t.totale);
+    var rata = $('rata');
+    if (rata) rata.textContent = (t.totale / 3).toFixed(2).replace('.', ',');
     $('barra-totale').textContent = Cart.formatPrice(t.totale);
     $('btn-paga-cifra').textContent = '— ' + Cart.formatPrice(t.totale);
 
@@ -358,7 +406,7 @@
     return d;
   }
 
-  function inviaOrdine(opzioni) {
+  function inviaOrdine() {
     var btn = $('btn-paga');
     var cliente = raccogliDati();
     var carrello = Cart.getCart();
@@ -374,7 +422,7 @@
       cliente:   cliente,
       totali:    totali,
       consegna:  Cart.dataConsegna(),
-      express:   opzioni.express || null
+      metodo:    cliente.metodo
     };
 
     /* ---- MODALITA' DIMOSTRATIVA: nessun backend collegato ---- */
@@ -399,8 +447,7 @@
           return { id: i.id, colore: i.colore, coloreHex: i.coloreHex, qty: i.qty };
         }),
         cliente: cliente,
-        metodo: opzioni.express ? opzioni.express : cliente.metodo,
-        express: opzioni.express || null,
+        metodo: cliente.metodo,
         numeroOrdine: ordine.numero
       })
     })

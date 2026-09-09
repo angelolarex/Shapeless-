@@ -1,0 +1,44 @@
+LOGHI DEI METODI DI PAGAMENTO
+=============================
+
+Metti qui i file, con ESATTAMENTE questi nomi:
+
+    visa.svg
+    mastercard.svg
+    amex.svg
+    paypal.svg
+    klarna.svg
+    applepay.svg
+    googlepay.svg
+    satispay.svg
+
+Compaiono da soli in cassa: non c'e' niente da modificare nel codice.
+Finche' un file manca, al suo posto resta una sigla grigia, e la pagina
+funziona lo stesso.
+
+
+DOVE SI SCARICANO
+-----------------
+I marchi sono registrati: vanno presi dai file ufficiali, non ridisegnati.
+Ognuno ha le sue regole d'uso, che si accettano scaricando.
+
+  Visa            usa.visa.com/run-your-business/small-business-tools/payment-technology.html
+  Mastercard      brand.mastercard.com/brandcenter/mastercard-brand-mark.html
+  American Express americanexpress.com/us/merchant/merchant-marketing-materials.html
+  PayPal          paypal.com/us/brc/article/logo-center  (Logo Center)
+  Klarna          klarna.com/it/business/marketing-resources/  (Klarna Docs > Branding)
+  Apple Pay       developer.apple.com/apple-pay/marketing/
+  Google Pay      developers.google.com/pay/api/web/guides/brand-guidelines
+  Satispay        satispay.com/it-it/business/  (kit per esercenti)
+
+Alcuni li fornisce gia' Stripe nel pannello, sotto Impostazioni > Metodi di
+pagamento: se ci sono, e' la strada piu' veloce.
+
+
+ALTEZZA E FORMATO
+-----------------
+Vengono ridimensionati a 21 px di altezza: vanno bene gli SVG originali,
+non serve ritoccarli.
+
+Se quello che trovi e' un PNG, NON rinominarlo in .svg — non funzionerebbe.
+Dimmelo e cambio l'estensione nel codice: e' una riga sola.

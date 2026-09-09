@@ -237,35 +237,6 @@ body.pagina-cassa { background: var(--bg); }
 .cassa-ritorno span { color: var(--text-muted); }
 .cassa-ritorno-azioni { display: flex; align-items: center; gap: 16px; }
 
-/* ---- pagamento rapido ---- */
-.express-riga { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-@media (max-width: 560px) { .express-riga { grid-template-columns: 1fr; } }
-
-.express-btn {
-  display: flex; align-items: center; justify-content: center; gap: 9px;
-  padding: 15px 10px; cursor: pointer;
-  background: var(--text); color: var(--bg);
-  border: 1px solid var(--text); font-family: var(--font-body);
-  font-size: 13px; font-weight: 500; letter-spacing: .02em;
-  transition: opacity .2s;
-}
-.express-btn:hover { opacity: .85; }
-.express-logo { font-size: 15px; line-height: 1; }
-.express-g  { font-weight: 700; }
-.express-pp { font-weight: 700; font-style: italic; }
-
-.express-nota {
-  font-size: 12.5px; color: var(--text-muted); margin-top: 12px; line-height: 1.6;
-}
-.cassa-oppure {
-  display: flex; align-items: center; gap: 16px; margin: 32px 0 8px;
-  font-size: 10px; letter-spacing: .2em; text-transform: uppercase;
-  color: var(--text-muted);
-}
-.cassa-oppure::before, .cassa-oppure::after {
-  content: ''; flex: 1; height: 1px; background: var(--border);
-}
-
 /* ---- blocchi numerati ---- */
 .cassa-blocco {
   padding: 36px 0; border-bottom: 1px solid var(--border);
@@ -305,17 +276,59 @@ body.pagina-cassa { background: var(--bg); }
 .scelta-carta.attiva .scelta-titolo { color: var(--accent); }
 .scelta-nota { display: block; font-size: 12.5px; color: var(--text-muted); line-height: 1.55; }
 
-/* tre metodi affiancati; su telefono uno sotto l'altro */
-.scelta-tripla { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-@media (max-width: 640px) { .scelta-tripla { grid-template-columns: 1fr; } }
+#campi-fattura { margin-top: 4px; }
 
-.scelta-rate .scelta-titolo::after {
-  content: 'SENZA INTERESSI';
-  display: block; margin-top: 3px;
-  font-size: 8.5px; letter-spacing: .16em; color: var(--accent); font-weight: 400;
+/* ---- elenco dei metodi di pagamento ----
+   Righe basse invece di riquadroni: quattro voci stanno in mezzo schermo di
+   telefono, e il logo fa il lavoro che prima faceva un paragrafo. */
+.metodi { display: flex; flex-direction: column; gap: 8px; }
+
+.metodo {
+  display: grid; grid-template-columns: auto 1fr auto;
+  align-items: center; gap: 16px;
+  padding: 13px 16px; cursor: pointer;
+  background: var(--bg2); border: 1px solid var(--border);
+  transition: border-color .18s, background .18s;
+}
+.metodo:hover { border-color: var(--text-muted); }
+.metodo.attiva { border-color: var(--accent); background: var(--bg); }
+.metodo input { position: absolute; opacity: 0; width: 0; height: 0; }
+.metodo:focus-within { outline: 2px solid var(--accent); outline-offset: 2px; }
+.metodo[hidden] { display: none !important; }
+
+.metodo-loghi { display: flex; align-items: center; gap: 5px; }
+.metodo-loghi img { height: 21px; width: auto; display: block; }
+
+/* quando il file del logo non c'e' ancora, al suo posto una sigla pulita:
+   la pagina resta finita, e i loghi veri si aggiungono quando arrivano */
+.logo-testo {
+  display: inline-flex; align-items: center; height: 21px; padding: 0 7px;
+  background: var(--bg3); border: 1px solid var(--border); border-radius: 2px;
+  font-size: 8.5px; letter-spacing: .1em; font-weight: 600;
+  color: var(--text-muted); text-transform: uppercase; white-space: nowrap;
 }
 
-#campi-fattura { margin-top: 4px; }
+.metodo-testo { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.metodo-testo strong { font-size: 14.5px; font-weight: 500; }
+.metodo.attiva .metodo-testo strong { color: var(--accent); }
+.metodo-testo small { font-size: 12px; line-height: 1.5; color: var(--text-muted); }
+.metodo-testo em { font-style: normal; color: var(--text); }
+
+.metodo-segno {
+  width: 17px; height: 17px; border-radius: 50%;
+  border: 1px solid var(--border); position: relative; flex: none;
+}
+.metodo.attiva .metodo-segno { border-color: var(--accent); }
+.metodo.attiva .metodo-segno::after {
+  content: ''; position: absolute; inset: 3px;
+  border-radius: 50%; background: var(--accent);
+}
+
+@media (max-width: 420px) {
+  .metodo { gap: 12px; padding: 12px 13px; }
+  .metodo-loghi img { height: 18px; }
+  .logo-testo { height: 18px; padding: 0 5px; font-size: 8px; }
+}
 
 /* ---- caselle ---- */
 .cassa-check {
