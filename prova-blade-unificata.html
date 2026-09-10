@@ -138,11 +138,15 @@
   }
   .pv-thumb-3d .txt{ font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:var(--text-muted); }
 
+  /* Riga di stato: dice solo DOVE sei, in una riga sola che non va mai a capo.
+     L'istruzione ("tocca un colore", "torna alle foto") sta sotto le pastiglie,
+     dove serve, invece di allungare questa riga e spingere giu' i colori. */
   .pv-didascalia{
     margin-top:14px; font-size:11px; letter-spacing:.12em; text-transform:uppercase;
-    color:var(--text-muted); display:flex; gap:10px; align-items:center; min-height:16px;
+    color:var(--text-muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    min-height:16px;
   }
-  .pv-didascalia .sep{ opacity:.4; }
+  .pv-didascalia .sep{ opacity:.4; margin:0 6px; }
 
   /* ---- colonna destra ---- */
   .pv-colorname{ margin-top:14px; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--text-muted); }
@@ -168,16 +172,22 @@
     .pv-indietro{ margin-bottom:12px; font-size:10px; }
     .pv-grid{ display:flex; flex-direction:column; gap:0; }
     .pv-stage{ aspect-ratio:auto; height:min(62vh,480px); }
+    /* Su telefono i colori devono stare nel primo schermo, subito sotto le
+       miniature: display:contents scioglie i due contenitori, cosi' riquadro,
+       miniature, colori e riga di stato diventano fratelli e si ordinano. */
     .pv-info{ display:contents; }
-    .pv-visore{ order:1; }
-    .pv-info > .pv-blocco-colori{ order:2; margin-top:26px; }
-    .pv-info > .cfg-acquisto{ order:3; }
-    .pv-info > .label{ order:4; margin-top:44px; }
-    .pv-info > h1{ order:5; }
-    .pv-info > .pv-sottotitolo{ order:6; }
-    .pv-info > .pv-testo{ order:7; }
-    .pv-info > .ar-box{ order:8; }
-    .pv-info > .pv-elenco{ order:9; }
+    .pv-visore{ display:contents; }
+    .pv-stage{ order:1; }
+    .pv-thumbs{ order:2; margin-top:12px; }
+    .pv-info > .pv-blocco-colori{ order:3; margin-top:20px; }
+    .pv-didascalia{ order:4; margin-top:16px; }
+    .pv-info > .cfg-acquisto{ order:5; }
+    .pv-info > .label{ order:6; margin-top:44px; }
+    .pv-info > h1{ order:7; }
+    .pv-info > .pv-sottotitolo{ order:8; }
+    .pv-info > .pv-testo{ order:9; }
+    .pv-info > .ar-box{ order:10; }
+    .pv-info > .pv-elenco{ order:11; }
   }
   @media (max-width:520px){
     .color-swatches{ gap:10px; }
@@ -336,7 +346,7 @@
               <button type="button" class="color-swatch" data-color="#5b644f" data-name="Forest Green" style="background:#5b644f;" aria-label="Forest Green"></button>
             </div>
             <div class="pv-colorname" id="colorname">Red Wine</div>
-            <p class="pv-invito" id="pv-invito">Tocca un colore: il vaso qui accanto diventa 3D e lo puoi girare. Le foto restano a un tocco di distanza.</p>
+            <p class="pv-invito" id="pv-invito">Tocca un colore: il vaso diventa 3D e lo puoi girare.</p>
           </div>
 
           <!-- acquisto -->
@@ -673,14 +683,15 @@
       });
     }
 
+    /* La riga di stato dice dove sei; l'istruzione sta sotto le pastiglie. */
     function didascalia() {
       if (stato.vista === '3d') {
-        didasc.innerHTML = 'Modello 3D <span class="sep">·</span> ' + stato.nomeColore +
-                           ' <span class="sep">·</span> tocca una foto per tornare alle immagini reali';
+        didasc.innerHTML = 'Modello 3D <span class="sep">·</span> ' + stato.nomeColore;
+        invito.textContent = 'Giralo con il dito. Per rivedere le foto reali tocca una miniatura.';
       } else {
         didasc.innerHTML = 'Foto reale <span class="sep">·</span> ' +
-                           (stato.foto + 1) + ' di ' + FOTO.length +
-                           ' <span class="sep">·</span> tocca un colore per il 3D';
+                           (stato.foto + 1) + ' di ' + FOTO.length;
+        invito.textContent = 'Tocca un colore: il vaso diventa 3D e lo puoi girare.';
       }
     }
 
@@ -743,10 +754,14 @@
       impostaAR();
     });
 
-    /* inquadratura un filo piu' alta sul telefono */
+    /* Sul telefono il vaso e' un filo piu' alto nell'inquadratura e un filo
+       piu' lontano: qualche millimetro d'aria ai lati e sopra, invece di
+       toccare i bordi del riquadro. */
     var stretto = window.matchMedia && window.matchMedia('(max-width: 980px)');
     function altezzaInquadratura() {
-      mv.setAttribute('camera-target', stretto && stretto.matches ? '0m 0.155m 0m' : '0m 0.185m 0m');
+      var mobile = stretto && stretto.matches;
+      mv.setAttribute('camera-target', mobile ? '0m 0.155m 0m' : '0m 0.185m 0m');
+      mv.setAttribute('camera-orbit',  mobile ? '20deg 78deg 1.18m' : '20deg 78deg 1.05m');
     }
     if (stretto) {
       altezzaInquadratura();
@@ -768,8 +783,6 @@
       stato.nomeColore = b.dataset.name;
       nome.textContent = stato.nomeColore;
       thumbPallino.style.background = stato.color;
-      invito.textContent = 'Stai guardando Blade in ' + stato.nomeColore +
-        '. Giralo con il dito, oppure torna alle foto reali dalle miniature qui accanto.';
       /* IL PASSAGGIO CHIAVE: scegliere un colore accende il 3D, senza cambiare pagina */
       mostra3D();
       if (arQr && !arQr.hidden) disegnaQr();
