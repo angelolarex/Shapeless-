@@ -170,7 +170,9 @@
     /* meno aria sopra: il riquadro sale, il vaso entra quasi tutto subito */
     .pv-sezione{ padding-top:calc(var(--nav-h) + 12px); }
     .pv-indietro{ margin-bottom:12px; font-size:10px; }
-    .pv-grid{ display:flex; flex-direction:column; gap:0; }
+    /* align-items:stretch e' obbligatorio: la regola desktop mette "start",
+       che in colonna vale sulla LARGHEZZA e ridurrebbe il riquadro a zero. */
+    .pv-grid{ display:flex; flex-direction:column; gap:0; align-items:stretch; }
     .pv-stage{ aspect-ratio:auto; height:min(62vh,480px); }
     /* Su telefono i colori devono stare nel primo schermo, subito sotto le
        miniature: display:contents scioglie i due contenitori, cosi' riquadro,
