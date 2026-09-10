@@ -59,9 +59,11 @@
     display:flex; align-items:center; justify-content:center;
     padding:24px;
   }
-  /* La foto sta al centro e respira: non arriva ai bordi del riquadro e non
-     viene mai tagliata, qualunque sia la sua proporzione. */
-  .pv-slide img{ max-width:84%; max-height:88%; width:auto; height:auto; object-fit:contain; }
+  /* La foto sta al centro e non viene mai tagliata, qualunque sia la sua
+     proporzione. Il limite in altezza (88%) tiene il vaso su fondo neutro
+     esattamente com'era; quello in larghezza e' piu' largo perche' gli scatti
+     d'ambiente, quadrati, altrimenti restavano piccoli in un riquadro alto. */
+  .pv-slide img{ max-width:96%; max-height:88%; width:auto; height:auto; object-fit:contain; }
 
   /* frecce: solo dove c'e' un mouse, sul telefono si trascina e basta */
   .pv-freccia{
