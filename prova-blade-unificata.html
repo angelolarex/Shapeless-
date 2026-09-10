@@ -57,10 +57,11 @@
   .pv-slide{
     flex:0 0 100%; height:100%; scroll-snap-align:center;
     display:flex; align-items:center; justify-content:center;
-    padding:18px;
+    padding:24px;
   }
-  /* la foto sta al centro del riquadro e non viene mai tagliata */
-  .pv-slide img{ max-width:100%; max-height:100%; width:auto; height:auto; object-fit:contain; }
+  /* La foto sta al centro e respira: non arriva ai bordi del riquadro e non
+     viene mai tagliata, qualunque sia la sua proporzione. */
+  .pv-slide img{ max-width:84%; max-height:88%; width:auto; height:auto; object-fit:contain; }
 
   /* frecce: solo dove c'e' un mouse, sul telefono si trascina e basta */
   .pv-freccia{
@@ -151,6 +152,7 @@
   .pv-didascalia .sep{ opacity:.4; margin:0 6px; }
 
   /* ---- colonna destra ---- */
+  .pv-blocco-colori{ margin-top:34px; }
   .pv-colorname{ margin-top:14px; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--text-muted); }
   .pv-invito{ font-size:12.5px; color:var(--text-muted); margin-top:8px; line-height:1.7; }
 
@@ -182,10 +184,10 @@
     .pv-info{ display:contents; }
     .pv-visore{ display:contents; }
     .pv-stage{ order:1; }
-    .pv-thumbs{ order:2; margin-top:10px; }
+    .pv-thumbs{ order:2; margin-top:10px; padding-bottom:0; }
     /* le pastiglie stanno appiccicate alle miniature: ogni pixel qui e' un
        pixel guadagnato dai colori nel primo schermo */
-    .pv-info > .pv-blocco-colori{ order:3; margin-top:14px; }
+    .pv-info > .pv-blocco-colori{ order:3; margin-top:12px; }
     .pv-info > .pv-blocco-colori > .label{ margin-bottom:0; }
     #colors{ margin-top:10px; }
     .pv-didascalia{ order:4; margin-top:16px; }
@@ -311,7 +313,7 @@
                 environment-image="neutral"
                 tone-mapping="neutral"
                 ar
-                ar-modes="scene-viewer webxr quick-look"
+                ar-modes="webxr scene-viewer quick-look"
                 ar-scale="fixed"
                 ar-placement="floor"></model-viewer>
               <span class="pv-hint" id="pv-hint">Trascina per ruotare · scorri per avvicinare</span>
@@ -340,7 +342,7 @@
           </p>
 
           <!-- colori: il gesto che accende il 3D -->
-          <div class="pv-blocco-colori" style="margin-top:34px;">
+          <div class="pv-blocco-colori">
             <div class="label">Scegli il colore</div>
             <div class="color-swatches" id="colors">
               <button type="button" class="color-swatch active" data-color="#a3444d" data-name="Red Wine" style="background:#a3444d;" aria-label="Red Wine"></button>
@@ -558,8 +560,7 @@
      mostrata per prima quando quel colore e' selezionato (gia' previsto).
      ========================================================================= */
   var FOTO = [
-    { src:'images/blade-transparent.png', alt:'Blade — vista frontale' },
-    { src:'images/blade .png',            alt:'Blade — dettaglio delle lamelle' }
+    { src:'images/blade-transparent.png', alt:'Blade — vista frontale' }
   ];
   </script>
 
@@ -603,6 +604,15 @@
       t.innerHTML = '<img src="' + encodeURI(f.src) + '" alt="' + f.alt + '" loading="lazy">';
       thumbs.appendChild(t);
     });
+
+    /* Con una foto sola non servono ne' pallini ne' frecce: comparirebbero
+       solo per dire che non c'e' altro. Tornano da soli quando le foto
+       diventano due o piu'. */
+    if (FOTO.length < 2) {
+      punti.style.display = 'none';
+      prec.style.display = 'none';
+      succ.style.display = 'none';
+    }
 
     /* la tessera del 3D, in coda alle foto */
     var t3d = document.createElement('button');
@@ -697,8 +707,9 @@
         didasc.innerHTML = 'Modello 3D <span class="sep">·</span> ' + stato.nomeColore;
         invito.textContent = 'Giralo con il dito. Per rivedere le foto reali tocca una miniatura.';
       } else {
-        didasc.innerHTML = 'Foto reale <span class="sep">·</span> ' +
-                           (stato.foto + 1) + ' di ' + FOTO.length;
+        didasc.innerHTML = FOTO.length > 1
+          ? 'Foto reale <span class="sep">·</span> ' + (stato.foto + 1) + ' di ' + FOTO.length
+          : 'Foto reale';
         invito.textContent = 'Tocca un colore: il vaso diventa 3D e lo puoi girare.';
       }
     }
@@ -870,12 +881,16 @@
 
     arBtn.addEventListener('click', function () { if (mv.activateAR) mv.activateAR(); });
 
-    /* In realta' aumentata l'ombra di appoggio dava troppo: sul pavimento vero
-       una macchia scura sotto il vaso si nota subito. Mentre si e' in AR la
-       abbassiamo, e al rientro torna com'era nel riquadro della pagina. */
+    /* In realta' aumentata l'ombra di appoggio dava troppo: sul tavolo vero una
+       macchia scura sotto il vaso si nota subito. Mentre si e' in AR resta un
+       velo appena accennato - serve solo a dire che il vaso appoggia - e al
+       rientro torna com'era nel riquadro della pagina.
+       Nota: vale per la realta' aumentata della pagina (webxr). Se il telefono
+       apre Scene Viewer di Google, l'ombra la disegna Google e da qui non si
+       tocca: per questo webxr e' il primo della lista negli ar-modes. */
     mv.addEventListener('ar-status', function (e) {
       var s = e.detail.status;
-      if (s === 'session-started') mv.setAttribute('shadow-intensity', '0.12');
+      if (s === 'session-started') mv.setAttribute('shadow-intensity', '0.06');
       if (s === 'not-presenting')  mv.setAttribute('shadow-intensity', '0.4');
     });
 
