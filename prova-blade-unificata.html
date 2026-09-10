@@ -732,16 +732,33 @@
 
     function avviaModello() {
       caricaModulo();
-      if (!stato.modelloAvviato) {
-        stato.modelloAvviato = true;
-        velo.classList.add('visibile');
-      }
       var voluto = fileDelColore(stato.color);
       if (mv.getAttribute('src') !== voluto) {
         mv.classList.remove('pronto');
+        velo.classList.add('visibile');     // meglio "carico il modello" che un riquadro grigio
         mv.setAttribute('src', voluto);
+      } else if (!mv.loaded) {
+        velo.classList.add('visibile');
       }
+      stato.modelloAvviato = true;
       tingi();
+    }
+
+    /* Rete di sicurezza: tornando dalla realta' aumentata (o quando la memoria
+       grafica finisce) alcuni telefoni perdono il contesto WebGL e al posto del
+       vaso resta un rettangolo grigio. Qui ce ne accorgiamo e lo ricarichiamo. */
+    function ricarica3D() {
+      var s = mv.getAttribute('src'); if (!s) return;
+      velo.classList.add('visibile');
+      mv.removeAttribute('src');
+      setTimeout(function () { mv.setAttribute('src', s); }, 60);
+    }
+
+    function sorvegliaTela() {
+      var c = mv.shadowRoot && mv.shadowRoot.querySelector('canvas');
+      if (!c || c.dataset.sorvegliata) return;
+      c.dataset.sorvegliata = '1';
+      c.addEventListener('webglcontextlost', function (e) { e.preventDefault(); ricarica3D(); });
     }
 
     function tingi() {
@@ -754,6 +771,12 @@
       velo.classList.remove('visibile');
       tingi();
       impostaAR();
+      sorvegliaTela();
+    });
+
+    /* se il caricamento fallisce non lasciamo il velo acceso all'infinito */
+    mv.addEventListener('error', function () {
+      velo.textContent = 'Modello non disponibile — tocca una foto per tornare alle immagini.';
     });
 
     /* Sul telefono il vaso e' un filo piu' alto nell'inquadratura e un filo
@@ -939,13 +962,36 @@
     document.getElementById('cfg-add').addEventListener('click', aggiungi);
     document.getElementById('barra-add').addEventListener('click', aggiungi);
 
-    /* la barra fissa compare quando il bottone grande esce dallo schermo */
-    var barra = document.getElementById('barra-mobile');
+    /* ---- Quando compare la fascia fissa in fondo ---------------------------
+       Regola: il primo schermo deve mostrare il vaso e i colori, niente altro.
+       La fascia arriva solo DOPO: quando le pastiglie colore sono uscite dallo
+       schermo verso l'alto (quindi si sta scorrendo) e il bottone grande non
+       si vede. Se il bottone vero e' in vista la fascia sparisce: due bottoni
+       identici uno sopra l'altro sono solo rumore. */
+    var barra   = document.getElementById('barra-mobile');
     var bottone = document.getElementById('cfg-add');
-    if (barra && 'IntersectionObserver' in window) {
+    var colori  = document.querySelector('.pv-blocco-colori');
+
+    if (barra && bottone && colori && 'IntersectionObserver' in window) {
+      var coloriPassati = false;   // le pastiglie sono uscite in alto
+      var bottoneInVista = false;
+
+      function decidiBarra() {
+        barra.classList.toggle('visibile', coloriPassati && !bottoneInVista);
+      }
+
       new IntersectionObserver(function (voci) {
-        barra.classList.toggle('visibile', !voci[0].isIntersecting);
-      }, { rootMargin: '-80px 0px 0px 0px' }).observe(bottone);
+        var v = voci[0];
+        /* "passati" solo se sono uscite verso l'ALTO: se il blocco e' ancora
+           sotto lo schermo (primo caricamento) la fascia deve restare nascosta. */
+        coloriPassati = !v.isIntersecting && v.boundingClientRect.top < 0;
+        decidiBarra();
+      }, { threshold: 0 }).observe(colori);
+
+      new IntersectionObserver(function (voci) {
+        bottoneInVista = voci[0].isIntersecting;
+        decidiBarra();
+      }, { threshold: 0 }).observe(bottone);
     }
 
     aggiornaBottone();
