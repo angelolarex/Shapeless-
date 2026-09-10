@@ -745,8 +745,27 @@
     if ('requestIdleCallback' in window) requestIdleCallback(caricaModulo, { timeout: 2500 });
     else window.addEventListener('load', function () { setTimeout(caricaModulo, 800); });
 
+    /* Il visualizzatore pesa quasi un mega: su una rete lenta, fra il dito che
+       tocca il colore e il vaso che compare puo' passare qualche secondo, e
+       sembra che non succeda niente. Al primo sfioramento delle pastiglie o
+       delle miniature il caricamento parte subito: quando il dito si alza il
+       piu' e' gia' fatto. 'once' perche' basta la prima volta. */
+    ['pointerdown', 'touchstart'].forEach(function (evento) {
+      document.getElementById('colors').addEventListener(evento, caricaModulo, { once: true, passive: true });
+      thumbs.addEventListener(evento, caricaModulo, { once: true, passive: true });
+    });
+
+    var attesaVelo;
     function avviaModello() {
       caricaModulo();
+      /* se dopo dieci secondi il modello non c'e', meglio dirlo che lasciare
+         un rettangolo grigio muto: le foto restano a un tocco di distanza */
+      clearTimeout(attesaVelo);
+      attesaVelo = setTimeout(function () {
+        if (!mv.loaded && velo.classList.contains('visibile')) {
+          velo.textContent = 'Il modello ci sta mettendo troppo — tocca una foto per tornare alle immagini.';
+        }
+      }, 10000);
       var voluto = fileDelColore(stato.color);
       if (mv.getAttribute('src') !== voluto) {
         mv.classList.remove('pronto');
@@ -785,7 +804,9 @@
 
     mv.addEventListener('load', function () {
       mv.classList.add('pronto');
+      clearTimeout(attesaVelo);
       velo.classList.remove('visibile');
+      velo.textContent = 'Carico il modello…';
       tingi();
       impostaAR();
       sorvegliaTela();
