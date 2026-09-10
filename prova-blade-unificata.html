@@ -755,6 +755,26 @@
       thumbs.addEventListener(evento, caricaModulo, { once: true, passive: true });
     });
 
+    /* Il pezzo pesante non e' il visualizzatore, e' il modello: blade.bin, tre
+       mega, ed e' lo stesso per tutti i colori (il file di ogni tinta pesa due
+       kilobyte e ci punta). Aspettare il tocco per iniziare a scaricarlo vuol
+       dire far aspettare il cliente col dito a mezz'aria. Quindi appena la
+       pagina ha finito le sue cose lo prepariamo di nascosto, mentre si
+       guardano le foto: al primo tocco su un colore il vaso c'e' gia'.
+       Non lo facciamo a chi ha chiesto il risparmio dati o naviga in 2G: li'
+       tre mega non richiesti sarebbero una scortesia. */
+    function preparaModello() {
+      caricaModulo();
+      if (mv.getAttribute('src')) return;
+      var rete = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+      if (rete && (rete.saveData || /(^|-)2g$/.test(rete.effectiveType || ''))) return;
+      mv.setAttribute('src', fileDelColore(stato.color));
+    }
+    window.addEventListener('load', function () {
+      if ('requestIdleCallback' in window) requestIdleCallback(preparaModello, { timeout: 3000 });
+      else setTimeout(preparaModello, 1200);
+    });
+
     var attesaVelo;
     function avviaModello() {
       caricaModulo();
@@ -810,6 +830,9 @@
       tingi();
       impostaAR();
       sorvegliaTela();
+      /* se il modello e' arrivato mentre si guardano le foto, sta fermo:
+         niente giostra invisibile a consumare batteria */
+      if (stato.vista !== '3d' && mv.pause) { try { mv.pause(); } catch (err) {} }
     });
 
     /* se il caricamento fallisce non lasciamo il velo acceso all'infinito */
