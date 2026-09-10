@@ -300,13 +300,13 @@
                 max-camera-orbit="auto 92deg 1.32m"
                 field-of-view="28deg"
                 min-field-of-view="20deg"
-                shadow-intensity="0.4"
+                shadow-intensity="0.32"
                 shadow-softness="1"
                 exposure="0.92"
                 environment-image="neutral"
                 tone-mapping="neutral"
                 ar
-                ar-modes="webxr scene-viewer quick-look"
+                ar-modes="scene-viewer webxr quick-look"
                 ar-scale="fixed"
                 ar-placement="floor"></model-viewer>
               <span class="pv-hint" id="pv-hint">Trascina per ruotare · scorri per avvicinare</span>
@@ -866,17 +866,15 @@
 
     arBtn.addEventListener('click', function () { if (mv.activateAR) mv.activateAR(); });
 
-    /* In realta' aumentata l'ombra di appoggio dava troppo: sul tavolo vero una
-       macchia scura sotto il vaso si nota subito. Mentre si e' in AR resta un
-       velo appena accennato — serve solo a dire che il vaso appoggia — e al
-       rientro torna com'era nel riquadro della pagina.
-       Nota: funziona con la realta' aumentata della pagina (webxr). Se il
-       telefono apre Scene Viewer di Google, l'ombra la disegna Google e da qui
-       non si tocca: per questo webxr e' il primo della lista qui sopra. */
+    /* L'ombra di appoggio in realta' aumentata resta appena accennata, quando
+       tocca a noi disegnarla. Attenzione: su Android l'AR si apre con Scene
+       Viewer di Google - scelto apposta, perche' mette il vaso in scala reale
+       fin dal primo istante - e li' l'ombra la disegna Google: da qui non si
+       tocca. Questo blocco vale dove l'AR gira dentro la pagina (webxr). */
     mv.addEventListener('ar-status', function (e) {
       var s = e.detail.status;
       if (s === 'session-started') mv.setAttribute('shadow-intensity', '0.06');
-      if (s === 'not-presenting')  mv.setAttribute('shadow-intensity', '0.4');
+      if (s === 'not-presenting')  mv.setAttribute('shadow-intensity', '0.32');
     });
 
     mv.addEventListener('ar-status', function (e) {
