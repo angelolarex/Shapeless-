@@ -691,17 +691,12 @@
       });
     }
 
-    /* La riga di stato dice dove sei; l'istruzione sta sotto le pastiglie. */
+    /* Una riga sola sotto le pastiglie, e dice cosa fare adesso: dove ti trovi
+       lo dicono gia' la pastiglia accesa e la miniatura evidenziata. */
     function didascalia() {
-      if (stato.vista === '3d') {
-        didasc.innerHTML = 'Modello 3D <span class="sep">·</span> ' + stato.nomeColore;
-        invito.textContent = 'Giralo con il dito. Per rivedere le foto reali tocca una miniatura.';
-      } else {
-        didasc.innerHTML = FOTO.length > 1
-          ? 'Foto reale <span class="sep">·</span> ' + (stato.foto + 1) + ' di ' + FOTO.length
-          : 'Foto reale';
-        invito.textContent = 'Tocca un colore: il vaso diventa 3D e lo puoi girare.';
-      }
+      invito.textContent = (stato.vista === '3d')
+        ? 'Giralo con il dito. Per rivedere le foto reali tocca una miniatura.'
+        : 'Tocca un colore: il vaso diventa 3D e lo puoi girare.';
     }
 
     thumbs.addEventListener('click', function (e) {
