@@ -86,12 +86,8 @@
   @media (hover:hover) and (pointer:fine){ .pv-punti{ display:none; } }
 
   /* ---- vista 3D ----
-     Il fondo del 3D non e' piatto come quello delle foto: una velatura che
-     scurisce verso i bordi stacca la sagoma del vaso. Serve soprattutto ai
-     colori chiari (Off White, Rosè), che su fondo uniforme sparivano. */
-  #vista-3d{
-    background:radial-gradient(112% 78% at 50% 30%, #fbfaf8 0%, #efece6 55%, #ddd8ce 100%);
-  }
+     Fondo uguale a quello delle foto: il vaso galleggia sulla pagina, senza
+     riquadri ne' velature colorate. */
   model-viewer{
     width:100%; height:100%; display:block; background:transparent;
     --poster-color:transparent; --progress-bar-color:var(--accent); --progress-bar-height:2px;
@@ -309,11 +305,11 @@
                 max-camera-orbit="auto 92deg 1.32m"
                 field-of-view="28deg"
                 min-field-of-view="20deg"
-                shadow-intensity="0.9"
-                shadow-softness="0.6"
-                exposure="1.0"
+                shadow-intensity="0.4"
+                shadow-softness="1"
+                exposure="0.92"
                 environment-image="neutral"
-                tone-mapping="commerce"
+                tone-mapping="neutral"
                 ar
                 ar-modes="scene-viewer webxr quick-look"
                 ar-scale="fixed"
@@ -773,14 +769,9 @@
 
     function tingi() {
       if (!mv.model || !mv.model.materials || !mv.model.materials.length) return;
-      var pbr = mv.model.materials[0].pbrMetallicRoughness;
-      pbr.setBaseColorFactor(stato.color);
-      /* Il PLA stampato non e' opaco come il gesso: ha una lucentezza appena
-         accennata, ed e' quella che fa leggere lo spigolo di ogni lamella. Nel
-         file il materiale sta a 0.8 (quasi gesso) e i volumi si spegnevano;
-         0.45 li riaccende senza farlo sembrare plastica lucida.
-         Va rimesso a ogni caricamento: cambiando colore il modello si ricarica. */
-      if (pbr.setRoughnessFactor) pbr.setRoughnessFactor(0.45);
+      /* Materiale e luci restano quelli del file: il render e' quello di
+         partenza, senza ritocchi di lucentezza. */
+      mv.model.materials[0].pbrMetallicRoughness.setBaseColorFactor(stato.color);
     }
 
     mv.addEventListener('load', function () {
@@ -878,6 +869,16 @@
     }
 
     arBtn.addEventListener('click', function () { if (mv.activateAR) mv.activateAR(); });
+
+    /* In realta' aumentata l'ombra di appoggio dava troppo: sul pavimento vero
+       una macchia scura sotto il vaso si nota subito. Mentre si e' in AR la
+       abbassiamo, e al rientro torna com'era nel riquadro della pagina. */
+    mv.addEventListener('ar-status', function (e) {
+      var s = e.detail.status;
+      if (s === 'session-started') mv.setAttribute('shadow-intensity', '0.12');
+      if (s === 'not-presenting')  mv.setAttribute('shadow-intensity', '0.4');
+    });
+
     mv.addEventListener('ar-status', function (e) {
       if (e.detail.status === 'failed') {
         arNote.hidden = false;
