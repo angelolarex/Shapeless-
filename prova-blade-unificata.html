@@ -141,15 +141,9 @@
   }
   .pv-thumb-3d .txt{ font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:var(--text-muted); }
 
-  /* Riga di stato: dice solo DOVE sei, in una riga sola che non va mai a capo.
-     L'istruzione ("tocca un colore", "torna alle foto") sta sotto le pastiglie,
-     dove serve, invece di allungare questa riga e spingere giu' i colori. */
-  .pv-didascalia{
-    margin-top:14px; font-size:11px; letter-spacing:.12em; text-transform:uppercase;
-    color:var(--text-muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-    min-height:16px;
-  }
-  .pv-didascalia .sep{ opacity:.4; margin:0 6px; }
+  /* La riga di stato ("Modello 3D · Sage") non c'e' piu': lo dicono gia' la
+     pastiglia accesa, la miniatura evidenziata e il nome del colore. Una riga
+     in meno vuol dire prezzo e bottone piu' in alto. */
 
   /* ---- colonna destra ---- */
   .pv-blocco-colori{ margin-top:34px; }
@@ -190,14 +184,13 @@
     .pv-info > .pv-blocco-colori{ order:3; margin-top:12px; }
     .pv-info > .pv-blocco-colori > .label{ margin-bottom:0; }
     #colors{ margin-top:10px; }
-    .pv-didascalia{ order:4; margin-top:16px; }
-    .pv-info > .cfg-acquisto{ order:5; }
-    .pv-info > .label{ order:6; margin-top:44px; }
-    .pv-info > h1{ order:7; }
-    .pv-info > .pv-sottotitolo{ order:8; }
-    .pv-info > .pv-testo{ order:9; }
-    .pv-info > .ar-box{ order:10; }
-    .pv-info > .pv-elenco{ order:11; }
+    .pv-info > .cfg-acquisto{ order:4; }
+    .pv-info > .label{ order:5; margin-top:44px; }
+    .pv-info > h1{ order:6; }
+    .pv-info > .pv-sottotitolo{ order:7; }
+    .pv-info > .pv-testo{ order:8; }
+    .pv-info > .ar-box{ order:9; }
+    .pv-info > .pv-elenco{ order:10; }
   }
   @media (max-width:520px){
     .color-swatches{ gap:10px; }
@@ -329,8 +322,6 @@
           </div>
 
           <div class="pv-thumbs" id="pv-thumbs"><!-- riempita da JS --></div>
-
-          <p class="pv-didascalia" id="pv-didascalia"></p>
         </div>
 
         <!-- ---------- COLONNA INFORMAZIONI ---------- -->
@@ -572,7 +563,6 @@
     var slides  = document.getElementById('pv-slides');
     var thumbs  = document.getElementById('pv-thumbs');
     var punti   = document.getElementById('pv-punti');
-    var didasc  = document.getElementById('pv-didascalia');
     var vFoto   = document.getElementById('vista-foto');
     var v3d     = document.getElementById('vista-3d');
     var mv      = document.getElementById('mv');
@@ -883,11 +873,11 @@
 
     /* In realta' aumentata l'ombra di appoggio dava troppo: sul tavolo vero una
        macchia scura sotto il vaso si nota subito. Mentre si e' in AR resta un
-       velo appena accennato - serve solo a dire che il vaso appoggia - e al
+       velo appena accennato — serve solo a dire che il vaso appoggia — e al
        rientro torna com'era nel riquadro della pagina.
-       Nota: vale per la realta' aumentata della pagina (webxr). Se il telefono
-       apre Scene Viewer di Google, l'ombra la disegna Google e da qui non si
-       tocca: per questo webxr e' il primo della lista negli ar-modes. */
+       Nota: funziona con la realta' aumentata della pagina (webxr). Se il
+       telefono apre Scene Viewer di Google, l'ombra la disegna Google e da qui
+       non si tocca: per questo webxr e' il primo della lista qui sopra. */
     mv.addEventListener('ar-status', function (e) {
       var s = e.detail.status;
       if (s === 'session-started') mv.setAttribute('shadow-intensity', '0.06');
