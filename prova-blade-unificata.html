@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blade — pagina unica (prova) | Shapeless</title>
+  <meta name="description" content="Blade: foto reali e modello 3D nello stesso posto. Scegli il colore e il vaso si accende in 3D; torni alle foto quando vuoi, senza cambiare pagina.">
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/negozio.css">
+
+  <style>
+  /* ==========================================================================
+     PAGINA UNICA — foto + 3D nello stesso riquadro
+     --------------------------------------------------------------------------
+     L'idea: chi compra non deve scegliere fra "vedere le foto" e "vedere il 3D".
+     C'e' un solo riquadro. Dentro ci sono due viste sovrapposte, e si passa
+     dall'una all'altra senza mai lasciare la pagina:
+
+       - le foto scorrono di lato (si trascina col dito, come su Instagram)
+       - si tocca un colore  -> il riquadro diventa il 3D di quel colore
+       - si tocca una foto o "Foto" -> si torna alle foto, colore conservato
+
+     Tutto qui dentro e' "scoped" con il prefisso .pv- (pagina vaso) per non
+     toccare nulla del resto del sito: e' una prova, deve poter convivere con
+     prodotto-blade.html e esplora-blade.html finche' non decidiamo.
+     ========================================================================== */
+
+  .pv-grid{ display:grid; grid-template-columns:1.08fr 1fr; gap:64px; align-items:start; }
+
+  /* ---- il riquadro unico ---- */
+  .pv-stage{
+    position:relative; background:var(--bg2); border-radius:2px;
+    aspect-ratio:4/5; overflow:hidden;
+  }
+  .pv-vista{
+    position:absolute; inset:0; opacity:0; visibility:hidden;
+    transition:opacity .32s ease, visibility .32s;
+  }
+  .pv-vista.attiva{ opacity:1; visibility:visible; }
+
+  /* ---- vista FOTO: carosello che si trascina ---- */
+  .pv-slides{
+    display:flex; height:100%; overflow-x:auto; overflow-y:hidden;
+    scroll-snap-type:x mandatory; scroll-behavior:smooth;
+    scrollbar-width:none; -ms-overflow-style:none;
+  }
+  .pv-slides::-webkit-scrollbar{ display:none; }
+  .pv-slide{
+    flex:0 0 100%; height:100%; scroll-snap-align:center;
+    display:flex; align-items:flex-end; justify-content:center;
+    padding:24px 24px 0;
+  }
+  .pv-slide img{ width:80%; height:92%; object-fit:contain; object-position:center bottom; }
+
+  /* frecce: solo dove c'e' un mouse, sul telefono si trascina e basta */
+  .pv-freccia{
+    position:absolute; top:50%; transform:translateY(-50%); z-index:3;
+    width:40px; height:40px; border-radius:50%; background:rgba(250,250,248,.86);
+    border:1px solid var(--border); cursor:pointer; display:none;
+    align-items:center; justify-content:center; color:var(--text);
+    font-size:15px; line-height:1; padding:0; transition:background .2s, opacity .2s;
+  }
+  .pv-freccia:hover{ background:#fff; }
+  .pv-freccia[disabled]{ opacity:.3; cursor:default; }
+  .pv-freccia.prec{ left:12px; }
+  .pv-freccia.succ{ right:12px; }
+  @media (hover:hover) and (pointer:fine){ .pv-freccia{ display:flex; } }
+
+  /* pallini di posizione, come nelle gallerie del telefono */
+  .pv-punti{
+    position:absolute; left:0; right:0; bottom:14px; z-index:3;
+    display:flex; gap:7px; justify-content:center; pointer-events:none;
+  }
+  .pv-punto{ width:5px; height:5px; border-radius:50%; background:var(--text-muted); opacity:.3; transition:opacity .2s; }
+  .pv-punto.attivo{ opacity:.9; }
+  @media (hover:hover) and (pointer:fine){ .pv-punti{ display:none; } }
+
+  /* ---- vista 3D ---- */
+  model-viewer{
+    width:100%; height:100%; display:block; background:transparent;
+    --poster-color:transparent; --progress-bar-color:var(--accent); --progress-bar-height:2px;
+  }
+  model-viewer.pronto{ --progress-bar-color:transparent; }
+  .pv-hint{
+    position:absolute; left:0; right:0; bottom:14px; text-align:center;
+    font-size:10px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--text-muted); pointer-events:none; opacity:.75;
+  }
+  /* velo di caricamento la primissima volta che si accende il 3D */
+  .pv-caricamento{
+    position:absolute; inset:0; display:none; align-items:center; justify-content:center;
+    background:var(--bg2); z-index:2;
+    font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--text-muted);
+  }
+  .pv-caricamento.visibile{ display:flex; }
+
+  /* ---- interruttore Foto / 3D, sempre visibile sopra il riquadro ---- */
+  .pv-switch{
+    position:absolute; top:12px; right:12px; z-index:4;
+    display:flex; padding:3px; gap:2px;
+    background:rgba(250,250,248,.9); border:1px solid var(--border); border-radius:999px;
+    backdrop-filter:blur(6px);
+  }
+  .pv-switch button{
+    border:0; background:transparent; cursor:pointer; border-radius:999px;
+    padding:7px 15px; font-family:var(--font-body);
+    font-size:10px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--text-muted); transition:background .2s, color .2s;
+  }
+  .pv-switch button.attivo{ background:var(--text); color:var(--bg); }
+
+  /* ---- miniature: le foto e, in coda, la tessera 3D ---- */
+  .pv-thumbs{ display:flex; gap:12px; margin-top:16px; overflow-x:auto; padding-bottom:2px; scrollbar-width:none; }
+  .pv-thumbs::-webkit-scrollbar{ display:none; }
+  .pv-thumb{
+    width:76px; height:76px; flex:none; border:1px solid var(--border); border-radius:2px;
+    background:var(--bg2); cursor:pointer; padding:8px; overflow:hidden;
+    display:flex; align-items:center; justify-content:center;
+    opacity:.55; transition:opacity .2s, border-color .2s;
+  }
+  .pv-thumb img{ width:100%; height:100%; object-fit:contain; }
+  .pv-thumb.attivo, .pv-thumb:hover{ opacity:1; border-color:var(--accent); }
+  /* la tessera del 3D: un pallino del colore scelto + la scritta */
+  .pv-thumb-3d{ flex-direction:column; gap:6px; }
+  .pv-thumb-3d .pallino{
+    width:20px; height:20px; border-radius:50%; border:1px solid rgba(0,0,0,.12);
+    transition:background .25s;
+  }
+  .pv-thumb-3d .txt{ font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:var(--text-muted); }
+
+  .pv-didascalia{
+    margin-top:14px; font-size:11px; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--text-muted); display:flex; gap:10px; align-items:center; min-height:16px;
+  }
+  .pv-didascalia .sep{ opacity:.4; }
+
+  /* ---- colonna destra ---- */
+  .pv-colorname{ margin-top:14px; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--text-muted); }
+  .pv-invito{ font-size:12.5px; color:var(--text-muted); margin-top:8px; line-height:1.7; }
+
+  .ar-box{ margin-top:34px; padding:22px 24px; background:var(--bg2); border:1px solid var(--border); border-radius:2px; }
+  .ar-box .label{ margin-bottom:16px; display:block; }
+  .ar-btn{ width:100%; justify-content:center; text-align:center; }
+  .ar-btn[hidden]{ display:none !important; }
+  .ar-qr{ display:flex; gap:20px; align-items:center; }
+  .ar-qr[hidden]{ display:none !important; }
+  .ar-qr .qr{ flex:none; width:116px; height:116px; padding:8px; background:#fff; border:1px solid var(--border); border-radius:2px; }
+  .ar-qr .qr svg{ width:100%; height:100%; display:block; }
+  .ar-qr p{ margin:0; font-size:12.5px; line-height:1.7; color:var(--text-muted); }
+  .ar-qr strong{ color:var(--text); font-weight:600; }
+  .cfg-note{ font-size:12px; line-height:1.7; color:var(--text-muted); margin-top:18px; }
+  @media (max-width:520px){ .ar-qr{ flex-direction:column; align-items:flex-start; } }
+
+  /* ---- telefono: riquadro in alto, colori subito sotto, acquisto a seguire ---- */
+  @media (max-width:980px){
+    .pv-grid{ display:flex; flex-direction:column; gap:0; }
+    .pv-stage{ aspect-ratio:auto; height:min(58vh,440px); }
+    .pv-info{ display:contents; }
+    .pv-visore{ order:1; }
+    .pv-info > .pv-blocco-colori{ order:2; margin-top:26px; }
+    .pv-info > .cfg-acquisto{ order:3; }
+    .pv-info > .label{ order:4; margin-top:44px; }
+    .pv-info > h1{ order:5; }
+    .pv-info > .pv-sottotitolo{ order:6; }
+    .pv-info > .pv-testo{ order:7; }
+    .pv-info > .ar-box{ order:8; }
+    .pv-info > .pv-elenco{ order:9; }
+  }
+  @media (max-width:520px){
+    .color-swatches{ gap:10px; }
+    .color-swatch{ width:26px; height:26px; }
+    .pv-thumb{ width:64px; height:64px; }
+  }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><img src="images/Logo Shapeless.png" alt="Shapeless" class="nav-logo-img"></a>
+    <ul class="nav-links">
+      <li class="nav-item">
+        <span>About</span>
+        <div class="dropdown">
+          <a href="chi-siamo.html">Chi siamo</a>
+          <a href="il-mais.html">Il Mais</a>
+          <a href="shapeless-brand.html">Shapeless</a>
+        </div>
+      </li>
+      <li class="nav-item"><a href="collab.html">Collab</a>
+        <div class="dropdown">
+          <a href="hospitality.html">Hospitality &amp; Architettura</a>
+          <a href="creativi.html">Creativi</a>
+        </div>
+      </li>
+      <li class="nav-item"><a href="rivenditori.html">Rivenditori</a></li>
+      <li class="nav-item">
+        <span>Community</span>
+        <div class="dropdown">
+          <a href="faq.html">FAQ</a>
+          <a href="blog.html">Blog</a>
+        </div>
+      </li>
+      <li class="nav-item"><a href="contatti.html">Contatti</a></li>
+      <li class="nav-item nav-cart"><a href="carrello.html">Carrello <span class="cart-badge">0</span></a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <div class="nav-mobile">
+    <div class="mob-group">
+      <button type="button" class="mob-section-title">About<span class="mob-chevron"></span></button>
+      <div class="mob-sub">
+        <a href="chi-siamo.html">Chi siamo</a>
+        <a href="il-mais.html">Il Mais</a>
+        <a href="shapeless-brand.html">Shapeless</a>
+      </div>
+    </div>
+    <div class="mob-group">
+      <button type="button" class="mob-section-title">Collab<span class="mob-chevron"></span></button>
+      <div class="mob-sub">
+        <a href="collab.html">Panoramica Collab</a>
+        <a href="hospitality.html">Hospitality &amp; Architettura</a>
+        <a href="creativi.html">Creativi</a>
+      </div>
+    </div>
+    <a href="rivenditori.html">Rivenditori</a>
+    <div class="mob-group">
+      <button type="button" class="mob-section-title">Community<span class="mob-chevron"></span></button>
+      <div class="mob-sub">
+        <a href="faq.html">FAQ</a>
+        <a href="blog.html">Blog</a>
+      </div>
+    </div>
+    <a href="contatti.html">Contatti</a>
+    <a href="carrello.html">Carrello <span class="cart-badge">0</span></a>
+  </div>
+
+  <!-- ===================== PRODOTTO ===================== -->
+  <section class="section" style="padding-top: calc(var(--nav-h) + 56px); border-bottom:1px solid var(--border);">
+    <div class="container">
+
+      <a href="tutti-i-design.html" style="display:inline-block; margin-bottom:32px; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--text-muted);">← Tutti i design</a>
+
+      <div class="pv-grid">
+
+        <!-- ---------- RIQUADRO UNICO: foto + 3D ---------- -->
+        <div class="pv-visore">
+          <div class="pv-stage" id="pv-stage">
+
+            <!-- vista foto -->
+            <div class="pv-vista attiva" id="vista-foto">
+              <div class="pv-slides" id="pv-slides"><!-- riempita da JS --></div>
+              <button type="button" class="pv-freccia prec" id="pv-prec" aria-label="Foto precedente">‹</button>
+              <button type="button" class="pv-freccia succ" id="pv-succ" aria-label="Foto successiva">›</button>
+              <div class="pv-punti" id="pv-punti"></div>
+            </div>
+
+            <!-- vista 3D (il modello viene caricato solo al primo utilizzo) -->
+            <div class="pv-vista" id="vista-3d">
+              <model-viewer id="mv"
+                alt="Vaso Blade di Shapeless, modello 3D interattivo"
+                camera-controls
+                disable-pan
+                touch-action="none"
+                auto-rotate
+                auto-rotate-delay="2500"
+                rotation-per-second="6deg"
+                interaction-prompt="none"
+                camera-orbit="20deg 78deg 1.05m"
+                camera-target="0m 0.185m 0m"
+                min-camera-orbit="auto 30deg 0.78m"
+                max-camera-orbit="auto 92deg 1.32m"
+                field-of-view="28deg"
+                min-field-of-view="20deg"
+                shadow-intensity="0.4"
+                shadow-softness="1"
+                exposure="0.92"
+                environment-image="neutral"
+                tone-mapping="neutral"
+                ar
+                ar-modes="scene-viewer webxr quick-look"
+                ar-scale="fixed"
+                ar-placement="floor"></model-viewer>
+              <span class="pv-hint" id="pv-hint">Trascina per ruotare · scorri per avvicinare</span>
+              <div class="pv-caricamento" id="pv-caricamento">Carico il modello…</div>
+            </div>
+
+            <!-- interruttore sempre presente: la via di ritorno alle foto -->
+            <div class="pv-switch" role="group" aria-label="Foto o 3D">
+              <button type="button" class="attiva" data-vista="foto">Foto</button>
+              <button type="button" data-vista="3d">3D</button>
+            </div>
+
+          </div>
+
+          <div class="pv-thumbs" id="pv-thumbs"><!-- riempita da JS --></div>
+
+          <p class="pv-didascalia" id="pv-didascalia"></p>
+        </div>
+
+        <!-- ---------- COLONNA INFORMAZIONI ---------- -->
+        <div class="pv-info">
+          <p class="label">Collezione</p>
+          <h1 style="font-size:clamp(40px,5.5vw,68px);">Blade</h1>
+          <p class="pv-sottotitolo" style="font-size:18px; color:var(--accent2); margin-top:20px; line-height:1.7;">
+            Lame verticali, in equilibrio dinamico.
+          </p>
+
+          <!-- colori: il gesto che accende il 3D -->
+          <div class="pv-blocco-colori" style="margin-top:34px;">
+            <div class="label">Scegli il colore</div>
+            <div class="color-swatches" id="colors" style="margin-top:16px;">
+              <button type="button" class="color-swatch active" data-color="#a3444d" data-name="Red Wine" style="background:#a3444d;" aria-label="Red Wine"></button>
+              <button type="button" class="color-swatch" data-color="#91535d" data-name="Bordeaux" style="background:#91535d;" aria-label="Bordeaux"></button>
+              <button type="button" class="color-swatch" data-color="#bcbfb0" data-name="Sage" style="background:#bcbfb0;" aria-label="Sage"></button>
+              <button type="button" class="color-swatch" data-color="#646666" data-name="Antracite" style="background:#646666;" aria-label="Antracite"></button>
+              <button type="button" class="color-swatch" data-color="#d8d0cd" data-name="Off White" style="background:#d8d0cd;" aria-label="Off White"></button>
+              <button type="button" class="color-swatch" data-color="#e2cbc5" data-name="Rosè" style="background:#e2cbc5;" aria-label="Rosè"></button>
+              <button type="button" class="color-swatch" data-color="#346371" data-name="Emerald Green" style="background:#346371;" aria-label="Emerald Green"></button>
+              <button type="button" class="color-swatch" data-color="#00924f" data-name="Verde" style="background:#00924f;" aria-label="Verde"></button>
+              <button type="button" class="color-swatch" data-color="#5b644f" data-name="Forest Green" style="background:#5b644f;" aria-label="Forest Green"></button>
+            </div>
+            <div class="pv-colorname" id="colorname">Red Wine</div>
+            <p class="pv-invito" id="pv-invito">Tocca un colore: il vaso qui accanto diventa 3D e lo puoi girare. Le foto restano a un tocco di distanza.</p>
+          </div>
+
+          <!-- acquisto -->
+          <div class="cfg-acquisto">
+            <div class="cfg-prezzo">
+              <strong id="cfg-prezzo">€ 169,00</strong>
+              <span id="cfg-prezzo-nota">IVA inclusa · spedizione gratuita in Italia</span>
+            </div>
+
+            <button type="button" class="btn btn-fill cfg-add" id="cfg-add">
+              <span class="cfg-add-pallino" id="cfg-add-pallino" style="background:#a3444d"></span>
+              <span id="cfg-add-testo">Aggiungi al carrello — Red Wine</span>
+            </button>
+
+            <p class="cfg-rassicura">
+              Stampato su ordinazione nel colore che hai scelto.
+              <strong>Consegna stimata entro il <span id="cfg-consegna">—</span></strong> ·
+              spedizione gratuita in Italia · reso entro 14 giorni · Hidden Nest in vetro incluso.
+            </p>
+          </div>
+
+          <!-- realtà aumentata -->
+          <div class="ar-box">
+            <span class="label">Vedilo nel tuo spazio</span>
+            <button type="button" class="btn btn-accent ar-btn" id="ar-btn" hidden>Appoggia Blade nella tua stanza</button>
+            <div class="ar-qr" id="ar-qr" hidden>
+              <div class="qr" id="qr-target"></div>
+              <p><strong>Inquadra il codice con la fotocamera del telefono.</strong>
+                 Si aprirà questa pagina col colore che hai scelto, e da lì potrai appoggiare
+                 Blade sul pavimento di casa tua in scala reale — è alto 37 cm.</p>
+            </div>
+            <p class="cfg-note" id="ar-note"></p>
+          </div>
+
+          <p class="pv-testo">
+            Blade è il vaso che ha dato forma all'identità di Shapeless: superfici a lamelle che si
+            intrecciano in verticale, come un movimento sospeso a metà tra scultura e architettura.
+          </p>
+
+          <ul class="pv-elenco" style="margin-top:24px; display:flex; flex-direction:column; gap:10px;">
+            <li style="font-size:13px; color:var(--text-muted);">— Materiale: PLA vegetale (mais e canna da zucchero)</li>
+            <li style="font-size:13px; color:var(--text-muted);">— Nove colori, alto 37 cm</li>
+            <li style="font-size:13px; color:var(--text-muted);">— Prodotto su richiesta, nessuno stock</li>
+            <li style="font-size:13px; color:var(--text-muted);">— Hidden Nest in vetro incluso</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- LA FORMA -->
+  <section class="section" style="border-bottom:1px solid var(--border);">
+    <div class="container">
+      <div class="grid-2" style="align-items:center; gap:72px;">
+        <div class="reveal">
+          <p class="label">La forma</p>
+          <h2 class="mb-24"><strong>Movimento</strong> e leggerezza strutturale</h2>
+          <p>
+            Le lamelle di Blade sono generate con modellazione parametrica: un intreccio di superfici che
+            alleggerisce visivamente il volume e gioca con la luce, creando profondità diverse a seconda del
+            punto di vista.
+          </p>
+          <p>
+            Puoi esplorare due varianti interattive della sua geometria: la versione
+            <a href="pagina-poligono.html" style="color:var(--accent);">low-poly deconstructed →</a>
+            e la versione <a href="pagina-torsione.html" style="color:var(--accent);">pixel-art in torsione →</a>.
+          </p>
+        </div>
+        <div class="reveal reveal-delay-2">
+          <img src="images/blade%20.png" alt="Dettaglio vaso Blade" style="width:100%; aspect-ratio:4/5; object-fit:cover; border-radius:2px;">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCHEDA TECNICA -->
+  <section class="section" style="border-bottom:1px solid var(--border);">
+    <div class="container" style="max-width:800px;">
+      <p class="label">Scheda tecnica</p>
+      <h2 class="mb-48">Tutto quello che c'è <strong>da sapere</strong></h2>
+
+      <div class="faq-item">
+        <div class="faq-question">Materiale<div class="faq-icon">+</div></div>
+        <div class="faq-answer"><p>PLA (acido polilattico), un biopolimero di origine vegetale ricavato da mais o canna da zucchero. Leggero, resistente e impermeabile, riciclabile a fine vita.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Dimensioni<div class="faq-icon">+</div></div>
+        <div class="faq-answer"><p>Altezza 37 cm. Blade può essere realizzato anche su misura, adattando altezza e diametro alle proporzioni del tuo spazio — scrivici per la scheda dimensionale completa.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Hidden Nest incluso<div class="faq-icon">+</div></div>
+        <div class="faq-answer"><p>Ogni Blade include l'inserto Hidden Nest in vetro, pensato per accogliere acqua e fiori freschi preservando il PLA nel tempo. <a href="#hidden-nest" style="color:var(--accent);">Scopri di più qui sotto ↓</a></p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Cura e manutenzione<div class="faq-icon">+</div></div>
+        <div class="faq-answer"><p>Pulizia con un panno morbido leggermente umido. Evitare l'esposizione solare diretta e prolungata e le fonti di calore dirette, che possono favorire lo scolorimento del PLA nel tempo.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Spedizione e tempi di produzione<div class="faq-icon">+</div></div>
+        <div class="faq-answer"><p>Ogni pezzo viene realizzato su richiesta e consegnato entro circa 12 giorni lavorativi, con imballaggio curato e resistente per proteggerlo durante il trasporto.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HIDDEN NEST -->
+  <section class="section" id="hidden-nest" style="border-bottom:1px solid var(--border);">
+    <div class="container">
+      <div class="grid-2" style="align-items:center; gap:72px;">
+        <div class="reveal">
+          <p class="label">Dotazione inclusa</p>
+          <h2 class="mb-16">HIDDEN NEST</h2>
+          <p style="font-size:17px; color:var(--accent2); margin-bottom:24px;">L'anima invisibile pensata per i tuoi fiori.</p>
+          <p>
+            Ogni vaso è dotato di Hidden Nest, un inserto in vetro progettato su misura per integrarsi alla
+            perfezione nel design dell'oggetto. Un cuore protettivo che accoglie l'acqua e i fiori freschi,
+            preservando intatta la purezza del PLA nel tempo.
+          </p>
+        </div>
+        <div class="reveal reveal-delay-2">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+            <img src="images/Bicchieri%20-%20Hidden%20nest/IMG_1631.jpg" alt="Inserti Hidden Nest in vetro su misura" style="width:100%; aspect-ratio:4/5; object-fit:cover; border-radius:2px;">
+            <img src="images/Bicchieri%20-%20Hidden%20nest/IMG_1649.jpg" alt="Hidden Nest con fiori freschi" style="width:100%; aspect-ratio:4/5; object-fit:cover; border-radius:2px;">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="images/Logo Shapeless.png" alt="Shapeless" class="footer-logo-img">
+          <p>Design di oggetti decorativi realizzati con stampa 3D e materiali ecosostenibili.</p>
+          <div class="social-links" style="margin-top:24px;">
+            <a href="https://www.instagram.com/shapeless.di/" target="_blank">Instagram</a>
+            <a href="https://www.facebook.com/Shapeless.di" target="_blank">Facebook</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h5>Esplora</h5>
+          <a href="tutti-i-design.html">Tutti i design</a>
+          <a href="chi-siamo.html">Chi siamo</a>
+          <a href="il-mais.html">Il Mais</a>
+          <a href="shapeless-brand.html">Il Brand</a>
+          <a href="collab.html">Collab</a>
+          <a href="rivenditori.html">Rivenditori</a>
+          <a href="carrello.html">Il tuo carrello <span class="cart-badge">0</span></a>
+        </div>
+        <div class="footer-col">
+          <h5>Community</h5>
+          <a href="faq.html">FAQ</a>
+          <a href="blog.html">Blog</a>
+          <a href="contatti.html">Contatti</a>
+        </div>
+        <div class="footer-col">
+          <h5>Contatti</h5>
+          <a href="mailto:info@shapeless.shop">info@shapeless.shop</a>
+          <a href="tel:+393274465586">+39 327 446 5586</a>
+          <p style="font-size:12px; margin-top:12px; color:var(--text-muted);">Viale della Regione 32B<br>93100 Caltanissetta (IT)</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 Shapeless — Larecchiuta Angelo — P.IVA 01927390854</p>
+        <div style="display:flex; gap:24px; flex-wrap:wrap;">
+          <a href="#" style="font-size:12px; color:var(--text-muted);">Privacy Policy</a>
+          <a href="#" style="font-size:12px; color:var(--text-muted);">Cookie Policy</a>
+          <a href="#" style="font-size:12px; color:var(--text-muted);">Termini e condizioni</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- barra fissa su telefono: aggiunge al carrello il colore scelto -->
+  <div class="barra-mobile" id="barra-mobile">
+    <div class="barra-mobile-txt">
+      <strong>Blade</strong>
+      <span id="barra-prezzo">€ 169,00</span>
+    </div>
+    <button type="button" class="btn btn-fill" id="barra-add">Aggiungi — <span id="barra-colore">Red Wine</span></button>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/lang.js"></script>
+  <script src="js/shop-config.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/qrcode.js"></script>
+
+  <script>
+  /* =========================================================================
+     LE FOTO
+     -------------------------------------------------------------------------
+     Per aggiungerne una basta aggiungere una riga qui sotto: miniature,
+     pallini e frecce si adeguano da soli. Se un giorno avremo la foto vera
+     di un colore preciso, si aggiunge "colore:'#xxxxxx'" e la foto verra'
+     mostrata per prima quando quel colore e' selezionato (gia' previsto).
+     ========================================================================= */
+  var FOTO = [
+    { src:'images/blade-transparent.png', alt:'Blade — vista frontale' },
+    { src:'images/blade .png',            alt:'Blade — dettaglio delle lamelle' }
+  ];
+  </script>
+
+  <script>
+  (function () {
+    'use strict';
+
+    var stage   = document.getElementById('pv-stage');
+    var slides  = document.getElementById('pv-slides');
+    var thumbs  = document.getElementById('pv-thumbs');
+    var punti   = document.getElementById('pv-punti');
+    var didasc  = document.getElementById('pv-didascalia');
+    var vFoto   = document.getElementById('vista-foto');
+    var v3d     = document.getElementById('vista-3d');
+    var mv      = document.getElementById('mv');
+    var velo    = document.getElementById('pv-caricamento');
+    var nome    = document.getElementById('colorname');
+    var invito  = document.getElementById('pv-invito');
+    var prec    = document.getElementById('pv-prec');
+    var succ    = document.getElementById('pv-succ');
+
+    var stato = { vista:'foto', foto:0, color:'#a3444d', nomeColore:'Red Wine', modelloAvviato:false };
+
+    /* ---------------------------------------------------------------- FOTO */
+
+    FOTO.forEach(function (f, i) {
+      var s = document.createElement('div');
+      s.className = 'pv-slide';
+      s.innerHTML = '<img src="' + encodeURI(f.src) + '" alt="' + f.alt + '" ' +
+                    (i === 0 ? '' : 'loading="lazy" ') + '>';
+      slides.appendChild(s);
+
+      var p = document.createElement('span');
+      p.className = 'pv-punto' + (i === 0 ? ' attivo' : '');
+      punti.appendChild(p);
+
+      var t = document.createElement('button');
+      t.type = 'button';
+      t.className = 'pv-thumb' + (i === 0 ? ' attivo' : '');
+      t.dataset.foto = i;
+      t.innerHTML = '<img src="' + encodeURI(f.src) + '" alt="' + f.alt + '" loading="lazy">';
+      thumbs.appendChild(t);
+    });
+
+    /* la tessera del 3D, in coda alle foto */
+    var t3d = document.createElement('button');
+    t3d.type = 'button';
+    t3d.className = 'pv-thumb pv-thumb-3d';
+    t3d.dataset.vista = '3d';
+    t3d.innerHTML = '<span class="pallino" id="thumb-pallino" style="background:#a3444d"></span>' +
+                    '<span class="txt">3D</span>';
+    thumbs.appendChild(t3d);
+    var thumbPallino = document.getElementById('thumb-pallino');
+
+    function vaiAFoto(i, conAnimazione) {
+      i = Math.max(0, Math.min(FOTO.length - 1, i));
+      stato.foto = i;
+      slides.scrollTo({ left: slides.clientWidth * i, behavior: conAnimazione === false ? 'auto' : 'smooth' });
+      segnaFotoAttiva(i);
+    }
+
+    function segnaFotoAttiva(i) {
+      punti.querySelectorAll('.pv-punto').forEach(function (p, k) { p.classList.toggle('attivo', k === i); });
+      if (stato.vista === 'foto') aggiornaThumbAttiva();
+      prec.disabled = (i === 0);
+      succ.disabled = (i === FOTO.length - 1);
+      didascalia();
+    }
+
+    /* mentre si trascina, il pallino e la miniatura seguono il dito */
+    var attesa;
+    slides.addEventListener('scroll', function () {
+      clearTimeout(attesa);
+      attesa = setTimeout(function () {
+        var i = Math.round(slides.scrollLeft / slides.clientWidth);
+        if (i !== stato.foto) { stato.foto = i; segnaFotoAttiva(i); }
+      }, 90);
+    });
+
+    prec.addEventListener('click', function () { vaiAFoto(stato.foto - 1); });
+    succ.addEventListener('click', function () { vaiAFoto(stato.foto + 1); });
+
+    /* frecce della tastiera, quando il riquadro ha il fuoco */
+    stage.addEventListener('keydown', function (e) {
+      if (stato.vista !== 'foto') return;
+      if (e.key === 'ArrowLeft')  vaiAFoto(stato.foto - 1);
+      if (e.key === 'ArrowRight') vaiAFoto(stato.foto + 1);
+    });
+
+    /* ------------------------------------------------------ CAMBIO DI VISTA */
+
+    function mostraFoto(i) {
+      if (typeof i === 'number') vaiAFoto(i, stato.vista === 'foto');
+      stato.vista = 'foto';
+      vFoto.classList.add('attiva');
+      v3d.classList.remove('attiva');
+      /* il modello smette di girare mentre non si vede: niente lavoro inutile */
+      if (mv && mv.pause) { try { mv.pause(); } catch (err) {} }
+      aggiornaInterruttore();
+      aggiornaThumbAttiva();
+      didascalia();
+      ricordaNellIndirizzo();
+    }
+
+    function mostra3D() {
+      stato.vista = '3d';
+      avviaModello();
+      v3d.classList.add('attiva');
+      vFoto.classList.remove('attiva');
+      if (mv && mv.play) { try { mv.play(); } catch (err) {} }
+      aggiornaInterruttore();
+      aggiornaThumbAttiva();
+      didascalia();
+      ricordaNellIndirizzo();
+    }
+
+    function aggiornaInterruttore() {
+      document.querySelectorAll('.pv-switch button').forEach(function (b) {
+        b.classList.toggle('attiva', b.dataset.vista === stato.vista);
+      });
+    }
+
+    function aggiornaThumbAttiva() {
+      thumbs.querySelectorAll('.pv-thumb').forEach(function (t) {
+        var suo = (stato.vista === '3d')
+          ? (t.dataset.vista === '3d')
+          : (t.dataset.foto !== undefined && Number(t.dataset.foto) === stato.foto);
+        t.classList.toggle('attivo', suo);
+      });
+    }
+
+    function didascalia() {
+      if (stato.vista === '3d') {
+        didasc.innerHTML = 'Modello 3D <span class="sep">·</span> ' + stato.nomeColore +
+                           ' <span class="sep">·</span> tocca una foto per tornare alle immagini reali';
+      } else {
+        didasc.innerHTML = 'Foto reale <span class="sep">·</span> ' +
+                           (stato.foto + 1) + ' di ' + FOTO.length +
+                           ' <span class="sep">·</span> tocca un colore per il 3D';
+      }
+    }
+
+    thumbs.addEventListener('click', function (e) {
+      var t = e.target.closest('.pv-thumb'); if (!t) return;
+      if (t.dataset.vista === '3d') mostra3D();
+      else mostraFoto(Number(t.dataset.foto));
+    });
+
+    document.querySelector('.pv-switch').addEventListener('click', function (e) {
+      var b = e.target.closest('button'); if (!b) return;
+      if (b.dataset.vista === '3d') mostra3D(); else mostraFoto();
+    });
+
+    /* --------------------------------------------------------------- 3D */
+
+    /* Un file .gltf per colore (pochi KB l'uno), tutti puntano allo stesso
+       blade.bin che il browser scarica una volta sola. Serve per la realta'
+       aumentata di Android, che riscarica il modello dal server. */
+    function fileDelColore(hex) { return 'models-web/blade-' + hex.replace('#', '') + '.gltf'; }
+
+    /* Il visualizzatore 3D (~300 KB) non viene caricato all'apertura della
+       pagina: chi arriva vede prima le foto. Lo carichiamo appena il browser
+       e' libero, cosi' al primo tocco su un colore e' gia' pronto. */
+    var moduloChiesto = false;
+    function caricaModulo() {
+      if (moduloChiesto) return;
+      moduloChiesto = true;
+      var s = document.createElement('script');
+      s.type = 'module';
+      s.src = 'js/model-viewer.min.js';
+      document.head.appendChild(s);
+    }
+    if ('requestIdleCallback' in window) requestIdleCallback(caricaModulo, { timeout: 2500 });
+    else window.addEventListener('load', function () { setTimeout(caricaModulo, 800); });
+
+    function avviaModello() {
+      caricaModulo();
+      if (!stato.modelloAvviato) {
+        stato.modelloAvviato = true;
+        velo.classList.add('visibile');
+      }
+      var voluto = fileDelColore(stato.color);
+      if (mv.getAttribute('src') !== voluto) {
+        mv.classList.remove('pronto');
+        mv.setAttribute('src', voluto);
+      }
+      tingi();
+    }
+
+    function tingi() {
+      if (!mv.model || !mv.model.materials || !mv.model.materials.length) return;
+      mv.model.materials[0].pbrMetallicRoughness.setBaseColorFactor(stato.color);
+    }
+
+    mv.addEventListener('load', function () {
+      mv.classList.add('pronto');
+      velo.classList.remove('visibile');
+      tingi();
+      impostaAR();
+    });
+
+    /* inquadratura un filo piu' alta sul telefono */
+    var stretto = window.matchMedia && window.matchMedia('(max-width: 980px)');
+    function altezzaInquadratura() {
+      mv.setAttribute('camera-target', stretto && stretto.matches ? '0m 0.155m 0m' : '0m 0.185m 0m');
+    }
+    if (stretto) {
+      altezzaInquadratura();
+      if (stretto.addEventListener) stretto.addEventListener('change', altezzaInquadratura);
+    }
+    if (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) {
+      document.getElementById('pv-hint').textContent = 'Trascina per ruotare · pizzica per avvicinare';
+    }
+
+    /* ------------------------------------------------------------- COLORI */
+
+    var swatches = document.getElementById('colors');
+
+    swatches.addEventListener('click', function (e) {
+      var b = e.target.closest('.color-swatch'); if (!b) return;
+      this.querySelectorAll('.color-swatch').forEach(function (s) { s.classList.remove('active'); });
+      b.classList.add('active');
+      stato.color = b.dataset.color;
+      stato.nomeColore = b.dataset.name;
+      nome.textContent = stato.nomeColore;
+      thumbPallino.style.background = stato.color;
+      invito.textContent = 'Stai guardando Blade in ' + stato.nomeColore +
+        '. Giralo con il dito, oppure torna alle foto reali dalle miniature qui accanto.';
+      /* IL PASSAGGIO CHIAVE: scegliere un colore accende il 3D, senza cambiare pagina */
+      mostra3D();
+      if (arQr && !arQr.hidden) disegnaQr();
+    });
+
+    /* ------------------------------------------------ REALTA' AUMENTATA */
+
+    var arBtn = document.getElementById('ar-btn');
+    var arQr  = document.getElementById('ar-qr');
+    var arNote= document.getElementById('ar-note');
+
+    function indirizzoConStato() {
+      return location.origin + location.pathname +
+             '?colore=' + stato.color.replace('#', '') + '&vista=3d';
+    }
+
+    function disegnaQr() {
+      try {
+        var q = qrcode(0, 'M');
+        q.addData(indirizzoConStato());
+        q.make();
+        document.getElementById('qr-target').innerHTML = q.createSvgTag({ cellSize: 4, margin: 1, scalable: true });
+        arQr.hidden = false;
+        arNote.hidden = true;
+      } catch (err) {
+        arNote.textContent = 'Apri questa pagina dal telefono per vedere Blade nel tuo spazio.';
+      }
+    }
+
+    function impostaAR() {
+      var locale = location.protocol === 'file:' ||
+                   /^(localhost|127\.|0\.0\.0\.0|\[::1\])/.test(location.hostname);
+      if (mv.canActivateAR) {
+        arBtn.hidden = false;
+        arNote.textContent = 'Inquadra il pavimento e appoggia il vaso dove vuoi. Il colore che hai scelto viene mantenuto.';
+        return;
+      }
+      if (locale) {
+        arNote.textContent = 'La realtà aumentata funziona da smartphone e tablet, e solo con il sito ' +
+          'pubblicato online. Da questa copia locale non è raggiungibile: il codice da inquadrare ' +
+          'comparirà una volta caricata la pagina su shapeless.shop.';
+        return;
+      }
+      var tattile = window.matchMedia && window.matchMedia('(pointer: coarse)').matches && window.innerWidth < 1024;
+      if (tattile) {
+        arNote.textContent = 'Questo dispositivo o browser non supporta la realtà aumentata. ' +
+          'Su iPhone funziona con Safari, su Android con Chrome e i servizi ARCore aggiornati.';
+        return;
+      }
+      disegnaQr();
+    }
+
+    arBtn.addEventListener('click', function () { if (mv.activateAR) mv.activateAR(); });
+    mv.addEventListener('ar-status', function (e) {
+      if (e.detail.status === 'failed') {
+        arNote.hidden = false;
+        arNote.textContent = 'Non è stato possibile avviare la realtà aumentata su questo dispositivo.';
+      }
+    });
+
+    /* -------------------------------------------------------- INDIRIZZO */
+
+    function ricordaNellIndirizzo() {
+      if (!history.replaceState) return;
+      var q = '?colore=' + stato.color.replace('#', '') + (stato.vista === '3d' ? '&vista=3d' : '');
+      history.replaceState(null, '', location.pathname + q);
+    }
+
+    (function statoDallIndirizzo() {
+      var m = /[?&]colore=([0-9a-fA-F]{6})/.exec(location.search);
+      if (m) {
+        var b = swatches.querySelector('.color-swatch[data-color="#' + m[1].toLowerCase() + '"]');
+        if (b) {
+          swatches.querySelectorAll('.color-swatch').forEach(function (s) { s.classList.remove('active'); });
+          b.classList.add('active');
+          stato.color = b.dataset.color;
+          stato.nomeColore = b.dataset.name;
+          nome.textContent = stato.nomeColore;
+          thumbPallino.style.background = stato.color;
+        }
+      }
+      if (/[?&]vista=3d/.test(location.search)) mostra3D();
+    })();
+
+    /* stato iniziale */
+    aggiornaInterruttore();
+    aggiornaThumbAttiva();
+    didascalia();
+
+    /* la vista foto e' assoluta: alla prima apertura il carosello parte da 0 */
+    window.addEventListener('resize', function () {
+      if (stato.vista === 'foto') vaiAFoto(stato.foto, false);
+    });
+
+    /* serve agli altri blocchi (carrello, barra mobile) */
+    window.PVBlade = {
+      colore: function () { return { hex: stato.color, nome: stato.nomeColore }; }
+    };
+  })();
+  </script>
+
+  <script>
+  /* ---- Carrello ------------------------------------------------------------
+     Legge il colore attivo dal DOM: resta indipendente dal blocco qui sopra,
+     e si copia tale e quale sugli altri vasi cambiando solo ID_PRODOTTO. */
+  (function () {
+    var ID_PRODOTTO = 'blade';
+
+    var C = window.ShapelessConfig;
+    var Cart = window.ShapelessCart;
+    var prodotto = C.prodotti[ID_PRODOTTO];
+
+    var testo   = document.getElementById('cfg-add-testo');
+    var pallino = document.getElementById('cfg-add-pallino');
+    var barraColore = document.getElementById('barra-colore');
+
+    document.getElementById('cfg-prezzo').textContent   = Cart.formatPrice(prodotto.prezzo);
+    document.getElementById('barra-prezzo').textContent = Cart.formatPrice(prodotto.prezzo);
+    document.getElementById('cfg-consegna').textContent = Cart.dataConsegna();
+
+    if (C.iva.regime === 'forfettario') {
+      document.getElementById('cfg-prezzo-nota').textContent = 'Spedizione gratuita in Italia';
+    }
+
+    function coloreAttivo() {
+      var b = document.querySelector('#colors .color-swatch.active');
+      return b ? { hex: b.dataset.color, nome: b.dataset.name }
+               : { hex: C.colori[0].hex, nome: C.colori[0].nome };
+    }
+
+    function aggiornaBottone() {
+      var c = coloreAttivo();
+      testo.textContent = 'Aggiungi al carrello — ' + c.nome;
+      pallino.style.background = c.hex;
+      barraColore.textContent = c.nome;
+    }
+
+    document.getElementById('colors').addEventListener('click', function (e) {
+      if (e.target.closest('.color-swatch')) setTimeout(aggiornaBottone, 0);
+    });
+
+    function aggiungi() {
+      var c = coloreAttivo();
+      Cart.addToCart({
+        id: prodotto.id, nome: prodotto.nome, prezzo: prodotto.prezzo,
+        immagine: prodotto.immagine, colore: c.nome, coloreHex: c.hex
+      }, 1);
+      Cart.avviso(prodotto.nome + ' <strong>' + c.nome + '</strong> è nel carrello.',
+                  { href: 'carrello.html', testo: 'Vai al carrello' });
+    }
+
+    document.getElementById('cfg-add').addEventListener('click', aggiungi);
+    document.getElementById('barra-add').addEventListener('click', aggiungi);
+
+    /* la barra fissa compare quando il bottone grande esce dallo schermo */
+    var barra = document.getElementById('barra-mobile');
+    var bottone = document.getElementById('cfg-add');
+    if (barra && 'IntersectionObserver' in window) {
+      new IntersectionObserver(function (voci) {
+        barra.classList.toggle('visibile', !voci[0].isIntersecting);
+      }, { rootMargin: '-80px 0px 0px 0px' }).observe(bottone);
+    }
+
+    aggiornaBottone();
+  })();
+  </script>
+</body>
+</html>
