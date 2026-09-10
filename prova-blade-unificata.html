@@ -787,9 +787,13 @@
         }
       }, 10000);
       var voluto = fileDelColore(stato.color);
+      /* Il velo serve solo la primissima volta, quando il modello non c'e'
+         ancora. Cambiare colore a modello gia' caricato costa due kilobyte:
+         far lampeggiare "carico il modello" per un terzo di secondo darebbe
+         l'impressione di una fatica che non c'e'. */
       if (mv.getAttribute('src') !== voluto) {
         mv.classList.remove('pronto');
-        velo.classList.add('visibile');     // meglio "carico il modello" che un riquadro grigio
+        if (!mv.loaded) velo.classList.add('visibile');
         mv.setAttribute('src', voluto);
       } else if (!mv.loaded) {
         velo.classList.add('visibile');
