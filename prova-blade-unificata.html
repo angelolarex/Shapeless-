@@ -85,7 +85,13 @@
   .pv-punto.attivo{ opacity:.9; }
   @media (hover:hover) and (pointer:fine){ .pv-punti{ display:none; } }
 
-  /* ---- vista 3D ---- */
+  /* ---- vista 3D ----
+     Il fondo del 3D non e' piatto come quello delle foto: una velatura che
+     scurisce verso i bordi stacca la sagoma del vaso. Serve soprattutto ai
+     colori chiari (Off White, Rosè), che su fondo uniforme sparivano. */
+  #vista-3d{
+    background:radial-gradient(112% 78% at 50% 30%, #fbfaf8 0%, #efece6 55%, #ddd8ce 100%);
+  }
   model-viewer{
     width:100%; height:100%; display:block; background:transparent;
     --poster-color:transparent; --progress-bar-color:var(--accent); --progress-bar-height:2px;
@@ -180,8 +186,12 @@
     .pv-info{ display:contents; }
     .pv-visore{ display:contents; }
     .pv-stage{ order:1; }
-    .pv-thumbs{ order:2; margin-top:12px; }
-    .pv-info > .pv-blocco-colori{ order:3; margin-top:20px; }
+    .pv-thumbs{ order:2; margin-top:10px; }
+    /* le pastiglie stanno appiccicate alle miniature: ogni pixel qui e' un
+       pixel guadagnato dai colori nel primo schermo */
+    .pv-info > .pv-blocco-colori{ order:3; margin-top:14px; }
+    .pv-info > .pv-blocco-colori > .label{ margin-bottom:0; }
+    #colors{ margin-top:10px; }
     .pv-didascalia{ order:4; margin-top:16px; }
     .pv-info > .cfg-acquisto{ order:5; }
     .pv-info > .label{ order:6; margin-top:44px; }
@@ -299,11 +309,11 @@
                 max-camera-orbit="auto 92deg 1.32m"
                 field-of-view="28deg"
                 min-field-of-view="20deg"
-                shadow-intensity="0.4"
-                shadow-softness="1"
-                exposure="0.92"
+                shadow-intensity="0.9"
+                shadow-softness="0.6"
+                exposure="1.0"
                 environment-image="neutral"
-                tone-mapping="neutral"
+                tone-mapping="commerce"
                 ar
                 ar-modes="scene-viewer webxr quick-look"
                 ar-scale="fixed"
@@ -336,13 +346,13 @@
           <!-- colori: il gesto che accende il 3D -->
           <div class="pv-blocco-colori" style="margin-top:34px;">
             <div class="label">Scegli il colore</div>
-            <div class="color-swatches" id="colors" style="margin-top:16px;">
+            <div class="color-swatches" id="colors">
               <button type="button" class="color-swatch active" data-color="#a3444d" data-name="Red Wine" style="background:#a3444d;" aria-label="Red Wine"></button>
               <button type="button" class="color-swatch" data-color="#91535d" data-name="Bordeaux" style="background:#91535d;" aria-label="Bordeaux"></button>
               <button type="button" class="color-swatch" data-color="#bcbfb0" data-name="Sage" style="background:#bcbfb0;" aria-label="Sage"></button>
               <button type="button" class="color-swatch" data-color="#646666" data-name="Antracite" style="background:#646666;" aria-label="Antracite"></button>
               <button type="button" class="color-swatch" data-color="#d8d0cd" data-name="Off White" style="background:#d8d0cd;" aria-label="Off White"></button>
-              <button type="button" class="color-swatch" data-color="#e2cbc5" data-name="Rosè" style="background:#e2cbc5;" aria-label="Rosè"></button>
+              <button type="button" class="color-swatch" data-color="#e7cac0" data-name="Rosè" style="background:#e7cac0;" aria-label="Rosè"></button>
               <button type="button" class="color-swatch" data-color="#346371" data-name="Emerald Green" style="background:#346371;" aria-label="Emerald Green"></button>
               <button type="button" class="color-swatch" data-color="#00924f" data-name="Verde" style="background:#00924f;" aria-label="Verde"></button>
               <button type="button" class="color-swatch" data-color="#5b644f" data-name="Forest Green" style="background:#5b644f;" aria-label="Forest Green"></button>
@@ -763,7 +773,14 @@
 
     function tingi() {
       if (!mv.model || !mv.model.materials || !mv.model.materials.length) return;
-      mv.model.materials[0].pbrMetallicRoughness.setBaseColorFactor(stato.color);
+      var pbr = mv.model.materials[0].pbrMetallicRoughness;
+      pbr.setBaseColorFactor(stato.color);
+      /* Il PLA stampato non e' opaco come il gesso: ha una lucentezza appena
+         accennata, ed e' quella che fa leggere lo spigolo di ogni lamella. Nel
+         file il materiale sta a 0.8 (quasi gesso) e i volumi si spegnevano;
+         0.45 li riaccende senza farlo sembrare plastica lucida.
+         Va rimesso a ogni caricamento: cambiando colore il modello si ricarica. */
+      if (pbr.setRoughnessFactor) pbr.setRoughnessFactor(0.45);
     }
 
     mv.addEventListener('load', function () {
