@@ -669,8 +669,11 @@
       stato.vista = 'foto';
       vFoto.classList.add('attiva');
       v3d.classList.remove('attiva');
-      /* il modello smette di girare mentre non si vede: niente lavoro inutile */
-      if (mv && mv.pause) { try { mv.pause(); } catch (err) {} }
+      /* Mentre si guardano le foto il vaso smette di girare: niente giostra
+         invisibile. Si toglie e si rimette l'attributo, NON si usa pause():
+         quello spegne il visualizzatore e play() non lo risveglia, cosi' al
+         ritorno il 3D restava immobile - sembrava bloccato. */
+      girello(false);
       aggiornaInterruttore();
       aggiornaThumbAttiva();
       didascalia();
@@ -682,7 +685,7 @@
       avviaModello();
       v3d.classList.add('attiva');
       vFoto.classList.remove('attiva');
-      if (mv && mv.play) { try { mv.play(); } catch (err) {} }
+      girello(true);
       aggiornaInterruttore();
       aggiornaThumbAttiva();
       didascalia();
@@ -819,6 +822,12 @@
       c.addEventListener('webglcontextlost', function (e) { e.preventDefault(); ricarica3D(); });
     }
 
+    /* accende e spegne la rotazione lenta, senza toccare il motore grafico */
+    function girello(acceso) {
+      if (acceso) { if (!mv.hasAttribute('auto-rotate')) mv.setAttribute('auto-rotate', ''); }
+      else mv.removeAttribute('auto-rotate');
+    }
+
     function tingi() {
       if (!mv.model || !mv.model.materials || !mv.model.materials.length) return;
       /* Materiale e luci restano quelli del file: il render e' quello di
@@ -834,9 +843,8 @@
       tingi();
       impostaAR();
       sorvegliaTela();
-      /* se il modello e' arrivato mentre si guardano le foto, sta fermo:
-         niente giostra invisibile a consumare batteria */
-      if (stato.vista !== '3d' && mv.pause) { try { mv.pause(); } catch (err) {} }
+      /* se il modello e' arrivato mentre si guardano le foto, sta fermo */
+      girello(stato.vista === '3d');
     });
 
     /* se il caricamento fallisce non lasciamo il velo acceso all'infinito */
