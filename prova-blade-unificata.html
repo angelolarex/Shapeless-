@@ -157,6 +157,13 @@
   .pv-colorname{ margin-top:14px; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--text-muted); }
   .pv-invito{ font-size:12.5px; color:var(--text-muted); margin-top:8px; line-height:1.7; }
 
+  /* Il vetro incluso, col suo disegno e la sua misura */
+  .pv-vetro{ display:flex; align-items:center; gap:14px; margin-top:20px; }
+  .pv-vetro img{ width:34px; height:auto; flex:none; }
+  .pv-vetro p{ font-size:12px; line-height:1.6; color:var(--text-muted); margin:0; }
+  .pv-vetro strong{ color:var(--text); font-weight:600; }
+  .pv-misura{ font-size:13px; color:var(--text-muted); margin-top:14px; }
+
   .ar-box{ margin-top:34px; padding:22px 24px; background:var(--bg2); border:1px solid var(--border); border-radius:2px; }
   .ar-box .label{ margin-bottom:16px; display:block; }
   .ar-btn{ width:100%; justify-content:center; text-align:center; }
@@ -198,6 +205,8 @@
     .pv-info > .pv-testo{ order:8; }
     .pv-info > .ar-box{ order:9; }
     .pv-info > .pv-elenco{ order:10; }
+    .pv-info > .pv-vetro{ order:11; }
+    .pv-info > .pv-misura{ order:12; }
   }
   @media (max-width:520px){
     .color-swatches{ gap:10px; }
@@ -404,6 +413,17 @@
             <li style="font-size:13px; color:var(--text-muted);">— Prodotto su richiesta, nessuno stock</li>
             <li style="font-size:13px; color:var(--text-muted);">— Hidden Nest in vetro incluso</li>
           </ul>
+
+          <!-- Il vetro di Blade non e' quello di Bombato: alto e stretto, non
+               tozzo. Mostrarlo col suo disegno e la sua misura evita la
+               domanda "ma ci sta un fiore lungo?" prima ancora che nasca. -->
+          <div class="pv-vetro">
+            <img src="images/Bicchieri%20-%20Hidden%20nest/6x30h-transparent.png"
+                 alt="Vetro Hidden Nest su misura per Blade, Ø 6 per 30 cm di altezza">
+            <p>Vetro Hidden Nest su misura per Blade — <strong>&#216; 6 &#215; H 30 cm</strong></p>
+          </div>
+
+          <p class="pv-misura">— Personalizzabile su misura</p>
         </div>
 
       </div>
