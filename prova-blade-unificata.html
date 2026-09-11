@@ -152,6 +152,13 @@
      pastiglia accesa, la miniatura evidenziata e il nome del colore. Una riga
      in meno vuol dire prezzo e bottone piu' in alto. */
 
+  /* La barra fissa ora porta la frase intera ('Aggiungi Blade Emerald Green'):
+     il nome del vaso e' uscito da sinistra, dove restano prezzo e respiro. */
+  @media (max-width:900px){
+    .barra-mobile .btn{ font-size:10px; padding:14px 15px; letter-spacing:.08em; }
+    .barra-mobile-txt span{ font-size:16px; font-weight:600; }
+  }
+
   /* ---- colonna destra ---- */
   .pv-blocco-colori{ margin-top:34px; }
   .pv-colorname{ margin-top:14px; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--text-muted); }
@@ -162,7 +169,6 @@
   .pv-vetro img{ width:34px; height:auto; flex:none; }
   .pv-vetro p{ font-size:12px; line-height:1.6; color:var(--text-muted); margin:0; }
   .pv-vetro strong{ color:var(--text); font-weight:600; }
-  .pv-misura{ font-size:13px; color:var(--text-muted); margin-top:14px; }
 
   .ar-box{ margin-top:34px; padding:22px 24px; background:var(--bg2); border:1px solid var(--border); border-radius:2px; }
   .ar-box .label{ margin-bottom:16px; display:block; }
@@ -206,7 +212,6 @@
     .pv-info > .ar-box{ order:9; }
     .pv-info > .pv-elenco{ order:10; }
     .pv-info > .pv-vetro{ order:11; }
-    .pv-info > .pv-misura{ order:12; }
   }
   @media (max-width:520px){
     .color-swatches{ gap:10px; }
@@ -423,7 +428,6 @@
             <p>Vetro Hidden Nest su misura per Blade — <strong>&#216; 6 &#215; H 30 cm</strong></p>
           </div>
 
-          <p class="pv-misura">— Personalizzabile su misura</p>
         </div>
 
       </div>
@@ -469,7 +473,7 @@
 
       <div class="faq-item">
         <div class="faq-question">Dimensioni<div class="faq-icon">+</div></div>
-        <div class="faq-answer"><p>Altezza 37 cm. Blade può essere realizzato anche su misura, adattando altezza e diametro alle proporzioni del tuo spazio — scrivici per la scheda dimensionale completa.</p></div>
+        <div class="faq-answer"><p>Altezza 37 cm, diametro massimo 28 cm. Ogni pezzo è stampato su ordinazione nel colore che scegli.</p></div>
       </div>
 
       <div class="faq-item">
@@ -479,12 +483,12 @@
 
       <div class="faq-item">
         <div class="faq-question">Cura e manutenzione<div class="faq-icon">+</div></div>
-        <div class="faq-answer"><p>Basta un panno asciutto e morbido. Per la polvere che si ferma fra le lame, un pennello a setole morbide — quelli da spolvero — arriva dove il panno non entra. Evitare l'esposizione solare diretta e prolungata e le fonti di calore dirette, che nel tempo possono favorire lo scolorimento del PLA.</p></div>
+        <div class="faq-answer"><p>Basta un panno asciutto e morbido, o un pennello per la polvere che si ferma fra le lame. Evitare l'esposizione solare diretta e prolungata e le fonti di calore dirette, che nel tempo possono favorire lo scolorimento del PLA.</p></div>
       </div>
 
       <div class="faq-item">
         <div class="faq-question">Spedizione e tempi di produzione<div class="faq-icon">+</div></div>
-        <div class="faq-answer"><p>Ogni pezzo viene realizzato su richiesta e consegnato entro circa 12 giorni lavorativi. L'imballaggio fa parte del progetto: curato nel dettaglio e resistente, protegge la scultura durante il viaggio e rende l'apertura parte dell'oggetto.</p></div>
+        <div class="faq-answer"><p>Ogni pezzo viene realizzato su richiesta e consegnato entro circa 12 giorni lavorativi. Il packaging fa parte del progetto: curato nel dettaglio e resistente, protegge la scultura durante il viaggio e rende l'apertura parte dell'oggetto.</p></div>
       </div>
     </div>
   </section>
@@ -561,10 +565,9 @@
   <!-- barra fissa su telefono: aggiunge al carrello il colore scelto -->
   <div class="barra-mobile" id="barra-mobile">
     <div class="barra-mobile-txt">
-      <strong>Blade</strong>
       <span id="barra-prezzo">€ 169,00</span>
     </div>
-    <button type="button" class="btn btn-fill" id="barra-add">Aggiungi — <span id="barra-colore">Red Wine</span></button>
+    <button type="button" class="btn btn-fill" id="barra-add">Aggiungi <span id="barra-colore">Blade Red Wine</span></button>
   </div>
 
   <script src="js/main.js"></script>
@@ -1065,9 +1068,12 @@
 
     function aggiornaBottone() {
       var c = coloreAttivo();
-      testo.textContent = 'Aggiungi al carrello — ' + c.nome;
+      /* 'Aggiungi al carrello - Red Wine' faceva sembrare che si comprasse il
+         colore. Il bottone dice cosa finisce nel carrello: il vaso, e in quale
+         colore. */
+      testo.textContent = 'Aggiungi al carrello — ' + prodotto.nome + ' ' + c.nome;
       pallino.style.background = c.hex;
-      barraColore.textContent = c.nome;
+      barraColore.textContent = prodotto.nome + ' ' + c.nome;
     }
 
     document.getElementById('colors').addEventListener('click', function (e) {
