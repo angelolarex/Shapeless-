@@ -43,9 +43,14 @@
   }
   .pv-vista{
     position:absolute; inset:0; opacity:0; visibility:hidden;
+    pointer-events:none;
     transition:opacity .32s ease, visibility .32s;
   }
-  .pv-vista.attiva{ opacity:1; visibility:visible; }
+  /* pointer-events e' la riga che conta: per un terzo di secondo, mentre la
+     vista che esce sfuma, sta ancora sopra l'altra. Senza questa riga il 3D
+     in uscita si mangiava il primo tocco sulle foto - si toccava, si
+     trascinava, e non succedeva niente: sembrava bloccato. */
+  .pv-vista.attiva{ opacity:1; visibility:visible; pointer-events:auto; }
 
   /* ---- vista FOTO: carosello che si trascina ---- */
   .pv-slides{
@@ -665,10 +670,24 @@
     /* ------------------------------------------------------ CAMBIO DI VISTA */
 
     function mostraFoto(i) {
-      if (typeof i === 'number') vaiAFoto(i, stato.vista === 'foto');
+      var stavaGiaSulleFoto = (stato.vista === 'foto');
+      if (typeof i === 'number') { i = Math.max(0, Math.min(FOTO.length - 1, i)); stato.foto = i; }
       stato.vista = 'foto';
       vFoto.classList.add('attiva');
       v3d.classList.remove('attiva');
+      /* Il carosello si riallinea SEMPRE alla foto giusta, e di netto.
+         Nascondere e riscoprire un contenitore che scorre a scatti lo lascia
+         spesso a meta' fra due foto: da li' il dito non lo smuove piu'.
+         Il riallineamento va fatto quando e' di nuovo visibile, altrimenti il
+         browser lo ignora - da qui il rinvio al fotogramma successivo. */
+      requestAnimationFrame(function () {
+        var meta = slides.clientWidth * stato.foto;
+        /* fra una foto e l'altra si scorre dolce; tornando dal 3D si riparte
+           di netto, per non lasciare il carosello a meta' strada */
+        if (stavaGiaSulleFoto) slides.scrollTo({ left: meta, behavior: 'smooth' });
+        else slides.scrollLeft = meta;
+        segnaFotoAttiva(stato.foto);
+      });
       /* Mentre si guardano le foto il vaso smette di girare: niente giostra
          invisibile. Si toglie e si rimette l'attributo, NON si usa pause():
          quello spegne il visualizzatore e play() non lo risveglia, cosi' al
