@@ -72,7 +72,7 @@
         altezzaCm: 37,
         immagine: 'images/blade-transparent.png',
         pagina: 'prodotto-blade.html',
-        configuratore: 'esplora-blade.html',
+        configuratore: null,
         /* Disegno tecnico a tratto: e' quello che va nel carrello e in cassa.
            Uno solo per tutti i colori — a dire il colore ci pensano il pallino
            e il nome scritto accanto. Pesa 38 KB compresso invece di uno
@@ -94,7 +94,7 @@
         id: 'bombato',
         nome: 'Bombato',
         prezzo: 149.00,
-        altezzaCm: 28,
+        altezzaCm: 19,
         immagine: 'images/bombato-transparent.png',
         pagina: 'prodotto-bombato.html',
         configuratore: null
@@ -110,7 +110,7 @@
       { hex: '#bcbfb0', nome: 'Sage' },
       { hex: '#646666', nome: 'Antracite' },
       { hex: '#d8d0cd', nome: 'Off White' },
-      { hex: '#e2cbc5', nome: 'Rosè' },
+      { hex: '#e7cac0', nome: 'Rosè' },
       { hex: '#346371', nome: 'Emerald Green' },
       { hex: '#00924f', nome: 'Verde' },
       { hex: '#5b644f', nome: 'Forest Green' }
