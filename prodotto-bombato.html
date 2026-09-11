@@ -129,7 +129,7 @@
   .pv-switch button.attivo{ background:var(--text); color:var(--bg); }
 
   /* ---- miniature: le foto e, in coda, la tessera 3D ---- */
-  .pv-thumbs{ display:flex; gap:12px; margin-top:16px; overflow-x:auto; padding-bottom:2px; scrollbar-width:none; }
+  .pv-thumbs{ display:flex; gap:12px; margin-top:22px; overflow-x:auto; padding-bottom:2px; scrollbar-width:none; }
   .pv-thumbs::-webkit-scrollbar{ display:none; }
   .pv-thumb{
     width:76px; height:76px; flex:none; border:1px solid var(--border); border-radius:2px;
@@ -318,10 +318,10 @@
                 auto-rotate-delay="2500"
                 rotation-per-second="6deg"
                 interaction-prompt="none"
-                camera-orbit="20deg 78deg 0.72m"
+                camera-orbit="20deg 78deg 0.78m"
                 camera-target="0m 0.095m 0m"
                 min-camera-orbit="auto 30deg 0.54m"
-                max-camera-orbit="auto 92deg 0.91m"
+                max-camera-orbit="auto 92deg 0.98m"
                 field-of-view="28deg"
                 min-field-of-view="20deg"
                 shadow-intensity="0.32"
@@ -345,7 +345,6 @@
 
           </div>
 
-          <div class="pv-thumbs" id="pv-thumbs"><!-- riempita da JS --></div>
         </div>
 
         <!-- ---------- COLONNA INFORMAZIONI ---------- -->
@@ -376,6 +375,12 @@
             <div class="pv-colorname" id="colorname">Red Wine</div>
             <p class="pv-invito" id="pv-invito">Tocca un colore: il vaso diventa 3D e lo puoi girare.</p>
           </div>
+
+          <!-- Le miniature stanno nella colonna delle informazioni, sotto i
+               colori: sul computer, sotto il riquadro alto, finivano fuori
+               schermo e nessuno sapeva che ci fossero altre foto. Su telefono
+               tornano sotto il riquadro (vedi l'ordine piu' in basso). -->
+          <div class="pv-thumbs" id="pv-thumbs"><!-- riempita da JS --></div>
 
           <!-- acquisto -->
           <div class="cfg-acquisto">
@@ -776,7 +781,7 @@
        file nuovo con quello vecchio che ha in memoria - le coordinate finiscono
        fuori posto e il vaso esce a strisce colorate. Ogni ricostruzione del
        modello prende un numero nuovo. */
-    function fileDelColore(hex) { return 'models-web/bombato2-' + hex.replace('#', '') + '.gltf'; }
+    function fileDelColore(hex) { return 'models-web/bombato3-' + hex.replace('#', '') + '.gltf'; }
 
     /* Il visualizzatore 3D (~300 KB) non viene caricato all'apertura della
        pagina: chi arriva vede prima le foto. Lo carichiamo appena il browser
@@ -904,7 +909,7 @@
     function altezzaInquadratura() {
       var mobile = stretto && stretto.matches;
       mv.setAttribute('camera-target', mobile ? '0m 0.082m 0m' : '0m 0.095m 0m');
-      mv.setAttribute('camera-orbit',  mobile ? '20deg 78deg 0.81m' : '20deg 78deg 0.72m');
+      mv.setAttribute('camera-orbit',  mobile ? '20deg 78deg 0.88m' : '20deg 78deg 0.78m');
     }
     if (stretto) {
       altezzaInquadratura();
