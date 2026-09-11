@@ -567,7 +567,10 @@
     <div class="barra-mobile-txt">
       <span id="barra-prezzo">€ 169,00</span>
     </div>
-    <button type="button" class="btn btn-fill" id="barra-add">Aggiungi <span id="barra-colore">Blade Red Wine</span></button>
+    <!-- Una frase sola dentro un solo elemento: il bottone e' un contenitore
+         flessibile, e fra due pezzi separati lo spazio viene ignorato -
+         usciva "AGGIUNGIBLADE ANTRACITE". -->
+    <button type="button" class="btn btn-fill" id="barra-add"><span id="barra-colore">Aggiungi Blade Red Wine</span></button>
   </div>
 
   <script src="js/main.js"></script>
@@ -1073,7 +1076,7 @@
          colore. */
       testo.textContent = 'Aggiungi al carrello — ' + prodotto.nome + ' ' + c.nome;
       pallino.style.background = c.hex;
-      barraColore.textContent = prodotto.nome + ' ' + c.nome;
+      barraColore.textContent = 'Aggiungi ' + prodotto.nome + ' ' + c.nome;
     }
 
     document.getElementById('colors').addEventListener('click', function (e) {
