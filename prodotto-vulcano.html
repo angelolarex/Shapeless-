@@ -774,14 +774,14 @@
     /* --------------------------------------------------------------- 3D */
 
     /* Un file .gltf per colore (pochi KB l'uno), tutti puntano allo stesso
-       vulcano1.bin che il browser scarica una volta sola. Serve per la realta'
+       vulcano2.bin che il browser scarica una volta sola. Serve per la realta'
        aumentata di Android, che riscarica il modello dal server. */
     /* Il numero nel nome non e' un vezzo: il .bin e i .gltf devono combaciare, e
        quando la geometria cambia tenendo lo stesso nome il browser puo' mescolare
        il file nuovo con quello vecchio che ha in memoria - le coordinate finiscono
        fuori posto e il vaso esce a strisce colorate. Ogni ricostruzione del
        modello prende un numero nuovo. */
-    function fileDelColore(hex) { return 'models-web/vulcano1-' + hex.replace('#', '') + '.gltf'; }
+    function fileDelColore(hex) { return 'models-web/vulcano2-' + hex.replace('#', '') + '.gltf'; }
 
     /* Il visualizzatore 3D (~300 KB) non viene caricato all'apertura della
        pagina: chi arriva vede prima le foto. Lo carichiamo appena il browser
@@ -808,7 +808,7 @@
       thumbs.addEventListener(evento, caricaModulo, { once: true, passive: true });
     });
 
-    /* Il pezzo pesante non e' il visualizzatore, e' il modello: vulcano1.bin,
+    /* Il pezzo pesante non e' il visualizzatore, e' il modello: vulcano2.bin,
        ed e' lo stesso per tutti i colori (il file di ogni tinta pesa due
        kilobyte e ci punta). Aspettare il tocco per iniziare a scaricarlo vuol
        dire far aspettare il cliente col dito a mezz'aria. Quindi appena la
