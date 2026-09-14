@@ -117,17 +117,16 @@
      colore e "arriva" di un altro. */
   #vista-3d.notte{
     background:
-      /* la pozza di luce sul piano: e' QUESTA che fa appoggiare la lampada al
-         buio. Un'ombra scura li' non si vedrebbe — su un tavolo in penombra una
-         lampada accesa non fa ombra sotto di se', fa luce — quindi l'appoggio
-         va disegnato in positivo: un'ellisse schiacciata alla quota della base,
-         larga poco piu' del piede. */
-      radial-gradient(30% 6.5% at 50% 81%, rgba(255,198,136,.42) 0%,
-                                           rgba(255,186,120,.20) 45%,
-                                           rgba(255,180,112,0) 100%),
-      radial-gradient(58% 46% at 50% 63%, rgba(255,178,104,.34) 0%,
-                                          rgba(255,164,92,.15) 42%,
-                                          rgba(255,158,88,.04) 70%,
+      /* ⚠️ Qui c'e' SOLO la luce diffusa della stanza, mai un oggetto.
+         La pozza sul tavolo stava disegnata qui, ed era sbagliato: il riquadro
+         non ruota e non zooma con la scena, quindi allargando l'inquadratura la
+         macchia restava ferma e la lampada sembrava sospesa sopra un disco
+         luminoso. Ora la pozza e' un disco dentro il modello 3D. Qualsiasi cosa
+         debba stare in un punto PRECISO rispetto alla lampada va nella scena,
+         non nel fondo. */
+      radial-gradient(72% 58% at 50% 58%, rgba(255,174,100,.26) 0%,
+                                          rgba(255,164,92,.13) 45%,
+                                          rgba(255,158,88,.04) 74%,
                                           rgba(255,158,88,0) 100%),
       radial-gradient(118% 88% at 50% 42%, #423f46 0%, #37343b 52%, #2d2a31 100%);
   }
@@ -370,7 +369,7 @@
                 max-camera-orbit="auto 92deg 1.25m"
                 field-of-view="28deg"
                 min-field-of-view="20deg"
-                shadow-intensity="0.28"
+                shadow-intensity="0"
                 shadow-softness="0.55"
                 exposure="1.00"
                 environment-image="models-web/studio-shapeless.hdr"
@@ -868,6 +867,7 @@
        Anche l'ombra si alleggerisce: un oggetto che emette luce non puo' avere
        la stessa ombra dura di uno spento. */
     var EMISSIONE = [1.0, 0.78, 0.52];
+    var POZZA = [1.0, 0.68, 0.40];   /* la luce che cade sul piano, un filo piu' calda */
 
     function accendi() {
       /* L'emissione si puo' toccare solo a modello caricato; il resto — fondo,
@@ -877,9 +877,19 @@
       if (mv.model && mv.model.materials && mv.model.materials.length) {
         try {
           mv.model.materials[0].setEmissiveFactor(stato.acceso ? EMISSIONE : [0, 0, 0]);
+          /* Il terzo materiale e' il disco d'appoggio, e fa due mestieri:
+             da spenta e' l'ombra di contatto (nero al 42%), da accesa e' la
+             pozza di luce (stesso disco, emissione ambra). Sta nella scena,
+             quindi segue la telecamera — che e' esattamente cio' che il
+             gradiente CSS non sapeva fare. */
+          var appoggio = mv.model.materials[2];
+          if (appoggio) {
+            appoggio.pbrMetallicRoughness.setBaseColorFactor([0, 0, 0, stato.acceso ? 0.62 : 0.42]);
+            appoggio.setEmissiveFactor(stato.acceso ? POZZA : [0, 0, 0]);
+          }
         } catch (e) { /* visualizzatore vecchio: la lampada resta spenta, pazienza */ }
       }
-      mv.setAttribute('shadow-intensity', stato.acceso ? '0.30' : '0.45');
+      /* l'ombra del visualizzatore resta a zero: la fa il disco (vedi sopra) */
       /* Sera: fondo scuro nel riquadro e meno luce d'ambiente. Se lascio
          l'esposizione da giorno, l'HDR di studio continua a illuminare il
          paralume dall'esterno e l'emissione non si legge — la lampada sembra
@@ -996,8 +1006,8 @@
        tocca. Questo blocco vale dove l'AR gira dentro la pagina (webxr). */
     mv.addEventListener('ar-status', function (e) {
       var s = e.detail.status;
-      if (s === 'session-started') mv.setAttribute('shadow-intensity', '0.06');
-      if (s === 'not-presenting')  mv.setAttribute('shadow-intensity', '0.28');
+      if (s === 'session-started') mv.setAttribute('shadow-intensity', '0');
+      if (s === 'not-presenting')  mv.setAttribute('shadow-intensity', '0');
     });
 
     mv.addEventListener('ar-status', function (e) {
