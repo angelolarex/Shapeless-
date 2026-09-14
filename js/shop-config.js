@@ -85,10 +85,14 @@
         id: 'vulcano',
         nome: 'Vulcano',
         prezzo: 189.00,
-        altezzaCm: 32,
+        altezzaCm: 26,
         immagine: 'images/vulcano-transparent.png',
         pagina: 'prodotto-vulcano.html',
-        configuratore: null
+        configuratore: null,
+        /* Stesso criterio di Blade: nel carrello e in cassa va il disegno a
+           tratto, uno solo per tutte le tinte. E' ricavato dall'export
+           tecnico di Rhino togliendo le quote e le frecce. */
+        disegno: 'images/vulcano-linea.svg'
       },
       bombato: {
         id: 'bombato',
@@ -97,7 +101,8 @@
         altezzaCm: 19,
         immagine: 'images/bombato-transparent.png',
         pagina: 'prodotto-bombato.html',
-        configuratore: null
+        configuratore: null,
+        disegno: 'images/bombato-linea.svg'
       }
     },
 

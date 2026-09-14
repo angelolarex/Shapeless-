@@ -73,3 +73,15 @@ prova-luci-vulcano.html
 # Rinominato in studio-shapeless.hdr quando e' passato a illuminare tutti e tre
 # i vasi, non solo Vulcano. Il file vecchio puo' essere cancellato a mano.
 models-web/studio-vulcano.hdr
+
+# Foto di Vulcano: gli originali pesano 5 MB in tre file. Online vanno le
+# versioni ottimizzate (vulcano-ambiente-*.jpg, vulcano-dettaglio.jpg, 306 KB
+# in tutto); gli originali restano qui per poterle rifare.
+images/Vulcano/Vulano blu quadrato .png
+images/Vulcano/Vulcano red wine q.png
+images/Vulcano/Vulano particolare .jpg
+
+# Disegni tecnici di Rhino: online va la versione ripulita dalle quote
+# (images/<nome>-linea.svg), prodotta da _strumenti/linea_svg.py
+images/Vulcano/Vulcano 0.35 mm.svg
+images/Bombato/Bombato 0.35 mm.svg
