@@ -324,10 +324,10 @@
                 max-camera-orbit="auto 92deg 1.06m"
                 field-of-view="28deg"
                 min-field-of-view="20deg"
-                shadow-intensity="0.32"
+                shadow-intensity="0.28"
                 shadow-softness="1"
-                exposure="0.92"
-                environment-image="neutral"
+                exposure="1.00"
+                environment-image="models-web/studio-shapeless.hdr"
                 tone-mapping="neutral"
                 ar
                 ar-modes="scene-viewer webxr quick-look"
@@ -784,7 +784,7 @@
        file nuovo con quello vecchio che ha in memoria - le coordinate finiscono
        fuori posto e il vaso esce a strisce colorate. Ogni ricostruzione del
        modello prende un numero nuovo. */
-    function fileDelColore(hex) { return 'models-web/bombato5-' + hex.replace('#', '') + '.gltf'; }
+    function fileDelColore(hex) { return 'models-web/bombato6-' + hex.replace('#', '') + '.gltf'; }
 
     /* Il visualizzatore 3D (~300 KB) non viene caricato all'apertura della
        pagina: chi arriva vede prima le foto. Lo carichiamo appena il browser
@@ -996,7 +996,7 @@
     mv.addEventListener('ar-status', function (e) {
       var s = e.detail.status;
       if (s === 'session-started') mv.setAttribute('shadow-intensity', '0.06');
-      if (s === 'not-presenting')  mv.setAttribute('shadow-intensity', '0.32');
+      if (s === 'not-presenting')  mv.setAttribute('shadow-intensity', '0.28');
     });
 
     mv.addEventListener('ar-status', function (e) {

@@ -65,3 +65,11 @@ models-web/studio4.hdr
 
 # Schermate di lavoro
 Claude outputs/
+
+# Pagina di confronto luci: 6,8 MB perche' ha modello, HDR e model-viewer
+# incorporati, cosi' si apre col doppio clic. Serve solo in locale.
+prova-luci-vulcano.html
+
+# Rinominato in studio-shapeless.hdr quando e' passato a illuminare tutti e tre
+# i vasi, non solo Vulcano. Il file vecchio puo' essere cancellato a mano.
+models-web/studio-vulcano.hdr

@@ -324,10 +324,10 @@
                 max-camera-orbit="auto 92deg 1.30m"
                 field-of-view="28deg"
                 min-field-of-view="20deg"
-                shadow-intensity="0.32"
+                shadow-intensity="0.28"
                 shadow-softness="1"
-                exposure="0.92"
-                environment-image="neutral"
+                exposure="1.00"
+                environment-image="models-web/studio-shapeless.hdr"
                 tone-mapping="neutral"
                 ar
                 ar-modes="scene-viewer webxr quick-look"
@@ -774,14 +774,14 @@
     /* --------------------------------------------------------------- 3D */
 
     /* Un file .gltf per colore (pochi KB l'uno), tutti puntano allo stesso
-       vulcano5.bin che il browser scarica una volta sola. Serve per la realta'
+       vulcano6.bin che il browser scarica una volta sola. Serve per la realta'
        aumentata di Android, che riscarica il modello dal server. */
     /* Il numero nel nome non e' un vezzo: il .bin e i .gltf devono combaciare, e
        quando la geometria cambia tenendo lo stesso nome il browser puo' mescolare
        il file nuovo con quello vecchio che ha in memoria - le coordinate finiscono
        fuori posto e il vaso esce a strisce colorate. Ogni ricostruzione del
        modello prende un numero nuovo. */
-    function fileDelColore(hex) { return 'models-web/vulcano5-' + hex.replace('#', '') + '.gltf'; }
+    function fileDelColore(hex) { return 'models-web/vulcano6-' + hex.replace('#', '') + '.gltf'; }
 
     /* Il visualizzatore 3D (~300 KB) non viene caricato all'apertura della
        pagina: chi arriva vede prima le foto. Lo carichiamo appena il browser
@@ -808,7 +808,7 @@
       thumbs.addEventListener(evento, caricaModulo, { once: true, passive: true });
     });
 
-    /* Il pezzo pesante non e' il visualizzatore, e' il modello: vulcano5.bin,
+    /* Il pezzo pesante non e' il visualizzatore, e' il modello: vulcano6.bin,
        ed e' lo stesso per tutti i colori (il file di ogni tinta pesa due
        kilobyte e ci punta). Aspettare il tocco per iniziare a scaricarlo vuol
        dire far aspettare il cliente col dito a mezz'aria. Quindi appena la
@@ -908,8 +908,8 @@
     var stretto = window.matchMedia && window.matchMedia('(max-width: 980px)');
     function altezzaInquadratura() {
       var mobile = stretto && stretto.matches;
-      mv.setAttribute('camera-target', mobile ? '0m 0.15m 0m' : '0m 0.16m 0m');
-      mv.setAttribute('camera-orbit',  mobile ? '20deg 78deg 1.00m' : '20deg 78deg 0.98m');
+      mv.setAttribute('camera-target', mobile ? '0m 0.136m 0m' : '0m 0.16m 0m');
+      mv.setAttribute('camera-orbit',  mobile ? '20deg 78deg 1.10m' : '20deg 78deg 0.98m');
     }
     if (stretto) {
       altezzaInquadratura();
@@ -994,7 +994,7 @@
     mv.addEventListener('ar-status', function (e) {
       var s = e.detail.status;
       if (s === 'session-started') mv.setAttribute('shadow-intensity', '0.06');
-      if (s === 'not-presenting')  mv.setAttribute('shadow-intensity', '0.32');
+      if (s === 'not-presenting')  mv.setAttribute('shadow-intensity', '0.28');
     });
 
     mv.addEventListener('ar-status', function (e) {

@@ -324,10 +324,10 @@
                 max-camera-orbit="auto 92deg 1.32m"
                 field-of-view="28deg"
                 min-field-of-view="20deg"
-                shadow-intensity="0.32"
+                shadow-intensity="0.28"
                 shadow-softness="1"
-                exposure="0.92"
-                environment-image="neutral"
+                exposure="1.00"
+                environment-image="models-web/studio-shapeless.hdr"
                 tone-mapping="neutral"
                 ar
                 ar-modes="scene-viewer webxr quick-look"
@@ -993,7 +993,7 @@
     mv.addEventListener('ar-status', function (e) {
       var s = e.detail.status;
       if (s === 'session-started') mv.setAttribute('shadow-intensity', '0.06');
-      if (s === 'not-presenting')  mv.setAttribute('shadow-intensity', '0.32');
+      if (s === 'not-presenting')  mv.setAttribute('shadow-intensity', '0.28');
     });
 
     mv.addEventListener('ar-status', function (e) {
