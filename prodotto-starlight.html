@@ -117,6 +117,14 @@
      colore e "arriva" di un altro. */
   #vista-3d.notte{
     background:
+      /* la pozza di luce sul piano: e' QUESTA che fa appoggiare la lampada al
+         buio. Un'ombra scura li' non si vedrebbe — su un tavolo in penombra una
+         lampada accesa non fa ombra sotto di se', fa luce — quindi l'appoggio
+         va disegnato in positivo: un'ellisse schiacciata alla quota della base,
+         larga poco piu' del piede. */
+      radial-gradient(30% 6.5% at 50% 81%, rgba(255,198,136,.42) 0%,
+                                           rgba(255,186,120,.20) 45%,
+                                           rgba(255,180,112,0) 100%),
       radial-gradient(58% 46% at 50% 63%, rgba(255,178,104,.34) 0%,
                                           rgba(255,164,92,.15) 42%,
                                           rgba(255,158,88,.04) 70%,
@@ -363,7 +371,7 @@
                 field-of-view="28deg"
                 min-field-of-view="20deg"
                 shadow-intensity="0.28"
-                shadow-softness="1"
+                shadow-softness="0.55"
                 exposure="1.00"
                 environment-image="models-web/studio-shapeless.hdr"
                 tone-mapping="neutral"
@@ -871,7 +879,7 @@
           mv.model.materials[0].setEmissiveFactor(stato.acceso ? EMISSIONE : [0, 0, 0]);
         } catch (e) { /* visualizzatore vecchio: la lampada resta spenta, pazienza */ }
       }
-      mv.setAttribute('shadow-intensity', stato.acceso ? '0.10' : '0.28');
+      mv.setAttribute('shadow-intensity', stato.acceso ? '0.30' : '0.45');
       /* Sera: fondo scuro nel riquadro e meno luce d'ambiente. Se lascio
          l'esposizione da giorno, l'HDR di studio continua a illuminare il
          paralume dall'esterno e l'emissione non si legge — la lampada sembra
