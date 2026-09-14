@@ -884,7 +884,7 @@
              gradiente CSS non sapeva fare. */
           var appoggio = mv.model.materials[2];
           if (appoggio) {
-            appoggio.pbrMetallicRoughness.setBaseColorFactor([0, 0, 0, stato.acceso ? 0.62 : 0.42]);
+            appoggio.pbrMetallicRoughness.setBaseColorFactor([0, 0, 0, stato.acceso ? 0.58 : 0.24]);
             appoggio.setEmissiveFactor(stato.acceso ? POZZA : [0, 0, 0]);
           }
         } catch (e) { /* visualizzatore vecchio: la lampada resta spenta, pazienza */ }
