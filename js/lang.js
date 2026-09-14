@@ -75,7 +75,7 @@
 
       /* ----- CHI SIAMO ----- */
       'chi.label':   'About',
-      'chi.h1':      'Welcome,<br>this is my story.',
+      'chi.h1':      'Design in <em>motion.</em>',
       'chi.s1.label':'The story',
       'chi.s1.h2':   'From Sicily, with form.',
       'chi.s1.p1':   'Angelo Larecchiuta was born in Caltanissetta, in the heart of Sicily. A land of layered history — Arab-Norman, Baroque, Mediterranean — where beauty is never by chance, but always the result of culture, time, and mastery.',
