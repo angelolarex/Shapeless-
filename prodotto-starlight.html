@@ -101,6 +101,19 @@
   }
   model-viewer.pronto{ --progress-bar-color:transparent; }
 
+  /* ---- modalita' notte ----
+     Accendere una lampada su un fondo chiaro non si vede: la luce emessa e'
+     piu' scura della pagina. Quando l'interruttore va su "accesa" il riquadro
+     del 3D scende quindi a una sera in casa — grigio-blu profondo, non nero:
+     il nero pieno spegne le ombre e fa sembrare il modello ritagliato, mentre
+     un fondo appena chiaro lascia leggere il volume e il PLA resta caldo. */
+  .pv-vista{ transition:background .5s ease; }
+  #vista-3d.notte{
+    background:radial-gradient(118% 88% at 50% 42%, #3a383e 0%, #2f2d33 52%, #27252a 100%);
+  }
+  #vista-3d.notte .pv-hint{ color:rgba(255,255,255,.52); }
+  #vista-3d.notte .pv-caricamento{ background:#2f2d33; color:rgba(255,255,255,.55); }
+
   /* interruttore spenta/accesa: prende il posto dei pallini colore degli altri
      prodotti, quindi sta nello stesso punto e ha lo stesso peso visivo */
   .sl-interruttore{ display:inline-flex; gap:0; border:1px solid var(--border);
@@ -837,11 +850,22 @@
     var EMISSIONE = [1.0, 0.66, 0.34];
 
     function accendi() {
-      if (!mv.model || !mv.model.materials || !mv.model.materials.length) return;
-      try {
-        mv.model.materials[0].setEmissiveFactor(stato.acceso ? EMISSIONE : [0, 0, 0]);
-      } catch (e) { /* visualizzatore vecchio: la lampada resta spenta, pazienza */ }
-      mv.setAttribute('shadow-intensity', stato.acceso ? '0.14' : '0.28');
+      /* L'emissione si puo' toccare solo a modello caricato; il resto — fondo,
+         esposizione, ombra — vale subito, anche mentre il .glb sta arrivando,
+         altrimenti premendo "accesa" durante il caricamento non succede niente
+         e poi la scena si accende di colpo. */
+      if (mv.model && mv.model.materials && mv.model.materials.length) {
+        try {
+          mv.model.materials[0].setEmissiveFactor(stato.acceso ? EMISSIONE : [0, 0, 0]);
+        } catch (e) { /* visualizzatore vecchio: la lampada resta spenta, pazienza */ }
+      }
+      mv.setAttribute('shadow-intensity', stato.acceso ? '0.10' : '0.28');
+      /* Sera: fondo scuro nel riquadro e meno luce d'ambiente. Se lascio
+         l'esposizione da giorno, l'HDR di studio continua a illuminare il
+         paralume dall'esterno e l'emissione non si legge — la lampada sembra
+         accesa in pieno sole. Abbassandola resta il gradiente interno. */
+      v3d.classList.toggle('notte', !!stato.acceso);
+      mv.setAttribute('exposure', stato.acceso ? '0.62' : '1.00');
       thumbPallino.style.background = stato.acceso ? '#f0b877' : '#cfcdc8';
     }
 
