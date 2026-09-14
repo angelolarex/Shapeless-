@@ -318,10 +318,10 @@
                 auto-rotate-delay="2500"
                 rotation-per-second="6deg"
                 interaction-prompt="none"
-                camera-orbit="20deg 78deg 0.98m"
-                camera-target="0m 0.16m 0m"
-                min-camera-orbit="auto 30deg 0.76m"
-                max-camera-orbit="auto 92deg 1.30m"
+                camera-orbit="20deg 78deg 0.80m"
+                camera-target="0m 0.13m 0m"
+                min-camera-orbit="auto 30deg 0.62m"
+                max-camera-orbit="auto 92deg 1.06m"
                 field-of-view="28deg"
                 min-field-of-view="20deg"
                 shadow-intensity="0.28"
@@ -406,7 +406,7 @@
               <div class="qr" id="qr-target"></div>
               <p><strong>Inquadra il codice con la fotocamera del telefono.</strong>
                  Si aprirà questa pagina col colore che hai scelto, e da lì potrai appoggiare
-                 Vulcano sul pavimento di casa tua in scala reale — è alto 32 cm.</p>
+                 Vulcano sul pavimento di casa tua in scala reale — è alto 26 cm.</p>
             </div>
             <p class="cfg-note" id="ar-note"></p>
           </div>
@@ -419,7 +419,7 @@
 
           <ul class="pv-elenco" style="margin-top:24px; display:flex; flex-direction:column; gap:10px;">
             <li style="font-size:13px; color:var(--text-muted);">— Materiale: PLA vegetale (mais e canna da zucchero)</li>
-            <li style="font-size:13px; color:var(--text-muted);">— Nove colori, alto 32 cm</li>
+            <li style="font-size:13px; color:var(--text-muted);">— Nove colori, alto 26 cm</li>
             <li style="font-size:13px; color:var(--text-muted);">— Prodotto su richiesta, nessuno stock</li>
             <li style="font-size:13px; color:var(--text-muted);">— Hidden Nest in vetro incluso</li>
           </ul>
@@ -479,7 +479,7 @@
 
       <div class="faq-item">
         <div class="faq-question">Dimensioni<div class="faq-icon">+</div></div>
-        <div class="faq-answer"><p>Altezza 32 cm, ingombro massimo alla base circa 24 cm. Ogni pezzo è stampato su ordinazione nel colore che scegli.</p></div>
+        <div class="faq-answer"><p>Altezza 26 cm, ingombro massimo alla base circa 20 cm. Ogni pezzo è stampato su ordinazione nel colore che scegli.</p></div>
       </div>
 
       <div class="faq-item">
@@ -774,14 +774,14 @@
     /* --------------------------------------------------------------- 3D */
 
     /* Un file .gltf per colore (pochi KB l'uno), tutti puntano allo stesso
-       vulcano6.bin che il browser scarica una volta sola. Serve per la realta'
+       vulcano7.bin che il browser scarica una volta sola. Serve per la realta'
        aumentata di Android, che riscarica il modello dal server. */
     /* Il numero nel nome non e' un vezzo: il .bin e i .gltf devono combaciare, e
        quando la geometria cambia tenendo lo stesso nome il browser puo' mescolare
        il file nuovo con quello vecchio che ha in memoria - le coordinate finiscono
        fuori posto e il vaso esce a strisce colorate. Ogni ricostruzione del
        modello prende un numero nuovo. */
-    function fileDelColore(hex) { return 'models-web/vulcano6-' + hex.replace('#', '') + '.gltf'; }
+    function fileDelColore(hex) { return 'models-web/vulcano7-' + hex.replace('#', '') + '.gltf'; }
 
     /* Il visualizzatore 3D (~300 KB) non viene caricato all'apertura della
        pagina: chi arriva vede prima le foto. Lo carichiamo appena il browser
@@ -808,7 +808,7 @@
       thumbs.addEventListener(evento, caricaModulo, { once: true, passive: true });
     });
 
-    /* Il pezzo pesante non e' il visualizzatore, e' il modello: vulcano6.bin,
+    /* Il pezzo pesante non e' il visualizzatore, e' il modello: vulcano7.bin,
        ed e' lo stesso per tutti i colori (il file di ogni tinta pesa due
        kilobyte e ci punta). Aspettare il tocco per iniziare a scaricarlo vuol
        dire far aspettare il cliente col dito a mezz'aria. Quindi appena la
@@ -908,8 +908,8 @@
     var stretto = window.matchMedia && window.matchMedia('(max-width: 980px)');
     function altezzaInquadratura() {
       var mobile = stretto && stretto.matches;
-      mv.setAttribute('camera-target', mobile ? '0m 0.136m 0m' : '0m 0.16m 0m');
-      mv.setAttribute('camera-orbit',  mobile ? '20deg 78deg 1.10m' : '20deg 78deg 0.98m');
+      mv.setAttribute('camera-target', mobile ? '0m 0.111m 0m' : '0m 0.13m 0m');
+      mv.setAttribute('camera-orbit',  mobile ? '20deg 78deg 0.90m' : '20deg 78deg 0.80m');
     }
     if (stretto) {
       altezzaInquadratura();
