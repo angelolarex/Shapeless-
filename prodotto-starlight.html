@@ -108,8 +108,20 @@
      il nero pieno spegne le ombre e fa sembrare il modello ritagliato, mentre
      un fondo appena chiaro lascia leggere il volume e il PLA resta caldo. */
   .pv-vista{ transition:background .5s ease; }
+  /* Due strati, e l'ordine conta: sopra il bagliore della lampada, sotto la
+     stanza. Una lampada accesa non illumina solo se stessa — se il fondo resta
+     uniforme sembra un fotomontaggio su cartoncino nero. Il bagliore e' molto
+     largo e molto tenue, centrato poco sotto il corpo (li' sta la lampadina):
+     e' la luce che si perde nell'ambiente, non un alone attorno all'oggetto.
+     Colore ambra, lo stesso dell'emissione, altrimenti la luce "esce" di un
+     colore e "arriva" di un altro. */
   #vista-3d.notte{
-    background:radial-gradient(118% 88% at 50% 42%, #3a383e 0%, #2f2d33 52%, #27252a 100%);
+    background:
+      radial-gradient(58% 46% at 50% 63%, rgba(255,178,104,.34) 0%,
+                                          rgba(255,164,92,.15) 42%,
+                                          rgba(255,158,88,.04) 70%,
+                                          rgba(255,158,88,0) 100%),
+      radial-gradient(118% 88% at 50% 42%, #423f46 0%, #37343b 52%, #2d2a31 100%);
   }
   #vista-3d.notte .pv-hint{ color:rgba(255,255,255,.52); }
   #vista-3d.notte .pv-caricamento{ background:#2f2d33; color:rgba(255,255,255,.55); }
@@ -847,7 +859,7 @@
        sta la lampadina, meno sulla punta), qui si alza o si azzera l'intensita'.
        Anche l'ombra si alleggerisce: un oggetto che emette luce non puo' avere
        la stessa ombra dura di uno spento. */
-    var EMISSIONE = [1.0, 0.66, 0.34];
+    var EMISSIONE = [1.0, 0.78, 0.52];
 
     function accendi() {
       /* L'emissione si puo' toccare solo a modello caricato; il resto — fondo,
@@ -865,7 +877,7 @@
          paralume dall'esterno e l'emissione non si legge — la lampada sembra
          accesa in pieno sole. Abbassandola resta il gradiente interno. */
       v3d.classList.toggle('notte', !!stato.acceso);
-      mv.setAttribute('exposure', stato.acceso ? '0.62' : '1.00');
+      mv.setAttribute('exposure', stato.acceso ? '0.86' : '1.00');
       thumbPallino.style.background = stato.acceso ? '#f0b877' : '#cfcdc8';
     }
 
