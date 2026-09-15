@@ -10,9 +10,17 @@ compatibility_date = "2026-09-01"
 # Se non lo e' ancora, commenta queste tre righe: il Worker restera'
 # raggiungibile all'indirizzo shapeless-pagamenti.<tuo-account>.workers.dev,
 # che funziona benissimo lo stesso.
-[[routes]]
-pattern = "api.shapeless.shop/*"
-custom_domain = true
+# ⚠️ DISATTIVATO per ora. Questa rotta funziona solo se il dominio
+# shapeless.shop e' gestito da Cloudflare (nameserver di Cloudflare). Oggi il
+# sito sta su GitHub Pages, quindi non lo e': lasciandola attiva, "wrangler
+# deploy" fallisce con un errore sul dominio e il servizio non parte proprio.
+# Senza questa rotta il Worker vive comunque, all'indirizzo
+# shapeless-pagamenti.<account>.workers.dev, che va benissimo: e' lo stesso
+# servizio, cambia solo il nome. Il dominio pulito api.shapeless.shop si
+# aggiunge dopo, quando e se sposteremo il DNS su Cloudflare.
+# [[routes]]
+# pattern = "api.shapeless.shop/*"
+# custom_domain = true
 
 # Archivio degli ordini pagati.
 # Crealo con:  npx wrangler kv namespace create ORDINI

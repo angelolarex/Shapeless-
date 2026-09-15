@@ -91,3 +91,10 @@ images/Bombato/Bombato 0.35 mm.svg
 # dalla 1109), prodotta da _strumenti/scontorna.py. Gli originali restano qui.
 images/Starlight/IMG_1062.jpg
 images/Starlight/IMG_1109.jpg
+
+# Librerie scaricate da "npm install" dentro _pagamenti/: 1500 file che si
+# ricreano con un comando e che non devono stare nel repo. Il file che conta e'
+# package.json, che dice quali servono; node_modules e' solo il risultato.
+_pagamenti/node_modules/
+_pagamenti/package-lock.json
+_pagamenti/.wrangler/

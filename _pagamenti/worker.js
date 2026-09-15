@@ -32,10 +32,19 @@
    DEVE restare allineato a js/shop-config.js. Quando cambi un prezzo,
    cambialo in tutti e due i posti. */
 
+/* ⚠️⚠️ PREZZI DI PROVA — 1,00 € ⚠️⚠️
+   Allineati a js/shop-config.js per collaudare l'incasso vero spendendo un
+   euro. I prezzi veri sono, e vanno rimessi QUI E ANCHE in shop-config.js
+   prima di aprire al pubblico:
+       blade 16900 — vulcano 18900 — bombato 14900
+   ⚠️ Attenzione al perche' conta: e' QUESTO file a decidere quanto paga il
+   cliente, non il sito. Il carrello sta nel browser e il browser si manipola,
+   quindi dal sito arrivano solo gli identificativi e le quantita'. Se avessi
+   messo 1 € solo in shop-config.js, il cliente avrebbe visto 1 € e pagato 169. */
 const CATALOGO = {
-  blade:   { nome: 'Blade',   prezzo: 16900, immagine: 'images/blade-transparent.png' },
-  vulcano: { nome: 'Vulcano', prezzo: 18900, immagine: 'images/vulcano-transparent.png' },
-  bombato: { nome: 'Bombato', prezzo: 14900, immagine: 'images/bombato-transparent.png' }
+  blade:   { nome: 'Blade',   prezzo:   100, immagine: 'images/blade-transparent.png' },   /* vero: 16900 */
+  vulcano: { nome: 'Vulcano', prezzo:   100, immagine: 'images/vulcano-transparent.png' }, /* vero: 18900 */
+  bombato: { nome: 'Bombato', prezzo:   100, immagine: 'images/bombato-transparent.png' }  /* vero: 14900 */
 };
 /* i prezzi sono in CENTESIMI: Stripe lavora sempre in centesimi */
 

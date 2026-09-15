@@ -142,7 +142,14 @@
        e il sito comincia a incassare davvero. Nient'altro da cambiare.
        ------------------------------------------------------------------ */
     pagamenti: {
-      endpoint: null,
+      /* ⚠️ ACCESO. Questo e' l'indirizzo del micro-servizio su Cloudflare che
+         crea la sessione di pagamento Stripe. Finche' era null il sito
+         raccoglieva l'ordine senza incassare; da adesso incassa davvero.
+         La chiave segreta di Stripe NON e' qui e non deve mai esserci: vive
+         cifrata dentro Cloudflare. Qui c'e' solo un indirizzo pubblico.
+         Oggi il servizio ha la chiave di PROVA (sk_test_): i pagamenti sono
+         simulati e si collaudano con la carta finta 4242 4242 4242 4242. */
+      endpoint: 'https://shapeless-pagamenti.shapeless-shop.workers.dev/crea-sessione',
       valuta: 'EUR',
       /* Metodi mostrati in cassa. Sono quelli che Stripe attiva da pannello:
          qui servono solo a disegnare i loghi e a spiegarli al cliente. */
