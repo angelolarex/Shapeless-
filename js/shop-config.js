@@ -61,14 +61,20 @@
     /* ------------------------------------------------------------------
        CATALOGO
        ------------------------------------------------------------------
-     /* ⚠️⚠️ PREZZI DI PROVA — 1,00 € ⚠️⚠️
+       ⚠️⚠️ PREZZI DI PROVA — 1,00 € ⚠️⚠️
        Messi per collaudare l'incasso vero con Stripe spendendo un euro invece
        di centonovanta. I prezzi veri sono, e vanno rimessi PRIMA di aprire il
        sito al pubblico:
            Blade 169,00 — Vulcano 189,00 — Bombato 149,00
-       Finche' questa nota e' qui, il negozio NON e' pronto per la vendita. */
+       Finche' questa nota e' qui, il negozio NON e' pronto per la vendita.
 
-      Il prezzo vive qui, non nell'HTML: cosi' non puo' succedere che il
+       ⚠️ Nota per me: questo commento e' gia' dentro un blocco /* ... *\/ .
+       Aprirne un altro qui dentro non serve, e CHIUDERLO manda in errore tutto
+       il file: il browser smette di leggere shop-config.js, nessun prezzo viene
+       applicato e la scheda prodotto resta col numero scritto a mano
+       nell'HTML. E' successo, e sembrava un problema di cache.
+
+       Il prezzo vive qui, non nell'HTML: cosi' non puo' succedere che il
        carrello e la scheda prodotto mostrino cifre diverse.
        ------------------------------------------------------------------ */
     prodotti: {
