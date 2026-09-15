@@ -366,7 +366,7 @@
                 camera-orbit="20deg 78deg 0.85m"
                 camera-target="0m 0.136m 0m"
                 min-camera-orbit="auto 30deg 0.66m"
-                max-camera-orbit="auto 92deg 1.25m"
+                max-camera-orbit="auto 92deg 1.10m"
                 field-of-view="28deg"
                 min-field-of-view="20deg"
                 shadow-intensity="0"
@@ -764,7 +764,11 @@
        colore, quindi non c'e' niente da tenere separato. Il numero nel nome
        serve lo stesso: se la geometria cambia mantenendo il nome, il browser
        puo' servire il file vecchio che ha in memoria. */
-    var MODELLO = 'models-web/starlight1.glb';
+    /* ⚠️ La versione in coda non e' decorativa. Il .glb sta allo stesso indirizzo
+     da settimane e il browser se lo tiene in cache anche dopo un aggiornamento:
+     si finiva per guardare il modello di ieri e dare la colpa al modello di
+     oggi. Alzare questo numero a ogni ricostruzione del .glb. */
+    var MODELLO = 'models-web/starlight1.glb?v=7';
     function fileDelColore() { return MODELLO; }
 
     /* Il visualizzatore 3D (~300 KB) non viene caricato all'apertura della
