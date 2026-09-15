@@ -81,7 +81,10 @@
   <!-- INTRO -->
   <section class="section" style="border-bottom: 1px solid var(--border);">
     <div class="container">
-      <div class="grid-2" style="align-items: center; gap: 80px;">
+      <!-- stretch e non center: cosi' la foto parte dalla prima riga di testo e
+           finisce con l'ultima, invece di stare a meta' altezza. L'altezza la
+           detta la colonna di testo; l'immagine la riempie ritagliandosi. -->
+      <div class="grid-2" style="align-items: stretch; gap: 80px;">
         <div>
           <p style="font-size:18px; color:var(--accent2); line-height:1.8; margin-bottom:24px;">
             Shapeless nasce dall'incontro tra architettura, ricerca sulla forma e fabbricazione digitale.
@@ -100,8 +103,41 @@
             e la sperimentazione.
           </p>
         </div>
+        <!-- ⚠️ La foto e' in posizione assoluta dentro una colonna relativa, e
+             non e' un vezzo: con l'immagine nel flusso normale e' LEI a dettare
+             l'altezza della riga (height:100% su un contenitore senza altezza
+             propria ricade sulle proporzioni native), quindi restava piu' alta
+             del testo per quanto si mettesse "stretch". Togliendola dal flusso
+             l'altezza la decide la colonna di testo, e la foto la riempie
+             ritagliandosi: parte con la prima riga, finisce con l'ultima. -->
+        <div style="position:relative; align-self:stretch; min-height:320px;">
+          <img src="images/_DSC2299.jpg" alt="Angelo Larecchiuta, fondatore Shapeless" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 26%; border-radius:2px; display:block;">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- APPROCCIO -->
+  <section class="section" style="border-bottom: 1px solid var(--border);">
+    <div class="container">
+      <div class="grid-2" style="align-items: start; gap: 80px;">
         <div>
-          <img src="images/_DSC2299.jpg" alt="Angelo Larecchiuta, fondatore Shapeless" style="width:100%; aspect-ratio:4/5; object-fit:cover; border-radius:2px; display:block;">
+          <p class="label">Il nostro approccio</p>
+          <h2>Tecnologia e <strong>artigianato.</strong></h2>
+        </div>
+        <div>
+          <p>
+            La stampa 3D ci permette di progettare senza i limiti delle forme convenzionali e di
+            produrre solo ciò che serve, quando serve.
+          </p>
+          <p>
+            Utilizziamo materiali di origine vegetale e seguiamo ogni pezzo durante il processo di
+            produzione e finitura.
+          </p>
+          <p>
+            Per noi, la tecnologia non sostituisce il gesto artigianale: lo amplia.
+          </p>
+          <p class="label" style="margin-top:32px;">Artigianato 4.0 · Sostenibilità · Design</p>
         </div>
       </div>
     </div>
@@ -130,32 +166,6 @@
             Da questa ricerca prende forma Shapeless, un brand indipendente che porta la fabbricazione
             digitale nel mondo dell'oggetto d'arredo.
           </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- APPROCCIO -->
-  <section class="section" style="border-bottom: 1px solid var(--border);">
-    <div class="container">
-      <div class="grid-2" style="align-items: start; gap: 80px;">
-        <div>
-          <p class="label">Il nostro approccio</p>
-          <h2>Tecnologia e <strong>artigianato.</strong></h2>
-        </div>
-        <div>
-          <p>
-            La stampa 3D ci permette di progettare senza i limiti delle forme convenzionali e di
-            produrre solo ciò che serve, quando serve.
-          </p>
-          <p>
-            Utilizziamo materiali di origine vegetale e seguiamo ogni pezzo durante il processo di
-            produzione e finitura.
-          </p>
-          <p>
-            Per noi, la tecnologia non sostituisce il gesto artigianale: lo amplia.
-          </p>
-          <p class="label" style="margin-top:32px;">Artigianato 4.0 · Sostenibilità · Design</p>
         </div>
       </div>
     </div>
