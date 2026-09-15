@@ -51,7 +51,7 @@ const CATALOGO = {
 const SPEDIZIONE = {
   /* sogliaGratis in centesimi; null = non e' mai gratis.
      DEVE restare allineato alle zone di js/shop-config.js. */
-  IT: { costo:  990, sogliaGratis: 15000, nome: 'Italia',          giorniMin: 2, giorniMax:  3 },
+  IT: { costo:    0, sogliaGratis:     0, nome: 'Italia',          giorniMin: 2, giorniMax:  3 },   /* sempre gratis */
   EU: { costo: 2490, sogliaGratis: 40000, nome: 'Unione Europea',  giorniMin: 4, giorniMax:  7 },
   XX: { costo: 4990, sogliaGratis: null,  nome: 'Resto del mondo', giorniMin: 7, giorniMax: 14 }
 };

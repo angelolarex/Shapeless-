@@ -40,13 +40,20 @@
        forte e va detta chiaramente in ogni pagina.
        ------------------------------------------------------------------ */
     spedizione: {
-      /* la soglia italiana, quella citata nelle pagine */
-      sogliaGratis: 150,
+      /* ⚠️ In Italia la spedizione e' SEMPRE gratis: costo 0 e soglia 0.
+         Non e' solo una scelta commerciale, e' coerenza: ogni scheda prodotto
+         dice gia' "spedizione gratuita in Italia" senza mettere condizioni.
+         Con una soglia a 150 € un ordine da 149 avrebbe pagato 9,90 e il
+         cliente avrebbe letto una promessa diversa da quella applicata alla
+         cassa — il modo piu' rapido per farsi annullare un ordine.
+         ⚠️ Lo stesso valore va tenuto in _pagamenti/worker.js: e' il worker a
+         calcolare l'importo vero, questo file disegna soltanto. */
+      sogliaGratis: 0,
       /* sogliaGratis per zona: null = non e' mai gratis.
          Fuori dall'Italia il corriere costa troppo per regalarlo. */
       zone: [
         { id: 'IT', nome: 'Italia',          paesi: ['IT'],
-          costo:  9.90, sogliaGratis: 150,  giorni: '2-3'  },
+          costo:  0.00, sogliaGratis: 0,    giorni: '2-3'  },
         { id: 'EU', nome: 'Unione Europea',  paesi: ['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IE','LV','LT','LU','MT','NL','PL','PT','RO','SK','SI','ES','SE'],
           costo: 24.90, sogliaGratis: 400,  giorni: '4-7'  },
         { id: 'XX', nome: 'Resto del mondo', paesi: [],
