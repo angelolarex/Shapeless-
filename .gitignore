@@ -85,3 +85,9 @@ images/Vulcano/Vulano particolare .jpg
 # (images/<nome>-linea.svg), prodotta da _strumenti/linea_svg.py
 images/Vulcano/Vulcano 0.35 mm.svg
 images/Bombato/Bombato 0.35 mm.svg
+
+# Foto originali di Starlight: 10 MB l'una. Online va la versione scontornata
+# (images/starlight-transparent.png dalla 1062, images/Starlight/starlight-dettaglio.png
+# dalla 1109), prodotta da _strumenti/scontorna.py. Gli originali restano qui.
+images/Starlight/IMG_1062.jpg
+images/Starlight/IMG_1109.jpg
