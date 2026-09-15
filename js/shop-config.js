@@ -61,14 +61,21 @@
     /* ------------------------------------------------------------------
        CATALOGO
        ------------------------------------------------------------------
-       Il prezzo vive qui, non nell'HTML: cosi' non puo' succedere che il
+     /* ⚠️⚠️ PREZZI DI PROVA — 1,00 € ⚠️⚠️
+       Messi per collaudare l'incasso vero con Stripe spendendo un euro invece
+       di centonovanta. I prezzi veri sono, e vanno rimessi PRIMA di aprire il
+       sito al pubblico:
+           Blade 169,00 — Vulcano 189,00 — Bombato 149,00
+       Finche' questa nota e' qui, il negozio NON e' pronto per la vendita. */
+
+      Il prezzo vive qui, non nell'HTML: cosi' non puo' succedere che il
        carrello e la scheda prodotto mostrino cifre diverse.
        ------------------------------------------------------------------ */
     prodotti: {
       blade: {
         id: 'blade',
         nome: 'Blade',
-        prezzo: 169.00,
+        prezzo: 1.00,        /* ⚠️ PROVA — il prezzo vero e' 169.00 */
         altezzaCm: 37,
         immagine: 'images/blade-transparent.png',
         pagina: 'prodotto-blade.html',
@@ -84,7 +91,7 @@
       vulcano: {
         id: 'vulcano',
         nome: 'Vulcano',
-        prezzo: 189.00,
+        prezzo: 1.00,        /* ⚠️ PROVA — il prezzo vero e' 189.00 */
         altezzaCm: 26,
         immagine: 'images/vulcano-transparent.png',
         pagina: 'prodotto-vulcano.html',
@@ -97,7 +104,7 @@
       bombato: {
         id: 'bombato',
         nome: 'Bombato',
-        prezzo: 149.00,
+        prezzo: 1.00,        /* ⚠️ PROVA — il prezzo vero e' 149.00 */
         altezzaCm: 19,
         immagine: 'images/bombato-transparent.png',
         pagina: 'prodotto-bombato.html',
