@@ -7,7 +7,7 @@
   <meta name="description" content="Completa il tuo ordine Shapeless. Pagamento sicuro, senza registrazione.">
   <meta name="robots" content="noindex, nofollow">
   <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/negozio.css">
+  <link rel="stylesheet" href="css/negozio.css?v=20260916b">
   <!-- Lo script di Stripe va caricato SEMPRE da js.stripe.com, mai copiato nel
        sito: e' una regola di sicurezza delle carte (PCI).
        ⚠️ "dahlia" deve combaciare con STRIPE_VERSIONE in _pagamenti/worker.js -->
@@ -26,6 +26,9 @@
     </div>
   </header>
 
+  <!-- ⚠️ I ?v=... sui fogli di stile e sugli script obbligano il browser a
+       riscaricarli dopo una modifica. Quando cambi negozio.css, checkout.js o
+       shop-config.js, cambia anche il numero qui. -->
   <main class="cassa-wrap cassa-incorporata">
 
     <!-- Carrello vuoto -->
@@ -97,8 +100,8 @@
     </div>
   </footer>
 
-  <script src="js/shop-config.js"></script>
+  <script src="js/shop-config.js?v=20260916b"></script>
   <script src="js/cart.js"></script>
-  <script src="js/checkout.js"></script>
+  <script src="js/checkout.js?v=20260916b"></script>
 </body>
 </html>
