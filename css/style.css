@@ -2021,3 +2021,16 @@ img, video, canvas { max-width: 100%; }
   /* Color block min-height ridotta */
   .color-block { min-height: 340px; }
 }
+
+/* ===========================
+   PAGINE LEGALI (termini, privacy)
+   =========================== */
+.testo-legale h2 { font-size: 19px; font-weight: 600; margin: 40px 0 12px; letter-spacing: -.01em; }
+.testo-legale p, .testo-legale li { font-size: 15px; line-height: 1.8; color: var(--text-muted); }
+.testo-legale p + p { margin-top: 12px; }
+.testo-legale ul { padding-left: 20px; margin-top: 8px; }
+.testo-legale li { margin-bottom: 8px; list-style: disc; }
+.testo-legale strong { color: var(--text); font-weight: 600; }
+.testo-legale a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+.legale-agg { font-size: 13px !important; }
+.legale-link { margin-top: 48px !important; padding-top: 24px; border-top: 1px solid var(--border); }

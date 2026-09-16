@@ -88,7 +88,7 @@
       blade: {
         id: 'blade',
         nome: 'Blade',
-        prezzo: 5.00,        /* ⚠️ PROVA — il prezzo vero e' 169.00 */
+        prezzo: 169.00,      /* LIVE dal 16/09/2026 (in prova era 5.00) */
         altezzaCm: 37,
         immagine: 'images/blade-transparent.png',
         pagina: 'prodotto-blade.html',
@@ -104,7 +104,7 @@
       vulcano: {
         id: 'vulcano',
         nome: 'Vulcano',
-        prezzo: 5.00,        /* ⚠️ PROVA — il prezzo vero e' 189.00 */
+        prezzo: 189.00,      /* LIVE dal 16/09/2026 */
         altezzaCm: 26,
         immagine: 'images/vulcano-transparent.png',
         pagina: 'prodotto-vulcano.html',
@@ -117,7 +117,7 @@
       bombato: {
         id: 'bombato',
         nome: 'Bombato',
-        prezzo: 5.00,        /* ⚠️ PROVA — il prezzo vero e' 149.00 */
+        prezzo: 149.00,      /* LIVE dal 16/09/2026 */
         altezzaCm: 19,
         immagine: 'images/bombato-transparent.png',
         pagina: 'prodotto-bombato.html',
@@ -171,7 +171,7 @@
          Si trova in Stripe → Sviluppatori → Chiavi API → "Chiave pubblicabile".
          Al passaggio in live va cambiata INSIEME alla sk_live_ del worker:
          una chiave test con l'altra live non funziona. */
-      chiavePubblica: 'pk_test_51O0HprKLPMmjJB0XiuBwMzASIm698sqOhbTiXJOamodmP5XaExT6t5qoRyB2Nzj92mDfhNXnSjXSxKgOVOJoQwNH00EUBQc9an',   /* ⚠️ TEST — al lancio va la pk_live_ */
+      chiavePubblica: 'pk_live_51O0HprKLPMmjJB0XBk68kmWknE6uCLnnlDgpWyhER4HujNscFrcSM2k72iRRfpt4H3Y8DHrfKlF2LO9A5IBBaLV100nSJU1Ywr',   /* LIVE dal 16/09/2026 — la pk_test_ era 51O0Hpr...Q9an */
       valuta: 'EUR',
       /* Metodi mostrati in cassa. Sono quelli che Stripe attiva da pannello:
          qui servono solo a disegnare i loghi e a spiegarli al cliente. */
