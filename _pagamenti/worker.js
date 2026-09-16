@@ -1,12 +1,15 @@
 /* ===========================================================================
    SHAPELESS — micro-servizio di pagamento (Cloudflare Worker)
    ---------------------------------------------------------------------------
-   Fa due sole cose, ed e' giusto che faccia solo queste:
+   Fa tre sole cose, ed e' giusto che faccia solo queste:
 
      POST /crea-sessione   riceve il carrello dal sito, ricalcola i prezzi
                            con i SUOI dati e apre una sessione di pagamento
-                           Stripe. Risponde con l'indirizzo dove mandare
-                           il cliente.
+                           Stripe INCORPORATA. Risponde con il clientSecret
+                           che checkout.html usa per montare il modulo.
+
+     GET  /stato-sessione  la pagina di ringraziamento chiede com'e' andata
+                           (nome, email, indirizzo da mostrare).
 
      POST /webhook         Stripe avvisa qui quando un pagamento va a buon
                            fine. E' l'unico punto in cui un ordine diventa
@@ -83,7 +86,7 @@ function intestazioniCORS(origine) {
   const ok = ORIGINI_AMMESSE.includes(origine);
   return {
     'Access-Control-Allow-Origin': ok ? origine : ORIGINI_AMMESSE[0],
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type',
     'Access-Control-Max-Age': '86400'
   };
@@ -112,11 +115,21 @@ function aFormData(oggetto, prefisso = '', out = new URLSearchParams()) {
   return out;
 }
 
+/* ⚠️ Versione dell'API Stripe FISSATA, non lasciata al default del conto.
+   Il modulo incorporato nasce da due pezzi che devono parlare la stessa
+   lingua: la sessione creata qui e lo script caricato in checkout.html
+   (https://js.stripe.com/dahlia/stripe.js). Con la versione "dahlia" i nomi
+   sono ui_mode 'embedded_page' e createEmbeddedCheckoutPage(); con le
+   versioni precedenti erano 'embedded' e initEmbeddedCheckout(). Se un giorno
+   si cambia versione, vanno cambiati INSIEME qui e in checkout.html. */
+const STRIPE_VERSIONE = '2026-03-25.dahlia';
+
 async function chiamaStripe(percorso, corpo, chiave) {
   const r = await fetch(`https://api.stripe.com/v1/${percorso}`, {
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${chiave}`,
+      'Stripe-Version': STRIPE_VERSIONE,
       'Content-Type': 'application/x-www-form-urlencoded'
     },
     body: aFormData(corpo).toString()
@@ -126,21 +139,58 @@ async function chiamaStripe(percorso, corpo, chiave) {
   return dati;
 }
 
-/* ============================================================ crea-sessione */
+/* ============================================================ crea-sessione
+
+   CASSA INCORPORATA (dal 16 settembre 2026)
+   Prima il cliente compilava un modulo nostro e poi Stripe gli richiedeva
+   indirizzo e telefono: due volte le stesse cose. Adesso il modulo e' uno
+   solo, quello di Stripe, montato DENTRO checkout.html. Il cliente non esce
+   mai da shapeless.shop, e i dati della carta restano comunque solo a Stripe.
+
+   Dal sito arrivano: gli articoli (id, colore, quantita'), la zona di
+   spedizione scelta con i tre bottoni in cima alla cassa, e il numero
+   d'ordine. Tutto il resto (email, nome, indirizzo, telefono, partita IVA)
+   lo raccoglie Stripe.
+
+   PERCHE' LA ZONA SI SCEGLIE SUL SITO
+   Il modulo incorporato di Stripe non permette di cambiare il costo di
+   spedizione dopo che il cliente ha scritto l'indirizzo. Allora si fa al
+   contrario: la zona si sceglie prima (Italia e' gia' selezionata, quindi
+   9 clienti su 10 non toccano niente) e l'indirizzo che Stripe accetta e'
+   LIMITATO ai paesi di quella zona. Nessuno puo' pagare la spedizione
+   italiana e farsi mandare il pacco in Svizzera: il modulo non glielo lascia
+   scrivere.                                                                 */
+
+const DOMINIO = 'https://shapeless.shop';
+
+/* i 9 colori della palette: servono solo a scegliere l'immagine giusta
+   (images/stripe/<prodotto>-<hex>.png). Un colore sconosciuto non rompe
+   niente: si usa l'immagine senza pallino. */
+const COLORI_HEX = ['a3444d','91535d','bcbfb0','646666','d8d0cd','e7cac0','346371','00924f','5b644f'];
+
+function paesiDellaZona(zona) {
+  if (zona === 'IT') return ['IT'];
+  if (zona === 'EU') return PAESI_EU.filter(p => p !== 'IT');
+  return PAESI_SERVITI.filter(p => !PAESI_EU.includes(p));
+}
+
+function immagineStripe(id, coloreHex) {
+  const hex = String(coloreHex || '').replace('#', '').toLowerCase();
+  const file = COLORI_HEX.includes(hex) ? `${id}-${hex}.png` : `${id}.png`;
+  return `${DOMINIO}/images/stripe/${file}`;
+}
 
 async function creaSessione(richiesta, env, origine) {
   const corpo = await richiesta.json();
   const articoli = Array.isArray(corpo.articoli) ? corpo.articoli : [];
-  const cliente = corpo.cliente || {};
 
   if (!articoli.length) return json({ errore: 'Carrello vuoto.' }, 400, origine);
   if (articoli.length > 20) return json({ errore: 'Troppi articoli.' }, 400, origine);
 
-  const paese = (cliente.paese || 'IT').toUpperCase();
-  if (!PAESI_SERVITI.includes(paese)) {
-    return json({ errore: 'Non spediamo ancora in questo paese. Scrivici e troviamo una soluzione.' },
-                400, origine);
-  }
+  /* zona: 'IT' | 'EU' | 'XX'. Si accetta anche il vecchio "cliente.paese"
+     per non rompere una pagina rimasta in cache nel browser di qualcuno. */
+  let zonaId = String(corpo.zona || '').toUpperCase();
+  if (!SPEDIZIONE[zonaId]) zonaId = zonaDi(String(corpo.cliente?.paese || 'IT').toUpperCase());
 
   /* --- righe d'ordine, con i NOSTRI prezzi --- */
   let subtotale = 0;
@@ -153,54 +203,80 @@ async function creaSessione(richiesta, env, origine) {
     const qty = Math.max(1, Math.min(20, parseInt(a.qty, 10) || 1));
     subtotale += p.prezzo * qty;
 
+    const colore = String(a.colore || '').slice(0, 40);
+
     righe.push({
       quantity: qty,
       price_data: {
         currency: 'eur',
         unit_amount: p.prezzo,
         product_data: {
-          name: p.nome + (a.colore ? ` — ${a.colore}` : ''),
+          name: p.nome + (colore ? ` — ${colore}` : ''),
           description: 'Vaso in PLA vegetale, stampato su ordinazione. ' +
-                       'Inserto Hidden Nest in vetro incluso.'
+                       'Inserto Hidden Nest in vetro incluso.',
+          /* il disegno a tratto con il pallino del colore scelto */
+          images: [immagineStripe(a.id, a.coloreHex)]
         }
       }
     });
   }
 
   /* --- spedizione --- */
-  const zona = SPEDIZIONE[zonaDi(paese)];
+  const zona = SPEDIZIONE[zonaId];
   const costoSped = (zona.sogliaGratis !== null && subtotale >= zona.sogliaGratis)
                     ? 0 : zona.costo;
 
   /* --- la sessione --- */
-  /* Metodi offerti. Quello scelto sul sito va per primo: Stripe rispetta
-     l'ordine, quindi il cliente ritrova la pagina gia' come se l'aspetta.
-     La carta resta SEMPRE nell'elenco: Klarna e PayPal possono non essere
-     disponibili per certi importi o certi paesi, e senza carta di riserva
-     il cliente resterebbe a piedi. */
-  const TUTTI = ['card', 'paypal', 'klarna', 'satispay'];
-  const scelto = TUTTI.includes(corpo.metodo) ? corpo.metodo : 'card';
-  const metodi = [scelto, ...TUTTI.filter(m => m !== scelto)];
-
+  /* ⚠️ NIENTE payment_method_types imposti da qui.
+     Se anche UNO dei metodi elencati non e' attivo sul conto Stripe, Stripe
+     rifiuta l'INTERA richiesta. E' successo al primo collaudo. Omettendolo,
+     Stripe usa i metodi accesi nel pannello (Impostazioni → Metodi di
+     pagamento) e quelli non disponibili spariscono da soli.
+     ⚠️ Apple Pay, Google Pay, PayPal e Klarna nel modulo INCORPORATO
+     compaiono solo se il dominio shapeless.shop e' registrato in Stripe:
+     Impostazioni → Metodi di pagamento → Domini dei metodi di pagamento. */
   const sessione = await chiamaStripe('checkout/sessions', {
     mode: 'payment',
-    ui_mode: 'hosted',
+    ui_mode: 'embedded_page',
     locale: 'it',
-    payment_method_types: metodi,
 
     line_items: righe,
 
-    /* niente account: Stripe crea un cliente "ospite" al volo */
+    /* niente account: Stripe crea un cliente al volo */
     customer_creation: 'always',
-    customer_email: cliente.email || undefined,
 
-    /* Stripe raccoglie e verifica lui l'indirizzo: e' piu' affidabile
-       del nostro modulo, e riempie in automatico dai dati del telefono */
-    shipping_address_collection: { allowed_countries: PAESI_SERVITI },
+    /* Stripe raccoglie l'indirizzo, solo nei paesi della zona scelta */
+    shipping_address_collection: { allowed_countries: paesiDellaZona(zonaId) },
     phone_number_collection: { enabled: true },
 
-    /* partita IVA per la fattura B2B (vedi CHECKOUT-E-PAGAMENTI.md) */
+    /* casella "Acquisto come azienda": ragione sociale e partita IVA */
     tax_id_collection: { enabled: true },
+
+    /* al massimo 3 campi liberi: ne usiamo 2, entrambi facoltativi */
+    custom_fields: [
+      {
+        key: 'sdi',
+        label: { type: 'custom', custom: 'Codice SDI o PEC (solo se vuoi fattura)' },
+        type: 'text',
+        optional: true,
+        text: { maximum_length: 80 }
+      },
+      {
+        key: 'notecorriere',
+        label: { type: 'custom', custom: 'Note per il corriere' },
+        type: 'text',
+        optional: true,
+        text: { maximum_length: 200 }
+      }
+    ],
+
+    /* va detto PRIMA del pagamento, mai dopo: e' la prima causa di reclami */
+    custom_text: {
+      submit: {
+        message: 'Ogni pezzo è stampato su ordinazione: circa 12 giorni lavorativi ' +
+                 'di produzione, poi la spedizione tracciata. Reso entro 14 giorni.'
+      }
+    },
 
     shipping_options: [{
       shipping_rate_data: {
@@ -216,30 +292,62 @@ async function creaSessione(richiesta, env, origine) {
       }
     }],
 
-    /* tutto quello che ci serve per lavorare l'ordine, allegato alla sessione */
     metadata: {
-      numeroOrdine:   corpo.numeroOrdine || '',
-      tipoCliente:    cliente.tipoCliente || 'privato',
-      metodoScelto:   scelto,
-      ragioneSociale: cliente.ragioneSociale || '',
-      piva:           cliente.piva || '',
-      sdi:            cliente.sdi || '',
-      telefono:       cliente.telefono || '',
-      note:           (cliente.note || '').slice(0, 400),
-      colori:         articoli.map(a => `${a.id}:${a.colore || '-'}×${a.qty}`).join(' | ')
+      numeroOrdine: String(corpo.numeroOrdine || '').slice(0, 40),
+      zona:         zonaId,
+      colori:       articoli.map(a => `${a.id}:${a.colore || '-'}×${a.qty}`).join(' | ').slice(0, 480)
     },
 
     /* la ricevuta parte da Stripe, senza che dobbiamo mandare email noi */
     invoice_creation: { enabled: true },
 
-    /* 30 minuti: dopo, la sessione scade e il carrello resta al suo posto */
-    expires_at: Math.floor(Date.now() / 1000) + 30 * 60,
+    /* un'ora: il modulo resta aperto anche a chi si distrae */
+    expires_at: Math.floor(Date.now() / 1000) + 60 * 60,
 
-    success_url: 'https://shapeless.shop/ordine-ricevuto.html?sessione={CHECKOUT_SESSION_ID}',
-    cancel_url:  'https://shapeless.shop/checkout.html?annullato=1'
+    /* dopo il pagamento Stripe porta qui, sostituendo {CHECKOUT_SESSION_ID} */
+    /* da localhost (prove sul PC) si torna a localhost, altrimenti al sito */
+    return_url: (origine.startsWith('http://') ? origine : DOMINIO) +
+                '/ordine-ricevuto.html?sessione={CHECKOUT_SESSION_ID}'
   }, env.STRIPE_SECRET_KEY);
 
-  return json({ id: sessione.id, url: sessione.url }, 200, origine);
+  return json({ clientSecret: sessione.client_secret, id: sessione.id }, 200, origine);
+}
+
+/* ============================================================ stato-sessione
+
+   GET /stato-sessione?id=cs_...
+   La pagina di ringraziamento chiede qui com'e' andata, per mostrare nome,
+   email e indirizzo. Risponde solo il minimo, e solo per un identificativo
+   di sessione: e' una stringa lunga e casuale che conosce solo chi ha pagato.
+   Non fa fede per la produzione — quello resta il webhook.                  */
+
+async function statoSessione(url, env, origine) {
+  const id = url.searchParams.get('id') || '';
+  if (!/^cs_(test|live)_[A-Za-z0-9]+$/.test(id)) {
+    return json({ errore: 'Sessione non valida.' }, 400, origine);
+  }
+
+  const r = await fetch(`https://api.stripe.com/v1/checkout/sessions/${id}`, {
+    headers: {
+      'Authorization': `Bearer ${env.STRIPE_SECRET_KEY}`,
+      'Stripe-Version': STRIPE_VERSIONE
+    }
+  });
+  const s = await r.json();
+  if (!r.ok) return json({ errore: 'Sessione non trovata.' }, 404, origine);
+
+  const sped = s.collected_information?.shipping_details || s.shipping_details || null;
+
+  return json({
+    stato:      s.status,                       // 'complete' | 'open' | 'expired'
+    pagato:     s.payment_status === 'paid',
+    numero:     s.metadata?.numeroOrdine || '',
+    nome:       sped?.name || s.customer_details?.name || '',
+    email:      s.customer_details?.email || '',
+    indirizzo:  sped?.address || null,
+    totale:     s.amount_total,
+    spedizione: s.total_details?.amount_shipping ?? null
+  }, 200, origine);
 }
 
 /* =================================================================== webhook
@@ -266,6 +374,12 @@ async function verificaFirma(corpoGrezzo, intestazione, segreto) {
   return esa === parti.v1;
 }
 
+/* il valore di un campo libero del modulo Stripe (SDI, note) */
+function campo(s, chiave) {
+  const c = (s.custom_fields || []).find(f => f.key === chiave);
+  return c?.text?.value || '';
+}
+
 async function webhook(richiesta, env) {
   const grezzo = await richiesta.text();
   const firma = richiesta.headers.get('stripe-signature');
@@ -289,10 +403,11 @@ async function webhook(richiesta, env) {
       nome:       s.customer_details?.name,
       telefono:   s.customer_details?.phone || s.metadata?.telefono,
       spedizione: s.collected_information?.shipping_details || s.shipping_details,
-      pivaRaccolta: s.customer_details?.tax_ids?.[0]?.value || s.metadata?.piva,
-      sdi:        s.metadata?.sdi,
+      ragioneSociale: s.customer_details?.business_name || '',
+      pivaRaccolta: s.customer_details?.tax_ids?.[0]?.value || '',
+      sdi:        campo(s, 'sdi'),
       colori:     s.metadata?.colori,
-      note:       s.metadata?.note
+      note:       campo(s, 'notecorriere')
     };
 
     /* Dove finisce l'ordine. Scegline UNO (vedi CHECKOUT-E-PAGAMENTI.md):
@@ -336,6 +451,10 @@ export default {
         return await creaSessione(richiesta, env, origine);
       }
 
+      if (url.pathname === '/stato-sessione' && richiesta.method === 'GET') {
+        return await statoSessione(url, env, origine);
+      }
+
       if (url.pathname === '/webhook' && richiesta.method === 'POST') {
         return await webhook(richiesta, env);
       }
@@ -343,10 +462,17 @@ export default {
       return new Response('Shapeless — servizio pagamenti attivo.', { status: 200 });
 
     } catch (e) {
-      /* Il messaggio vero va nei log, non al cliente: potrebbe contenere
-         dettagli del conto Stripe. */
-      console.error(e);
-      return json({ errore: 'Non siamo riusciti ad aprire il pagamento. Riprova.' }, 500, origine);
+      /* Il messaggio per il cliente resta generico. Il motivo vero va nei log
+         (visibili con "npx wrangler tail") e, in piu', in un campo separato
+         della risposta: senza quello il primo collaudo e' stato mezz'ora di
+         tentativi al buio davanti a un "500" muto. Non e' un dato sensibile —
+         sono messaggi tipo "the payment method type X is invalid" — mentre la
+         chiave e i dati del conto non passano mai di qui. */
+      console.error('crea-sessione:', e && e.message, e);
+      return json({
+        errore: 'Non siamo riusciti ad aprire il pagamento. Riprova.',
+        dettaglio: (e && e.message) ? String(e.message).slice(0, 300) : 'errore sconosciuto'
+      }, 500, origine);
     }
   }
 };

@@ -582,3 +582,63 @@ body.pagina-cassa { background: var(--bg); }
   background: #fdf6e8; border: 1px solid #e8d9b8;
   font-size: 13px; line-height: 1.7; color: #6b5423;
 }
+
+/* ====================================================== CASSA INCORPORATA
+   (16 settembre 2026) Il modulo e' quello di Stripe, montato nella pagina.
+   Qui c'e' solo la cornice: la scelta della zona e il riquadro del modulo. */
+
+.cassa-incorporata { max-width: 1080px; padding-top: 36px; }
+
+.cassa-zone { margin-bottom: 22px; }
+.cassa-zone-titolo {
+  font-size: 11px; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--text-muted); margin-bottom: 12px;
+}
+.zone { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+@media (max-width: 720px) { .zone { grid-template-columns: 1fr; gap: 8px; } }
+
+.zona {
+  display: grid; grid-template-columns: 1fr auto; gap: 2px 12px;
+  text-align: left; cursor: pointer; font: inherit; color: var(--text);
+  background: #fff; border: 1px solid var(--border); padding: 14px 16px;
+  transition: border-color .15s, box-shadow .15s;
+}
+.zona:hover { border-color: rgba(0,0,0,.25); }
+.zona.attiva { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.zona:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.zona-nome { font-size: 14px; font-weight: 600; }
+.zona-prezzo { font-size: 13px; font-weight: 600; text-align: right; }
+.zona-prezzo.gratis { color: var(--accent); }
+.zona-dettaglio { grid-column: 1 / -1; font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+.cassa-zone-nota { font-size: 12.5px; color: var(--text-muted); margin-top: 12px; line-height: 1.6; }
+
+.cassa-modulo {
+  background: #fff; border: 1px solid var(--border);
+  min-height: 420px; position: relative;
+}
+@media (max-width: 720px) {
+  .cassa-modulo { margin: 0 calc(-1 * clamp(20px, 5vw, 48px)); border-left: 0; border-right: 0; }
+}
+.cassa-modulo .cassa-esito { margin: 20px; }
+
+.modulo-attesa {
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  padding: 120px 20px; font-size: 13.5px; color: var(--text-muted);
+}
+.modulo-attesa[hidden] { display: none; }
+.modulo-attesa-segno {
+  width: 16px; height: 16px; border-radius: 50%;
+  border: 1.5px solid rgba(0,0,0,.15); border-top-color: var(--accent);
+  animation: cassa-giro .8s linear infinite;
+}
+@keyframes cassa-giro { to { transform: rotate(360deg); } }
+
+.cassa-termini { font-size: 12.5px; color: var(--text-muted); margin-top: 18px; line-height: 1.6; }
+.cassa-termini a { color: var(--accent); }
+/* su telefono le zone restano compatte, cosi' il modulo di pagamento arriva
+   presto sotto il pollice: il dettaglio si legge solo sulla zona scelta */
+@media (max-width: 720px) {
+  .zona { padding: 11px 14px; }
+  .zona:not(.attiva) .zona-dettaglio { display: none; }
+}

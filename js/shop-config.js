@@ -163,6 +163,15 @@
          Oggi il servizio ha la chiave di PROVA (sk_test_): i pagamenti sono
          simulati e si collaudano con la carta finta 4242 4242 4242 4242. */
       endpoint: 'https://shapeless-pagamenti.shapeless-shop.workers.dev/crea-sessione',
+      /* ⚠️ CHIAVE PUBBLICA di Stripe (pk_test_... oggi, pk_live_... al lancio).
+         Serve a montare il modulo di pagamento dentro checkout.html.
+         E' fatta apposta per stare nel sito: con lei non si puo' incassare,
+         rimborsare o leggere niente. Quella SEGRETA (sk_...) invece non va
+         MAI qui: vive solo dentro Cloudflare.
+         Si trova in Stripe → Sviluppatori → Chiavi API → "Chiave pubblicabile".
+         Al passaggio in live va cambiata INSIEME alla sk_live_ del worker:
+         una chiave test con l'altra live non funziona. */
+      chiavePubblica: 'pk_test_51O0HprKLPMmjJB0XiuBwMzASIm698sqOhbTiXJOamodmP5XaExT6t5qoRyB2Nzj92mDfhNXnSjXSxKgOVOJoQwNH00EUBQc9an',   /* ⚠️ TEST — al lancio va la pk_live_ */
       valuta: 'EUR',
       /* Metodi mostrati in cassa. Sono quelli che Stripe attiva da pannello:
          qui servono solo a disegnare i loghi e a spiegarli al cliente. */

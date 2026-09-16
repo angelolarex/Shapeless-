@@ -113,7 +113,7 @@
   <footer>
     <div class="container">
       <div class="footer-bottom" style="border:0; padding-top:0;">
-        <p>© 2025 Shapeless — Larecchiuta Angelo — P.IVA 01927390854</p>
+        <p>© 2026 Shapeless — Larecchiuta Angelo — P.IVA 01927390854</p>
         <div style="display:flex; gap:24px; flex-wrap:wrap;">
           <a href="#" style="font-size:12px; color:var(--text-muted);">Privacy Policy</a>
           <a href="#" style="font-size:12px; color:var(--text-muted);">Termini e condizioni</a>
@@ -126,54 +126,113 @@
   <script src="js/shop-config.js"></script>
   <script src="js/cart.js"></script>
   <script>
+  /* Pagina di ringraziamento.
+     Con la cassa incorporata Stripe ci porta qui con ?sessione=cs_...
+     Nome, email e indirizzo li ha raccolti Stripe, non il nostro sito: li
+     chiediamo al servizio pagamenti (/stato-sessione). Gli articoli coi
+     disegni e i colori li abbiamo invece nel browser (ordine salvato in cassa).
+     ⚠️ Questa pagina NON fa fede per la produzione: fa fede il webhook, perche'
+     il cliente puo' chiudere il browser prima di arrivare qui. */
   (function () {
     var C = window.ShapelessConfig;
     var Cart = window.ShapelessCart;
+    var $ = function (id) { return document.getElementById(id); };
     var o = Cart.getOrdine();
+    var idSessione = new URLSearchParams(location.search).get('sessione');
 
-    if (!o) {
-      document.getElementById('grazie-nome').textContent = 'a presto';
-      document.getElementById('grazie-email').textContent = 'la tua email';
+    function testo(id, v) { if ($(id) && v) $(id).textContent = v; }
+
+    function mostraArticoli() {
+      if (!o || !o.articoli || !o.articoli.length) return;
+      $('grazie-riquadro').hidden = false;
+      var box = $('grazie-articoli');
+      box.innerHTML = '';
+      o.articoli.forEach(function (it) {
+        var r = document.createElement('div');
+        r.className = 'riep-articolo';
+        r.innerHTML =
+          '<div class="riep-img"><img src="' + Cart.immagineDi(it) + '" alt="' + it.nome + '">' +
+            '<span class="riep-qty">' + it.qty + '</span></div>' +
+          '<div class="riep-testo"><p class="riep-nome">' + it.nome + '</p>' +
+            (it.colore ? '<p class="riep-colore"><span class="riep-pallino" style="background:' +
+              (it.coloreHex || '#000') + '"></span>' + it.colore + '</p>' : '') + '</div>' +
+          '<div class="riep-prezzo">' + Cart.formatPrice(it.prezzo * it.qty) + '</div>';
+        box.appendChild(r);
+      });
+      if (o.totali) {
+        testo('grazie-subtotale', Cart.formatPrice(o.totali.subtotale));
+        $('grazie-spedizione').innerHTML = o.totali.spedizione === 0
+          ? '<span class="gratis">Gratuita</span>' : Cart.formatPrice(o.totali.spedizione);
+        testo('grazie-totale', Cart.formatPrice(o.totali.totale));
+      }
+      if (o.consegna) {
+        testo('grazie-produzione',
+          'Il tuo vaso viene stampato su ordinazione, nel colore che hai scelto: ' +
+          C.produzione.giorniLavorativi + ' giorni lavorativi. Consegna stimata entro il ' +
+          o.consegna + '.');
+      }
+    }
+
+    /* ---- arrivo da Stripe ---- */
+    if (idSessione) {
+      var base = C.pagamenti.endpoint.replace(/\/crea-sessione$/, '');
+      fetch(base + '/stato-sessione?id=' + encodeURIComponent(idSessione))
+        .then(function (r) { return r.json(); })
+        .then(function (s) {
+          if (s.stato === 'open') {            // pagamento non concluso: si torna in cassa
+            location.replace('checkout.html');
+            return;
+          }
+          if (s.stato !== 'complete') return;
+
+          /* pagato: il carrello si svuota qui, e solo qui */
+          Cart.clearCart();
+          if (o) { o.stato = 'pagato'; Cart.saveOrdine(o); }
+
+          testo('grazie-nome', (s.nome || '').split(' ')[0] || 'ci siamo');
+          testo('grazie-email', s.email);
+          testo('grazie-numero', s.numero || (o && o.numero));
+          mostraArticoli();
+
+          /* il totale vero e' quello incassato da Stripe */
+          if (typeof s.totale === 'number') testo('grazie-totale', Cart.formatPrice(s.totale / 100));
+          if (typeof s.spedizione === 'number') {
+            $('grazie-spedizione').innerHTML = s.spedizione === 0
+              ? '<span class="gratis">Gratuita</span>' : Cart.formatPrice(s.spedizione / 100);
+          }
+
+          var a = s.indirizzo;
+          if (a) {
+            $('grazie-indirizzo').innerHTML = '';
+            [s.nome, a.line1 + (a.line2 ? ' — ' + a.line2 : ''),
+             (a.postal_code || '') + ' ' + (a.city || '') + (a.state ? ' (' + a.state + ')' : ''),
+             a.country].forEach(function (riga, i) {
+              if (i) $('grazie-indirizzo').appendChild(document.createElement('br'));
+              $('grazie-indirizzo').appendChild(document.createTextNode(riga || ''));
+            });
+          }
+        })
+        .catch(function () {
+          /* il servizio non risponde: il pagamento c'e' comunque stato,
+             mostriamo quello che sappiamo dal browser */
+          testo('grazie-email', 'la tua email');
+          testo('grazie-numero', o && o.numero);
+          mostraArticoli();
+        });
       return;
     }
 
-    document.getElementById('grazie-nome').textContent   = o.cliente.nome || 'ci siamo';
-    document.getElementById('grazie-email').textContent  = o.cliente.email;
-    document.getElementById('grazie-numero').textContent = o.numero;
-    document.getElementById('grazie-demo').hidden        = o.stato !== 'dimostrativo';
-    document.getElementById('grazie-riquadro').hidden    = false;
-
-    var box = document.getElementById('grazie-articoli');
-    o.articoli.forEach(function (it) {
-      var r = document.createElement('div');
-      r.className = 'riep-articolo';
-      r.innerHTML =
-        '<div class="riep-img"><img src="' + Cart.immagineDi(it) + '" alt="' + it.nome + '">' +
-          '<span class="riep-qty">' + it.qty + '</span></div>' +
-        '<div class="riep-testo"><p class="riep-nome">' + it.nome + '</p>' +
-          (it.colore ? '<p class="riep-colore"><span class="riep-pallino" style="background:' +
-            (it.coloreHex || '#000') + '"></span>' + it.colore + '</p>' : '') + '</div>' +
-        '<div class="riep-prezzo">' + Cart.formatPrice(it.prezzo * it.qty) + '</div>';
-      box.appendChild(r);
-    });
-
-    document.getElementById('grazie-subtotale').textContent = Cart.formatPrice(o.totali.subtotale);
-    document.getElementById('grazie-spedizione').innerHTML =
-      o.totali.spedizione === 0 ? '<span class="gratis">Gratuita</span>'
-                                : Cart.formatPrice(o.totali.spedizione);
-    document.getElementById('grazie-totale').textContent = Cart.formatPrice(o.totali.totale);
-
-    var c = o.cliente;
-    document.getElementById('grazie-indirizzo').innerHTML =
-      [c.nome + ' ' + c.cognome,
-       c.indirizzo + (c.indirizzo2 ? ' — ' + c.indirizzo2 : ''),
-       c.cap + ' ' + c.citta + (c.provincia ? ' (' + c.provincia + ')' : ''),
-       c.paese].join('<br>');
-
-    document.getElementById('grazie-produzione').textContent =
-      'Il tuo vaso viene stampato su ordinazione, nel colore che hai scelto: ' +
-      C.produzione.giorniLavorativi + ' giorni lavorativi. Consegna stimata entro il ' +
-      o.consegna + '.';
+    /* ---- nessuna sessione (modalita' dimostrativa o pagina aperta a mano) ---- */
+    if (!o || !o.cliente) {
+      testo('grazie-nome', 'a presto');
+      testo('grazie-email', 'la tua email');
+      return;
+    }
+    testo('grazie-nome', o.cliente.nome || 'ci siamo');
+    testo('grazie-email', o.cliente.email);
+    testo('grazie-numero', o.numero);
+    $('grazie-demo').hidden = o.stato !== 'dimostrativo';
+    mostraArticoli();
   })();
   </script>
 </body>
