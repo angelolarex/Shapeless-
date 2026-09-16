@@ -243,7 +243,10 @@
 
     var el = sdk.createPaymentElement({
       layout: { type: 'accordion', defaultCollapsed: false },
-      paymentMethodOrder: ['card', 'google_pay', 'apple_pay', 'paypal', 'klarna']
+      paymentMethodOrder: ['card', 'google_pay', 'apple_pay', 'paypal', 'klarna'],
+      /* nome, email, telefono e indirizzo li abbiamo gia' nei nostri campi:
+         il riquadro Stripe non deve richiederli (li passiamo in confirm) */
+      fields: { billingDetails: { name: 'never', email: 'never', phone: 'never', address: 'never' } }
     });
     elementoPagamento = el;
     el.mount('#pagamento-stripe');

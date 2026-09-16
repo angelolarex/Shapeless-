@@ -668,3 +668,7 @@ body.pagina-cassa { background: var(--bg); }
 @media (max-width: 940px) {
   .cassa-riepilogo { background: #fff; }
 }
+@media (max-width: 940px) {
+  .cassa-grid { align-items: stretch; }
+  .cassa-form, .cassa-riepilogo { width: 100%; }
+}
