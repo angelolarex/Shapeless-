@@ -114,7 +114,7 @@
     var z = null;
     C.spedizione.zone.forEach(function (x) { if (x.id === zonaCorrente) z = x; });
     $('consegna-nota').textContent =
-      'Stampato su ordinazione: ' + C.produzione.giorniLavorativi +
+      'Prodotto on demand: ' + C.produzione.giorniLavorativi +
       ' giorni lavorativi di produzione, poi ' + (z ? z.giorni : '2-3') +
       ' giorni di corriere. Consegna stimata entro il ' + Cart.dataConsegna() + '.';
   }

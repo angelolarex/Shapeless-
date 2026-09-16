@@ -61,7 +61,7 @@
       ]
     },
 
-    /* Giorni lavorativi di produzione: ogni pezzo e' stampato su ordinazione.
+    /* Giorni lavorativi di produzione: ogni pezzo e' prodotto on demand.
        Va detto PRIMA del pagamento, mai dopo: e' la prima causa di reclami. */
     produzione: { giorniLavorativi: 12 },
 

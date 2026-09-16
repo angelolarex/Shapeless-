@@ -212,7 +212,7 @@ async function creaSessione(richiesta, env, origine) {
         unit_amount: p.prezzo,
         product_data: {
           name: p.nome + (colore ? ` — ${colore}` : ''),
-          description: 'Vaso in PLA vegetale, stampato su ordinazione. ' +
+          description: 'Vaso in PLA vegetale, prodotto on demand. ' +
                        'Inserto Hidden Nest in vetro incluso.',
           /* il disegno a tratto con il pallino del colore scelto */
           images: [immagineStripe(a.id, a.coloreHex)]
@@ -273,7 +273,7 @@ async function creaSessione(richiesta, env, origine) {
     /* va detto PRIMA del pagamento, mai dopo: e' la prima causa di reclami */
     custom_text: {
       submit: {
-        message: 'Ogni pezzo è stampato su ordinazione: circa 12 giorni lavorativi ' +
+        message: 'Ogni pezzo è prodotto on demand: circa 12 giorni lavorativi ' +
                  'di produzione, poi la spedizione tracciata. Reso entro 14 giorni.'
       }
     },
