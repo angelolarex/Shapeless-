@@ -214,7 +214,7 @@
     })
     .then(function (r) {
       return r.json().catch(function () { return {}; }).then(function (d) {
-        if (!r.ok || !d.clientSecret) throw new Error(d.errore || ('risposta ' + r.status));
+        if (!r.ok || !d.clientSecret) { console.error('crea-sessione:', d.dettaglio); throw new Error(d.errore || ('risposta ' + r.status)); }
         if (mio === turno) idSessione = d.id;
         return d.clientSecret;
       });
@@ -246,7 +246,9 @@
       paymentMethodOrder: ['card', 'google_pay', 'apple_pay', 'paypal', 'klarna'],
       /* nome, email, telefono e indirizzo li abbiamo gia' nei nostri campi:
          il riquadro Stripe non deve richiederli (li passiamo in confirm) */
-      fields: { billingDetails: { name: 'never', email: 'never', phone: 'never', address: 'never' } }
+      fields: { billingDetails: { name: 'never', email: 'never', phone: 'never', address: 'never' } },
+      /* niente "salva i dati con Link": richiedeva di nuovo email e telefono */
+      wallets: { link: 'never' }
     });
     elementoPagamento = el;
     el.mount('#pagamento-stripe');

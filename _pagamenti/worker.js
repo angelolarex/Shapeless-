@@ -261,9 +261,9 @@ async function creaSessione(richiesta, env, origine) {
        Si ESCLUDONO invece di elencare quelli ammessi, perche' un elenco di
        ammessi con un metodo spento sul conto fa fallire la sessione (vedi sotto).
        Se un giorno servono, basta toglierli da qui. */
-    /* 'link' tolto perche' nel riquadro carta chiedeva di nuovo email,
-       telefono e nome per "salvare i dati": doppione dei nostri campi. */
-    excluded_payment_method_types: ['ideal', 'bancontact', 'eps', 'link'],
+    /* ⚠️ 'link' NON si puo' escludere da qui (Stripe risponde errore 500):
+       il riquadro "salva i dati con Link" si spegne in js/checkout.js. */
+    excluded_payment_method_types: ['ideal', 'bancontact', 'eps'],
 
     /* niente account: Stripe crea un cliente al volo */
     customer_creation: 'always',
