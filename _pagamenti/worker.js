@@ -242,6 +242,13 @@ async function creaSessione(richiesta, env, origine) {
 
     line_items: righe,
 
+    /* Metodi che Stripe accende da solo ma che in Italia non usa nessuno
+       (Olanda, Belgio, Austria): allungano l'elenco e confondono.
+       Si ESCLUDONO invece di elencare quelli ammessi, perche' un elenco di
+       ammessi con un metodo spento sul conto fa fallire la sessione (vedi sotto).
+       Se un giorno servono, basta toglierli da qui. */
+    excluded_payment_method_types: ['ideal', 'bancontact', 'eps'],
+
     /* niente account: Stripe crea un cliente al volo */
     customer_creation: 'always',
 

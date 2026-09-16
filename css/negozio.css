@@ -642,3 +642,14 @@ body.pagina-cassa { background: var(--bg); }
   .zona { padding: 11px 14px; }
   .zona:not(.attiva) .zona-dettaglio { display: none; }
 }
+
+/* aiuti in cassa: zona estero e indirizzo */
+.cassa-zone-estero { margin-top: 4px; }
+.cassa-zone-estero[hidden] { display: none; }
+.cassa-aiuto-indirizzo {
+  font-size: 13px; line-height: 1.6; color: var(--text-muted);
+  background: #fff; border: 1px solid var(--border); border-left: 3px solid var(--accent);
+  padding: 12px 14px; margin: 0 0 14px;
+}
+.cassa-aiuto-indirizzo strong { color: var(--text); font-weight: 600; }
+@media (max-width: 720px) { .cassa-aiuto-indirizzo { font-size: 12.5px; } }

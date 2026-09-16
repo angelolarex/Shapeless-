@@ -45,7 +45,19 @@
         <p class="cassa-zone-titolo">Dove spediamo?</p>
         <div class="zone" id="zone" role="group" aria-label="Zona di spedizione"></div>
         <p class="cassa-zone-nota" id="consegna-nota"></p>
+        <p class="cassa-zone-nota cassa-zone-estero" id="nota-estero">
+          Spedisci fuori dall'Italia? Scegli la zona qui sopra, il modulo si aggiorna.
+        </p>
       </section>
+
+      <!-- Il modulo Stripe parte con l'indirizzo in una riga sola: CAP e citta'
+           compaiono quando si sceglie il suggerimento. Stripe non permette di
+           mostrarli gia' aperti, quindi lo spieghiamo noi, prima. -->
+      <p class="cassa-aiuto-indirizzo">
+        <strong>Indirizzo:</strong> scrivi via e numero civico, poi scegli il suggerimento:
+        CAP e città si compilano da soli. Se non lo trovi, tocca
+        <em>"Inserisci l'indirizzo manualmente"</em>.
+      </p>
 
       <!-- Qui Stripe inserisce il modulo: riepilogo con i disegni dei vasi,
            email, indirizzo, Apple Pay / Google Pay, carta. -->

@@ -111,6 +111,8 @@
   }
 
   function aggiornaConsegna() {
+    var estero = document.getElementById('nota-estero');
+    if (estero) estero.hidden = zonaCorrente !== 'IT';
     var z = null;
     C.spedizione.zone.forEach(function (x) { if (x.id === zonaCorrente) z = x; });
     $('consegna-nota').textContent =
