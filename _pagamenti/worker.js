@@ -190,7 +190,15 @@ async function creaSessione(richiesta, env, origine) {
   /* zona: 'IT' | 'EU' | 'XX'. Si accetta anche il vecchio "cliente.paese"
      per non rompere una pagina rimasta in cache nel browser di qualcuno. */
   let zonaId = String(corpo.zona || '').toUpperCase();
-  if (!SPEDIZIONE[zonaId]) zonaId = zonaDi(String(corpo.cliente?.paese || 'IT').toUpperCase());
+  const paeseScelto = String(corpo.paese || corpo.cliente?.paese || '').toUpperCase();
+  if (paeseScelto) {
+    if (!PAESI_SERVITI.includes(paeseScelto)) {
+      return json({ errore: 'Non spediamo ancora in questo paese. Scrivici e troviamo una soluzione.' },
+                  400, origine);
+    }
+    zonaId = zonaDi(paeseScelto);
+  }
+  if (!SPEDIZIONE[zonaId]) zonaId = 'IT';
 
   /* --- righe d'ordine, con i NOSTRI prezzi --- */
   let subtotale = 0;
@@ -237,7 +245,13 @@ async function creaSessione(richiesta, env, origine) {
      Impostazioni → Metodi di pagamento → Domini dei metodi di pagamento. */
   const sessione = await chiamaStripe('checkout/sessions', {
     mode: 'payment',
-    ui_mode: 'embedded_page',
+    /* CASSA NOSTRA (dal 16/09 pomeriggio): i campi di contatto e indirizzo li
+       disegniamo noi in checkout.html, nell'ordine che vogliamo e sempre
+       visibili; Stripe mette solo il riquadro dei metodi di pagamento.
+       ⚠️ In questa modalita' Stripe NON accetta custom_fields, custom_text e
+       tax_id_collection: note, SDI e dati fattura arrivano con /dettagli-ordine
+       e finiscono nei metadata. */
+    ui_mode: 'elements',
     locale: 'it',
 
     line_items: righe,
@@ -255,35 +269,6 @@ async function creaSessione(richiesta, env, origine) {
     /* Stripe raccoglie l'indirizzo, solo nei paesi della zona scelta */
     shipping_address_collection: { allowed_countries: paesiDellaZona(zonaId) },
     phone_number_collection: { enabled: true },
-
-    /* casella "Acquisto come azienda": ragione sociale e partita IVA */
-    tax_id_collection: { enabled: true },
-
-    /* al massimo 3 campi liberi: ne usiamo 2, entrambi facoltativi */
-    custom_fields: [
-      {
-        key: 'sdi',
-        label: { type: 'custom', custom: 'Codice SDI o PEC (solo se vuoi fattura)' },
-        type: 'text',
-        optional: true,
-        text: { maximum_length: 80 }
-      },
-      {
-        key: 'notecorriere',
-        label: { type: 'custom', custom: 'Note per il corriere' },
-        type: 'text',
-        optional: true,
-        text: { maximum_length: 200 }
-      }
-    ],
-
-    /* va detto PRIMA del pagamento, mai dopo: e' la prima causa di reclami */
-    custom_text: {
-      submit: {
-        message: 'Ogni pezzo è prodotto on demand: circa 12 giorni lavorativi ' +
-                 'di produzione, poi la spedizione tracciata. Reso entro 14 giorni.'
-      }
-    },
 
     shipping_options: [{
       shipping_rate_data: {
@@ -318,6 +303,46 @@ async function creaSessione(richiesta, env, origine) {
   }, env.STRIPE_SECRET_KEY);
 
   return json({ clientSecret: sessione.client_secret, id: sessione.id }, 200, origine);
+}
+
+/* ============================================================ dettagli-ordine
+
+   POST /dettagli-ordine
+   Poco prima del pagamento la cassa manda qui le cose che Stripe, in questa
+   modalita', non raccoglie: note per il corriere e dati per la fattura.
+   Finiscono nei metadata della sessione, e da li' nel pagamento su Stripe
+   e nel webhook. Si accettano solo questi campi, tagliati a lunghezza fissa. */
+
+async function dettagliOrdine(richiesta, env, origine) {
+  const c = await richiesta.json();
+  const id = String(c.id || '');
+  if (!/^cs_(test|live)_[A-Za-z0-9]+$/.test(id)) {
+    return json({ errore: 'Sessione non valida.' }, 400, origine);
+  }
+  const t = (v, n) => String(v || '').replace(/[\u0000-\u001f]/g, ' ').trim().slice(0, n);
+
+  const r = await fetch(`https://api.stripe.com/v1/checkout/sessions/${id}`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${env.STRIPE_SECRET_KEY}`,
+      'Stripe-Version': STRIPE_VERSIONE,
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: aFormData({
+      metadata: {
+        note:           t(c.note, 400),
+        fattura:        c.fattura ? 'si' : 'no',
+        ragioneSociale: c.fattura ? t(c.ragioneSociale, 120) : '',
+        piva:           c.fattura ? t(c.piva, 20).toUpperCase() : '',
+        sdi:            c.fattura ? t(c.sdi, 80) : ''
+      }
+    }).toString()
+  });
+  if (!r.ok) {
+    const e = await r.json().catch(() => ({}));
+    throw new Error(e.error?.message || `Stripe ha risposto ${r.status}`);
+  }
+  return json({ ok: true }, 200, origine);
 }
 
 /* ============================================================ stato-sessione
@@ -410,11 +435,11 @@ async function webhook(richiesta, env) {
       nome:       s.customer_details?.name,
       telefono:   s.customer_details?.phone || s.metadata?.telefono,
       spedizione: s.collected_information?.shipping_details || s.shipping_details,
-      ragioneSociale: s.customer_details?.business_name || '',
-      pivaRaccolta: s.customer_details?.tax_ids?.[0]?.value || '',
-      sdi:        campo(s, 'sdi'),
+      ragioneSociale: s.metadata?.ragioneSociale || s.customer_details?.business_name || '',
+      pivaRaccolta: s.metadata?.piva || s.customer_details?.tax_ids?.[0]?.value || '',
+      sdi:        s.metadata?.sdi || campo(s, 'sdi'),
       colori:     s.metadata?.colori,
-      note:       campo(s, 'notecorriere')
+      note:       s.metadata?.note || campo(s, 'notecorriere')
     };
 
     /* Dove finisce l'ordine. Scegline UNO (vedi CHECKOUT-E-PAGAMENTI.md):
@@ -456,6 +481,13 @@ export default {
           return json({ errore: 'Origine non ammessa.' }, 403, origine);
         }
         return await creaSessione(richiesta, env, origine);
+      }
+
+      if (url.pathname === '/dettagli-ordine' && richiesta.method === 'POST') {
+        if (!ORIGINI_AMMESSE.includes(origine)) {
+          return json({ errore: 'Origine non ammessa.' }, 403, origine);
+        }
+        return await dettagliOrdine(richiesta, env, origine);
       }
 
       if (url.pathname === '/stato-sessione' && richiesta.method === 'GET') {

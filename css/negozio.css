@@ -653,3 +653,18 @@ body.pagina-cassa { background: var(--bg); }
 }
 .cassa-aiuto-indirizzo strong { color: var(--text); font-weight: 600; }
 @media (max-width: 720px) { .cassa-aiuto-indirizzo { font-size: 12.5px; } }
+
+/* ====================================================== CASSA NOSTRA
+   (16 settembre 2026, pomeriggio) Campi nostri + riquadro pagamento Stripe. */
+.pagamento-box { position: relative; min-height: 120px; margin-top: 18px; }
+.pagamento-box .modulo-attesa { padding: 40px 20px; }
+.cassa-paga:disabled { opacity: .55; cursor: not-allowed; }
+.cassa-paga .attesa {
+  width: 14px; height: 14px; border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,.35); border-top-color: #fff;
+  animation: cassa-giro .8s linear infinite;
+}
+.cassa-form .form-group label { letter-spacing: .1em; }
+@media (max-width: 940px) {
+  .cassa-riepilogo { background: #fff; }
+}

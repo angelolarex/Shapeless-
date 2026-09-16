@@ -7,15 +7,13 @@
   <meta name="description" content="Completa il tuo ordine Shapeless. Pagamento sicuro, senza registrazione.">
   <meta name="robots" content="noindex, nofollow">
   <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/negozio.css?v=20260916b">
-  <!-- Lo script di Stripe va caricato SEMPRE da js.stripe.com, mai copiato nel
-       sito: e' una regola di sicurezza delle carte (PCI).
+  <link rel="stylesheet" href="css/negozio.css?v=20260916c">
+  <!-- Lo script di Stripe va caricato SEMPRE da js.stripe.com (regola PCI).
        ⚠️ "dahlia" deve combaciare con STRIPE_VERSIONE in _pagamenti/worker.js -->
   <script src="https://js.stripe.com/dahlia/stripe.js"></script>
 </head>
 <body class="pagina-cassa">
 
-  <!-- Intestazione ridotta: in cassa il menu completo e' una via di fuga. -->
   <header class="cassa-header">
     <div class="cassa-header-inner">
       <a href="index.html" class="nav-logo"><img src="images/Logo Shapeless.png" alt="Shapeless" class="nav-logo-img"></a>
@@ -26,65 +24,182 @@
     </div>
   </header>
 
-  <!-- ⚠️ I ?v=... sui fogli di stile e sugli script obbligano il browser a
-       riscaricarli dopo una modifica. Quando cambi negozio.css, checkout.js o
-       shop-config.js, cambia anche il numero qui. -->
-  <main class="cassa-wrap cassa-incorporata">
+  <!-- ⚠️ I ?v=... su stile e script obbligano il browser a riscaricarli dopo
+       una modifica: quando cambi negozio.css, checkout.js o shop-config.js,
+       cambia anche il numero qui. -->
+  <main class="cassa-wrap">
 
-    <!-- Carrello vuoto -->
     <div id="cassa-vuota" class="cassa-vuota" hidden>
       <p class="label">Cassa</p>
       <h1>Il carrello è <em>vuoto</em>.</h1>
-      <p style="color:var(--text-muted); margin:20px 0 32px;">
-        Scegli il tuo vaso, poi torna qui.
-      </p>
+      <p style="color:var(--text-muted); margin:20px 0 32px;">Scegli il tuo vaso, poi torna qui.</p>
       <a href="tutti-i-design.html" class="btn btn-fill">Scopri i design</a>
     </div>
 
-    <div id="cassa-corpo" hidden>
+    <div id="cassa-corpo" class="cassa-grid" hidden>
 
-      <!-- Una sola domanda prima del modulo: dove spediamo. Italia gia' scelta. -->
-      <section class="cassa-zone">
-        <p class="cassa-zone-titolo">Dove spediamo?</p>
-        <div class="zone" id="zone" role="group" aria-label="Zona di spedizione"></div>
-        <p class="cassa-zone-nota" id="consegna-nota"></p>
-        <p class="cassa-zone-nota cassa-zone-estero" id="nota-estero">
-          Spedisci fuori dall'Italia? Scegli la zona qui sopra, il modulo si aggiorna.
-        </p>
-      </section>
+      <!-- ================= COLONNA MODULO ================= -->
+      <form class="cassa-form" id="modulo-cassa" novalidate autocomplete="on">
 
-      <!-- Il modulo Stripe parte con l'indirizzo in una riga sola: CAP e citta'
-           compaiono quando si sceglie il suggerimento. Stripe non permette di
-           mostrarli gia' aperti, quindi lo spieghiamo noi, prima. -->
-      <p class="cassa-aiuto-indirizzo">
-        <strong>Indirizzo:</strong> scrivi via e numero civico, poi scegli il suggerimento:
-        CAP e città si compilano da soli. Se non lo trovi, tocca
-        <em>"Inserisci l'indirizzo manualmente"</em>.
-      </p>
+        <!-- ---------- 1. DATI ---------- -->
+        <section class="cassa-blocco" style="padding-top:0;">
+          <h2 class="cassa-blocco-titolo"><span class="cassa-num">1</span> I tuoi dati</h2>
 
-      <!-- Qui Stripe inserisce il modulo: riepilogo con i disegni dei vasi,
-           email, indirizzo, Apple Pay / Google Pay, carta. -->
-      <section class="cassa-modulo">
-        <div class="modulo-attesa" id="modulo-attesa">
-          <span class="modulo-attesa-segno" aria-hidden="true"></span>
-          Preparo il pagamento sicuro…
+          <div class="form-row">
+            <div class="form-group">
+              <label for="nome">Nome</label>
+              <input type="text" id="nome" name="given-name" autocomplete="shipping given-name" required>
+              <p class="campo-errore" data-per="nome"></p>
+            </div>
+            <div class="form-group">
+              <label for="cognome">Cognome</label>
+              <input type="text" id="cognome" name="family-name" autocomplete="shipping family-name" required>
+              <p class="campo-errore" data-per="cognome"></p>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" autocomplete="email" inputmode="email" required>
+              <p class="campo-errore" data-per="email"></p>
+            </div>
+            <div class="form-group">
+              <label for="telefono">Telefono</label>
+              <input type="tel" id="telefono" name="tel" autocomplete="tel" inputmode="tel" required>
+              <p class="campo-errore" data-per="telefono"></p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ---------- 2. SPEDIZIONE ---------- -->
+        <section class="cassa-blocco">
+          <h2 class="cassa-blocco-titolo"><span class="cassa-num">2</span> Spedizione</h2>
+
+          <div class="form-group">
+            <label for="indirizzo">Via e numero civico</label>
+            <input type="text" id="indirizzo" name="address-line1" autocomplete="shipping address-line1" required>
+            <p class="campo-errore" data-per="indirizzo"></p>
+          </div>
+
+          <div class="form-group">
+            <label for="indirizzo2">Scala, interno, presso <span class="facolt">facoltativo</span></label>
+            <input type="text" id="indirizzo2" name="address-line2" autocomplete="shipping address-line2">
+          </div>
+
+          <div class="form-row form-row-3">
+            <div class="form-group">
+              <label for="cap">CAP</label>
+              <input type="text" id="cap" name="postal-code" autocomplete="shipping postal-code" inputmode="numeric" maxlength="10" required>
+              <p class="campo-errore" data-per="cap"></p>
+            </div>
+            <div class="form-group">
+              <label for="citta">Città</label>
+              <input type="text" id="citta" name="address-level2" autocomplete="shipping address-level2" required>
+              <p class="campo-errore" data-per="citta"></p>
+            </div>
+            <div class="form-group" id="gruppo-provincia">
+              <label for="provincia" id="etichetta-provincia">Provincia</label>
+              <input type="text" id="provincia" name="address-level1" autocomplete="shipping address-level1" maxlength="30" style="text-transform:uppercase;">
+              <p class="campo-errore" data-per="provincia"></p>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="paese">Paese</label>
+            <select id="paese" name="country" autocomplete="shipping country" required></select>
+          </div>
+
+          <div class="form-group">
+            <label for="note">Note per il corriere <span class="facolt">facoltativo</span></label>
+            <input type="text" id="note" name="note" maxlength="200" autocomplete="off">
+          </div>
+
+          <label class="cassa-check">
+            <input type="checkbox" id="vuoleFattura">
+            <span>Mi serve la fattura</span>
+          </label>
+
+          <div id="campi-fattura" hidden style="margin-top:18px;">
+            <div class="form-group">
+              <label for="ragioneSociale">Ragione sociale</label>
+              <input type="text" id="ragioneSociale" autocomplete="organization">
+              <p class="campo-errore" data-per="ragioneSociale"></p>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="piva">Partita IVA</label>
+                <input type="text" id="piva" inputmode="numeric" autocomplete="off">
+                <p class="campo-errore" data-per="piva"></p>
+              </div>
+              <div class="form-group">
+                <label for="sdi">Codice SDI o PEC</label>
+                <input type="text" id="sdi" autocomplete="off">
+                <p class="campo-errore" data-per="sdi"></p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ---------- 3. PAGAMENTO ---------- -->
+        <section class="cassa-blocco cassa-blocco-ultimo">
+          <h2 class="cassa-blocco-titolo"><span class="cassa-num">3</span> Pagamento</h2>
+
+          <div class="pagamento-box">
+            <div class="modulo-attesa" id="modulo-attesa">
+              <span class="modulo-attesa-segno" aria-hidden="true"></span>
+            </div>
+            <!-- Qui Stripe inserisce carta, Google Pay, Apple Pay, PayPal, Klarna -->
+            <div id="pagamento-stripe"></div>
+          </div>
+
+          <button type="submit" class="btn btn-fill cassa-paga" id="btn-paga" disabled>
+            <span id="btn-paga-testo">Paga</span>
+            <span id="btn-paga-cifra"></span>
+          </button>
+
+          <p class="cassa-esito esito-errore" id="cassa-esito" hidden></p>
+
+          <p class="cassa-termini">
+            Pagando accetti i <a href="#" target="_blank">termini di vendita</a> e la
+            <a href="#" target="_blank">privacy policy</a>.
+          </p>
+
+          <ul class="cassa-garanzie">
+            <li>Pagamento cifrato, gestito da Stripe</li>
+            <li id="garanzia-reso">Reso entro 14 giorni</li>
+            <li>Imballaggio protetto, spedizione tracciata</li>
+            <li>Assistenza: <a href="mailto:info@shapeless.shop">info@shapeless.shop</a></li>
+          </ul>
+        </section>
+      </form>
+
+      <!-- ================= COLONNA RIEPILOGO ================= -->
+      <aside class="cassa-riepilogo" id="cassa-riepilogo">
+        <button type="button" class="riepilogo-barra" id="riepilogo-barra">
+          <span class="riepilogo-barra-txt">Riepilogo ordine <span class="riepilogo-freccia"></span></span>
+          <span class="riepilogo-barra-cifra" id="barra-totale">—</span>
+        </button>
+
+        <div class="riepilogo-corpo">
+          <h2 class="riepilogo-titolo">Il tuo ordine</h2>
+          <div id="riepilogo-articoli"></div>
+
+          <div class="riepilogo-conti">
+            <div class="conto-riga"><span>Subtotale</span><span id="riep-subtotale">—</span></div>
+            <div class="conto-riga"><span>Spedizione</span><span id="riep-spedizione">—</span></div>
+            <div class="conto-riga conto-totale"><span>Totale</span><span id="riep-totale">—</span></div>
+            <p class="conto-nota">IVA inclusa</p>
+          </div>
+
+          <div class="riepilogo-consegna">
+            <p class="riepilogo-consegna-titolo">Consegna stimata</p>
+            <p class="riepilogo-consegna-data" id="riep-consegna">—</p>
+            <p class="riepilogo-consegna-nota" id="riep-consegna-nota"></p>
+          </div>
         </div>
-        <div id="modulo-stripe"></div>
-        <p class="cassa-esito esito-errore" id="cassa-esito" hidden></p>
-      </section>
+      </aside>
 
-      <p class="cassa-termini">
-        Pagando accetti i <a href="#" target="_blank">termini di vendita</a> e la
-        <a href="#" target="_blank">privacy policy</a>. Nessun account da creare:
-        la ricevuta arriva via email.
-      </p>
-
-      <ul class="cassa-garanzie">
-        <li>Pagamento cifrato, gestito da Stripe: la carta non passa da questo sito</li>
-        <li id="garanzia-reso">Reso entro 14 giorni</li>
-        <li>Imballaggio protetto, spedizione tracciata</li>
-        <li>Assistenza reale: <a href="mailto:info@shapeless.shop">info@shapeless.shop</a></li>
-      </ul>
     </div>
   </main>
 
@@ -100,8 +215,8 @@
     </div>
   </footer>
 
-  <script src="js/shop-config.js?v=20260916b"></script>
+  <script src="js/shop-config.js?v=20260916c"></script>
   <script src="js/cart.js"></script>
-  <script src="js/checkout.js?v=20260916b"></script>
+  <script src="js/checkout.js?v=20260916c"></script>
 </body>
 </html>
