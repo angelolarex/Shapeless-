@@ -7,7 +7,7 @@
   <meta name="description" content="Completa il tuo ordine Shapeless. Pagamento sicuro, senza registrazione.">
   <meta name="robots" content="noindex, nofollow">
   <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/negozio.css?v=20260916d">
+  <link rel="stylesheet" href="css/negozio.css?v=20260916f">
   <!-- Lo script di Stripe va caricato SEMPRE da js.stripe.com (regola PCI).
        ⚠️ "dahlia" deve combaciare con STRIPE_VERSIONE in _pagamenti/worker.js -->
   <script src="https://js.stripe.com/dahlia/stripe.js"></script>
@@ -47,12 +47,12 @@
 
           <div class="form-row">
             <div class="form-group">
-              <label for="nome">Nome</label>
+              <label for="nome">Nome <span class="obbl">*</span></label>
               <input type="text" id="nome" name="given-name" autocomplete="shipping given-name" required>
               <p class="campo-errore" data-per="nome"></p>
             </div>
             <div class="form-group">
-              <label for="cognome">Cognome</label>
+              <label for="cognome">Cognome <span class="obbl">*</span></label>
               <input type="text" id="cognome" name="family-name" autocomplete="shipping family-name" required>
               <p class="campo-errore" data-per="cognome"></p>
             </div>
@@ -60,12 +60,12 @@
 
           <div class="form-row">
             <div class="form-group">
-              <label for="email">Email</label>
+              <label for="email">Email <span class="obbl">*</span></label>
               <input type="email" id="email" name="email" autocomplete="email" inputmode="email" required>
               <p class="campo-errore" data-per="email"></p>
             </div>
             <div class="form-group">
-              <label for="telefono">Telefono</label>
+              <label for="telefono">Telefono <span class="obbl">*</span></label>
               <input type="tel" id="telefono" name="tel" autocomplete="tel" inputmode="tel" required>
               <p class="campo-errore" data-per="telefono"></p>
             </div>
@@ -77,7 +77,7 @@
           <h2 class="cassa-blocco-titolo"><span class="cassa-num">2</span> Spedizione</h2>
 
           <div class="form-group">
-            <label for="indirizzo">Via e numero civico</label>
+            <label for="indirizzo">Via e numero civico <span class="obbl">*</span></label>
             <input type="text" id="indirizzo" name="address-line1" autocomplete="shipping address-line1" required>
             <p class="campo-errore" data-per="indirizzo"></p>
           </div>
@@ -89,24 +89,24 @@
 
           <div class="form-row form-row-3">
             <div class="form-group">
-              <label for="cap">CAP</label>
+              <label for="cap">CAP <span class="obbl">*</span></label>
               <input type="text" id="cap" name="postal-code" autocomplete="shipping postal-code" inputmode="numeric" maxlength="10" required>
               <p class="campo-errore" data-per="cap"></p>
             </div>
             <div class="form-group">
-              <label for="citta">Città</label>
+              <label for="citta">Città <span class="obbl">*</span></label>
               <input type="text" id="citta" name="address-level2" autocomplete="shipping address-level2" required>
               <p class="campo-errore" data-per="citta"></p>
             </div>
             <div class="form-group" id="gruppo-provincia">
-              <label for="provincia" id="etichetta-provincia">Provincia</label>
+              <label for="provincia" id="etichetta-provincia">Provincia <span class="obbl">*</span></label>
               <input type="text" id="provincia" name="address-level1" autocomplete="shipping address-level1" maxlength="30" style="text-transform:uppercase;">
               <p class="campo-errore" data-per="provincia"></p>
             </div>
           </div>
 
           <div class="form-group">
-            <label for="paese">Paese</label>
+            <label for="paese">Paese <span class="obbl">*</span></label>
             <select id="paese" name="country" autocomplete="shipping country" required></select>
           </div>
 
@@ -122,18 +122,18 @@
 
           <div id="campi-fattura" hidden style="margin-top:18px;">
             <div class="form-group">
-              <label for="ragioneSociale">Ragione sociale</label>
+              <label for="ragioneSociale">Ragione sociale <span class="obbl">*</span></label>
               <input type="text" id="ragioneSociale" autocomplete="organization">
               <p class="campo-errore" data-per="ragioneSociale"></p>
             </div>
             <div class="form-row">
               <div class="form-group">
-                <label for="piva">Partita IVA</label>
+                <label for="piva">Partita IVA <span class="obbl">*</span></label>
                 <input type="text" id="piva" inputmode="numeric" autocomplete="off">
                 <p class="campo-errore" data-per="piva"></p>
               </div>
               <div class="form-group">
-                <label for="sdi">Codice SDI o PEC</label>
+                <label for="sdi">Codice SDI o PEC <span class="obbl">*</span></label>
                 <input type="text" id="sdi" autocomplete="off">
                 <p class="campo-errore" data-per="sdi"></p>
               </div>
@@ -215,8 +215,8 @@
     </div>
   </footer>
 
-  <script src="js/shop-config.js?v=20260916c"></script>
+  <script src="js/shop-config.js?v=20260916g"></script>
   <script src="js/cart.js"></script>
-  <script src="js/checkout.js?v=20260916e"></script>
+  <script src="js/checkout.js?v=20260916g"></script>
 </body>
 </html>

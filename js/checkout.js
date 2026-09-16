@@ -123,7 +123,7 @@
   function aggiornaPaese(daCambio) {
     var paese = $('paese').value;
     var it = paese === 'IT';
-    $('etichetta-provincia').innerHTML = it ? 'Provincia'
+    $('etichetta-provincia').innerHTML = it ? 'Provincia <span class="obbl">*</span>'
       : 'Regione <span class="facolt">facoltativo</span>';
     $('provincia').maxLength = it ? 2 : 30;
     $('provincia').placeholder = it ? 'CL' : '';
@@ -141,12 +141,12 @@
       var r = document.createElement('div');
       r.className = 'riep-articolo';
       r.innerHTML =
-        '<div class="riep-img"><img src="' + Cart.immagineDi(it) + '" alt=""><span class="riep-qty">' + it.qty + '</span></div>' +
+        '<div class="riep-img"><img src="' + Cart.immagineDi(it) + '" alt=""></div>' +
         '<div class="riep-testo"><p class="riep-nome"></p>' +
           (it.colore ? '<p class="riep-colore"><span class="riep-pallino"></span><span></span></p>' : '') +
         '</div>' +
         '<div class="riep-prezzo">' + Cart.formatPrice(it.prezzo * it.qty) + '</div>';
-      r.querySelector('.riep-nome').textContent = it.nome;
+      r.querySelector('.riep-nome').textContent = it.nome + (it.qty > 1 ? ' × ' + it.qty : '');
       if (it.colore) {
         r.querySelector('.riep-pallino').style.background = it.coloreHex || '#000';
         r.querySelector('.riep-colore span:last-child').textContent = it.colore;
@@ -243,12 +243,15 @@
 
     var el = sdk.createPaymentElement({
       layout: { type: 'accordion', defaultCollapsed: false },
-      paymentMethodOrder: ['card', 'google_pay', 'apple_pay', 'paypal', 'klarna'],
+      paymentMethodOrder: ['card', 'apple_pay', 'paypal', 'klarna', 'scalapay'],
       /* nome, email, telefono e indirizzo li abbiamo gia' nei nostri campi:
          il riquadro Stripe non deve richiederli (li passiamo in confirm) */
       fields: { billingDetails: { name: 'never', email: 'never', phone: 'never', address: 'never' } },
       /* niente "salva i dati con Link": richiedeva di nuovo email e telefono */
-      wallets: { link: 'never' }
+      /* Apple Pay si', Google Pay no (scelta di Angelo: al massimo carta,
+         Apple Pay, PayPal, Klarna, Scalapay). Per riaccendere Google Pay:
+         googlePay: 'auto'. */
+      wallets: { link: 'never', applePay: 'auto', googlePay: 'never' }
     });
     elementoPagamento = el;
     el.mount('#pagamento-stripe');

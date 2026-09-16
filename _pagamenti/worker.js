@@ -35,7 +35,7 @@
    DEVE restare allineato a js/shop-config.js. Quando cambi un prezzo,
    cambialo in tutti e due i posti. */
 
-/* ⚠️⚠️ PREZZI DI PROVA — 1,00 € ⚠️⚠️
+/* ⚠️⚠️ PREZZI DI PROVA — 5,00 € (500 centesimi) ⚠️⚠️
    Allineati a js/shop-config.js per collaudare l'incasso vero spendendo un
    euro. I prezzi veri sono, e vanno rimessi QUI E ANCHE in shop-config.js
    prima di aprire al pubblico:
@@ -45,9 +45,9 @@
    quindi dal sito arrivano solo gli identificativi e le quantita'. Se avessi
    messo 1 € solo in shop-config.js, il cliente avrebbe visto 1 € e pagato 169. */
 const CATALOGO = {
-  blade:   { nome: 'Blade',   prezzo:   100, immagine: 'images/blade-transparent.png' },   /* vero: 16900 */
-  vulcano: { nome: 'Vulcano', prezzo:   100, immagine: 'images/vulcano-transparent.png' }, /* vero: 18900 */
-  bombato: { nome: 'Bombato', prezzo:   100, immagine: 'images/bombato-transparent.png' }  /* vero: 14900 */
+  blade:   { nome: 'Blade',   prezzo:   500, immagine: 'images/blade-transparent.png' },   /* vero: 16900 */
+  vulcano: { nome: 'Vulcano', prezzo:   500, immagine: 'images/vulcano-transparent.png' }, /* vero: 18900 */
+  bombato: { nome: 'Bombato', prezzo:   500, immagine: 'images/bombato-transparent.png' }  /* vero: 14900 */
 };
 /* i prezzi sono in CENTESIMI: Stripe lavora sempre in centesimi */
 
@@ -261,9 +261,12 @@ async function creaSessione(richiesta, env, origine) {
        Si ESCLUDONO invece di elencare quelli ammessi, perche' un elenco di
        ammessi con un metodo spento sul conto fa fallire la sessione (vedi sotto).
        Se un giorno servono, basta toglierli da qui. */
-    /* ⚠️ 'link' NON si puo' escludere da qui (Stripe risponde errore 500):
-       il riquadro "salva i dati con Link" si spegne in js/checkout.js. */
-    excluded_payment_method_types: ['ideal', 'bancontact', 'eps'],
+    /* Metodi scelti da Angelo (16/09): Carta, Apple Pay, PayPal (con le 3 rate
+       dentro PayPal), Klarna, Scalapay. Qui si escludono quelli che Stripe
+       accende da solo. Google Pay e Link si spengono in js/checkout.js.
+       ⚠️ 'link' NON si puo' escludere da qui (Stripe risponde errore 500).
+       ⚠️ Satispay si spegne dal pannello Stripe, non da qui. */
+    excluded_payment_method_types: ['ideal', 'bancontact', 'eps', 'blik'],
 
     /* niente account: Stripe crea un cliente al volo */
     customer_creation: 'always',

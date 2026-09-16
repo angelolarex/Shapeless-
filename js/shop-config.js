@@ -68,7 +68,7 @@
     /* ------------------------------------------------------------------
        CATALOGO
        ------------------------------------------------------------------
-       ⚠️⚠️ PREZZI DI PROVA — 1,00 € ⚠️⚠️
+       ⚠️⚠️ PREZZI DI PROVA — 5,00 € (erano 1,00; alzati a 5 perche' Scalapay accetta solo ordini da 5 € in su) ⚠️⚠️
        Messi per collaudare l'incasso vero con Stripe spendendo un euro invece
        di centonovanta. I prezzi veri sono, e vanno rimessi PRIMA di aprire il
        sito al pubblico:
@@ -88,7 +88,7 @@
       blade: {
         id: 'blade',
         nome: 'Blade',
-        prezzo: 1.00,        /* ⚠️ PROVA — il prezzo vero e' 169.00 */
+        prezzo: 5.00,        /* ⚠️ PROVA — il prezzo vero e' 169.00 */
         altezzaCm: 37,
         immagine: 'images/blade-transparent.png',
         pagina: 'prodotto-blade.html',
@@ -104,7 +104,7 @@
       vulcano: {
         id: 'vulcano',
         nome: 'Vulcano',
-        prezzo: 1.00,        /* ⚠️ PROVA — il prezzo vero e' 189.00 */
+        prezzo: 5.00,        /* ⚠️ PROVA — il prezzo vero e' 189.00 */
         altezzaCm: 26,
         immagine: 'images/vulcano-transparent.png',
         pagina: 'prodotto-vulcano.html',
@@ -117,7 +117,7 @@
       bombato: {
         id: 'bombato',
         nome: 'Bombato',
-        prezzo: 1.00,        /* ⚠️ PROVA — il prezzo vero e' 149.00 */
+        prezzo: 5.00,        /* ⚠️ PROVA — il prezzo vero e' 149.00 */
         altezzaCm: 19,
         immagine: 'images/bombato-transparent.png',
         pagina: 'prodotto-bombato.html',
