@@ -246,6 +246,56 @@
     }, 4800);
   }
 
+  /* ------------------------------------------------ pagamento rimasto a meta'
+     Con Klarna (e a volte PayPal o le banche) sul telefono si apre l'APP del
+     servizio. Finito il pagamento l'app riapre Stripe in una finestrina
+     separata, che non ritrova la sessione e mostra "Something went wrong":
+     il cliente ha pagato ma non vede la pagina di grazie.
+     Quella pagina e' di Stripe e non si puo' cambiare. Qui si rimedia: la
+     cassa salva l'ordine con stato 'in-pagamento' e l'id della sessione.
+     Appena il cliente torna su una qualsiasi pagina del sito (o rientra
+     nella scheda della cassa) chiediamo al servizio pagamenti com'e' finita:
+     se e' pagato lo portiamo alla pagina di grazie, che svuota il carrello e
+     segna l'ordine come 'pagato' (cosi' il controllo non si ripete). */
+
+  var controlloInCorso = false;
+
+  function controllaPagamentoInSospeso() {
+    if (controlloInCorso) return;
+    if (/ordine-ricevuto\.html$/.test(location.pathname)) return;
+    var o = getOrdine();
+    if (!o || o.stato !== 'in-pagamento' || !/^cs_(test|live)_/.test(o.sessione || '')) return;
+    var eta = Date.now() - new Date(o.data).getTime();
+    if (!(eta < 2 * 24 * 3600 * 1000)) return;          // oltre due giorni non si insiste
+    var c = cfg();
+    if (!c || !c.pagamenti || !c.pagamenti.endpoint) return;
+
+    controlloInCorso = true;
+    var base = c.pagamenti.endpoint.replace(/\/crea-sessione$/, '');
+    fetch(base + '/stato-sessione?id=' + encodeURIComponent(o.sessione))
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (s) {
+        if (!s) return;
+        if (s.stato === 'complete') {
+          location.replace('ordine-ricevuto.html?sessione=' + encodeURIComponent(o.sessione));
+        } else if (s.stato === 'expired') {
+          o.stato = 'scaduto';
+          saveOrdine(o);
+        }
+      })
+      .catch(function () {})
+      .then(function () { controlloInCorso = false; });
+  }
+
+  document.addEventListener('DOMContentLoaded', controllaPagamentoInSospeso);
+  /* tornando indietro il browser puo' ripescare la pagina dalla memoria
+     senza ricaricarla: pageshow scatta lo stesso */
+  window.addEventListener('pageshow', function (e) { if (e.persisted) controllaPagamentoInSospeso(); });
+  /* chiusa la finestrina di Stripe, il cliente rientra nella scheda del sito */
+  document.addEventListener('visibilitychange', function () {
+    if (document.visibilityState === 'visible') controllaPagamentoInSospeso();
+  });
+
   document.addEventListener('DOMContentLoaded', updateBadges);
   // Carrello aperto in due schede: la seconda si aggiorna da sola.
   window.addEventListener('storage', function (e) {
