@@ -204,6 +204,8 @@
     .pv-info > .pv-blocco-colori > .label{ margin-bottom:0; }
     #colors{ margin-top:10px; }
     .pv-info > .cfg-acquisto{ order:4; }
+    /* misure: su telefono subito sopra il prezzo (stesso ordine, vengono prima nel codice) */
+    .pv-info > .pv-misure{ order:4; margin-top:18px !important; }
     .pv-info > .label{ order:5; margin-top:44px; }
     .pv-info > h1{ order:6; }
     .pv-info > .pv-sottotitolo{ order:7; }
@@ -354,6 +356,9 @@
           <p class="pv-sottotitolo" style="font-size:18px; color:var(--accent2); margin-top:20px; line-height:1.7;">
             Forma conica, energia contenuta.
           </p>
+          <p class="pv-misure" style="font-size:12px; letter-spacing:.06em; color:var(--text-muted); margin-top:10px; line-height:1.6;">
+            <span style="text-transform:uppercase; letter-spacing:.14em; font-size:10.5px;">Dimensioni</span>&nbsp;&nbsp;22 × 22 × 26 h cm
+          </p>
 
           <!-- colori: il gesto che accende il 3D -->
           <div class="pv-blocco-colori">
@@ -382,7 +387,7 @@
           <!-- acquisto -->
           <div class="cfg-acquisto">
             <div class="cfg-prezzo">
-              <strong id="cfg-prezzo">€ 189,00</strong>
+              <strong id="cfg-prezzo">€ 95,00</strong>
               <span id="cfg-prezzo-nota">IVA inclusa · spedizione gratuita in Italia</span>
             </div>
 
@@ -444,15 +449,15 @@
     <div class="container">
       <div class="grid-2" style="align-items:center; gap:72px;">
         <div class="reveal">
-          <p class="label">La forma</p>
-          <h2 class="mb-24"><strong>Energia</strong> scolpita nel PLA</h2>
+          <p class="label">Il carattere</p>
+          <h2 class="mb-24"><strong>La forza</strong> della natura siciliana</h2>
           <p style="font-size:17px; color:var(--accent2);">
-            Una geometria semplice, tenuta insieme da una piega sola.
+            Un paesaggio vulcanico che diventa forma.
           </p>
           <p>
-            Le pareti di Vulcano si allargano progressivamente verso l'alto richiamando la sagoma di un
-            cratere, e la piega che le attraversa cambia direzione alla luce: da lontano è una silhouette,
-            da vicino una superficie che si muove.
+            La forza della natura siciliana incontra il design contemporaneo. La sua silhouette scultorea
+            riprende le linee potenti del paesaggio vulcanico, creando un punto focale di grande impatto
+            visivo. Un oggetto iconico, perfetto per dare carattere ai tuoi spazi.
           </p>
           <p>
             Disponibile anche nella finitura antracite, per un effetto ancora più materico e scultoreo.
@@ -479,7 +484,7 @@
 
       <div class="faq-item">
         <div class="faq-question">Dimensioni<div class="faq-icon">+</div></div>
-        <div class="faq-answer"><p>Altezza 26 cm, ingombro massimo alla base circa 20 cm. Ogni pezzo è prodotto on demand nel colore che scegli.</p></div>
+        <div class="faq-answer"><p>Dimensioni 22 × 22 × 26 h cm: altezza 26 cm, larghezza massima 22 cm. Ogni pezzo è prodotto on demand nel colore che scegli.</p></div>
       </div>
 
       <div class="faq-item">
@@ -571,7 +576,7 @@
   <!-- barra fissa su telefono: aggiunge al carrello il colore scelto -->
   <div class="barra-mobile" id="barra-mobile">
     <div class="barra-mobile-txt">
-      <span id="barra-prezzo">€ 189,00</span>
+      <span id="barra-prezzo">€ 95,00</span>
     </div>
     <!-- Una frase sola dentro un solo elemento: il bottone e' un contenitore
          flessibile, e fra due pezzi separati lo spazio viene ignorato -
@@ -581,7 +586,7 @@
 
   <script src="js/main.js"></script>
   <script src="js/lang.js"></script>
-  <script src="js/shop-config.js"></script>
+  <script src="js/shop-config.js?v=20260917prezzi"></script>
   <script src="js/cart.js"></script>
   <script src="js/qrcode.js"></script>
 

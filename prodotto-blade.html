@@ -204,6 +204,8 @@
     .pv-info > .pv-blocco-colori > .label{ margin-bottom:0; }
     #colors{ margin-top:10px; }
     .pv-info > .cfg-acquisto{ order:4; }
+    /* misure: su telefono subito sopra il prezzo (stesso ordine, vengono prima nel codice) */
+    .pv-info > .pv-misure{ order:4; margin-top:18px !important; }
     .pv-info > .label{ order:5; margin-top:44px; }
     .pv-info > h1{ order:6; }
     .pv-info > .pv-sottotitolo{ order:7; }
@@ -354,6 +356,9 @@
           <p class="pv-sottotitolo" style="font-size:18px; color:var(--accent2); margin-top:20px; line-height:1.7;">
             Lame verticali, in equilibrio dinamico.
           </p>
+          <p class="pv-misure" style="font-size:12px; letter-spacing:.06em; color:var(--text-muted); margin-top:10px; line-height:1.6;">
+            <span style="text-transform:uppercase; letter-spacing:.14em; font-size:10.5px;">Dimensioni</span>&nbsp;&nbsp;28 × 28 × 37 h cm
+          </p>
 
           <!-- colori: il gesto che accende il 3D -->
           <div class="pv-blocco-colori">
@@ -382,7 +387,7 @@
           <!-- acquisto -->
           <div class="cfg-acquisto">
             <div class="cfg-prezzo">
-              <strong id="cfg-prezzo">€ 169,00</strong>
+              <strong id="cfg-prezzo">€ 215,00</strong>
               <span id="cfg-prezzo-nota">IVA inclusa · spedizione gratuita in Italia</span>
             </div>
 
@@ -477,7 +482,7 @@
 
       <div class="faq-item">
         <div class="faq-question">Dimensioni<div class="faq-icon">+</div></div>
-        <div class="faq-answer"><p>Altezza 37 cm, diametro massimo 28 cm. Ogni pezzo è prodotto on demand nel colore che scegli.</p></div>
+        <div class="faq-answer"><p>Dimensioni 28 × 28 × 37 h cm: altezza 37 cm, diametro massimo 28 cm. Ogni pezzo è prodotto on demand nel colore che scegli.</p></div>
       </div>
 
       <div class="faq-item">
@@ -569,7 +574,7 @@
   <!-- barra fissa su telefono: aggiunge al carrello il colore scelto -->
   <div class="barra-mobile" id="barra-mobile">
     <div class="barra-mobile-txt">
-      <span id="barra-prezzo">€ 169,00</span>
+      <span id="barra-prezzo">€ 215,00</span>
     </div>
     <!-- Una frase sola dentro un solo elemento: il bottone e' un contenitore
          flessibile, e fra due pezzi separati lo spazio viene ignorato -
@@ -579,7 +584,7 @@
 
   <script src="js/main.js"></script>
   <script src="js/lang.js"></script>
-  <script src="js/shop-config.js"></script>
+  <script src="js/shop-config.js?v=20260917prezzi"></script>
   <script src="js/cart.js"></script>
   <script src="js/qrcode.js"></script>
 

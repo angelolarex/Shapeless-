@@ -243,15 +243,14 @@
 
     var el = sdk.createPaymentElement({
       layout: { type: 'accordion', defaultCollapsed: false },
-      paymentMethodOrder: ['card', 'apple_pay', 'paypal', 'klarna', 'scalapay'],
+      paymentMethodOrder: ['card', 'apple_pay', 'google_pay', 'paypal', 'klarna', 'scalapay'],
       /* nome, email, telefono e indirizzo li abbiamo gia' nei nostri campi:
          il riquadro Stripe non deve richiederli (li passiamo in confirm) */
       fields: { billingDetails: { name: 'never', email: 'never', phone: 'never', address: 'never' } },
       /* niente "salva i dati con Link": richiedeva di nuovo email e telefono */
-      /* Apple Pay si', Google Pay no (scelta di Angelo: al massimo carta,
-         Apple Pay, PayPal, Klarna, Scalapay). Per riaccendere Google Pay:
-         googlePay: 'auto'. */
-      wallets: { link: 'never', applePay: 'auto', googlePay: 'never' }
+      /* Apple Pay e Google Pay accesi (17/09: Angelo ha riacceso Google Pay).
+         Ognuno compare solo sui dispositivi che lo supportano. Link spento. */
+      wallets: { link: 'never', applePay: 'auto', googlePay: 'auto' }
     });
     elementoPagamento = el;
     el.mount('#pagamento-stripe');

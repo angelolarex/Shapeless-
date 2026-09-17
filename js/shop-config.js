@@ -35,7 +35,7 @@
     /* ------------------------------------------------------------------
        SPEDIZIONE
        ------------------------------------------------------------------
-       Sopra la soglia la spedizione e' gratis. Con Blade a 169 € questo
+       Sopra la soglia la spedizione e' gratis. Con il Bombato a 95 € questo
        significa che in Italia e' sempre gratis: e' una leva di conversione
        forte e va detta chiaramente in ogni pagina.
        ------------------------------------------------------------------ */
@@ -68,12 +68,9 @@
     /* ------------------------------------------------------------------
        CATALOGO
        ------------------------------------------------------------------
-       ⚠️⚠️ PREZZI DI PROVA — 5,00 € (erano 1,00; alzati a 5 perche' Scalapay accetta solo ordini da 5 € in su) ⚠️⚠️
-       Messi per collaudare l'incasso vero con Stripe spendendo un euro invece
-       di centonovanta. I prezzi veri sono, e vanno rimessi PRIMA di aprire il
-       sito al pubblico:
-           Blade 169,00 — Vulcano 189,00 — Bombato 149,00
-       Finche' questa nota e' qui, il negozio NON e' pronto per la vendita.
+       PREZZI VERI dal 17/09 (colonna "Prezzo suggerito al pubblico" del listino):
+           Blade 215,00 — Vulcano 95,00 — Bombato 95,00
+       (Il collaudo a 5 € con PayPal e Klarna e' andato a buon fine.)
 
        ⚠️ Nota per me: questo commento e' gia' dentro un blocco /* ... *\/ .
        Aprirne un altro qui dentro non serve, e CHIUDERLO manda in errore tutto
@@ -88,7 +85,7 @@
       blade: {
         id: 'blade',
         nome: 'Blade',
-        prezzo: 5.00,        /* ⚠️ PROVA LIVE 17/09 — il prezzo vero e' 169.00 */
+        prezzo: 215.00,      /* 28 × 28 × 37 h cm — listino 17/09 */
         altezzaCm: 37,
         immagine: 'images/blade-transparent.png',
         pagina: 'prodotto-blade.html',
@@ -104,7 +101,7 @@
       vulcano: {
         id: 'vulcano',
         nome: 'Vulcano',
-        prezzo: 5.00,        /* ⚠️ PROVA LIVE 17/09 — il prezzo vero e' 189.00 */
+        prezzo: 95.00,       /* 22 × 22 × 26 h cm — listino 17/09 */
         altezzaCm: 26,
         immagine: 'images/vulcano-transparent.png',
         pagina: 'prodotto-vulcano.html',
@@ -117,7 +114,7 @@
       bombato: {
         id: 'bombato',
         nome: 'Bombato',
-        prezzo: 5.00,        /* ⚠️ PROVA LIVE 17/09 — il prezzo vero e' 149.00 */
+        prezzo: 95.00,       /* 25 × 25 × 19 h cm — listino 17/09 */
         altezzaCm: 19,
         immagine: 'images/bombato-transparent.png',
         pagina: 'prodotto-bombato.html',
