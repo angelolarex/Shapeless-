@@ -85,7 +85,7 @@
       blade: {
         id: 'blade',
         nome: 'Blade',
-        prezzo: 215.00,      /* 28 × 28 × 37 h cm — listino 17/09 */
+        prezzo: 215.00,      /* 28x28x37h cm — listino 17/09 */
         altezzaCm: 37,
         immagine: 'images/blade-transparent.png',
         pagina: 'prodotto-blade.html',
@@ -101,7 +101,7 @@
       vulcano: {
         id: 'vulcano',
         nome: 'Vulcano',
-        prezzo: 95.00,       /* 22 × 22 × 26 h cm — listino 17/09 */
+        prezzo: 95.00,       /* 22x22x26h cm — listino 17/09 */
         altezzaCm: 26,
         immagine: 'images/vulcano-transparent.png',
         pagina: 'prodotto-vulcano.html',
@@ -114,7 +114,7 @@
       bombato: {
         id: 'bombato',
         nome: 'Bombato',
-        prezzo: 95.00,       /* 25 × 25 × 19 h cm — listino 17/09 */
+        prezzo: 95.00,       /* 25x25x19h cm — listino 17/09 */
         altezzaCm: 19,
         immagine: 'images/bombato-transparent.png',
         pagina: 'prodotto-bombato.html',
