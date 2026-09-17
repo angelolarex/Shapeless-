@@ -45,9 +45,9 @@
    quindi dal sito arrivano solo gli identificativi e le quantita'. Se avessi
    messo 1 € solo in shop-config.js, il cliente avrebbe visto 1 € e pagato 169. */
 const CATALOGO = {
-  blade:   { nome: 'Blade',   prezzo: 16900, immagine: 'images/blade-transparent.png' },   /* LIVE 169,00 */
-  vulcano: { nome: 'Vulcano', prezzo: 18900, immagine: 'images/vulcano-transparent.png' }, /* LIVE 189,00 */
-  bombato: { nome: 'Bombato', prezzo: 14900, immagine: 'images/bombato-transparent.png' }  /* LIVE 149,00 */
+  blade:   { nome: 'Blade',   prezzo:   500, immagine: 'images/blade-transparent.png' },   /* ⚠️ PROVA LIVE — vero: 16900 */
+  vulcano: { nome: 'Vulcano', prezzo:   500, immagine: 'images/vulcano-transparent.png' }, /* ⚠️ PROVA LIVE — vero: 18900 */
+  bombato: { nome: 'Bombato', prezzo:   500, immagine: 'images/bombato-transparent.png' }  /* ⚠️ PROVA LIVE — vero: 14900 */
 };
 /* i prezzi sono in CENTESIMI: Stripe lavora sempre in centesimi */
 

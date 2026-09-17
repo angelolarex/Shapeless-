@@ -88,7 +88,7 @@
       blade: {
         id: 'blade',
         nome: 'Blade',
-        prezzo: 169.00,      /* LIVE dal 16/09/2026 (in prova era 5.00) */
+        prezzo: 5.00,        /* ⚠️ PROVA LIVE 17/09 — il prezzo vero e' 169.00 */
         altezzaCm: 37,
         immagine: 'images/blade-transparent.png',
         pagina: 'prodotto-blade.html',
@@ -104,7 +104,7 @@
       vulcano: {
         id: 'vulcano',
         nome: 'Vulcano',
-        prezzo: 189.00,      /* LIVE dal 16/09/2026 */
+        prezzo: 5.00,        /* ⚠️ PROVA LIVE 17/09 — il prezzo vero e' 189.00 */
         altezzaCm: 26,
         immagine: 'images/vulcano-transparent.png',
         pagina: 'prodotto-vulcano.html',
@@ -117,7 +117,7 @@
       bombato: {
         id: 'bombato',
         nome: 'Bombato',
-        prezzo: 149.00,      /* LIVE dal 16/09/2026 */
+        prezzo: 5.00,        /* ⚠️ PROVA LIVE 17/09 — il prezzo vero e' 149.00 */
         altezzaCm: 19,
         immagine: 'images/bombato-transparent.png',
         pagina: 'prodotto-bombato.html',
