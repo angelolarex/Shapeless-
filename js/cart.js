@@ -194,9 +194,18 @@
     return '€ ' + Number(n).toFixed(2).replace('.', ',');
   }
 
-  function dataConsegna() {
+  /* Data di consegna mostrata al cliente: giorni di produzione + i giorni
+     MASSIMI di viaggio della zona (Italia se non si sa il paese). Una data
+     sola, gia' comprensiva di tutto: il cliente non deve fare somme. */
+  function dataConsegna(codicePaese) {
     var C = cfg();
-    var giorni = C.produzione.giorniLavorativi;
+    var viaggio = 3;
+    try {
+      var z = C.zonaPerPaese(codicePaese || 'IT');
+      var m = String(z && z.giorni || '').match(/(\d+)\s*$/);
+      if (m) viaggio = parseInt(m[1], 10);
+    } catch (e) {}
+    var giorni = C.produzione.giorniLavorativi + viaggio;
     var d = new Date();
     var aggiunti = 0;
     while (aggiunti < giorni) {

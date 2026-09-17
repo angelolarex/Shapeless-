@@ -123,9 +123,9 @@
   </footer>
 
   <script src="js/main.js"></script>
-  <script src="js/chat.js?v=20260917" defer></script>
-  <script src="js/shop-config.js?v=20260917prezzi"></script>
-  <script src="js/cart.js?v=20260917klarna"></script>
+  <script src="js/chat.js?v=20260917consegna" defer></script>
+  <script src="js/shop-config.js?v=20260917consegna"></script>
+  <script src="js/cart.js?v=20260917consegna"></script>
   <script>
   /* Pagina di ringraziamento.
      Con la cassa incorporata Stripe ci porta qui con ?sessione=cs_...
@@ -168,8 +168,8 @@
       }
       if (o.consegna) {
         testo('grazie-produzione',
-          'Il tuo vaso viene prodotto on demand, nel colore che hai scelto: ' +
-          C.produzione.giorniLavorativi + ' giorni lavorativi. Consegna stimata entro il ' +
+          'Il tuo vaso viene prodotto on demand nel colore che hai scelto, in ' +
+          C.produzione.giorniLavorativi + ' giorni lavorativi, poi parte con corriere tracciato. Consegna stimata entro il ' +
           o.consegna + '.');
       }
     }

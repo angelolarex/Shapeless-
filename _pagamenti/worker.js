@@ -281,8 +281,8 @@ async function creaSessione(richiesta, env, origine) {
           ? 'Spedizione gratuita — ' + zona.nome
           : 'Spedizione ' + zona.nome,
         delivery_estimate: {
-          minimum: { unit: 'business_day', value: 12 + zona.giorniMin },
-          maximum: { unit: 'business_day', value: 12 + zona.giorniMax }
+          minimum: { unit: 'business_day', value: 7 + zona.giorniMin },
+          maximum: { unit: 'business_day', value: 7 + zona.giorniMax }
         }
       }
     }],

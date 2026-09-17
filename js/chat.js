@@ -104,12 +104,12 @@
 
   function testoConsegna() {
     var c = C();
-    var giorni = (c && c.produzione && c.produzione.giorniLavorativi) || 12;
+    var giorni = (c && c.produzione && c.produzione.giorniLavorativi) || 7;
     var data = '';
     try { data = window.ShapelessCart.dataConsegna(); } catch (e) {}
-    return 'Ogni vaso lo produciamo <b>on demand</b>, dopo il tuo ordine e nel colore che scegli: servono circa <b>' +
+    return 'Ogni vaso lo produciamo <b>on demand</b>, dopo il tuo ordine e nel colore che scegli: servono <b>' +
       giorni + ' giorni lavorativi</b>, poi parte con corriere tracciato.' +
-      (data ? '<br><br>Se ordini oggi, la consegna stimata è <b>entro il ' + esc(data) + '</b>.' : '') +
+      (data ? '<br><br>Se ordini oggi, in Italia lo ricevi <b>entro il ' + esc(data) + '</b>.' : '') +
       '<br><br>Ti serve per una data precisa, magari un regalo? Scrivimi e vediamo insieme.';
   }
 

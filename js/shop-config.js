@@ -63,7 +63,7 @@
 
     /* Giorni lavorativi di produzione: ogni pezzo e' prodotto on demand.
        Va detto PRIMA del pagamento, mai dopo: e' la prima causa di reclami. */
-    produzione: { giorniLavorativi: 12 },
+    produzione: { giorniLavorativi: 7 },   /* 17/09: 7 di produzione + corriere (Italia 2-3) = consegna entro ~10 */
 
     /* ------------------------------------------------------------------
        CATALOGO

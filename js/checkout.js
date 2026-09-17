@@ -165,10 +165,10 @@
       ? '<span class="gratis">Gratuita</span>' : Cart.formatPrice(t.spedizione);
     $('riep-totale').textContent = Cart.formatPrice(t.totale);
     $('barra-totale').textContent = Cart.formatPrice(t.totale);
-    $('riep-consegna').textContent = 'entro il ' + Cart.dataConsegna();
+    $('riep-consegna').textContent = 'entro il ' + Cart.dataConsegna(paese);
     $('riep-consegna-nota').textContent =
-      'Prodotto on demand: ' + C.produzione.giorniLavorativi +
-      ' giorni lavorativi di produzione, poi ' + (t.zona ? t.zona.giorni : '2-3') +
+      'Prodotto on demand in ' + C.produzione.giorniLavorativi +
+      ' giorni lavorativi, poi ' + (t.zona ? t.zona.giorni : '2-3') +
       ' giorni di corriere.';
   }
 
@@ -377,7 +377,7 @@
     });
     Cart.saveOrdine({
       numero: numeroOrdine, data: new Date().toISOString(), articoli: Cart.getCart(),
-      totali: Cart.calcolaTotali(paese), consegna: Cart.dataConsegna(),
+      totali: Cart.calcolaTotali(paese), consegna: Cart.dataConsegna(paese),
       sessione: idSessione, stato: 'in-pagamento'
     });
 
