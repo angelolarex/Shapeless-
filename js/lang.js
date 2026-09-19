@@ -323,8 +323,131 @@
       if (dict[key] !== undefined) el.placeholder = dict[key];
     });
 
+    /* tutto il resto della pagina: dizionario italiano -> inglese */
+    traduciPagina();
+    osservaNuoviTesti();
+
     // HTML lang attribute
     document.documentElement.lang = lang;
+  }
+
+
+  /* ===================== TRADUZIONE AUTOMATICA DEI TESTI =====================
+     I testi delle pagine NON hanno tutti un data-i18n: sarebbe stato da
+     riscrivere ogni file. Qui invece si traduce leggendo la pagina: ogni
+     pezzetto di testo viene cercato nel dizionario js/lang-testi.js
+     (italiano -> inglese) e sostituito. Quello che non c'e' nel dizionario
+     resta in italiano, non sparisce mai.
+
+     Vale anche per i testi che il sito scrive da solo dopo (carrello, cassa,
+     chat): un osservatore controlla le parti nuove e le traduce al volo.
+     =========================================================================== */
+
+  function chiave(t) { return String(t).replace(/\s+/g, ' ').trim(); }
+
+  function dizionario() { return window.ShapelessTestiEN || null; }
+
+  var SALTA = { SCRIPT: 1, STYLE: 1, NOSCRIPT: 1, TEXTAREA: 1, CODE: 1, svg: 1 };
+
+  function traduciTesti(radice) {
+    var D = dizionario();
+    if (!D || !radice) return;
+    var nodi = document.createTreeWalker(radice, NodeFilter.SHOW_TEXT, {
+      acceptNode: function (n) {
+        if (!n.nodeValue || !n.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+        var p = n.parentNode;
+        if (p && (SALTA[p.nodeName] || p.closest && p.closest('[data-no-i18n]'))) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    var lista = [], n;
+    while ((n = nodi.nextNode())) lista.push(n);
+    lista.forEach(function (nodo) {
+      var testo = nodo.nodeValue;
+      var tradotto = D[chiave(testo)];
+      if (tradotto === undefined) tradotto = mesiInglese(chiave(testo));
+      if (tradotto === undefined) return;
+      var prima = testo.match(/^\s*/)[0], dopo = testo.match(/\s*$/)[0];
+      nodo.nodeValue = prima + tradotto + dopo;
+    });
+  }
+
+  /* Le date le scrive il sito al volo ("5 ottobre"): non possono stare nel
+     dizionario, quindi si traducono i nomi dei mesi quando compaiono da soli
+     o dopo un numero. */
+  var MESI = {
+    'gennaio': 'January', 'febbraio': 'February', 'marzo': 'March', 'aprile': 'April',
+    'maggio': 'May', 'giugno': 'June', 'luglio': 'July', 'agosto': 'August',
+    'settembre': 'September', 'ottobre': 'October', 'novembre': 'November', 'dicembre': 'December'
+  };
+
+  function mesiInglese(testo) {
+    if (!/\d/.test(testo)) return undefined;
+    var nuovo = testo.replace(/(\d{1,2})\s+(gennaio|febbraio|marzo|aprile|maggio|giugno|luglio|agosto|settembre|ottobre|novembre|dicembre)/gi,
+      function (_, giorno, mese) { return giorno + ' ' + MESI[mese.toLowerCase()]; });
+    return nuovo === testo ? undefined : nuovo;
+  }
+
+  var ATTRIBUTI = ['placeholder', 'alt', 'aria-label', 'title', 'value'];
+
+  function traduciAttributi(radice) {
+    var D = dizionario();
+    if (!D || !radice || !radice.querySelectorAll) return;
+    ATTRIBUTI.forEach(function (a) {
+      var sel = '[' + a + ']';
+      var elementi = radice.querySelectorAll(sel);
+      elementi.forEach(function (el) {
+        if (a === 'value' && !/^(submit|button|reset)$/i.test(el.type || '')) return;
+        var v = el.getAttribute(a);
+        if (!v) return;
+        var t = D[chiave(v)];
+        if (t !== undefined) el.setAttribute(a, t);
+      });
+      if (radice.matches && radice.matches(sel)) {
+        var v2 = radice.getAttribute(a);
+        var t2 = v2 && D[chiave(v2)];
+        if (t2 !== undefined) radice.setAttribute(a, t2);
+      }
+    });
+  }
+
+  function traduciPagina() {
+    var D = dizionario();
+    if (!D) return;
+    if (D[chiave(document.title)]) document.title = D[chiave(document.title)];
+    var meta = document.querySelector('meta[name="description"]');
+    if (meta && D[chiave(meta.content)]) meta.content = D[chiave(meta.content)];
+    traduciTesti(document.body);
+    traduciAttributi(document.body);
+  }
+
+  var osservatore = null;
+
+  function osservaNuoviTesti() {
+    if (osservatore || !window.MutationObserver) return;
+    var inCorso = false;
+    osservatore = new MutationObserver(function (mutazioni) {
+      if (inCorso) return;
+      inCorso = true;
+      try {
+        mutazioni.forEach(function (m) {
+          if (m.type === 'childList') {
+            m.addedNodes.forEach(function (n) {
+              if (n.nodeType === 1) { traduciTesti(n); traduciAttributi(n); }
+              else if (n.nodeType === 3 && n.parentNode) traduciTesti(n.parentNode);
+            });
+          } else if (m.type === 'characterData' && m.target.parentNode) {
+            traduciTesti(m.target.parentNode);
+          }
+        });
+      } finally {
+        /* le sostituzioni fatte qui generano altre mutazioni: si lasciano
+           passare nel giro successivo, quando ormai il testo e' inglese e
+           il dizionario non trova piu' nulla da cambiare */
+        setTimeout(function () { inCorso = false; }, 0);
+      }
+    });
+    osservatore.observe(document.body, { childList: true, subtree: true, characterData: true });
   }
 
   /* ===================== BUTTON INJECTION ===================== */

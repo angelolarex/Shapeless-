@@ -212,7 +212,10 @@
       d.setDate(d.getDate() + 1);
       if (d.getDay() !== 0 && d.getDay() !== 6) aggiunti++;
     }
-    return d.toLocaleDateString('it-IT', { day: 'numeric', month: 'long' });
+    /* la data si scrive nella lingua scelta dal visitatore (pulsante EN) */
+    var lingua = 'it-IT';
+    try { if (localStorage.getItem('shapeless_lang') === 'en') lingua = 'en-GB'; } catch (e) {}
+    return d.toLocaleDateString(lingua, { day: 'numeric', month: 'long' });
   }
 
   /* --------------------------------------------------------------- pastiglia */
