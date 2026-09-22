@@ -11,6 +11,10 @@
      GET  /stato-sessione  la pagina di ringraziamento chiede com'e' andata
                            (nome, email, indirizzo da mostrare).
 
+     /pannello             il PANNELLO ORDINI di Angelo (dal 22/09/2026).
+                           Tutto il codice sta in pannello.js e pannello.html,
+                           qui c'e' solo il collegamento (vedi in fondo).
+
      POST /webhook         Stripe avvisa qui quando un pagamento va a buon
                            fine. E' l'unico punto in cui un ordine diventa
                            "pagato": la pagina di ritorno non fa fede, perche'
@@ -30,6 +34,8 @@
    Serve Node 18+ solo per lo sviluppo locale. In produzione gira su
    Cloudflare Workers, gratis fino a 100.000 richieste al giorno.
    =========================================================================== */
+
+import { gestisciPannello } from './pannello.js';
 
 /* ---------------------------------------------------------------- catalogo
    DEVE restare allineato a js/shop-config.js. Quando cambi un prezzo,
@@ -182,7 +188,10 @@ async function creaSessione(richiesta, env, origine) {
   const corpo = await richiesta.json();
   const articoli = Array.isArray(corpo.articoli) ? corpo.articoli : [];
 
-  if (!articoli.length) return json({ errore: 'Carrello vuoto.' }, 400, origine);
+  /* lingua del sito (pulsante EN): cambia la lingua di Stripe e dei messaggi */
+  const inglese = corpo.lingua === 'en';
+
+  if (!articoli.length) return json({ errore: inglese ? 'Your cart is empty.' : 'Carrello vuoto.' }, 400, origine);
   if (articoli.length > 20) return json({ errore: 'Troppi articoli.' }, 400, origine);
 
   /* zona: 'IT' | 'EU' | 'XX'. Si accetta anche il vecchio "cliente.paese"
@@ -191,7 +200,8 @@ async function creaSessione(richiesta, env, origine) {
   const paeseScelto = String(corpo.paese || corpo.cliente?.paese || '').toUpperCase();
   if (paeseScelto) {
     if (!PAESI_SERVITI.includes(paeseScelto)) {
-      return json({ errore: 'Non spediamo ancora in questo paese. Scrivici e troviamo una soluzione.' },
+      return json({ errore: inglese ? "We don't ship to this country yet. Write to us and we'll find a solution."
+                                    : 'Non spediamo ancora in questo paese. Scrivici e troviamo una soluzione.' },
                   400, origine);
     }
     zonaId = zonaDi(paeseScelto);
@@ -250,7 +260,7 @@ async function creaSessione(richiesta, env, origine) {
        tax_id_collection: note, SDI e dati fattura arrivano con /dettagli-ordine
        e finiscono nei metadata. */
     ui_mode: 'elements',
-    locale: 'it',
+    locale: inglese ? 'en' : 'it',
 
     line_items: righe,
 
@@ -473,6 +483,10 @@ export default {
   async fetch(richiesta, env) {
     const url = new URL(richiesta.url);
     const origine = richiesta.headers.get('Origin') || '';
+
+    /* Pannello ordini: /pannello e tutto quello che sta sotto */
+    const pannello = await gestisciPannello(richiesta, env, url);
+    if (pannello) return pannello;
 
     if (richiesta.method === 'OPTIONS') {
       return new Response(null, { status: 204, headers: intestazioniCORS(origine) });

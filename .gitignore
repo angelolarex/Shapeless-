@@ -98,3 +98,8 @@ images/Starlight/IMG_1109.jpg
 _pagamenti/node_modules/
 _pagamenti/package-lock.json
 _pagamenti/.wrangler/
+
+# --- Pannello ordini (22/09/2026): vive solo sul worker Cloudflare, non sul sito ---
+_pagamenti/pannello.html
+_pagamenti/pannello.js
+_pagamenti/pannello-icone.js

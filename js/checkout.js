@@ -18,6 +18,10 @@
    rifa' da capo col costo giusto. Il server accetta solo indirizzi dei paesi
    di quella zona: nessuno paga la spedizione italiana per spedire all'estero.
 
+   INGLESE (dal 22/09/2026): i testi che questo file scrive da solo (errori,
+   riepilogo, nomi dei paesi, riquadro Stripe) sono scritti due volte con
+   T('italiano', 'inglese'); si usa l'inglese se il visitatore ha premuto EN.
+
    ⚠️ Script Stripe "dahlia": i nomi sono initCheckoutElementsSdk,
    createPaymentElement, loadActions, confirm. Deve combaciare con
    STRIPE_VERSIONE in _pagamenti/worker.js.
@@ -28,6 +32,11 @@
   var C = window.ShapelessConfig;
   var Cart = window.ShapelessCart;
   var $ = function (id) { return document.getElementById(id); };
+
+  /* lingua scelta col pulsante EN (la salva js/lang.js) */
+  var EN = false;
+  try { EN = localStorage.getItem('shapeless_lang') === 'en'; } catch (e) {}
+  function T(it, en) { return EN ? en : it; }
 
   var PAESI = [
     ['IT', 'Italia'],
@@ -57,7 +66,7 @@
     if (!Cart.getCart().length) { $('cassa-vuota').hidden = false; return; }
     $('cassa-corpo').hidden = false;
 
-    $('garanzia-reso').textContent = 'Reso entro ' + C.reso.giorni + ' giorni';
+    $('garanzia-reso').textContent = T('Reso entro ' + C.reso.giorni + ' giorni', 'Returns within ' + C.reso.giorni + ' days');
     riempiPaesi();
     riempiDaCliente();
     disegnaArticoli();
@@ -66,18 +75,27 @@
 
     var chiave = C.pagamenti.chiavePubblica;
     if (!chiave || typeof window.Stripe !== 'function') {
-      errore('Il pagamento non si è caricato. Ricarica la pagina oppure scrivici a info@shapeless.shop.');
+      errore(T('Il pagamento non si è caricato. Ricarica la pagina oppure scrivici a info@shapeless.shop.',
+               'The payment form didn\'t load. Reload the page or write to us at info@shapeless.shop.'));
       $('modulo-attesa').hidden = true;
       return;
     }
-    stripe = window.Stripe(chiave, { locale: 'it' });
+    stripe = window.Stripe(chiave, { locale: EN ? 'en' : 'it' });
     numeroOrdine = Cart.nuovoNumeroOrdine();
     nuovaSessione();
   });
 
   function riempiPaesi() {
     var sel = $('paese');
-    PAESI.forEach(function (p) {
+    var nomi = null;
+    if (EN) { try { nomi = new Intl.DisplayNames(['en'], { type: 'region' }); } catch (e) {} }
+    var elenco = PAESI.map(function (p) { return [p[0], nomi ? (nomi.of(p[0]) || p[1]) : p[1]]; });
+    if (nomi) {   /* in inglese: Italia in cima, poi gli altri in ordine alfabetico inglese */
+      var primo = elenco.shift();
+      elenco.sort(function (a, b) { return a[1].localeCompare(b[1], 'en'); });
+      elenco.unshift(primo);
+    }
+    elenco.forEach(function (p) {
       var o = document.createElement('option');
       o.value = p[0]; o.textContent = p[1];
       sel.appendChild(o);
@@ -123,8 +141,8 @@
   function aggiornaPaese(daCambio) {
     var paese = $('paese').value;
     var it = paese === 'IT';
-    $('etichetta-provincia').innerHTML = it ? 'Provincia <span class="obbl">*</span>'
-      : 'Regione <span class="facolt">facoltativo</span>';
+    $('etichetta-provincia').innerHTML = it ? T('Provincia', 'Province') + ' <span class="obbl">*</span>'
+      : T('Regione <span class="facolt">facoltativo</span>', 'State / Region <span class="facolt">optional</span>');
     $('provincia').maxLength = it ? 2 : 30;
     $('provincia').placeholder = it ? 'CL' : '';
 
@@ -162,14 +180,15 @@
     var t = Cart.calcolaTotali(paese);
     $('riep-subtotale').textContent = Cart.formatPrice(t.subtotale);
     $('riep-spedizione').innerHTML = t.spedizione === 0
-      ? '<span class="gratis">Gratuita</span>' : Cart.formatPrice(t.spedizione);
+      ? '<span class="gratis">' + T('Gratuita', 'Free') + '</span>' : Cart.formatPrice(t.spedizione);
     $('riep-totale').textContent = Cart.formatPrice(t.totale);
     $('barra-totale').textContent = Cart.formatPrice(t.totale);
-    $('riep-consegna').textContent = 'entro il ' + Cart.dataConsegna(paese);
-    $('riep-consegna-nota').textContent =
+    $('riep-consegna').textContent = T('entro il ', 'by ') + Cart.dataConsegna(paese);
+    $('riep-consegna-nota').textContent = T(
       'Prodotto on demand in ' + C.produzione.giorniLavorativi +
-      ' giorni lavorativi, poi ' + (t.zona ? t.zona.giorni : '2-3') +
-      ' giorni di corriere.';
+      ' giorni lavorativi, poi ' + (t.zona ? t.zona.giorni : '2-3') + ' giorni di corriere.',
+      'Made on demand in ' + C.produzione.giorniLavorativi +
+      ' business days, then ' + (t.zona ? t.zona.giorni : '2-3') + ' days with the courier.');
   }
 
   function aggiornaDaSessione(s) {
@@ -177,7 +196,7 @@
     var sped = s.total.shippingRate;
     $('riep-subtotale').textContent = s.total.subtotal.amount;
     $('riep-spedizione').innerHTML = (sped && sped.minorUnitsAmount > 0)
-      ? sped.amount : '<span class="gratis">Gratuita</span>';
+      ? sped.amount : '<span class="gratis">' + T('Gratuita', 'Free') + '</span>';
     $('riep-totale').textContent = s.total.total.amount;
     $('barra-totale').textContent = s.total.total.amount;
     $('btn-paga-cifra').textContent = s.total.total.amount;
@@ -206,6 +225,7 @@
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         paese: paese,
+        lingua: EN ? 'en' : 'it',
         numeroOrdine: numeroOrdine,
         articoli: carrello.map(function (i) {
           return { id: i.id, colore: i.colore, coloreHex: i.coloreHex, qty: i.qty };
@@ -273,14 +293,23 @@
       if (mio !== turno) return;
       console.error('cassa:', err);
       $('modulo-attesa').hidden = true;
-      errore('Non siamo riusciti ad aprire il pagamento (' + (err && err.message || 'errore') +
-             '). Riprova tra un istante oppure scrivici a info@shapeless.shop.', true);
+      errore(T('Non siamo riusciti ad aprire il pagamento (', 'We couldn\'t open the payment (') +
+             (err && err.message || T('errore', 'error')) +
+             T('). Riprova tra un istante oppure scrivici a info@shapeless.shop.',
+               '). Try again in a moment or write to us at info@shapeless.shop.'), true);
     });
   }
 
   /* ====================================================== controlli */
 
-  var MSG = {
+  var MSG = EN ? {
+    nome: 'Enter your first name.', cognome: 'Enter your last name.',
+    email: 'Check your email address.', telefono: 'Check your phone number.',
+    indirizzo: 'Enter street and house number.', cap: 'Check the postcode.',
+    citta: 'Enter the city.', provincia: 'Province code, for example CL.',
+    ragioneSociale: 'Enter the company name.', piva: 'Check the VAT number.',
+    sdi: 'Enter the SDI code (7 characters) or the PEC address.'
+  } : {
     nome: 'Scrivi il nome.', cognome: 'Scrivi il cognome.',
     email: 'Controlla l\'email.', telefono: 'Controlla il numero di telefono.',
     indirizzo: 'Scrivi via e numero civico.', cap: 'Controlla il CAP.',
@@ -353,7 +382,7 @@
     if (inPagamento) return;
     errore('');
     if (!controllaTutto()) return;
-    if (!azioni || !idSessione) { errore('Il pagamento si sta ancora caricando: attendi un istante.'); return; }
+    if (!azioni || !idSessione) { errore(T('Il pagamento si sta ancora caricando: attendi un istante.', 'The payment is still loading: please wait a moment.')); return; }
 
     var paese = $('paese').value;
     var nomeCompleto = v('nome') + ' ' + v('cognome');
@@ -406,20 +435,20 @@
          quando c'e' un problema da mostrare */
       if (res && res.type === 'error') {
         occupato(false);
-        errore((res.error && res.error.message) || 'Pagamento non riuscito. Controlla i dati e riprova.');
+        errore((res.error && res.error.message) || T('Pagamento non riuscito. Controlla i dati e riprova.', 'Payment failed. Check your details and try again.'));
       }
     })
     .catch(function (err) {
       console.error('conferma:', err);
       occupato(false);
-      errore('Pagamento non riuscito (' + (err && err.message || 'errore') + '). Riprova.', true);
+      errore(T('Pagamento non riuscito (', 'Payment failed (') + (err && err.message || T('errore', 'error')) + T('). Riprova.', '). Please try again.'), true);
     });
   }
 
   function occupato(si) {
     inPagamento = si;
     $('btn-paga').disabled = si;
-    $('btn-paga-testo').innerHTML = si ? '<span class="attesa"></span>' : 'Paga';
+    $('btn-paga-testo').innerHTML = si ? '<span class="attesa"></span>' : T('Paga', 'Pay');
     $('btn-paga-cifra').style.display = si ? 'none' : '';
   }
 
@@ -431,7 +460,7 @@
     if (conRiprova) {
       var b = document.createElement('button');
       b.type = 'button'; b.className = 'link-sobrio'; b.style.marginLeft = '8px';
-      b.textContent = 'Riprova';
+      b.textContent = T('Riprova', 'Try again');
       b.addEventListener('click', nuovaSessione);
       p.appendChild(b);
     }
