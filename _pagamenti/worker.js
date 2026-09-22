@@ -170,7 +170,7 @@ const DOMINIO = 'https://shapeless.shop';
 /* i 9 colori della palette: servono solo a scegliere l'immagine giusta
    (images/stripe/<prodotto>-<hex>.png). Un colore sconosciuto non rompe
    niente: si usa l'immagine senza pallino. */
-const COLORI_HEX = ['a3444d','91535d','bcbfb0','646666','d8d0cd','e7cac0','346371','00924f','5b644f'];
+const COLORI_HEX = ['a3444d','91535d','bcbfb0','646666','d8d0cd','e7cac0','346371','00924f','5b644f','0095a1'];   /* 0095a1 Blu Lagoon (22/09) */
 
 function paesiDellaZona(zona) {
   if (zona === 'IT') return ['IT'];

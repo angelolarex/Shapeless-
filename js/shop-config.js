@@ -135,7 +135,9 @@
       { hex: '#e7cac0', nome: 'Rosè' },
       { hex: '#346371', nome: 'Emerald Green' },
       { hex: '#00924f', nome: 'Verde' },
-      { hex: '#5b644f', nome: 'Forest Green' }
+      { hex: '#5b644f', nome: 'Forest Green' },
+      /* 22/09/2026: solo Vulcano e Bombato (Blade no). Ricavato dalla foto, zone di mezzo. */
+      { hex: '#0095a1', nome: 'Blu Lagoon' }
     ],
 
     /* ------------------------------------------------------------------

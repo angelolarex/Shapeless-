@@ -103,3 +103,4 @@ _pagamenti/.wrangler/
 _pagamenti/pannello.html
 _pagamenti/pannello.js
 _pagamenti/pannello-icone.js
+_pagamenti/*.ps1
