@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shapeless | Vasi Decorativi in 3D</title>
-  <meta name="description" content="Shapeless offre vasi decorativi e oggetti esclusivi realizzati con stampa 3D e materiali ecosostenibili. Design contemporaneo, forme organiche, personalizzazione.">
+  <title>Shapeless | Vasi di design made in Italy in materiale vegetale</title>
+  <meta name="robots" content="noindex">
+  <meta name="description" content="Vasi scultura di design, progettati e prodotti in Italia su ordinazione in un materiale vegetale che nasce dal mais. Scopri Bombato, Blade e Vulcano. Spedizione gratuita in Italia.">
   <link rel="stylesheet" href="css/style.css">
   <style>
     /* Homepage: label hero più marcata */
@@ -14,6 +15,274 @@
     .grid-2-wide { grid-template-columns: 1.25fr 1fr; gap: 64px; }
     @media (max-width: 900px) {
       .grid-2-wide { grid-template-columns: 1fr; gap: 40px; }
+    }
+  </style>
+
+  <style>
+    /* ===== ANTEPRIMA home v12 — un solo sistema: tutto allineato a sinistra ===== */
+    :root { --bordeaux-grande:#6b1f45; }
+    /* sezioni */
+    .sez { padding:96px 0; border-bottom:1px solid var(--border); }
+    .sez-bordeaux { background:var(--bordeaux-grande); color:#fff; border-bottom:0; }
+    .sez-testa { max-width:640px; margin:0 0 48px; }
+    .sez-testa h2 { margin:10px 0 0; text-wrap:balance; }
+    .sez-intro { margin:18px 0 0; color:var(--text-muted); }
+    .sez-intro strong { color:var(--text); font-weight:600; }
+    .sez-cta { margin-top:56px; display:flex; flex-direction:column; align-items:flex-start; gap:14px; }
+    .sez-nota { margin:0; font-size:13px; color:var(--text-muted); }
+    /* pulsanti */
+    .btn-prim { background:var(--accent); border-color:var(--accent); color:#fff; min-width:260px; text-align:center; }
+    .btn-prim:hover { background:var(--accent2); border-color:var(--accent2); color:#fff; }
+    .btn-sec { min-width:220px; text-align:center; }
+    .btn-sec:hover { background:var(--text); color:var(--bg); }
+    .btn-chiaro { color:#fff; border-color:rgba(255,255,255,.75); min-width:240px; text-align:center; margin-top:12px; }
+    .btn-chiaro:hover { background:#fff; color:var(--accent); }
+    .link-freccia { font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); }
+    .link-freccia span { display:inline-block; transition:transform .25s; }
+    .link-freccia:hover span { transform:translateX(4px); }
+    .cta-doppia { display:flex; align-items:center; gap:28px; flex-wrap:wrap; margin-top:40px; }
+
+    /* hero */
+    .hf { position:relative; margin-top:var(--nav-h); height:min(86vh, 900px); min-height:560px; overflow:hidden; background:#8a4e3b; color:#fff; }
+    .hf-foto { position:absolute; inset:0; overflow:hidden; }
+    .hf-img { width:100%; height:100%; object-fit:cover; object-position:50% 42%; transform-origin:62% 60%; animation:hf-zoom 16s ease-in-out infinite alternate; }
+    @keyframes hf-zoom { from { transform:scale(1); } to { transform:scale(1.07); } }
+    .hf-velo { position:absolute; inset:0; pointer-events:none; background:linear-gradient(90deg, rgba(52,18,14,.66) 0%, rgba(52,18,14,.40) 24%, rgba(52,18,14,0) 42%); }
+    .hf-in { position:relative; z-index:2; height:100%; max-width:var(--max); margin:0 auto; padding:0 40px; display:flex; align-items:center; }
+    .hf-testo { max-width:400px; }
+    .hf-testo > * { animation:hf-su .9s cubic-bezier(.2,.7,.2,1) both; }
+    .hf-testo > :nth-child(2) { animation-delay:.12s; } .hf-testo > :nth-child(3) { animation-delay:.24s; } .hf-testo > :nth-child(4) { animation-delay:.36s; }
+    @keyframes hf-su { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:none; } }
+    .hf-label { font-size:11px; font-weight:600; letter-spacing:.24em; text-transform:uppercase; color:rgba(255,255,255,.82); margin:0 0 14px; }
+    .hf-h1 { font-size:clamp(40px, 4vw, 58px); line-height:1.06; font-weight:700; letter-spacing:-.01em; color:#fff; margin:0 0 20px; text-wrap:balance; }
+    .hf-h1 em { font-style:normal; font-weight:200; }
+    .hf-sub { font-size:16px; line-height:1.6; color:rgba(255,255,255,.9); margin:0 0 28px; }
+    .hf-btn { display:inline-block; padding:15px 30px; background:#fff; color:var(--accent); font-size:11px; font-weight:600; letter-spacing:.2em; text-transform:uppercase; border:1px solid #fff; transition:background .25s, color .25s; }
+    .hf-btn:hover { background:transparent; color:#fff; }
+    @media (prefers-reduced-motion: reduce) { .hf-img, .hf-testo > * { animation:none; } }
+
+    /* fiere: una frase, niente maiuscole */
+    .fiere { padding:20px 0; border-bottom:1px solid var(--border); }
+    .fiere p { margin:0; font-size:14px; color:var(--text-muted); }
+    .fiere strong { font-weight:500; color:var(--text); }
+
+    /* prodotti */
+    .prodotti { display:grid; grid-template-columns:repeat(3, 1fr); gap:32px; }
+    .pc { display:block; color:var(--text); }
+    .pc-img { aspect-ratio:4/5; display:flex; align-items:flex-end; justify-content:center; padding:0 6% 4%; margin-bottom:18px; }
+    .pc-img img { width:84%; height:88%; object-fit:contain; object-position:center bottom; transition:transform .5s cubic-bezier(.2,.7,.2,1); }
+    .pc-img img.pc-larga { width:92%; }
+    .pc-img img.pc-bassa { height:74%; }
+    .pc:hover .pc-img img { transform:translateY(-6px); }
+    .pc-riga { display:flex; justify-content:space-between; align-items:baseline; gap:12px; }
+    .pc-riga h3 { font-size:15px; font-weight:600; letter-spacing:.02em; margin:0; }
+    .pc-prezzo { font-size:15px; }
+    .pc-desc { margin:4px 0 0; font-size:13px; color:var(--text-muted); }
+    .pc-colori { display:flex; align-items:center; gap:6px; margin-top:12px; }
+    .pc-colori i { width:12px; height:12px; border-radius:50%; box-shadow:inset 0 0 0 1px rgba(0,0,0,.12); }
+    .pc-colori span { font-size:12px; color:var(--text-muted); margin-left:6px; }
+
+    /* 3D */
+    .tech-grid { display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center; }
+    .tech-canvas-wrap { position:relative; height:540px; }
+    .tech-canvas-wrap canvas { width:100%; height:100%; display:block; cursor:grab;
+      -webkit-mask-image:linear-gradient(180deg, transparent 0%, #000 8%, #000 82%, transparent 100%); mask-image:linear-gradient(180deg, transparent 0%, #000 8%, #000 82%, transparent 100%); }
+    .tech-canvas-wrap canvas:active { cursor:grabbing; }
+    .tech-hint { position:absolute; left:0; right:0; bottom:4px; text-align:center; font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:rgba(255,214,228,.55); margin:0; transition:opacity .4s; pointer-events:none; }
+    .tech-3d.ruotato .tech-hint { opacity:0; }
+    .sez-bordeaux .label { color:rgba(255,255,255,.7); }
+    .sez-bordeaux h2, .sez-bordeaux h2 strong { color:#fff; }
+    .tech-testo h2 { margin:10px 0 24px; }
+    .tech-testo p { color:rgba(255,255,255,.8); max-width:480px; }
+
+    /* perché */
+    .perche { display:grid; grid-template-columns:1.2fr 1fr; gap:64px; align-items:center; }
+    .perche-foto { margin:0; }
+    .perche-foto img { width:100%; aspect-ratio:3/2; object-fit:cover; display:block; border-radius:2px; }
+    .valori { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:28px; }
+    .valori h3 { font-size:17px; font-weight:600; margin:0 0 6px; color:var(--text); letter-spacing:0; text-transform:none; }
+    .valori p { margin:0; color:var(--text-muted); }
+
+    /* stampa */
+    .pl { list-style:none; margin:0; padding:0; border-bottom:1px solid var(--border); max-width:920px; }
+    .pl li { border-top:1px solid var(--border); }
+    .pl a { display:grid; grid-template-columns:64px 200px 1fr 24px; gap:24px; align-items:baseline; padding:26px 0; color:var(--text); }
+    .pl-anno { font-size:12px; color:var(--text-muted); font-variant-numeric:tabular-nums; }
+    .pl-testata { font-size:12px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); }
+    .pl-titolo { font-size:19px; font-weight:300; line-height:1.4; }
+    .pl-freccia { color:var(--accent); transition:transform .25s; justify-self:end; }
+    .pl a:hover .pl-titolo { color:var(--accent); }
+    .pl a:hover .pl-freccia { transform:translateX(4px); }
+
+    /* newsletter */
+    .nl { background:var(--bordeaux-grande); color:#fff; }
+    .nl-box { display:grid; grid-template-columns:1fr 1fr; }
+    .nl-foto img { width:100%; height:100%; min-height:460px; object-fit:cover; display:block; }
+    .nl-testo { padding:72px clamp(28px, 6vw, 96px); display:flex; flex-direction:column; justify-content:center; }
+    .nl-testo .label { color:rgba(255,255,255,.7); }
+    .nl-testo h2, .nl-testo h2 strong { color:#fff; }
+    .nl-testo h2 { margin:10px 0 16px; }
+    .nl-testo > p { color:rgba(255,255,255,.82); margin:0 0 28px; max-width:440px; }
+    .nl-sr { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); }
+    .newsletter-form.nl-form { display:flex !important; flex-direction:row !important; max-width:460px; border-bottom:1px solid rgba(255,255,255,.8); gap:0; }
+    .newsletter-form.nl-form input { flex:1 1 auto; min-width:0; background:transparent; border:0 !important; padding:14px 0; font-size:15px; color:#fff; outline:none; }
+    .newsletter-form.nl-form input::placeholder { color:rgba(255,255,255,.6); }
+    .newsletter-form.nl-form button { background:transparent; border:0; padding:14px 0 14px 18px; color:#fff; font-size:11px; font-weight:600; letter-spacing:.18em; text-transform:uppercase; white-space:nowrap; cursor:pointer; }
+    .newsletter-form.nl-form button span { display:inline-block; margin-left:6px; transition:transform .25s; }
+    .newsletter-form.nl-form button:hover span { transform:translateX(4px); }
+    .nl-form:focus-within { border-bottom-color:#fff; }
+    .nl-privacy { font-size:12px; color:rgba(255,255,255,.6); margin:14px 0 0; }
+    .nl-privacy a { color:#fff; text-decoration:underline; text-underline-offset:3px; }
+
+    @media (min-width: 901px) and (max-width: 1200px) {
+      .nav-links { gap:22px; }
+      .nav-links a, .nav-links span { white-space:nowrap; }
+    }
+    /* telefono e tablet */
+    @media (max-width: 1024px) {
+      .hf { height:auto; min-height:0; display:flex; flex-direction:column; background:linear-gradient(180deg, #7e4a30 0%, #6a3524 55%, #56291c 100%); }
+      .hf-foto { order:1; position:relative; inset:auto; aspect-ratio:20/17;
+        -webkit-mask-image:linear-gradient(180deg, #000 80%, transparent 100%); mask-image:linear-gradient(180deg, #000 80%, transparent 100%); }
+      .hf-img { transform-origin:50% 60%; }
+      .hf-velo { display:none; }
+      .hf-in { order:2; height:auto; padding:0 24px 40px; margin-top:-20px; display:block; }
+      .hf-testo { max-width:560px; }
+      .hf-btn { display:block; text-align:center; max-width:420px; }
+      .tech-grid, .perche, .nl-box { grid-template-columns:1fr; gap:40px; }
+      .nl-foto img { min-height:0; aspect-ratio:16/9; }
+      .nl-testo { padding:48px 24px 56px; }
+    }
+    @media (min-width: 601px) and (max-width: 1024px) {
+      .hf-foto { aspect-ratio:16/10; }
+      .hf-h1 { font-size:44px; }
+      .prodotti { gap:20px; }
+      .tech-canvas-wrap { height:440px; }
+      .nl-box { grid-template-columns:1fr 1fr; gap:0; }
+      .nl-foto img { aspect-ratio:auto; height:100%; min-height:420px; }
+      .nl-testo { padding:48px 36px; }
+    }
+    @media (max-width: 600px) {
+      .sez { padding:64px 0; }
+      .sez-testa { margin-bottom:32px; }
+      .hf-label { font-size:10px; margin-bottom:10px; }
+      .hf-h1 { font-size:32px; line-height:1.08; margin-bottom:14px; }
+      .hf-sub { font-size:15px; line-height:1.5; margin-bottom:22px; }
+      .fiere { padding:16px 0; }
+      .fiere p { font-size:13px; line-height:1.5; }
+      /* vasi: scorrono di lato, si vede un pezzo del successivo */
+      .prodotti { display:flex; overflow-x:auto; scroll-snap-type:x mandatory; scroll-padding-left:24px; gap:16px; margin:0 -24px; padding:0 24px 6px; scrollbar-width:none; }
+      .prodotti::-webkit-scrollbar { display:none; }
+      .pc { flex:0 0 76%; scroll-snap-align:start; }
+      .sez-cta { margin-top:36px; align-items:stretch; }
+      .btn-prim, .btn-sec, .btn-chiaro { width:100%; min-width:0; }
+      .cta-doppia { flex-direction:column; align-items:stretch; gap:20px; text-align:center; }
+      .tech-canvas-wrap { height:340px; }
+      .tech-grid { gap:24px; }
+      .pl a { grid-template-columns:auto 1fr 20px; grid-template-areas:"anno testata freccia" "titolo titolo titolo"; gap:8px 14px; padding:22px 0; }
+      .pl-anno { grid-area:anno; } .pl-testata { grid-area:testata; } .pl-freccia { grid-area:freccia; } .pl-titolo { grid-area:titolo; font-size:17px; }
+    }
+  </style>
+  <style>
+    /* ===== v13: prodotti su piedistallo, newsletter nel contenitore ===== */
+    .pc-img { aspect-ratio:1/1; background:#ebe8e4; border-radius:2px; display:flex; align-items:center; justify-content:center; padding:10%; margin-bottom:16px; }
+    .pc-img img, .pc-img img.pc-larga, .pc-img img.pc-bassa { width:100%; height:100%; object-fit:contain; object-position:center; }
+    .pc-img img.pc-larga { width:92%; }
+    .pc-img img.pc-bassa { height:88%; }
+    .pc:hover .pc-img img { transform:scale(1.03); }
+    .pc-nome { font-size:16px; font-weight:600; letter-spacing:.01em; margin:0; }
+    .pc-desc { margin:4px 0 0; }
+    .nl { padding:96px 0; }
+    .nl-box { display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center; }
+    .nl-foto img { width:100%; height:auto; min-height:0; aspect-ratio:4/3; object-fit:cover; object-position:50% 70%; border-radius:2px; }
+    .nl-testo { padding:0; }
+    @media (max-width: 1024px) {
+      .nl-box { grid-template-columns:1fr; gap:32px; }
+      .nl-foto img { aspect-ratio:4/3; }
+      .nl-testo { padding:0; }
+    }
+    @media (min-width: 601px) and (max-width: 1024px) {
+      .nl-box { grid-template-columns:1fr 1fr; gap:40px; }
+      .nl-foto img { aspect-ratio:3/4; min-height:0; height:auto; }
+      .nl-testo { padding:0; }
+    }
+    @media (max-width: 600px) {
+      .nl { padding:64px 0; }
+      .pc { flex:0 0 68%; }
+      .pc-img { margin-bottom:14px; }
+    }
+  </style>
+  <style>
+    /* ===== v14 ===== */
+    .sez-testa-centro { text-align:center; margin-left:auto; margin-right:auto; }
+    /* vasi: niente riquadro, in scala e appoggiati sulla stessa base */
+    .pc-img { background:none !important; aspect-ratio:4/5; padding:0 !important; display:flex; align-items:flex-end; justify-content:center; margin-bottom:18px; }
+    .pc-img img { width:auto !important; max-width:100%; object-fit:contain; object-position:center bottom; display:block; transform-origin:center bottom; }
+    .pc:hover .pc-img img { transform:translateY(-4px); }
+    /* newsletter: campo chiaro + pulsante pieno */
+    .newsletter-form.nl-form2 { border-bottom:0 !important; max-width:480px; gap:10px; flex-wrap:nowrap; }
+    .newsletter-form.nl-form2 input { background:rgba(255,255,255,.10) !important; border:1px solid rgba(255,255,255,.55) !important; padding:16px 18px !important; font-size:15px; color:#fff; border-radius:2px; }
+    .newsletter-form.nl-form2 input:focus { border-color:#fff !important; background:rgba(255,255,255,.16) !important; }
+    .newsletter-form.nl-form2 button { background:#fff !important; color:var(--accent) !important; padding:16px 24px !important; border-radius:2px; }
+    .newsletter-form.nl-form2 button:hover { background:#f3e7ec !important; }
+    .nl-form2:focus-within { border-bottom:0 !important; }
+    @media (max-width: 600px) {
+      .newsletter-form.nl-form2 { flex-direction:column !important; }
+      .newsletter-form.nl-form2 input, .newsletter-form.nl-form2 button { width:100%; }
+    }
+  </style>
+  <style>
+    /* ===== v15 ===== */
+    /* perché: valori separati da linee sottili */
+    .valori { gap:0; border-bottom:1px solid var(--border); }
+    .valori li { display:grid; grid-template-columns:minmax(150px, 38%) 1fr; gap:8px 28px; padding:22px 0; border-top:1px solid var(--border); position:relative; }
+    .valori li::before { content:''; position:absolute; top:-1px; left:0; width:32px; height:2px; background:var(--accent); }
+    .valori h3 { margin:0; font-size:16px; }
+    .valori p { font-size:15px; line-height:1.6; }
+    .cta-doppia { margin-top:36px; }
+    /* vasi: testi centrati sotto le immagini */
+    .pc { text-align:center; }
+    .pc-colori { justify-content:center; }
+    .sez-cta { align-items:center; text-align:center; }
+    /* newsletter chiara e raccolta */
+    .nl3 { padding:96px 0 104px; }
+    .nl3-foto { margin:0 0 48px; }
+    .nl3-foto img { width:100%; aspect-ratio:21/9; object-fit:cover; object-position:50% 72%; display:block; border-radius:2px; }
+    .nl3-testo { max-width:560px; margin:0 auto; text-align:center; }
+    .nl3-testo h2 { margin:10px 0 16px; }
+    .nl3-testo > p { color:var(--text-muted); margin:0 auto 32px; }
+    .newsletter-form.nl3-form { display:flex !important; flex-direction:row !important; max-width:440px; margin:0 auto; border-bottom:1px solid var(--text); gap:0; }
+    .newsletter-form.nl3-form input { flex:1 1 auto; min-width:0; background:transparent !important; border:0 !important; padding:14px 0 !important; font-size:15px; color:var(--text); outline:none; }
+    .newsletter-form.nl3-form input::placeholder { color:#8a8280; }
+    .newsletter-form.nl3-form button { background:transparent !important; border:0 !important; padding:14px 0 14px 16px !important; color:var(--accent) !important; font-size:11px; font-weight:600; letter-spacing:.18em; text-transform:uppercase; white-space:nowrap; cursor:pointer; }
+    .newsletter-form.nl3-form button span { display:inline-block; margin-left:6px; transition:transform .25s; }
+    .newsletter-form.nl3-form button:hover span { transform:translateX(4px); }
+    .nl3-form:focus-within { border-bottom-color:var(--accent); }
+    .nl3-privacy { font-size:12px; color:var(--text-muted); margin:16px 0 0; }
+    .nl3-privacy a { color:var(--text); text-decoration:underline; text-underline-offset:3px; }
+    /* stacco dal piè di pagina */
+    footer { margin-top:0; }
+    .nl3 + footer, .nl3 ~ footer { border-top:1px solid rgba(0,0,0,.10); }
+    @media (max-width: 600px) {
+      .valori li { grid-template-columns:1fr; gap:6px; padding:20px 0; }
+      .nl3 { padding:64px 0 72px; }
+      .nl3-foto { margin-bottom:36px; }
+      .nl3-foto img { aspect-ratio:4/3; }
+      .nl3-testo { text-align:left; }
+      .newsletter-form.nl3-form { margin:0; }
+    }
+  </style>
+  <style>
+    /* ===== v16 ===== */
+    .sez-perche { padding-top:64px; }
+    /* newsletter: campo bianco ben visibile + pulsante pieno attaccato */
+    .newsletter-form.nl3-form { border-bottom:0 !important; max-width:460px; background:#fff; border:1px solid #cdc5c2 !important; border-radius:2px; overflow:hidden; }
+    .newsletter-form.nl3-form input { padding:16px 16px !important; color:var(--text); }
+    .newsletter-form.nl3-form button { background:var(--accent) !important; color:#fff !important; padding:16px 22px !important; }
+    .newsletter-form.nl3-form button:hover { background:var(--accent2) !important; }
+    .nl3-form:focus-within { border-color:var(--accent) !important; box-shadow:0 0 0 3px rgba(107,31,69,.10); }
+    @media (max-width: 600px) {
+      .sez-perche { padding-top:40px; }
+      .newsletter-form.nl3-form button { padding:16px 16px !important; letter-spacing:.14em; }
     }
   </style>
 </head>
@@ -32,13 +301,7 @@
           <a href="shapeless-brand.html">Shapeless</a>
         </div>
       </li>
-      <li class="nav-item"><a href="collab.html">Collab</a>
-        <div class="dropdown">
-          <a href="hospitality.html">Hospitality & Architettura</a>
-          <a href="creativi.html">Creativi</a>
-        </div>
-      </li>
-      <li class="nav-item"><a href="rivenditori.html">Rivenditori</a></li>
+      <li class="nav-item"><a href="collab.html">Lavora con noi</a></li>
       <li class="nav-item">
         <span>Community</span>
         <div class="dropdown">
@@ -65,15 +328,7 @@
         <a href="shapeless-brand.html">Shapeless</a>
       </div>
     </div>
-    <div class="mob-group">
-      <button type="button" class="mob-section-title">Collab<span class="mob-chevron"></span></button>
-      <div class="mob-sub">
-        <a href="collab.html">Panoramica Collab</a>
-        <a href="hospitality.html">Hospitality & Architettura</a>
-        <a href="creativi.html">Creativi</a>
-      </div>
-    </div>
-    <a href="rivenditori.html">Rivenditori</a>
+    <a href="collab.html">Lavora con noi</a>
     <div class="mob-group">
       <button type="button" class="mob-section-title">Community<span class="mob-chevron"></span></button>
       <div class="mob-sub">
@@ -86,209 +341,124 @@
   </div>
 
   <!-- HERO -->
-  <section class="hero" id="hero3d">
-    <canvas id="vaseCanvas" class="hero-canvas"></canvas>
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-      <p class="label" data-i18n="index.label">Design in movimento</p>
-      <h1 data-i18n="index.h1">Forme che<br><em>trasformano</em><br>ogni spazio.</h1>
-      <p data-i18n="index.sub">Sculture organiche e dinamiche,<br>modellate con stampanti 3D e materiali ecosostenibili.</p>
-      <a href="collab.html" class="btn" data-i18n="index.cta">Scopri il design</a>
+  <section class="hf">
+    <div class="hf-foto"><img class="hf-img" src="images/IMG_1471.jpg" alt="Vasi di design Shapeless Blade, Bombato e Vulcano su fondo terracotta"></div>
+    <div class="hf-velo"></div>
+    <div class="hf-in">
+      <div class="hf-testo">
+        <p class="hf-label">Design in movimento</p>
+        <h1 class="hf-h1">Forme che <em>trasformano</em> ogni spazio.</h1>
+        <p class="hf-sub">Sculture organiche e dinamiche, progettate in Italia, nate da un materiale vegetale che viene dal mais.</p>
+        <a href="tutti-i-design.html" class="hf-btn">Scopri la collezione</a>
+      </div>
     </div>
   </section>
 
-  <!-- BRAND STATEMENT -->
-  <section class="section" style="border-bottom: 1px solid var(--border);">
+  <!-- PERCHÉ SHAPELESS -->
+  <section class="sez sez-perche">
     <div class="container">
-      <div class="grid-2 grid-2-wide" style="align-items: center;">
-        <div class="color-media reveal">
-          <img src="images/IMG_1471.jpg" alt="Vasi decorativi Shapeless — Torsione, sfera e Vulcano stampati in 3D" style="width:100%; aspect-ratio:3/2; object-fit:cover; border-radius: 2px;">
-        </div>
-        <div class="reveal reveal-delay-2">
-          <p class="label">Il progetto</p>
-          <h2 style="margin-bottom: 32px;">
-            Shapeless esplora l'<strong>armonia</strong> tra arte, tecnologia e natura.
-          </h2>
-          <p style="margin-bottom: 40px;">
-            Forme scultoree e organiche, in continua evoluzione, che si adattano e trasformano ogni spazio.
-            Ogni vaso e lampada nasce dal movimento delle forme e diventa una piccola scultura sostenibile,
-            capace di accompagnare il tuo stile nel tempo.
-          </p>
-          <a href="shapeless-brand.html" class="btn">Il brand</a>
+      <header class="sez-testa sez-testa-centro">
+        <h2>Progettati in Italia, <strong>prodotti per te.</strong></h2>
+      </header>
+      <div class="perche">
+        <figure class="perche-foto"><img src="images/rivenditori-negozio.jpg" alt="Vasi di design Shapeless esposti in un negozio"></figure>
+        <div class="perche-testo">
+          <ul class="valori">
+            <li><h3>Made in Italy</h3><p>Ogni vaso è disegnato e prodotto in Italia, in Sicilia, e seguito pezzo per pezzo fino alla spedizione.</p></li>
+            <li><h3>Dal mais, non dal petrolio</h3><p>Usiamo il PLA, un materiale vegetale ricavato dal mais e dalla canna da zucchero: leggero, resistente e riciclabile.</p></li>
+            <li><h3>Solo quando lo ordini</h3><p>Nessun magazzino, nessuno spreco: il tuo vaso nasce su ordinazione, nel colore che hai scelto.</p></li>
+          </ul>
+          <div class="cta-doppia"><a href="chi-siamo.html" class="btn btn-sec">La nostra storia</a><a href="il-mais.html" class="link-freccia">Scopri il materiale <span>→</span></a></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- DUE VALORI -->
-  <section class="section" style="border-bottom: 1px solid var(--border);">
+  <!-- TECNOLOGIA 3D -->
+  <section class="sez sez-bordeaux tech-3d" id="hero3d">
     <div class="container">
-      <div class="grid-2">
-        <div class="reveal">
+      <div class="tech-grid">
+        <div class="tech-canvas-wrap"><canvas id="vaseCanvas" aria-label="Vaso Blade in 3D"></canvas><p class="tech-hint">Trascina per girarlo</p></div>
+        <div class="tech-testo">
           <p class="label">Design</p>
-          <h2><strong>Design</strong> e armonia naturale</h2>
-          <p style="margin-top: 20px;">Uniamo la bellezza del design contemporaneo con l'ispirazione della natura,
-          creando prodotti che mescolano innovazione e forme organiche. Ogni pezzo è pensato per
-          integrarsi e dialogare con lo spazio che lo accoglie.</p>
-          <a href="shapeless-brand.html" class="btn" style="margin-top: 32px;">Scopri di più</a>
-        </div>
-        <div class="reveal reveal-delay-2">
-          <p class="label">Sostenibilità</p>
-          <h2><strong>Rispetto</strong> per l'ambiente</h2>
-          <p style="margin-top: 20px;">Ci impegniamo per un futuro più verde utilizzando materiali di origine vegetale,
-          riciclabili e processi produttivi a basso impatto. Produzione on demand: niente stock,
-          niente sprechi, rispetto per l'ambiente in ogni fase.</p>
-          <a href="il-mais.html" class="btn" style="margin-top: 32px;">Il materiale</a>
+          <h2>Forme <strong>in movimento.</strong></h2>
+          <p>Ogni vaso nasce da una linea che ruota e sale nello spazio. Le superfici si avvolgono su se stesse: la forma cambia mentre ci giri intorno e la luce scorre su ogni piega.</p>
+          <p>Sono geometrie che uno stampo tradizionale non potrebbe realizzare. Le produciamo in 3D, strato dopo strato, un pezzo alla volta.</p>
+          <a href="esplora-blade.html" class="btn btn-chiaro">Esplora il Blade in 3D</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- PRODOTTI IN EVIDENZA -->
-  <section class="section" style="border-bottom: 1px solid var(--border);">
+  <!-- COLLEZIONE -->
+  <section class="sez" id="collezione">
     <div class="container">
-      <div class="reveal" style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 48px; flex-wrap: wrap; gap: 20px;">
-        <div>
-          <p class="label">Collezione</p>
-          <h2><strong>I più</strong> amati</h2>
-        </div>
-        <a href="tutti-i-design.html" class="btn">Tutti i design</a>
-      </div>
-      <div class="grid-3 products-grid">
-
-        <a href="prodotto-bombato.html" class="product-card reveal">
-          <div class="card-img card-img--flat" style="display:flex; align-items:flex-end; justify-content:center; padding:12px 12px 0;">
-            <img src="images/bombato-transparent.png" alt="Bombato" style="width:82%; height:82%; object-fit:contain; object-position:center bottom;">
-          </div>
-          <p class="product-card-title">Bombato</p>
-          <p style="font-size:13px; color:var(--text-muted); margin-top:6px;">Vaso decorativo in PLA — stampa 3D</p>
-          <span style="display:inline-block; margin-top:12px; font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent);">Scopri il design →</span>
+      <header class="sez-testa">
+        <p class="label">Collezione</p>
+        <h2>I vasi <strong>più amati</strong></h2>
+        <p class="sez-intro">Tre forme iconiche in due anime di colore: <strong>soft</strong>, con tonalità materiche come Off White, Rosè e Sage, oppure <strong>pop</strong>, con colori audaci come Magenta, Viola e Blu Lagoon.</p>
+      </header>
+      <div class="prodotti">
+        <a href="prodotto-bombato.html" class="pc">
+          <div class="pc-img"><img src="images/bombato-transparent.png" alt="Vaso di design Bombato giallo" style="height:56%"></div>
+          <h3 class="pc-nome">Bombato</h3>
+          <p class="pc-desc">Vaso scultura · 25x25x19h cm</p>
+          <div class="pc-colori"><i style="background:#a3444d"></i><i style="background:#0095a1"></i><i style="background:#6b1492"></i><i style="background:#dd1d76"></i><i style="background:#fed003"></i><span>13 colori</span></div>
         </a>
-
-        <a href="prodotto-blade.html" class="product-card reveal reveal-delay-2">
-          <div class="card-img card-img--flat" style="display:flex; align-items:flex-end; justify-content:center; padding:12px 12px 0;">
-            <img src="images/blade-transparent.png" alt="Blade" style="width:82%; height:82%; object-fit:contain; object-position:center bottom;">
-          </div>
-          <p class="product-card-title">Blade</p>
-          <p style="font-size:13px; color:var(--text-muted); margin-top:6px;">Vaso decorativo in PLA — stampa 3D</p>
-          <span style="display:inline-block; margin-top:12px; font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent);">Scopri il design →</span>
+        <a href="prodotto-blade.html" class="pc">
+          <div class="pc-img"><img src="images/blade-transparent.png" alt="Vaso di design Blade Red Wine" style="height:90%"></div>
+          <h3 class="pc-nome">Blade</h3>
+          <p class="pc-desc">Vaso scultura · 28x28x37h cm</p>
+          <div class="pc-colori"><i style="background:#a3444d"></i><i style="background:#91535d"></i><i style="background:#bcbfb0"></i><i style="background:#346371"></i><i style="background:#d8d0cd"></i><span>9 colori</span></div>
         </a>
-
-        <a href="prodotto-vulcano.html" class="product-card reveal reveal-delay-3">
-          <div class="card-img card-img--flat" style="display:flex; align-items:flex-end; justify-content:center; padding:12px 12px 0;">
-            <img src="images/vulcano-transparent.png" alt="Vulcano" style="width:66%; height:66%; object-fit:contain; object-position:center bottom;">
-          </div>
-          <p class="product-card-title">Vulcano</p>
-          <p style="font-size:13px; color:var(--text-muted); margin-top:6px;">Vaso decorativo in PLA — stampa 3D</p>
-          <span style="display:inline-block; margin-top:12px; font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent);">Scopri il design →</span>
+        <a href="prodotto-vulcano.html" class="pc">
+          <div class="pc-img"><img src="images/vulcano-transparent.png" alt="Vaso di design Vulcano antracite" style="height:67%"></div>
+          <h3 class="pc-nome">Vulcano</h3>
+          <p class="pc-desc">Vaso scultura · 22x22x26h cm</p>
+          <div class="pc-colori"><i style="background:#a3444d"></i><i style="background:#646666"></i><i style="background:#e7cac0"></i><i style="background:#346371"></i><i style="background:#0095a1"></i><span>10 colori</span></div>
         </a>
-
       </div>
-    </div>
-  </section>
-
-  <!-- COLORI - SOFT -->
-  <section class="section" style="border-bottom: 1px solid var(--border);">
-    <div class="container">
-      <div class="grid-2" style="align-items: center; gap: 72px;">
-        <div class="color-media">
-          <img src="images/Shapeless%201-46_edited.jpg" alt="Vasi Shapeless in palette soft" style="width:100%; aspect-ratio:3/2; object-fit:cover; object-position:center 65%;">
-        </div>
-        <div class="color-text">
-          <p class="label">Palette soft</p>
-          <h3 class="mb-16">Eleganza nelle nuance soft</h3>
-          <p>Le tonalità materiche e delicate esaltano la nostra forma organica in modo discreto.
-          La scelta perfetta per un'eleganza che si integra armonicamente in ogni spazio.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- COLORI - VIBRANTI -->
-  <section class="section" style="border-bottom: 1px solid var(--border);">
-    <div class="container">
-      <div class="grid-2" style="align-items: center; gap: 72px;">
-        <div class="color-media" style="order:2;">
-          <img src="images/IMG_1291.jpg" alt="Vasi Shapeless in palette Aura" style="width:100%; aspect-ratio:3/2; object-fit:cover; object-position:center 65%;">
-        </div>
-        <div class="color-text" style="order:1;">
-          <p class="label">Palette Aura</p>
-          <h3 class="mb-16">L'espressione vibrante</h3>
-          <p>Le nostre palette POP e audaci danno vita alle forme. Perfetti per creare un punto focale
-          vibrante e di tendenza che esprime la tua personalità.</p>
-        </div>
+      <div class="sez-cta">
+        <a href="tutti-i-design.html" class="btn btn-prim">Vedi tutta la collezione</a>
+        <p class="sez-nota">Spedizione gratuita in Italia · Hidden Nest in vetro incluso</p>
       </div>
     </div>
   </section>
 
   <!-- PRESS -->
-  <section class="section" style="border-bottom: 1px solid var(--border);">
+  <section class="sez">
     <div class="container">
-      <p class="label text-center">Stampa</p>
-      <h2 class="text-center mb-48"><strong>Cosa dicono</strong> di Shapeless</h2>
-      <div class="grid-3 press-grid">
-
-        <a class="press-card" href="https://www.milanohome.com/news/spotlight/con-shapeless-e-il-cliente-a-dare-forma-ai-suoi-vasi.html" target="_blank" rel="noopener">
-          <div class="press-card-img">
-            <div class="press-label">
-              <p class="press-pub-name">Milano<br>Home</p>
-              <span class="press-rule"></span>
-              <p class="press-year">2025</p>
-            </div>
-            <img src="images/press/press-milano-home.jpg" alt="Milano Home 2025" loading="lazy" class="press-hover-img">
-          </div>
-          <div class="press-card-body">
-            <p class="source">Milano Home 2025</p>
-            <h4>Con Shapeless è il cliente a dare forma ai suoi vasi</h4>
-          </div>
-        </a>
-
-        <a class="press-card" href="https://thenycjournal.com/top-10-interior-designers-to-look-out-for-in-2024/" target="_blank" rel="noopener">
-          <div class="press-card-img">
-            <div class="press-label">
-              <p class="press-pub-name">The NYC<br>Journal</p>
-              <span class="press-rule"></span>
-              <p class="press-year">2024</p>
-            </div>
-            <img src="images/press/press-nyc-journal-cover.jpg" alt="The NYC Journal" loading="lazy" class="press-hover-img">
-          </div>
-          <div class="press-card-body">
-            <p class="source">The NYC Journal</p>
-            <h4>Top 10 Interior Designers To Look Out For In 2024</h4>
-          </div>
-        </a>
-
-        <a class="press-card" href="https://www.entrepreneursherald.com/blog/shaping-stories-through-design-an-interview-with-angelo-larecchiuta-founder?categoryId=105" target="_blank" rel="noopener">
-          <div class="press-card-img">
-            <div class="press-label">
-              <p class="press-pub-name">Entrepreneurs<br>Herald</p>
-              <span class="press-rule"></span>
-              <p class="press-year">2024</p>
-            </div>
-            <img src="images/press/press-entrepreneurs-herald.jpg" alt="Entrepreneurs Herald" loading="lazy" class="press-hover-img">
-          </div>
-          <div class="press-card-body">
-            <p class="source">Entrepreneurs Herald</p>
-            <h4>Shaping Stories Through Design: An Interview with Angelo Larecchiuta</h4>
-          </div>
-        </a>
-
-      </div>
+      <header class="sez-testa">
+        <p class="label">Stampa e fiere</p>
+        <h2>Dicono <strong>di noi.</strong></h2>
+        <p class="sez-intro">Dalle fiere di <strong>Milano Design Week</strong>, <strong>Milano Home</strong> e <strong>Vebo Napoli</strong> alle pagine delle riviste.</p>
+      </header>
+      <ul class="pl">
+        <li><a href="https://www.milanohome.com/news/spotlight/con-shapeless-e-il-cliente-a-dare-forma-ai-suoi-vasi.html" target="_blank" rel="noopener">
+          <span class="pl-anno">2025</span><span class="pl-testata">Milano Home</span><span class="pl-titolo">Con Shapeless è il cliente a dare forma ai suoi vasi</span><span class="pl-freccia">→</span></a></li>
+        <li><a href="https://thenycjournal.com/top-10-interior-designers-to-look-out-for-in-2024/" target="_blank" rel="noopener">
+          <span class="pl-anno">2024</span><span class="pl-testata">The NYC Journal</span><span class="pl-titolo">Top 10 Interior Designers To Look Out For In 2024</span><span class="pl-freccia">→</span></a></li>
+        <li><a href="https://www.entrepreneursherald.com/blog/shaping-stories-through-design-an-interview-with-angelo-larecchiuta-founder?categoryId=105" target="_blank" rel="noopener">
+          <span class="pl-anno">2024</span><span class="pl-testata">Entrepreneurs Herald</span><span class="pl-titolo">Shaping Stories Through Design: intervista ad Angelo Larecchiuta</span><span class="pl-freccia">→</span></a></li>
+      </ul>
     </div>
   </section>
 
   <!-- NEWSLETTER -->
-  <section class="section-sm" style="border-bottom: 1px solid var(--border);">
-    <div class="container text-center">
-      <p class="label">Newsletter</p>
-      <h2 class="mb-16">Resta nel <strong>mondo</strong> Shapeless</h2>
-      <p class="mb-32" style="max-width: 400px; margin-left: auto; margin-right: auto;">
-        Unisciti alla nostra community e ricevi aggiornamenti su nuovi design, eventi e collaborazioni.
-      </p>
-      <form class="newsletter-form" style="margin: 0 auto;" name="newsletter" method="POST" action="grazie.html" data-netlify="true">
-        <input type="email" name="email" placeholder="La tua email" required>
-        <button type="submit">Iscriviti</button>
-      </form>
+  <section class="nl3">
+    <div class="container">
+      <figure class="nl3-foto"><img src="images/Shapeless%201-46_edited.jpg" alt="Vasi di design Shapeless all'aperto"></figure>
+      <div class="nl3-testo">
+        <p class="label">Newsletter</p>
+        <h2>Il 10% sul tuo <strong>primo ordine.</strong></h2>
+        <p>Iscriviti per conoscere in anticipo novità, colori e fiere di Shapeless. In regalo, un codice sconto del 10% sul tuo primo vaso.</p>
+        <form class="newsletter-form nl3-form" name="newsletter" method="POST" action="grazie.html">
+          <label for="nl-email" class="nl-sr">La tua email</label>
+          <input id="nl-email" type="email" name="email" placeholder="La tua email" autocomplete="email" required>
+          <button type="submit">Iscriviti <span aria-hidden="true">→</span></button>
+        </form>
+        <p class="nl3-privacy">Iscrivendoti accetti la <a href="privacy.html">privacy policy</a>. Puoi cancellarti quando vuoi.</p>
+      </div>
     </div>
   </section>
 
@@ -298,7 +468,7 @@
       <div class="footer-grid">
         <div class="footer-brand">
           <img src="images/Logo Shapeless.png" alt="Shapeless" class="footer-logo-img">
-          <p>Design di oggetti decorativi realizzati con stampa 3D e materiali ecosostenibili.
+          <p>Oggetti d'arredo scultorei, progettati e prodotti in Italia in un materiale vegetale che nasce dal mais.
           Ogni pezzo è prodotto su richiesta, senza sprechi.</p>
           <div class="social-links" style="margin-top: 24px;">
             <a href="https://www.instagram.com/shapeless.di/" target="_blank">Instagram</a>
@@ -341,11 +511,155 @@
   </footer>
 
   <script src="js/main.js"></script>
-  <script src="js/lang-testi.js?v=20260922lagoon"></script>
-  <script src="js/lang.js?v=20260919"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="js/lang-testi.js?v=20260923home"></script>
+  <script src="js/lang.js?v=20260923"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="js/blade_geo.js"></script>
-  <script src="js/vase3d.js"></script>
+  <script>
+/* Vaso Blade a fili: cresce quando entra nello schermo, poi si gira col dito o col mouse */
+(function () {
+  'use strict';
+  var canvas = document.getElementById('vaseCanvas');
+  var wrap = document.getElementById('hero3d');
+  if (!canvas || !wrap || typeof THREE === 'undefined' || !window.BLADE_V || !window.BLADE_L) return;
+
+  var BG = 0x6b1f45, YMIN = -2.2, YMAX = 2.2, BUILD_MS = 4300;
+  var isMobile = window.innerWidth < 768;
+  var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.localClippingEnabled = true;
+  var scene = new THREE.Scene();
+  scene.fog = new THREE.Fog(BG, 9.4, 14.2);
+  var camera = new THREE.PerspectiveCamera(30, 1, 0.1, 100);
+  camera.position.set(0, 0.15, isMobile ? 10.4 : 11.6);
+
+  var clip = new THREE.Plane(new THREE.Vector3(0, -1, 0), YMIN - 0.05);
+  var bottomClip = new THREE.Plane(new THREE.Vector3(0, 1, 0), 2.15);
+  var cLow = new THREE.Color(0xc4588a), cHigh = new THREE.Color(0xfff2f7);
+  function mat(op, fog, planes) {
+    return new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, opacity: op,
+      blending: THREE.AdditiveBlending, depthWrite: false, fog: fog, clippingPlanes: planes });
+  }
+  var matMain = mat(0.95, true, [clip, bottomClip]);
+  var matGlow = mat(0.16, true, [clip, bottomClip]);
+  var matRing = mat(1.0, false, [clip]);
+  var mats = [matMain, matGlow, matRing];
+
+  var vase = new THREE.Group();
+  var V = window.BLADE_V, L = window.BLADE_L, off = 0, tmp = new THREE.Color();
+  for (var ci = 0; ci < L.length; ci++) {
+    var len = L[ci], pos = V.subarray(off * 3, (off + len) * 3); off += len;
+    var col = new Float32Array(len * 3), avg = 0;
+    for (var i = 0; i < len; i++) {
+      var y = pos[i * 3 + 1]; avg += y;
+      var t = Math.min(1, Math.max(0, (y - YMIN) / (YMAX - YMIN)));
+      tmp.copy(cLow).lerp(cHigh, Math.pow(t, 1.4));
+      col[i * 3] = tmp.r; col[i * 3 + 1] = tmp.g; col[i * 3 + 2] = tmp.b;
+    }
+    avg /= len;
+    var g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.BufferAttribute(pos.slice(), 3));
+    g.setAttribute('color', new THREE.BufferAttribute(col, 3));
+    if (avg < YMIN + 0.5 || avg > YMAX - 0.5) { vase.add(new THREE.Line(g, matRing)); }
+    else {
+      vase.add(new THREE.Line(g, matMain));
+      var glow = new THREE.Line(g, matGlow); glow.scale.set(1.018, 1, 1.018); vase.add(glow);
+    }
+  }
+  scene.add(vase);
+
+  /* alone di luce sul piano */
+  (function () {
+    var c = document.createElement('canvas'); c.width = c.height = 256;
+    var x = c.getContext('2d'), gr = x.createRadialGradient(128, 128, 4, 128, 128, 128);
+    gr.addColorStop(0, 'rgba(255,190,215,0.34)'); gr.addColorStop(0.3, 'rgba(255,170,205,0.10)'); gr.addColorStop(0.7, 'rgba(255,170,205,0.02)'); gr.addColorStop(1, 'rgba(255,170,205,0)');
+    x.fillStyle = gr; x.fillRect(0, 0, 256, 256);
+    var m = new THREE.Mesh(new THREE.PlaneGeometry(4.0, 4.0), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(c), transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, fog: false }));
+    m.rotation.x = -Math.PI / 2; m.position.y = YMIN - 0.06; scene.add(m);
+  })();
+
+  /* anello che "stampa" salendo */
+  var ringMat = new THREE.MeshBasicMaterial({ color: 0xffe3ee, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, fog: false });
+  var ring = new THREE.Mesh(new THREE.TorusGeometry(0.74, 0.008, 6, 96), ringMat); ring.rotation.x = Math.PI / 2; scene.add(ring);
+  var haloMat = new THREE.MeshBasicMaterial({ color: 0xff9ec4, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, fog: false });
+  var halo = new THREE.Mesh(new THREE.TorusGeometry(0.74, 0.07, 8, 96), haloMat); halo.rotation.x = Math.PI / 2; scene.add(halo);
+
+  /* rotazione col dito o col mouse */
+  var rotY = 0, velY = 0, tiltX = 0, dragging = false, lastX = 0, lastY = 0, built = false, buildStart = null;
+  canvas.style.touchAction = 'pan-y';
+  canvas.addEventListener('pointerdown', function (e) { dragging = true; lastX = e.clientX; lastY = e.clientY; try { canvas.setPointerCapture(e.pointerId); } catch (_) {} wrap.classList.add('ruotato'); });
+  canvas.addEventListener('pointermove', function (e) {
+    if (!dragging) return;
+    var dx = e.clientX - lastX; lastX = e.clientX;
+    velY = dx * 0.009; rotY += velY;
+    tiltX = Math.max(-0.35, Math.min(0.35, tiltX + (e.clientY - lastY) * 0.003)); lastY = e.clientY;
+  });
+  function stop() { dragging = false; }
+  canvas.addEventListener('pointerup', stop); canvas.addEventListener('pointercancel', stop); canvas.addEventListener('pointerleave', stop);
+
+  function resize() {
+    var w = canvas.clientWidth, h = canvas.clientHeight;
+    if (!w || !h) { requestAnimationFrame(resize); return; }
+    renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
+  }
+  resize(); window.addEventListener('resize', resize);
+
+  var raf = null, visible = false, uscito = true;
+  function riparti() {
+    built = false; buildStart = null; velY = 0; tiltX = 0;
+    mats.forEach(function (m) { m.clippingPlanes = (m === matRing) ? [clip] : [clip, bottomClip]; m.needsUpdate = true; });
+    clip.constant = YMIN - 0.05; ring.visible = halo.visible = true;
+  }
+  function loop(t) {
+    raf = requestAnimationFrame(loop);
+    if (buildStart === null) buildStart = t;
+    if (!built) {
+      var p = Math.min((t - buildStart) / BUILD_MS, 1), e = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+      clip.constant = YMIN + (YMAX - YMIN) * e;
+      ring.position.y = halo.position.y = clip.constant;
+      var a = p < 0.04 ? p / 0.04 : p > 0.94 ? (1 - p) / 0.06 : 1;
+      ringMat.opacity = a * 0.95; haloMat.opacity = a * 0.28;
+      rotY = e * Math.PI * 2.4;
+      if (p >= 1) { built = true; ring.visible = halo.visible = false; mats.forEach(function (m) { m.clippingPlanes = []; m.needsUpdate = true; }); }
+    } else if (!dragging) {
+      velY *= 0.94; rotY += velY + 0.0036; tiltX *= 0.96;
+    }
+    vase.rotation.y = rotY; vase.rotation.x = tiltX;
+    renderer.render(scene, camera);
+  }
+  clip.constant = YMIN - 0.05; renderer.render(scene, camera);
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (en) {
+      en.forEach(function (x) {
+        if (x.intersectionRatio === 0) {            /* uscito del tutto: si ferma e si prepara a ricrescere */
+          uscito = true; visible = false; if (raf) { cancelAnimationFrame(raf); raf = null; }
+        } else if (x.intersectionRatio >= 0.45 && !visible) {
+          if (uscito) { riparti(); uscito = false; }
+          visible = true; raf = requestAnimationFrame(loop);
+        }
+      });
+    }, { threshold: [0, 0.45] }).observe(canvas);
+  } else { visible = true; raf = requestAnimationFrame(loop); }
+})();
+  </script>
+  <script>
+  /* Tiene il gruppo di vasi al centro della foto: stesso margine a sinistra (Blade) e a destra (Vulcano) */
+  (function () {
+    var box = document.querySelector('.hf-foto'), img = box && box.querySelector('img');
+    if (!img) return;
+    var CENTRO = 0.6025; /* centro del gruppo di vasi nella foto, da 0 a 1 */
+    function centra() {
+      if (window.innerWidth > 1024) { img.style.objectPosition = ''; return; }
+      var W = box.clientWidth, H = box.clientHeight, iw = img.naturalWidth || 2000, ih = img.naturalHeight || 1333;
+      var s = Math.max(W / iw, H / ih), dw = iw * s;
+      if (dw - W < 1) { img.style.objectPosition = '50% 60%'; return; }
+      var off = Math.min(Math.max(CENTRO * dw - W / 2, 0), dw - W);
+      img.style.objectPosition = (off / (dw - W) * 100).toFixed(1) + '% 60%';
+    }
+    if (img.complete) centra(); else img.addEventListener('load', centra);
+    window.addEventListener('resize', centra);
+  })();
+  </script>
   <script src="js/shop-config.js?v=20260922lagoon"></script>
   <script src="js/cart.js?v=20260917consegna"></script>
 </body>

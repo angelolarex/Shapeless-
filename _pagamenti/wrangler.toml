@@ -34,3 +34,10 @@ compatibility_date = "2026-09-01"
 #   npx wrangler secret put STRIPE_WEBHOOK_SECRET
 # e, se usi un foglio Google o Airtable per gli ordini:
 #   npx wrangler secret put WEBHOOK_INTERNO
+
+# Archivio del Pannello ordini (creato il 22/09/2026)
+[[d1_databases]]
+binding = "DB"
+database_name = "shapeless-pannello"
+database_id = "95a47f8e-0c0b-4d3a-9cd6-28a04b61d7e6"
+

@@ -43,7 +43,7 @@
       /* ----- INDEX ----- */
       'index.label':  'Design in Motion',
       'index.h1':     'Forms that<br><em>transform</em><br>every space.',
-      'index.sub':    'Organic and dynamic sculptures,<br>crafted with 3D printers and eco-sustainable materials.',
+      'index.sub':    'Organic and dynamic sculptures,<br>designed in Italy, made from a plant-based material that comes from corn.',
       'index.cta':    'Explore the design',
       'index.s2.label':  'The brand',
       'index.s2.h2':     'Design without compromise.',

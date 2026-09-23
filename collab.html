@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Collab | Shapeless</title>
-  <meta name="description" content="Collabora con Shapeless: per rivenditori, designer, creativi e studi di architettura. Compila il form e connettiti con noi.">
+  <title>Lavora con noi | Shapeless</title>
+  <meta name="description" content="Shapeless per negozi, architetti, hotel e ristoranti: prezzi rivenditore, produzione on demand in Italia, colori e misure su misura. Scrivici.">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -21,13 +21,7 @@
           <a href="shapeless-brand.html">Shapeless</a>
         </div>
       </li>
-      <li class="nav-item active"><a href="collab.html">Collab</a>
-        <div class="dropdown">
-          <a href="hospitality.html">Hospitality & Architettura</a>
-          <a href="creativi.html">Creativi</a>
-        </div>
-      </li>
-      <li class="nav-item"><a href="rivenditori.html">Rivenditori</a></li>
+      <li class="nav-item active"><a href="collab.html">Lavora con noi</a></li>
       <li class="nav-item">
         <span>Community</span>
         <div class="dropdown">
@@ -50,15 +44,7 @@
         <a href="shapeless-brand.html">Shapeless</a>
       </div>
     </div>
-    <div class="mob-group">
-      <button type="button" class="mob-section-title">Collab<span class="mob-chevron"></span></button>
-      <div class="mob-sub">
-        <a href="collab.html">Panoramica Collab</a>
-        <a href="hospitality.html">Hospitality & Architettura</a>
-        <a href="creativi.html">Creativi</a>
-      </div>
-    </div>
-    <a href="rivenditori.html">Rivenditori</a>
+    <a href="collab.html">Lavora con noi</a>
     <div class="mob-group">
       <button type="button" class="mob-section-title">Community<span class="mob-chevron"></span></button>
       <div class="mob-sub">
@@ -73,49 +59,61 @@
   <!-- HEADER -->
   <div class="page-header">
     <div class="container">
-      <p class="label" data-i18n="collab.label">Collaborazioni</p>
-      <h1 data-i18n="collab.h1">Together<br>We <em>Shape</em> Design.</h1>
+      <p class="label">Lavora con noi</p>
+      <h1>Shapeless per i <em>professionisti</em>.</h1>
+      <p style="max-width:620px; margin-top:20px;">Due modi per lavorare insieme. Scegli il tuo: rispondiamo entro 48 ore.</p>
     </div>
   </div>
 
-  <!-- 3 TIPI DI COLLAB -->
+  <!-- DUE STRADE -->
   <section class="section" style="border-bottom: 1px solid var(--border);">
     <div class="container">
-      <div class="grid-3">
+      <div class="grid-2 lcn-grid">
 
-        <div class="card">
-          <p class="label">Rivenditori</p>
-          <h3 class="mb-16">As a Retailer</h3>
-          <p>Offer distinctive, sustainable design pieces shaped for contemporary spaces. Condizioni dedicate, packaging pronto alla vendita, produzione on demand.</p>
-          <a href="rivenditori.html" class="btn" style="margin-top: 28px;">Scopri di più</a>
+        <div class="card lcn-card">
+          <p class="label">Negozi e concept store</p>
+          <h3 class="mb-16">Hai un negozio?</h3>
+          <p>Porta nel tuo negozio oggetti di design che i tuoi clienti non trovano altrove.</p>
+          <ul class="lcn-list">
+            <li>Prezzo rivenditore: circa la metà del prezzo al pubblico</li>
+            <li>Nessun magazzino da riempire: produciamo on demand in 7 giorni lavorativi</li>
+            <li>Packaging curato, pronto per la vendita</li>
+            <li>Espositori e materiale promozionale su richiesta</li>
+            <li>Stesso prezzo al pubblico ovunque, anche sul nostro sito</li>
+          </ul>
+          <a href="#modulo" class="btn btn-fill" data-tipo="negozio">Richiedi il listino</a>
+          <a href="rivenditori.html" class="lcn-more">Tutti i dettagli per i negozi →</a>
         </div>
 
-        <div class="card">
-          <p class="label">Progetti</p>
-          <h3 class="mb-16">For Projects</h3>
-          <p>Unique objects for interiors, styling and creative direction. Collaboriamo con studi di architettura, interior designer e set designer.</p>
-          <a href="hospitality.html" class="btn" style="margin-top: 28px;">Scopri di più</a>
-        </div>
-
-        <div class="card">
-          <p class="label">Partner</p>
-          <h3 class="mb-16">As a Design Partner</h3>
-          <p>Develop your design with us and bring it to life. From concept to collection. Lavoriamo con creativi che vogliono co-creare.</p>
-          <a href="creativi.html" class="btn" style="margin-top: 28px;">Scopri di più</a>
+        <div class="card lcn-card">
+          <p class="label">Architetti, hotel e ristoranti</p>
+          <h3 class="mb-16">Hai un progetto?</h3>
+          <p>Pezzi scultorei per interni che devono avere un carattere preciso.</p>
+          <ul class="lcn-list">
+            <li>Colori e misure pensati per il tuo ambiente</li>
+            <li>Personalizzazione e co-branding</li>
+            <li>Schede tecniche e file 3D per i tuoi render</li>
+            <li>Prezzi dedicati ai professionisti</li>
+            <li>Prodotto in Italia, anche in più pezzi per un intero locale</li>
+          </ul>
+          <a href="#modulo" class="btn btn-fill" data-tipo="progetto">Parliamo del progetto</a>
+          <a href="hospitality.html" class="lcn-more">Tutti i dettagli per i progetti →</a>
         </div>
 
       </div>
+
+      <p class="lcn-creativi">Sei un fotografo, uno stylist o un creativo? Facciamo shooting e capsule collection insieme. <a href="creativi.html">Scopri come →</a></p>
     </div>
   </section>
 
-  <!-- FORM -->
-  <section class="section" style="border-bottom: 1px solid var(--border);">
+  <!-- MODULO UNICO -->
+  <section class="section" id="modulo" style="border-bottom: 1px solid var(--border);">
     <div class="container">
       <div class="grid-2" style="gap: 80px; align-items: start;">
         <div>
-          <p class="label">Candidatura</p>
-          <h2 class="mb-24"><strong>Connettiti</strong> con noi</h2>
-          <p>Raccontaci chi sei e come vorresti collaborare. Rispondiamo a tutte le candidature entro 48 ore.</p>
+          <p class="label">Scrivici</p>
+          <h2 class="mb-24"><strong>Raccontaci</strong> chi sei</h2>
+          <p>Un solo modulo per tutti. Ti rispondiamo entro 48 ore con listino, schede e idee per il tuo spazio.</p>
           <div style="margin-top: 40px;">
             <p style="font-size:13px; color:var(--text-muted); margin-bottom: 8px;">Oppure scrivici direttamente:</p>
             <a href="mailto:info@shapeless.shop" style="color:var(--accent); font-size:15px;">info@shapeless.shop</a>
@@ -126,43 +124,79 @@
           </div>
         </div>
         <div>
-          <form data-form="collab" name="collab" method="POST" action="grazie.html" data-netlify="true">
+          <form data-form="lavora-con-noi" name="Lavora con noi" method="POST" action="grazie.html">
+            <div class="form-group">
+              <label>Chi sei? *</label>
+              <div class="radio-group">
+                <label class="radio-label"><input type="radio" name="tipo" value="Negozio" required> Negozio</label>
+                <label class="radio-label"><input type="radio" name="tipo" value="Architetto / interior designer"> Architetto o interior designer</label>
+                <label class="radio-label"><input type="radio" name="tipo" value="Hotel / ristorante / locale"> Hotel, ristorante, locale</label>
+                <label class="radio-label"><input type="radio" name="tipo" value="Creativo"> Creativo</label>
+                <label class="radio-label"><input type="radio" name="tipo" value="Altro"> Altro</label>
+              </div>
+            </div>
             <div class="form-row">
               <div class="form-group">
                 <label>Nome *</label>
                 <input type="text" name="nome" required>
               </div>
               <div class="form-group">
-                <label>Cognome *</label>
-                <input type="text" name="cognome" required>
+                <label>Cognome</label>
+                <input type="text" name="cognome">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Email *</label>
+                <input type="email" name="email" required>
+              </div>
+              <div class="form-group">
+                <label>Telefono</label>
+                <input type="tel" name="telefono">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Azienda o Instagram *</label>
+                <input type="text" name="azienda" required>
+              </div>
+              <div class="form-group">
+                <label>Città</label>
+                <input type="text" name="citta">
               </div>
             </div>
             <div class="form-group">
-              <label>Email *</label>
-              <input type="email" name="email" required>
+              <label>Messaggio</label>
+              <textarea name="messaggio" placeholder="Raccontaci brevemente il tuo negozio o il tuo progetto..."></textarea>
             </div>
-            <div class="form-group">
-              <label>Sono un *</label>
-              <div class="radio-group">
-                <label class="radio-label"><input type="radio" name="tipo" value="retailer"> Rivenditore</label>
-                <label class="radio-label"><input type="radio" name="tipo" value="designer"> Designer</label>
-                <label class="radio-label"><input type="radio" name="tipo" value="altro"> Altro</label>
-              </div>
-            </div>
-            <div class="form-group">
-              <label>Nome azienda o Instagram *</label>
-              <input type="text" name="azienda" required>
-            </div>
-            <div class="form-group">
-              <label>Come vorresti collaborare?</label>
-              <textarea name="messaggio" placeholder="Raccontaci brevemente..."></textarea>
-            </div>
-            <button type="submit" class="btn btn-fill">Apply Now</button>
+            <button type="submit" class="btn btn-fill">Invia</button>
           </form>
         </div>
       </div>
     </div>
   </section>
+
+  <style>
+    .lcn-grid { gap: 32px; align-items: stretch; }
+    .lcn-card { display: flex; flex-direction: column; }
+    .lcn-list { list-style: none; padding: 0; margin: 24px 0 32px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+    .lcn-list li { font-size: 14px; color: var(--text-muted); padding-left: 18px; position: relative; line-height: 1.5; }
+    .lcn-list li::before { content: '—'; position: absolute; left: 0; color: var(--accent); }
+    .lcn-card .btn { align-self: flex-start; }
+    .lcn-more { margin-top: 18px; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
+    .lcn-creativi { margin-top: 48px; text-align: center; font-size: 15px; color: var(--text-muted); }
+    .lcn-creativi a { color: var(--accent); white-space: nowrap; }
+    #modulo { scroll-margin-top: 90px; }
+  </style>
+  <script>
+    document.querySelectorAll('[data-tipo]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var v = b.getAttribute('data-tipo') === 'negozio' ? 'Negozio' : 'Architetto / interior designer';
+        var r = document.querySelector('#modulo input[name="tipo"][value="' + v + '"]');
+        if (r) r.checked = true;
+      });
+    });
+  </script>
 
   <!-- EVENTI -->
   <section class="section">
@@ -187,7 +221,7 @@
       <div class="footer-grid">
         <div class="footer-brand">
           <img src="images/Logo Shapeless.png" alt="Shapeless" class="footer-logo-img">
-          <p>Design di oggetti decorativi realizzati con stampa 3D e materiali ecosostenibili.</p>
+          <p>Oggetti d'arredo scultorei, progettati e prodotti in Italia in un materiale vegetale che nasce dal mais.</p>
           <div class="social-links" style="margin-top: 24px;">
             <a href="https://www.instagram.com/shapeless.di/" target="_blank">Instagram</a>
             <a href="https://www.facebook.com/Shapeless.di" target="_blank">Facebook</a>
