@@ -318,6 +318,49 @@
       .valori li { grid-template-columns:1fr; gap:6px; }
     }
   </style>
+  <style>
+    /* ===== v18 ===== */
+    /* tablet verticale: foto più alta, così i vasi si possono centrare */
+    @media (min-width: 601px) and (max-width: 1024px) and (orientation: portrait) {
+      .hf-foto { aspect-ratio:4/3; }
+    }
+    /* computer e tablet orizzontale: foto Solaris intera in altezza (si vede sotto la base dei vasi), spostata a destra */
+    @media (min-width: 901px) and (orientation: landscape), (min-width: 1025px) {
+      .hf { height:clamp(480px, 50vw, 88vh); min-height:0; background:#5a2c1f; }
+      .hf-img { object-position:100% 70%; transform-origin:80% 45%; animation-name:hf-zoom-d; }
+      @keyframes hf-zoom-d { from { transform:scale(1); } to { transform:scale(1.035); } }
+      .hf-velo { background:linear-gradient(90deg, rgba(40,14,10,.42) 0%, rgba(40,14,10,.22) 30%, rgba(40,14,10,0) 44%); }
+      .hf-in { padding-left:clamp(32px, 5vw, 120px); }
+      .hf-testo { max-width:min(400px, 30vw); }
+      .hf-h1 { font-size:clamp(34px, 3.5vw, 60px); }
+      .hf-sub { font-size:clamp(14px, 1.15vw, 17px); }
+    }
+    /* newsletter: foto intera, senza tagli */
+    .nl3 { padding:88px 0 64px; }
+    .nl3-foto { max-width:820px; margin:0 auto 40px; }
+    .nl3-foto img { aspect-ratio:2000/1497 !important; object-position:50% 50% !important; }
+    /* piè di pagina */
+    footer { padding:56px 0 32px; background:#efedea; }
+    .footer-grid { grid-template-columns:1.5fr 1fr 1fr 1.2fr; gap:40px; margin-bottom:40px; }
+    .footer-brand > p { display:block !important; font-size:13px; line-height:1.6; color:var(--text-muted); max-width:300px; margin:-8px 0 0; }
+    .footer-col h5 { font-size:11px; font-weight:600; letter-spacing:.16em; margin:0 0 16px; }
+    .footer-col a { font-size:14px; padding:5px 0; }
+    .footer-col p { font-size:13px !important; line-height:1.6; }
+    .footer-bottom { padding-top:24px; }
+    .footer-bottom p, .footer-bottom a { font-size:12px !important; }
+    @media (max-width: 900px) {
+      .footer-grid { grid-template-columns:1fr 1fr; gap:32px 24px; }
+      .footer-brand { grid-column:1 / -1; }
+      .footer-col:last-child { grid-column:1 / -1; }
+    }
+    @media (max-width: 600px) {
+      .nl3 { padding:56px 0 40px; }
+      .nl3-foto { margin-bottom:28px; }
+      footer { padding:44px 0 28px; }
+      .footer-grid { margin-bottom:28px; }
+      .footer-bottom { flex-direction:column; align-items:flex-start; gap:10px; }
+    }
+  </style>
 </head>
 <body class="page-home">
 
@@ -513,8 +556,7 @@
           <a href="chi-siamo.html">Chi siamo</a>
           <a href="il-mais.html">Il Mais</a>
           <a href="shapeless-brand.html">Il Brand</a>
-          <a href="collab.html">Collab</a>
-          <a href="rivenditori.html">Rivenditori</a>
+          <a href="collab.html">Lavora con noi</a>
         </div>
         <div class="footer-col">
           <h5>Community</h5>
@@ -533,7 +575,7 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <p>© 2025 Shapeless — Larecchiuta Angelo — P.IVA 01927390854</p>
+        <p>© 2026 Shapeless — Larecchiuta Angelo — P.IVA 01927390854</p>
         <div style="display:flex; gap:24px; flex-wrap:wrap;">
           <a href="privacy.html" style="font-size:12px; color:var(--text-muted);">Privacy Policy</a>
           <a href="#" style="font-size:12px; color:var(--text-muted);">Cookie Policy</a>
