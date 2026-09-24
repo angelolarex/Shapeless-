@@ -26,6 +26,9 @@
      ========================================================================== */
 
   .pv-grid{ display:grid; grid-template-columns:1.08fr 1fr; gap:64px; align-items:start; }
+  .pv-descr{ margin-top:40px; padding-top:28px; border-top:1px solid var(--border); }
+  .pv-descr > .label{ margin-bottom:14px; }
+  .pv-descr .pv-testo{ font-size:16px; line-height:1.7; margin:0; }
 
   /* Aria sopra il riquadro. Su telefono ne serve pochissima: il vaso deve
      entrare quasi tutto nel primo schermo, senza scorrere. */
@@ -209,10 +212,12 @@
     .pv-info > .label{ order:5; margin-top:44px; }
     .pv-info > h1{ order:6; }
     .pv-info > .pv-sottotitolo{ order:7; }
-    .pv-info > .pv-testo{ order:8; }
+    .pv-descr{ display:contents; }
+    .pv-descr > .label{ display:none; }
+    .pv-info > .pv-testo, .pv-descr > .pv-testo{ order:8; }
     .pv-info > .ar-box{ order:9; }
-    .pv-info > .pv-elenco{ order:10; }
-    .pv-info > .pv-vetro{ order:11; }
+    .pv-info > .pv-elenco, .pv-descr > .pv-elenco{ order:10; }
+    .pv-info > .pv-vetro, .pv-descr > .pv-vetro{ order:11; }
   }
   @media (max-width:520px){
     .color-swatches{ gap:10px; }
@@ -333,6 +338,31 @@
 
           </div>
 
+          <div class="pv-descr">
+            <p class="label">Il design</p>
+          <p class="pv-testo">
+            Vulcano nasce dai rilievi vulcanici della Sicilia, terra d'origine di Shapeless: una
+            forma conica che si apre verso l'alto come un cratere in equilibrio, potente da lontano
+            e leggera da vicino.
+          </p>
+
+          <ul class="pv-elenco" style="margin-top:24px; display:flex; flex-direction:column; gap:10px;">
+            <li style="font-size:13px; color:var(--text-muted);">— Progettato e prodotto in Italia</li>
+            <li style="font-size:13px; color:var(--text-muted);">— Materiale vegetale: PLA dal mais e dalla canna da zucchero</li>
+            <li style="font-size:13px; color:var(--text-muted);">— Dieci colori, alto 26 cm</li>
+            <li style="font-size:13px; color:var(--text-muted);">— Prodotto su richiesta, nessuno stock</li>
+            <li style="font-size:13px; color:var(--text-muted);">— Hidden Nest in vetro incluso</li>
+          </ul>
+
+          <!-- Ogni vaso ha il suo vetro: quello di Vulcano e' stretto e alto
+               venti centimetri. Mostrarlo col disegno e la misura evita la
+               domanda "che fiori ci stanno?" prima che nasca. -->
+          <div class="pv-vetro">
+            <img src="images/Bicchieri%20-%20Hidden%20nest/6x20h-transparent.png"
+                 alt="Vetro Hidden Nest su misura per Vulcano, Ø 6 per 20 cm di altezza">
+            <p>Vetro Hidden Nest su misura per Vulcano — <strong>&#216; 6x20h cm</strong></p>
+          </div>
+          </div>
         </div>
 
         <!-- ---------- COLONNA INFORMAZIONI ---------- -->
@@ -403,28 +433,6 @@
             <p class="cfg-note" id="ar-note"></p>
           </div>
 
-          <p class="pv-testo">
-            Vulcano nasce dai rilievi vulcanici della Sicilia, terra d'origine di Shapeless: una
-            forma conica che si apre verso l'alto come un cratere in equilibrio, potente da lontano
-            e leggera da vicino.
-          </p>
-
-          <ul class="pv-elenco" style="margin-top:24px; display:flex; flex-direction:column; gap:10px;">
-            <li style="font-size:13px; color:var(--text-muted);">— Progettato e prodotto in Italia</li>
-            <li style="font-size:13px; color:var(--text-muted);">— Materiale vegetale: PLA dal mais e dalla canna da zucchero</li>
-            <li style="font-size:13px; color:var(--text-muted);">— Dieci colori, alto 26 cm</li>
-            <li style="font-size:13px; color:var(--text-muted);">— Prodotto su richiesta, nessuno stock</li>
-            <li style="font-size:13px; color:var(--text-muted);">— Hidden Nest in vetro incluso</li>
-          </ul>
-
-          <!-- Ogni vaso ha il suo vetro: quello di Vulcano e' stretto e alto
-               venti centimetri. Mostrarlo col disegno e la misura evita la
-               domanda "che fiori ci stanno?" prima che nasca. -->
-          <div class="pv-vetro">
-            <img src="images/Bicchieri%20-%20Hidden%20nest/6x20h-transparent.png"
-                 alt="Vetro Hidden Nest su misura per Vulcano, Ø 6 per 20 cm di altezza">
-            <p>Vetro Hidden Nest su misura per Vulcano — <strong>&#216; 6x20h cm</strong></p>
-          </div>
 
         </div>
 

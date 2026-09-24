@@ -26,6 +26,9 @@
      ========================================================================== */
 
   .pv-grid{ display:grid; grid-template-columns:1.08fr 1fr; gap:64px; align-items:start; }
+  .pv-descr{ margin-top:40px; padding-top:28px; border-top:1px solid var(--border); }
+  .pv-descr > .label{ margin-bottom:14px; }
+  .pv-descr .pv-testo{ font-size:16px; line-height:1.7; margin:0; }
 
   /* Aria sopra il riquadro. Su telefono ne serve pochissima: il vaso deve
      entrare quasi tutto nel primo schermo, senza scorrere. */
@@ -252,10 +255,12 @@
     .pv-info > .label{ order:5; margin-top:44px; }
     .pv-info > h1{ order:6; }
     .pv-info > .pv-sottotitolo{ order:7; }
-    .pv-info > .pv-testo{ order:8; }
+    .pv-descr{ display:contents; }
+    .pv-descr > .label{ display:none; }
+    .pv-info > .pv-testo, .pv-descr > .pv-testo{ order:8; }
     .pv-info > .ar-box{ order:9; }
-    .pv-info > .pv-elenco{ order:10; }
-    .pv-info > .pv-vetro{ order:11; }
+    .pv-info > .pv-elenco, .pv-descr > .pv-elenco{ order:10; }
+    .pv-info > .pv-vetro, .pv-descr > .pv-vetro{ order:11; }
   }
   @media (max-width:520px){
     .color-swatches{ gap:10px; }
@@ -376,6 +381,22 @@
 
           </div>
 
+          <div class="pv-descr">
+            <p class="label">Il design</p>
+          <p class="pv-testo">
+            Starlight è una piega continua che si chiude su se stessa: da spenta è un solido
+            bianco, pieno di spigoli e di righe di stampa. Accesa cambia mestiere — il PLA
+            diventa traslucido e la stessa geometria che prima faceva ombra ora disegna la luce.
+          </p>
+
+          <ul class="pv-elenco" style="margin-top:24px; display:flex; flex-direction:column; gap:10px;">
+            <li style="font-size:13px; color:var(--text-muted);">— Progettata e prodotta in Italia</li>
+            <li style="font-size:13px; color:var(--text-muted);">— Materiale vegetale: PLA dal mais e dalla canna da zucchero</li>
+            <li style="font-size:13px; color:var(--text-muted);">— Alta 27 cm, larga 30</li>
+            <li style="font-size:13px; color:var(--text-muted);">— Lampada da tavolo, cavo con interruttore</li>
+            <li style="font-size:13px; color:var(--text-muted);">— Prodotta su richiesta, nessuno stock</li>
+          </ul>
+          </div>
         </div>
 
         <!-- ---------- COLONNA INFORMAZIONI ---------- -->
@@ -434,19 +455,6 @@
             <p class="cfg-note" id="ar-note"></p>
           </div>
 
-          <p class="pv-testo">
-            Starlight è una piega continua che si chiude su se stessa: da spenta è un solido
-            bianco, pieno di spigoli e di righe di stampa. Accesa cambia mestiere — il PLA
-            diventa traslucido e la stessa geometria che prima faceva ombra ora disegna la luce.
-          </p>
-
-          <ul class="pv-elenco" style="margin-top:24px; display:flex; flex-direction:column; gap:10px;">
-            <li style="font-size:13px; color:var(--text-muted);">— Progettata e prodotta in Italia</li>
-            <li style="font-size:13px; color:var(--text-muted);">— Materiale vegetale: PLA dal mais e dalla canna da zucchero</li>
-            <li style="font-size:13px; color:var(--text-muted);">— Alta 27 cm, larga 30</li>
-            <li style="font-size:13px; color:var(--text-muted);">— Lampada da tavolo, cavo con interruttore</li>
-            <li style="font-size:13px; color:var(--text-muted);">— Prodotta su richiesta, nessuno stock</li>
-          </ul>
 
         </div>
 
