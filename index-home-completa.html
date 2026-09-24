@@ -52,7 +52,7 @@
     .hf-testo { max-width:400px; }
     .hf-testo > * { animation:hf-su .9s cubic-bezier(.2,.7,.2,1) both; }
     .hf-testo > :nth-child(2) { animation-delay:.12s; } .hf-testo > :nth-child(3) { animation-delay:.24s; } .hf-testo > :nth-child(4) { animation-delay:.36s; }
-    @keyframes hf-su { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:none; } }
+    @keyframes hf-su { from { transform:translateY(12px); } to { transform:none; } }
     .hf-label { font-size:11px; font-weight:600; letter-spacing:.24em; text-transform:uppercase; color:rgba(255,255,255,.82); margin:0 0 14px; }
     .hf-h1 { font-size:clamp(40px, 4vw, 58px); line-height:1.06; font-weight:700; letter-spacing:-.01em; color:#fff; margin:0 0 20px; text-wrap:balance; }
     .hf-h1 em { font-style:normal; font-weight:200; }
@@ -139,7 +139,7 @@
       .nav-links a, .nav-links span { white-space:nowrap; }
     }
     /* telefono e tablet */
-    @media (max-width: 1024px) {
+    @media (max-width: 900px), (max-width: 1024px) and (orientation: portrait) {
       .hf { height:auto; min-height:0; display:flex; flex-direction:column; background:linear-gradient(180deg, #7e4a30 0%, #6a3524 55%, #56291c 100%); }
       .hf-foto { order:1; position:relative; inset:auto; aspect-ratio:20/17;
         -webkit-mask-image:linear-gradient(180deg, #000 80%, transparent 100%); mask-image:linear-gradient(180deg, #000 80%, transparent 100%); }
@@ -152,7 +152,7 @@
       .nl-foto img { min-height:0; aspect-ratio:16/9; }
       .nl-testo { padding:48px 24px 56px; }
     }
-    @media (min-width: 601px) and (max-width: 1024px) {
+    @media (min-width: 601px) and (max-width: 1024px) and (orientation: portrait) {
       .hf-foto { aspect-ratio:16/10; }
       .hf-h1 { font-size:44px; }
       .prodotti { gap:20px; }
@@ -195,12 +195,12 @@
     .nl-box { display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center; }
     .nl-foto img { width:100%; height:auto; min-height:0; aspect-ratio:4/3; object-fit:cover; object-position:50% 70%; border-radius:2px; }
     .nl-testo { padding:0; }
-    @media (max-width: 1024px) {
+    @media (max-width: 900px), (max-width: 1024px) and (orientation: portrait) {
       .nl-box { grid-template-columns:1fr; gap:32px; }
       .nl-foto img { aspect-ratio:4/3; }
       .nl-testo { padding:0; }
     }
-    @media (min-width: 601px) and (max-width: 1024px) {
+    @media (min-width: 601px) and (max-width: 1024px) and (orientation: portrait) {
       .nl-box { grid-template-columns:1fr 1fr; gap:40px; }
       .nl-foto img { aspect-ratio:3/4; min-height:0; height:auto; }
       .nl-testo { padding:0; }
@@ -285,6 +285,39 @@
       .newsletter-form.nl3-form button { padding:16px 16px !important; letter-spacing:.14em; }
     }
   </style>
+  <style>
+    /* ===== v17: computer e tablet in orizzontale ===== */
+    @media (min-width: 901px) and (orientation: landscape), (min-width: 1025px) {
+      /* in alto: foto Solaris a tutta larghezza, testo bianco sul muro libero a sinistra */
+      .hf { height:min(84vh, 880px); min-height:540px; background:#6f3a2a; }
+      .hf-foto { inset:0; left:0; -webkit-mask-image:none; mask-image:none; }
+      .hf-foto picture { display:block; width:100%; height:100%; }
+      .hf-img { object-position:62% 50%; transform-origin:72% 60%; }
+      .hf-velo { display:block; background:linear-gradient(90deg, rgba(40,14,10,.38) 0%, rgba(40,14,10,.20) 34%, rgba(40,14,10,0) 52%); }
+      .hf-in { max-width:none; padding:0 0 0 clamp(40px, 7vw, 150px); }
+      .hf-testo { max-width:min(440px, 32vw); }
+      .hf-h1 { font-size:clamp(38px, 3.9vw, 64px); }
+      /* testate centrate dove i contenuti sono centrati */
+      #collezione .sez-testa { text-align:center; margin-left:auto; margin-right:auto; }
+      #collezione .sez-intro { margin-left:auto; margin-right:auto; }
+      /* perché: foto e valori */
+      .perche { grid-template-columns:1.15fr 1fr; gap:72px; }
+      .valori li { grid-template-columns:minmax(180px, 42%) 1fr; }
+      /* 3D */
+      .tech-grid { grid-template-columns:1.1fr 1fr; }
+      /* newsletter: foto un po' meno larga */
+      .nl3-foto { max-width:1040px; margin-left:auto; margin-right:auto; }
+    }
+    @media (min-width: 901px) and (max-width: 1180px) and (orientation: landscape) {
+      .sez { padding:80px 0; }
+      .hf-in { padding-left:40px; }
+      .hf-testo { max-width:340px; }
+      .hf-sub { font-size:15px; }
+      .tech-canvas-wrap { height:460px; }
+      .perche { gap:48px; }
+      .valori li { grid-template-columns:1fr; gap:6px; }
+    }
+  </style>
 </head>
 <body class="page-home">
 
@@ -342,7 +375,7 @@
 
   <!-- HERO -->
   <section class="hf">
-    <div class="hf-foto"><img class="hf-img" src="images/IMG_1471.jpg" alt="Vasi di design Shapeless Blade, Bombato e Vulcano su fondo terracotta"></div>
+    <div class="hf-foto"><picture><source media="(min-width: 901px) and (orientation: landscape), (min-width: 1025px)" srcset="images/solaris-hero-1600.jpg 1600w, images/solaris-hero-2400.jpg 2400w" sizes="100vw"><img class="hf-img" src="images/IMG_1471.jpg" alt="Vasi di design Shapeless Blade, Bombato e Vulcano su fondo terracotta"></picture></div>
     <div class="hf-velo"></div>
     <div class="hf-in">
       <div class="hf-testo">
@@ -648,8 +681,9 @@
     var box = document.querySelector('.hf-foto'), img = box && box.querySelector('img');
     if (!img) return;
     var CENTRO = 0.6025; /* centro del gruppo di vasi nella foto, da 0 a 1 */
+    var DESKTOP = window.matchMedia('(min-width: 901px) and (orientation: landscape), (min-width: 1025px)');
     function centra() {
-      if (window.innerWidth > 1024) { img.style.objectPosition = ''; return; }
+      if (DESKTOP.matches) { img.style.objectPosition = ''; return; }
       var W = box.clientWidth, H = box.clientHeight, iw = img.naturalWidth || 2000, ih = img.naturalHeight || 1333;
       var s = Math.max(W / iw, H / ih), dw = iw * s;
       if (dw - W < 1) { img.style.objectPosition = '50% 60%'; return; }
