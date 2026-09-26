@@ -390,6 +390,21 @@
     @media (max-width: 600px) {
       .perche-foto.lampada-foto img { aspect-ratio:4/5; object-position:50% 46%; }
     }
+    /* Computer e tablet orizzontale: titolo accanto alla foto, foto verticale, valori uno sotto l'altro */
+    .perche-testa-pc { display:none; }
+    @media (min-width: 901px) and (orientation: landscape), (min-width: 1025px) {
+      .sez-perche .sez-testa-centro { display:none; }
+      .perche-testa-pc { display:block; margin:0 0 36px; }
+      .perche-testa-pc h2 { margin:0; font-size:clamp(30px, 2.7vw, 44px); line-height:1.12; }
+      .perche-testa-pc .sez-intro { margin:18px 0 0; max-width:32em; }
+      .perche { grid-template-columns:1fr 1fr; gap:88px; align-items:center; }
+      .perche-foto.lampada-foto img { aspect-ratio:4/5; object-position:50% 46%; }
+      .valori li { grid-template-columns:1fr; gap:6px; padding:20px 0; }
+      .valori p { max-width:34em; }
+    }
+    @media (min-width: 901px) and (max-width: 1180px) and (orientation: landscape) {
+      .perche { gap:56px; }
+    }
     .lampada-foto.spenta img { filter:brightness(.28) saturate(.7); }
     .lampada-foto.accesa img { animation:lampadaAccensione 1.9s ease-out both; }
     @keyframes lampadaAccensione {
@@ -484,6 +499,10 @@
       <div class="perche">
         <figure class="perche-foto lampada-foto" id="lampadaFoto"><img src="images/lampada-sera-1024.jpg" srcset="images/lampada-sera-700.jpg 700w, images/lampada-sera-1024.jpg 1024w" sizes="(max-width: 900px) 100vw, 55vw" alt="Lampada Shapeless accesa su un tavolo, di sera, con il cielo stellato alla finestra" loading="lazy"></figure>
         <div class="perche-testo">
+          <header class="perche-testa-pc">
+            <h2>Non riempiamo gli spazi.<br><strong>Li facciamo vivere.</strong></h2>
+            <p class="sez-intro">Ogni oggetto Shapeless nasce per rompere la staticità di un ambiente. Le forme cambiano prospettiva e catturano la luce: entrano nello spazio senza confondersi con esso.</p>
+          </header>
           <ul class="valori">
             <li><h3>Progettato e realizzato in Italia</h3><p>Ogni forma nasce nel nostro studio e prende vita in Sicilia, pezzo per pezzo, seguita con cura fino a quando arriva da te.</p></li>
             <li><h3>Dal mais, non dal petrolio</h3><p>Usiamo il PLA, un materiale di origine vegetale che nasce dal mais e dalla canna da zucchero: leggero, resistente, riciclabile. Una scelta estetica, con valori coerenti.</p></li>
