@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shapeless | Vasi di design made in Italy in materiale vegetale</title>
+  <title>Shapeless | Design in movimento — vasi e lampade progettati in Italia</title>
   <meta name="robots" content="noindex">
-  <meta name="description" content="Vasi scultura di design, progettati e prodotti in Italia su ordinazione in un materiale vegetale che nasce dal mais. Scopri Bombato, Blade e Vulcano. Spedizione gratuita in Italia.">
+  <meta name="description" content="Vasi e lampade progettati in Italia per dare movimento e carattere agli spazi che vivi. Realizzati su ordinazione, in un materiale di origine vegetale. Scopri Bombato, Blade e Vulcano.">
   <link rel="stylesheet" href="css/style.css">
   <style>
     /* Homepage: label hero più marcata */
@@ -383,6 +383,243 @@
     /* ===== v20: foto newsletter, un po' meno cielo e meno pavimento ===== */
     .nl3-foto img { aspect-ratio:16/10 !important; object-position:50% 38% !important; }
   </style>
+  <style>
+    /* ===== Lampada che si accende allo scroll (sezione "Non riempiamo gli spazi") ===== */
+    .perche-foto.lampada-foto { overflow:hidden; border-radius:2px; background:#0d0b10; }
+    .perche-foto.lampada-foto img { aspect-ratio:1/1; object-position:50% 55%; }
+    @media (max-width: 600px) {
+      .perche-foto.lampada-foto img { aspect-ratio:4/5; object-position:50% 46%; }
+    }
+    /* Computer e tablet orizzontale: titolo accanto alla foto, foto verticale, valori uno sotto l'altro */
+    .perche-testa-pc { display:none; }
+    @media (min-width: 901px) and (orientation: landscape), (min-width: 1025px) {
+      .sez-perche .sez-testa-centro { display:none; }
+      .perche-testa-pc { display:block; margin:0 0 36px; }
+      .perche-testa-pc h2 { margin:0; font-size:clamp(30px, 2.7vw, 44px); line-height:1.12; }
+      .perche-testa-pc .sez-intro { margin:18px 0 0; max-width:32em; }
+      .perche { grid-template-columns:1fr 1fr; gap:88px; align-items:center; }
+      .perche-foto.lampada-foto img { aspect-ratio:4/5; object-position:50% 46%; }
+      .valori li { grid-template-columns:1fr; gap:6px; padding:20px 0; }
+      .valori p { max-width:34em; }
+    }
+    @media (min-width: 901px) and (max-width: 1180px) and (orientation: landscape) {
+      .perche { gap:56px; }
+    }
+    .lampada-foto.spenta img { filter:brightness(.15) saturate(.6); }
+    .lampada-foto.accesa img { animation:lampadaAccensione 2.4s ease-out both; }
+    @keyframes lampadaAccensione {
+      0%   { filter:brightness(.15) saturate(.6); }
+      30%  { filter:brightness(.28) saturate(.72); }
+      36%  { filter:brightness(.78) saturate(.95); }
+      40%  { filter:brightness(.32) saturate(.78); }
+      46%  { filter:brightness(.92) saturate(1); }
+      50%  { filter:brightness(.55) saturate(.88); }
+      55%  { filter:brightness(1.05) saturate(1); }
+      59%  { filter:brightness(.8) saturate(.95); }
+      66%  { filter:brightness(1.04) saturate(1); }
+      100% { filter:brightness(1) saturate(1); }
+    }
+  </style>
+  <style>
+    /* ===================== HOME PREMIUM 2.0 ===================== */
+    /* 02 emozione: solo foto + titolo (su computer testo centrato in altezza accanto alla foto) */
+    .emozione { border-bottom:0; }
+    @media (min-width: 901px) and (orientation: landscape), (min-width: 1025px) {
+      .emozione { padding:96px 0 104px; }
+      .emozione .perche { grid-template-columns:1.05fr 1fr; gap:clamp(56px, 7vw, 112px); }
+      .emozione .perche-testa-pc { margin:0; }
+      .emozione .perche-testa-pc h2 { font-size:clamp(30px, 2.9vw, 48px); line-height:1.1; }
+      .emozione .perche-testa-pc .sez-intro { font-size:clamp(16px, 1.2vw, 18px); line-height:1.7; max-width:26em; margin-top:28px; }
+    }
+
+    /* 03 filosofia: sezione editoriale, solo tipografia, tanto spazio */
+    .filo { background:var(--bg); border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:clamp(96px, 13vw, 184px) 0; }
+    .filo .label { margin:0 0 20px; }
+    .filo-h2 { font-size:clamp(40px, 6.4vw, 96px); font-weight:300; line-height:1.02; letter-spacing:-.02em; margin:0; max-width:14ch; }
+    .filo-h2 strong { font-weight:700; display:block; }
+    .filo-righe { margin:clamp(48px, 6vw, 88px) 0 0; }
+    .filo-righe p { font-size:clamp(21px, 2.5vw, 36px); font-weight:300; line-height:1.35; color:var(--text); margin:0 0 .35em; }
+    .filo-righe p:nth-child(2) { margin-left:clamp(20px, 9vw, 150px); }
+    .filo-righe p:nth-child(3) { margin-left:clamp(40px, 18vw, 300px); }
+    .filo-chiusa { margin:clamp(40px, 5vw, 72px) 0 0 clamp(40px, 18vw, 300px); max-width:30em; font-size:clamp(15px, 1.15vw, 17px); line-height:1.75; color:var(--text-muted); padding-top:24px; border-top:1px solid rgba(0,0,0,.14); position:relative; }
+    .filo-chiusa::before { content:''; position:absolute; top:-1px; left:0; width:32px; height:2px; background:var(--accent); }
+    /* le tre righe entrano scalando, ogni volta che la sezione torna nello schermo */
+    .filo.pronta .filo-righe p, .filo.pronta .filo-chiusa { opacity:0; transform:translateX(-28px); }
+    .filo.in-vista .filo-righe p, .filo.in-vista .filo-chiusa { opacity:1; transform:none; transition:opacity .9s ease, transform 1.1s cubic-bezier(.2,.7,.2,1); }
+    .filo.in-vista .filo-righe p:nth-child(2) { transition-delay:.18s; }
+    .filo.in-vista .filo-righe p:nth-child(3) { transition-delay:.36s; }
+    .filo.in-vista .filo-chiusa { transition-delay:.6s; }
+    @media (max-width: 600px) {
+      .filo-righe p { font-size:19px; }
+      .filo-righe p:nth-child(2) { margin-left:18px; }
+      .filo-righe p:nth-child(3) { margin-left:36px; }
+      .filo-chiusa { margin-left:0; }
+    }
+
+    /* 04 collezione: più aria, solo nome */
+    #collezione .sez-testa { margin-bottom:56px; }
+    #collezione .sez-intro { font-size:17px; }
+    .pc-colori { margin-top:14px; gap:5px; }
+    .pc-colori i { width:9px; height:9px; }
+    @media (min-width: 901px) and (orientation: landscape), (min-width: 1025px) {
+      .prodotti { gap:clamp(32px, 4vw, 64px); }
+      #collezione .sez-cta { margin-top:64px; }
+    }
+
+    /* 05 prove: fascia sottile, conferma del valore */
+    .prove { padding:72px 0; background:var(--bg); }
+    .prove .label { margin:0 0 28px; }
+    .prove-lista { list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(3, 1fr); gap:clamp(24px, 4vw, 64px); }
+    .prove-lista li { border-top:1px solid var(--border); padding-top:22px; position:relative; }
+    .prove-lista li::before { content:''; position:absolute; top:-1px; left:0; width:32px; height:2px; background:var(--accent); }
+    .prove-lista h3 { font-size:15px; font-weight:600; letter-spacing:0; text-transform:none; margin:0 0 8px; color:var(--text); }
+    .prove-lista p { font-size:14px; line-height:1.65; color:var(--text-muted); margin:0; max-width:26em; }
+    .prove-link { display:flex; gap:32px; flex-wrap:wrap; margin-top:36px; }
+    @media (max-width: 600px) {
+      .prove { padding:56px 0; }
+      .prove-lista { grid-template-columns:1fr; gap:24px; }
+      .prove-link { gap:20px 28px; }
+    }
+
+    /* 07 stampa e fiere: fiere in grande, citazioni come schede editoriali */
+    .stampa .sez-testa { margin-bottom:40px; }
+    .fiere-riga { list-style:none; margin:0 0 56px; padding:28px 0; display:flex; flex-wrap:wrap; gap:12px 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+    .fiere-riga li { font-size:clamp(20px, 2.4vw, 34px); font-weight:300; letter-spacing:-.01em; color:var(--text); padding:0 clamp(18px, 3vw, 44px); border-left:1px solid var(--border); }
+    .fiere-riga li:first-child { padding-left:0; border-left:0; }
+    .citazioni { display:grid; grid-template-columns:repeat(2, 1fr); max-width:1000px; gap:clamp(20px, 3vw, 40px); }
+    .cit { display:flex; flex-direction:column; gap:16px; padding:26px 0 0; border-top:1px solid var(--text); color:var(--text); }
+    .cit-testata { font-size:11px; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); }
+    .cit-titolo { font-size:clamp(19px, 1.7vw, 24px); font-weight:300; line-height:1.35; }
+    .cit-leggi { margin-top:auto; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--text-muted); }
+    .cit-leggi span { display:inline-block; transition:transform .25s; }
+    .cit:hover .cit-titolo { color:var(--accent); }
+    .cit:hover .cit-leggi span { transform:translateX(4px); }
+    @media (max-width: 900px), (max-width: 1024px) and (orientation: portrait) {
+      .citazioni { grid-template-columns:1fr; gap:32px; }
+    }
+    @media (max-width: 600px) {
+      .fiere-riga { flex-direction:column; gap:10px; padding:22px 0; margin-bottom:40px; }
+      .fiere-riga li { padding:0; border-left:0; }
+    }
+
+    /* 08 newsletter: il 10% resta secondario */
+    .nl3-benvenuto { font-size:13px; color:var(--text); margin:18px 0 0; }
+    .nl3-benvenuto + .nl3-privacy { margin-top:6px; }
+    /* telefono e tablet verticale: la colonna testo accanto alla foto è vuota, niente spazio in più sotto la lampada */
+    @media (max-width: 900px), (max-width: 1024px) and (orientation: portrait) {
+      .emozione .perche-testo { display:none; }
+      .emozione { padding-bottom:16px; }
+      .filo { border-top:0; padding-top:56px; }
+    }
+    /* ===== 2.0 — telefono: elementi nuovi più compatti ed eleganti ===== */
+    @media (max-width: 600px) {
+      .filo { padding:72px 0 80px; }
+      .filo .label { margin-bottom:16px; }
+      .filo-h2 { font-size:38px; }
+      .filo-righe { margin-top:40px; }
+      .filo-righe p { font-size:18px; line-height:1.4; margin-bottom:.45em; }
+      .filo-chiusa { margin-top:36px; font-size:15px; line-height:1.7; padding-top:20px; }
+      #collezione .sez-testa { margin-bottom:36px; }
+      #collezione .sez-intro { font-size:15px; }
+      .prove .label { margin-bottom:20px; }
+      .prove-lista { gap:0; }
+      .prove-lista li { padding:18px 0 20px; }
+      .prove-lista h3 { font-size:15px; margin-bottom:4px; }
+      .prove-lista p { font-size:14px; }
+      .prove-link { margin-top:24px; }
+      .stampa .sez-testa { margin-bottom:24px; }
+      .fiere-riga { flex-direction:column; gap:8px; padding:0; margin:0 0 36px; border:0; }
+      .fiere-riga li { font-size:16px; font-weight:400; color:var(--text); padding:0 0 0 22px; border:0; position:relative; }
+      .fiere-riga li, .fiere-riga li:first-child { padding-left:24px; }
+      .fiere-riga li::before { content:''; position:absolute; left:0; top:.72em; width:12px; height:1px; background:var(--accent); }
+      .stampa { padding-bottom:40px; }
+      .citazioni { border-bottom:0; }
+      .cit:last-child { padding-bottom:8px; }
+      /* emozione → filosofia: meno vuoto tra la foto e il testo */
+      .emozione { padding-bottom:8px; }
+      .filo { padding-top:40px; padding-bottom:64px; border-top:0; }
+      /* emozione allineata a sinistra come il resto della pagina */
+      .emozione .sez-testa-centro { text-align:left; margin-left:0; }
+      .emozione .sez-testa-centro h2 { font-size:30px; line-height:1.12; }
+      .citazioni { gap:0; border-bottom:1px solid var(--border); }
+      .cit { gap:8px; padding:20px 0 22px; border-top:1px solid var(--border); }
+      .cit-testata { font-size:10px; letter-spacing:.14em; }
+      .cit-titolo { font-size:17px; line-height:1.4; }
+      .cit-leggi { font-size:10px; margin-top:4px; }
+      .tech-testo h2 { font-size:30px; }
+    }
+  </style>
+  <style>
+    /* ===================== 2.0 — refinement finale ===================== */
+    /* 02 emozione: un solo blocco di testo, che il layout sposta (sopra la foto su telefono/tablet verticale, a destra su computer) */
+    .emo { display:grid; grid-template-columns:1fr; gap:32px; }
+    .emo-testa h2 { margin:0; font-size:30px; line-height:1.12; text-wrap:balance; }
+    .emo-testa p { margin:16px 0 0; color:var(--text-muted); max-width:34em; }
+    .emo-testa p + p { margin-top:10px; }
+    @media (min-width: 601px) {
+      .emo-testa h2 { font-size:clamp(34px, 4.6vw, 44px); }
+      .emo-testa p { font-size:17px; line-height:1.7; }
+    }
+    @media (min-width: 901px) and (orientation: landscape), (min-width: 1025px) {
+      .emo { grid-template-columns:1.05fr 1fr; gap:clamp(56px, 7vw, 112px); align-items:center; }
+      .emo .lampada-foto { order:1; }
+      .emo-testa { order:2; }
+      .emo-testa h2 { font-size:clamp(30px, 2.9vw, 48px); line-height:1.1; }
+      .emo-testa p { font-size:clamp(16px, 1.2vw, 18px); max-width:26em; }
+      .emo-testa p:first-of-type { margin-top:28px; }
+    }
+
+    /* 03 filosofia: un piccolo manifesto — più grande, più aria, separato dal resto */
+    @media (min-width: 601px) {
+      .filo { padding:clamp(120px, 14vw, 216px) 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+      .filo .label { margin-bottom:28px; }
+      .filo-h2 { font-size:clamp(52px, 7.4vw, 116px); line-height:.98; }
+      .filo-righe { margin-top:clamp(64px, 7vw, 112px); }
+      .filo-righe p { font-size:clamp(24px, 3vw, 44px); line-height:1.3; margin-bottom:.4em; }
+      .filo-chiusa { font-size:clamp(16px, 1.25vw, 19px); margin-top:clamp(56px, 6vw, 96px); max-width:28em; }
+    }
+    @media (max-width: 600px) {
+      .filo { padding-bottom:88px; border-bottom:1px solid var(--border); }
+      .filo-h2 { font-size:40px; }
+      .filo-righe p { font-size:19px; }
+    }
+
+    /* 07 stampa: titolo con una riga sotto, niente curriculum */
+    .stampa .sez-intro { margin-top:14px; }
+    @media (min-width: 901px) { .stampa .sez-testa { max-width:none; } }
+  </style>
+  <style>
+    /* ===== 26/09 sera — filosofia su telefono e piè di pagina ===== */
+    @media (max-width: 600px) {
+      /* le tre righe allineate a sinistra, una per riga, senza scalini che sembrano errori */
+      .filo { padding-bottom:56px; }
+      .filo-righe { margin-top:36px; }
+      .filo-righe p, .filo-righe p:nth-child(2), .filo-righe p:nth-child(3) { margin-left:0; font-size:min(18px, 4.6vw); line-height:1.4; margin-bottom:.3em; }
+      .filo-chiusa { margin:32px 0 0; max-width:none; }
+    }
+    /* piè di pagina: stesso margine a sinistra e a destra */
+    footer .container { box-sizing:border-box; }
+    /* il file del logo ha un margine trasparente a sinistra: lo recupero, così il logo si allinea al testo */
+    .footer-logo-img { transform:translateX(-9.5%); transform-origin:left center; }
+    .footer-brand > p { max-width:34em; }
+    @media (min-width: 901px) {
+      .footer-grid { grid-template-columns:1.6fr 1fr 1fr auto; }
+      .footer-col:last-child { justify-self:end; }
+    }
+    @media (max-width: 900px) {
+      .footer-brand > p { max-width:none; }
+      .footer-grid { grid-template-columns:1fr 1fr; column-gap:24px; }
+      .footer-col:last-child { display:grid; grid-template-columns:1fr 1fr; column-gap:24px; align-items:start; }
+      .footer-col:last-child h5 { grid-column:1 / -1; }
+      .footer-col:last-child a { grid-column:1; }
+      .footer-col:last-child a:first-of-type { grid-column:1 / -1; }
+      .footer-col:last-child p { grid-column:2; grid-row:3 / span 2; margin-top:5px !important; }
+    }
+    @media (max-width: 600px) {
+      .footer-bottom { align-items:stretch; }
+      .footer-bottom > div { justify-content:space-between; gap:12px !important; }
+    }
+  </style>
 </head>
 <body class="page-home">
 
@@ -399,12 +636,11 @@
           <a href="shapeless-brand.html">Shapeless</a>
         </div>
       </li>
-      <li class="nav-item"><a href="collab.html">Lavora con noi</a></li>
+      <li class="nav-item"><a href="collab.html">Collab</a></li>
       <li class="nav-item">
         <span>Community</span>
         <div class="dropdown">
           <a href="faq.html">FAQ</a>
-          <a href="blog.html">Blog</a>
         </div>
       </li>
       <li class="nav-item"><a href="contatti.html">Contatti</a></li>
@@ -426,12 +662,11 @@
         <a href="shapeless-brand.html">Shapeless</a>
       </div>
     </div>
-    <a href="collab.html">Lavora con noi</a>
+    <a href="collab.html">Collab</a>
     <div class="mob-group">
       <button type="button" class="mob-section-title">Community<span class="mob-chevron"></span></button>
       <div class="mob-sub">
         <a href="faq.html">FAQ</a>
-        <a href="blog.html">Blog</a>
       </div>
     </div>
     <a href="contatti.html">Contatti</a>
@@ -445,116 +680,144 @@
     <div class="hf-in">
       <div class="hf-testo">
         <p class="hf-label">Design in movimento</p>
-        <h1 class="hf-h1">Forme che <em>trasformano</em> ogni spazio.</h1>
-        <p class="hf-sub">Sculture organiche e dinamiche, progettate in Italia, nate da un materiale vegetale che viene dal mais.</p>
+        <h1 class="hf-h1">Forme in movimento. <em>Spazi con carattere.</em></h1>
+        <p class="hf-sub">Vasi e lampade progettati in Italia per dare movimento e carattere agli spazi che vivi.</p>
         <a href="tutti-i-design.html" class="hf-btn">Scopri la collezione</a>
       </div>
     </div>
   </section>
 
-  <!-- PERCHÉ SHAPELESS -->
-  <section class="sez sez-perche">
+  <!-- 02 EMOZIONE -->
+  <section class="sez sez-perche emozione">
     <div class="container">
-      <header class="sez-testa sez-testa-centro">
-        <h2>Progettati in Italia, <strong>prodotti per te.</strong></h2>
-      </header>
-      <div class="perche">
-        <figure class="perche-foto"><img src="images/rivenditori-negozio.jpg" alt="Vasi di design Shapeless esposti in un negozio"></figure>
-        <div class="perche-testo">
-          <ul class="valori">
-            <li><h3>Made in Italy</h3><p>Ogni vaso è disegnato e prodotto in Italia, in Sicilia, e seguito pezzo per pezzo fino alla spedizione.</p></li>
-            <li><h3>Dal mais, non dal petrolio</h3><p>Usiamo il PLA, un materiale vegetale ricavato dal mais e dalla canna da zucchero: leggero, resistente e riciclabile.</p></li>
-            <li><h3>Solo quando lo ordini</h3><p>Nessun magazzino, nessuno spreco: il tuo vaso nasce su ordinazione, nel colore che hai scelto.</p></li>
-          </ul>
-          <div class="cta-doppia"><a href="chi-siamo.html" class="btn btn-sec">La nostra storia</a><a href="il-mais.html" class="link-freccia">Scopri il materiale <span>→</span></a></div>
-        </div>
+      <div class="emo">
+        <header class="emo-testa">
+          <h2>Non riempiamo gli spazi.<br><strong>Li facciamo vivere.</strong></h2>
+          <p>Basta un oggetto per cambiare il modo in cui vivi una stanza.</p>
+          <p>Ogni forma Shapeless entra nello spazio senza confondersi con esso: lo attraversa, ne cattura la luce, gli dà un punto di vista.</p>
+        </header>
+        <figure class="perche-foto lampada-foto" id="lampadaFoto"><img src="images/lampada-sera-1024.jpg" srcset="images/lampada-sera-700.jpg 700w, images/lampada-sera-1024.jpg 1024w" sizes="(max-width: 900px) 100vw, 50vw" alt="Lampada Shapeless accesa su un tavolo, di sera, con il cielo stellato alla finestra" loading="lazy"></figure>
       </div>
     </div>
   </section>
 
-  <!-- TECNOLOGIA 3D -->
+  <!-- 03 FILOSOFIA -->
+  <section class="sez filo" id="filosofia">
+    <div class="container">
+      <p class="label">Filosofia</p>
+      <h2 class="filo-h2">La forma <strong>non sta mai ferma.</strong></h2>
+      <div class="filo-righe">
+        <p>Guardata da un'altra angolazione, cambia.</p>
+        <p>Colpita dalla luce, cambia.</p>
+        <p>Inserita in uno spazio, cambia ancora.</p>
+      </div>
+      <p class="filo-chiusa">È da questa idea che nasce Shapeless: progettare oggetti capaci di creare movimento, anche quando tutto intorno è fermo.</p>
+    </div>
+  </section>
+
+  <!-- 04 COLLEZIONE -->
+  <section class="sez" id="collezione">
+    <div class="container">
+      <header class="sez-testa sez-testa-centro">
+        <p class="label">Collezione</p>
+        <h2>Una collezione <strong>in movimento.</strong></h2>
+        <p class="sez-intro">Forme diverse. Un unico linguaggio.</p>
+      </header>
+      <div class="prodotti">
+        <a href="prodotto-bombato.html" class="pc">
+          <div class="pc-img"><img src="images/bombato-transparent.png" alt="Vaso di design Bombato giallo" style="height:56%"></div>
+          <h3 class="pc-nome">Bombato</h3>
+          <p class="pc-desc">Vaso scultura</p>
+          <div class="pc-colori"><i style="background:#a3444d"></i><i style="background:#0095a1"></i><i style="background:#6b1492"></i><i style="background:#dd1d76"></i><i style="background:#fed003"></i></div>
+        </a>
+        <a href="prodotto-blade.html" class="pc">
+          <div class="pc-img"><img src="images/blade-transparent.png" alt="Vaso di design Blade Red Wine" style="height:90%"></div>
+          <h3 class="pc-nome">Blade</h3>
+          <p class="pc-desc">Vaso scultura</p>
+          <div class="pc-colori"><i style="background:#a3444d"></i><i style="background:#91535d"></i><i style="background:#bcbfb0"></i><i style="background:#346371"></i><i style="background:#d8d0cd"></i></div>
+        </a>
+        <a href="prodotto-vulcano.html" class="pc">
+          <div class="pc-img"><img src="images/vulcano-transparent.png" alt="Vaso di design Vulcano antracite" style="height:67%"></div>
+          <h3 class="pc-nome">Vulcano</h3>
+          <p class="pc-desc">Vaso scultura</p>
+          <div class="pc-colori"><i style="background:#a3444d"></i><i style="background:#646666"></i><i style="background:#e7cac0"></i><i style="background:#346371"></i><i style="background:#0095a1"></i></div>
+        </a>
+      </div>
+      <div class="sez-cta">
+        <a href="tutti-i-design.html" class="btn btn-prim">Esplora la collezione</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 PROVE -->
+  <section class="sez prove">
+    <div class="container">
+      <p class="label">Dietro ogni forma</p>
+      <ul class="prove-lista">
+        <li><h3>Progettato e realizzato in Italia.</h3><p>Disegnato nel nostro studio, realizzato in Sicilia, pezzo per pezzo.</p></li>
+        <li><h3>Dal mais, non dal petrolio.</h3><p>PLA, un materiale di origine vegetale. Leggero e resistente.</p></li>
+        <li><h3>Realizzato quando lo scegli.</h3><p>Nessun magazzino: ogni pezzo prende forma dopo il tuo ordine.</p></li>
+      </ul>
+      <div class="prove-link"><a href="chi-siamo.html" class="link-freccia">La nostra storia <span>→</span></a><a href="il-mais.html" class="link-freccia">Il materiale <span>→</span></a></div>
+    </div>
+  </section>
+
+  <!-- 06 3D / ESPERIENZA -->
   <section class="sez sez-bordeaux tech-3d" id="hero3d">
     <div class="container">
       <div class="tech-grid">
         <div class="tech-canvas-wrap"><canvas id="vaseCanvas" aria-label="Vaso Blade in 3D"></canvas><p class="tech-hint">Trascina per girarlo</p></div>
         <div class="tech-testo">
-          <p class="label">Design</p>
-          <h2>Forme <strong>in movimento.</strong></h2>
-          <p>Ogni vaso nasce da una linea che ruota e sale nello spazio. Le superfici si avvolgono su se stesse: la forma cambia mentre ci giri intorno e la luce scorre su ogni piega.</p>
-          <p>Sono geometrie che uno stampo tradizionale non potrebbe realizzare. Le produciamo in 3D, strato dopo strato, un pezzo alla volta.</p>
+          <p class="label">Esperienza</p>
+          <h2>Ruota nello spazio. <strong>Anche da fermo.</strong></h2>
+          <p>Lame verticali che si intrecciano e si avvitano verso l'alto, come un movimento sospeso a metà tra scultura e architettura. Profili affilati, una spinta ascendente, un equilibrio dinamico: trascinalo e guardalo da ogni lato.</p>
+          <p>È la fabbricazione digitale a rendere possibile questa geometria: la costruiamo un sottile strato alla volta.</p>
           <a href="esplora-blade.html" class="btn btn-chiaro">Esplora il Blade in 3D</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- COLLEZIONE -->
-  <section class="sez" id="collezione">
-    <div class="container">
-      <header class="sez-testa">
-        <p class="label">Collezione</p>
-        <h2>I vasi <strong>più amati</strong></h2>
-        <p class="sez-intro">Tre forme iconiche in due anime di colore: <strong>soft</strong>, con tonalità materiche come Off White, Rosè e Sage, oppure <strong>pop</strong>, con colori audaci come Magenta, Viola e Blu Lagoon.</p>
-      </header>
-      <div class="prodotti">
-        <a href="prodotto-bombato.html" class="pc">
-          <div class="pc-img"><img src="images/bombato-transparent.png" alt="Vaso di design Bombato giallo" style="height:56%"></div>
-          <h3 class="pc-nome">Bombato</h3>
-          <p class="pc-desc">Vaso scultura · 25x25x19h cm</p>
-          <div class="pc-colori"><i style="background:#a3444d"></i><i style="background:#0095a1"></i><i style="background:#6b1492"></i><i style="background:#dd1d76"></i><i style="background:#fed003"></i><span>13 colori</span></div>
-        </a>
-        <a href="prodotto-blade.html" class="pc">
-          <div class="pc-img"><img src="images/blade-transparent.png" alt="Vaso di design Blade Red Wine" style="height:90%"></div>
-          <h3 class="pc-nome">Blade</h3>
-          <p class="pc-desc">Vaso scultura · 28x28x37h cm</p>
-          <div class="pc-colori"><i style="background:#a3444d"></i><i style="background:#91535d"></i><i style="background:#bcbfb0"></i><i style="background:#346371"></i><i style="background:#d8d0cd"></i><span>9 colori</span></div>
-        </a>
-        <a href="prodotto-vulcano.html" class="pc">
-          <div class="pc-img"><img src="images/vulcano-transparent.png" alt="Vaso di design Vulcano antracite" style="height:67%"></div>
-          <h3 class="pc-nome">Vulcano</h3>
-          <p class="pc-desc">Vaso scultura · 22x22x26h cm</p>
-          <div class="pc-colori"><i style="background:#a3444d"></i><i style="background:#646666"></i><i style="background:#e7cac0"></i><i style="background:#346371"></i><i style="background:#0095a1"></i><span>10 colori</span></div>
-        </a>
-      </div>
-      <div class="sez-cta">
-        <a href="tutti-i-design.html" class="btn btn-prim">Vedi tutta la collezione</a>
-        <p class="sez-nota">Spedizione gratuita in Italia · Hidden Nest in vetro incluso</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- PRESS -->
-  <section class="sez">
+  <!-- 07 STAMPA E FIERE -->
+  <section class="sez stampa">
     <div class="container">
       <header class="sez-testa">
         <p class="label">Stampa e fiere</p>
-        <h2>Dicono <strong>di noi.</strong></h2>
-        <p class="sez-intro">Dalle fiere di <strong>Milano Design Week</strong>, <strong>Milano Home</strong> e <strong>Vebo Napoli</strong> alle pagine delle riviste.</p>
+        <h2>Shapeless, <strong>fuori dallo studio.</strong></h2>
+        <p class="sez-intro">Dove abbiamo portato le nostre forme, e chi ne ha scritto.</p>
       </header>
-      <ul class="pl">
-        <li><a href="https://www.milanohome.com/news/spotlight/con-shapeless-e-il-cliente-a-dare-forma-ai-suoi-vasi.html" target="_blank" rel="noopener">
-          <span class="pl-anno">2025</span><span class="pl-testata">Milano Home</span><span class="pl-titolo">Con Shapeless è il cliente a dare forma ai suoi vasi</span><span class="pl-freccia">→</span></a></li>
-        <li><a href="https://thenycjournal.com/top-10-interior-designers-to-look-out-for-in-2024/" target="_blank" rel="noopener">
-          <span class="pl-anno">2024</span><span class="pl-testata">The NYC Journal</span><span class="pl-titolo">Top 10 Interior Designers To Look Out For In 2024</span><span class="pl-freccia">→</span></a></li>
-        <li><a href="https://www.entrepreneursherald.com/blog/shaping-stories-through-design-an-interview-with-angelo-larecchiuta-founder?categoryId=105" target="_blank" rel="noopener">
-          <span class="pl-anno">2024</span><span class="pl-testata">Entrepreneurs Herald</span><span class="pl-titolo">Shaping Stories Through Design: intervista ad Angelo Larecchiuta</span><span class="pl-freccia">→</span></a></li>
+      <ul class="fiere-riga" aria-label="Fiere">
+        <li>Milano Design Week</li>
+        <li>Milano Home</li>
+        <li>Vebo Napoli</li>
       </ul>
+      <div class="citazioni">
+        <a class="cit" href="https://thenycjournal.com/top-10-interior-designers-to-look-out-for-in-2024/" target="_blank" rel="noopener">
+          <span class="cit-testata">The NYC Journal · 2024</span>
+          <span class="cit-titolo">“Top 10 Interior Designers To Look Out For In 2024”</span>
+          <span class="cit-leggi">Leggi <span>→</span></span></a>
+        <a class="cit" href="https://www.entrepreneursherald.com/blog/shaping-stories-through-design-an-interview-with-angelo-larecchiuta-founder?categoryId=105" target="_blank" rel="noopener">
+          <span class="cit-testata">Entrepreneurs Herald · 2024</span>
+          <span class="cit-titolo">“Shaping Stories Through Design”</span>
+          <span class="cit-leggi">Leggi l'intervista <span>→</span></span></a>
+      </div>
     </div>
   </section>
 
-  <!-- NEWSLETTER -->
+  <!-- 08 NEWSLETTER -->
   <section class="nl3">
     <div class="container">
-      <figure class="nl3-foto"><img src="images/Shapeless%201-46_edited.jpg" alt="Vasi di design Shapeless all'aperto"></figure>
+      <figure class="nl3-foto"><img src="images/Shapeless%201-46_edited.jpg" alt="Vasi di design Shapeless all'aperto" loading="lazy"></figure>
       <div class="nl3-testo">
-        <p class="label">Newsletter</p>
-        <h2>Il 10% sul tuo <strong>primo ordine.</strong></h2>
-        <p>Iscriviti per conoscere in anticipo novità, colori e fiere di Shapeless. In regalo, un codice sconto del 10% sul tuo primo vaso.</p>
+        <p class="label">Community</p>
+        <h2>Nuove forme, <strong>prima di tutti.</strong></h2>
+        <p>Entra nel mondo Shapeless e ricevi in anteprima nuove forme, colori e appuntamenti.</p>
         <form class="newsletter-form nl3-form" name="newsletter" method="POST" action="grazie.html">
           <label for="nl-email" class="nl-sr">La tua email</label>
           <input id="nl-email" type="email" name="email" placeholder="La tua email" autocomplete="email" required>
           <button type="submit">Iscriviti <span aria-hidden="true">→</span></button>
         </form>
+        <p class="nl3-benvenuto">Per darti il benvenuto, il 10% sul primo ordine.</p>
         <p class="nl3-privacy">Iscrivendoti accetti la <a href="privacy.html">privacy policy</a>. Puoi cancellarti quando vuoi.</p>
       </div>
     </div>
@@ -566,8 +829,8 @@
       <div class="footer-grid">
         <div class="footer-brand">
           <img src="images/Logo Shapeless.png" alt="Shapeless" class="footer-logo-img">
-          <p>Oggetti d'arredo scultorei, progettati e prodotti in Italia in un materiale vegetale che nasce dal mais.
-          Ogni pezzo è prodotto su richiesta, senza sprechi.</p>
+          <p>Design in movimento. Oggetti scultorei progettati in Italia per dare carattere agli spazi,
+          realizzati su ordinazione in un materiale di origine vegetale.</p>
           <div class="social-links" style="margin-top: 24px;">
             <a href="https://www.instagram.com/shapeless.di/" target="_blank">Instagram</a>
             <a href="https://www.facebook.com/Shapeless.di" target="_blank">Facebook</a>
@@ -578,12 +841,11 @@
           <a href="chi-siamo.html">Chi siamo</a>
           <a href="il-mais.html">Il Mais</a>
           <a href="shapeless-brand.html">Il Brand</a>
-          <a href="collab.html">Lavora con noi</a>
+          <a href="collab.html">Collab</a>
         </div>
         <div class="footer-col">
           <h5>Community</h5>
           <a href="faq.html">FAQ</a>
-          <a href="blog.html">Blog</a>
           <a href="contatti.html">Contatti</a>
         </div>
         <div class="footer-col">
@@ -608,7 +870,7 @@
   </footer>
 
   <script src="js/main.js"></script>
-  <script src="js/lang-testi.js?v=20260923home"></script>
+  <script src="js/lang-testi.js?v=20260926collab"></script>
   <script src="js/lang.js?v=20260923"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="js/blade_geo.js"></script>
@@ -760,5 +1022,39 @@
   </script>
   <script src="js/shop-config.js?v=20260922lagoon"></script>
   <script src="js/cart.js?v=20260917consegna"></script>
+  <script>
+  /* Lampada: parte al 15% di luce (2,4 s) e si accende "vibrando" ogni volta che la foto rientra nello schermo
+     (stesso meccanismo del Blade 3D: se esce del tutto si rispegne, se resti fermo lì non si ripete) */
+  (function () {
+    var f = document.getElementById('lampadaFoto');
+    if (!f || !('IntersectionObserver' in window)) return;
+    var visibile = false;
+    f.classList.add('spenta');
+    new IntersectionObserver(function (en) {
+      en.forEach(function (x) {
+        if (x.intersectionRatio === 0) {
+          visibile = false; f.classList.remove('accesa'); f.classList.add('spenta');
+        } else if (x.intersectionRatio >= 0.6 && !visibile) {
+          visibile = true; f.classList.remove('accesa'); void f.offsetWidth;
+          f.classList.remove('spenta'); f.classList.add('accesa');
+        }
+      });
+    }, { threshold: [0, 0.6] }).observe(f);
+  })();
+  </script>
+  <script>
+  /* Filosofia: le tre righe entrano ogni volta che la sezione torna nello schermo (come il Blade e la lampada) */
+  (function () {
+    var f = document.getElementById('filosofia');
+    if (!f || !('IntersectionObserver' in window)) return;
+    f.classList.add('pronta');
+    new IntersectionObserver(function (en) {
+      en.forEach(function (x) {
+        if (x.intersectionRatio === 0) f.classList.remove('in-vista');
+        else if (x.intersectionRatio >= 0.3) f.classList.add('in-vista');
+      });
+    }, { threshold: [0, 0.3] }).observe(f);
+  })();
+  </script>
 </body>
 </html>

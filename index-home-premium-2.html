@@ -405,13 +405,13 @@
     @media (min-width: 901px) and (max-width: 1180px) and (orientation: landscape) {
       .perche { gap:56px; }
     }
-    .lampada-foto.spenta img { filter:brightness(.22) saturate(.65); }
-    .lampada-foto.accesa img { animation:lampadaAccensione 1.9s ease-out both; }
+    .lampada-foto.spenta img { filter:brightness(.15) saturate(.6); }
+    .lampada-foto.accesa img { animation:lampadaAccensione 2.4s ease-out both; }
     @keyframes lampadaAccensione {
-      0%   { filter:brightness(.22) saturate(.65); }
-      30%  { filter:brightness(.34) saturate(.75); }
+      0%   { filter:brightness(.15) saturate(.6); }
+      30%  { filter:brightness(.28) saturate(.72); }
       36%  { filter:brightness(.78) saturate(.95); }
-      40%  { filter:brightness(.38) saturate(.8); }
+      40%  { filter:brightness(.32) saturate(.78); }
       46%  { filter:brightness(.92) saturate(1); }
       50%  { filter:brightness(.55) saturate(.88); }
       55%  { filter:brightness(1.05) saturate(1); }
@@ -588,6 +588,38 @@
     .stampa .sez-intro { margin-top:14px; }
     @media (min-width: 901px) { .stampa .sez-testa { max-width:none; } }
   </style>
+  <style>
+    /* ===== 26/09 sera — filosofia su telefono e piè di pagina ===== */
+    @media (max-width: 600px) {
+      /* le tre righe allineate a sinistra, una per riga, senza scalini che sembrano errori */
+      .filo { padding-bottom:56px; }
+      .filo-righe { margin-top:36px; }
+      .filo-righe p, .filo-righe p:nth-child(2), .filo-righe p:nth-child(3) { margin-left:0; font-size:min(18px, 4.6vw); line-height:1.4; margin-bottom:.3em; }
+      .filo-chiusa { margin:32px 0 0; max-width:none; }
+    }
+    /* piè di pagina: stesso margine a sinistra e a destra */
+    footer .container { box-sizing:border-box; }
+    /* il file del logo ha un margine trasparente a sinistra: lo recupero, così il logo si allinea al testo */
+    .footer-logo-img { transform:translateX(-9.5%); transform-origin:left center; }
+    .footer-brand > p { max-width:34em; }
+    @media (min-width: 901px) {
+      .footer-grid { grid-template-columns:1.6fr 1fr 1fr auto; }
+      .footer-col:last-child { justify-self:end; }
+    }
+    @media (max-width: 900px) {
+      .footer-brand > p { max-width:none; }
+      .footer-grid { grid-template-columns:1fr 1fr; column-gap:24px; }
+      .footer-col:last-child { display:grid; grid-template-columns:1fr 1fr; column-gap:24px; align-items:start; }
+      .footer-col:last-child h5 { grid-column:1 / -1; }
+      .footer-col:last-child a { grid-column:1; }
+      .footer-col:last-child a:first-of-type { grid-column:1 / -1; }
+      .footer-col:last-child p { grid-column:2; grid-row:3 / span 2; margin-top:5px !important; }
+    }
+    @media (max-width: 600px) {
+      .footer-bottom { align-items:stretch; }
+      .footer-bottom > div { justify-content:space-between; gap:12px !important; }
+    }
+  </style>
 </head>
 <body class="page-home">
 
@@ -604,12 +636,11 @@
           <a href="shapeless-brand.html">Shapeless</a>
         </div>
       </li>
-      <li class="nav-item"><a href="collab.html">Lavora con noi</a></li>
+      <li class="nav-item"><a href="collab.html">Collab</a></li>
       <li class="nav-item">
         <span>Community</span>
         <div class="dropdown">
           <a href="faq.html">FAQ</a>
-          <a href="blog.html">Blog</a>
         </div>
       </li>
       <li class="nav-item"><a href="contatti.html">Contatti</a></li>
@@ -631,12 +662,11 @@
         <a href="shapeless-brand.html">Shapeless</a>
       </div>
     </div>
-    <a href="collab.html">Lavora con noi</a>
+    <a href="collab.html">Collab</a>
     <div class="mob-group">
       <button type="button" class="mob-section-title">Community<span class="mob-chevron"></span></button>
       <div class="mob-sub">
         <a href="faq.html">FAQ</a>
-        <a href="blog.html">Blog</a>
       </div>
     </div>
     <a href="contatti.html">Contatti</a>
@@ -740,7 +770,7 @@
         <div class="tech-testo">
           <p class="label">Esperienza</p>
           <h2>Ruota nello spazio. <strong>Anche da fermo.</strong></h2>
-          <p>Lame verticali che si avvitano verso l'alto, in equilibrio dinamico. Girandoci intorno la forma cambia a ogni passo e non si legge mai due volte: trascinalo e scoprilo da ogni lato.</p>
+          <p>Lame verticali che si intrecciano e si avvitano verso l'alto, come un movimento sospeso a metà tra scultura e architettura. Profili affilati, una spinta ascendente, un equilibrio dinamico: trascinalo e guardalo da ogni lato.</p>
           <p>È la fabbricazione digitale a rendere possibile questa geometria: la costruiamo un sottile strato alla volta.</p>
           <a href="esplora-blade.html" class="btn btn-chiaro">Esplora il Blade in 3D</a>
         </div>
@@ -811,12 +841,11 @@
           <a href="chi-siamo.html">Chi siamo</a>
           <a href="il-mais.html">Il Mais</a>
           <a href="shapeless-brand.html">Il Brand</a>
-          <a href="collab.html">Lavora con noi</a>
+          <a href="collab.html">Collab</a>
         </div>
         <div class="footer-col">
           <h5>Community</h5>
           <a href="faq.html">FAQ</a>
-          <a href="blog.html">Blog</a>
           <a href="contatti.html">Contatti</a>
         </div>
         <div class="footer-col">
@@ -841,7 +870,7 @@
   </footer>
 
   <script src="js/main.js"></script>
-  <script src="js/lang-testi.js?v=20260923home"></script>
+  <script src="js/lang-testi.js?v=20260926collab"></script>
   <script src="js/lang.js?v=20260923"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="js/blade_geo.js"></script>
@@ -994,7 +1023,7 @@
   <script src="js/shop-config.js?v=20260922lagoon"></script>
   <script src="js/cart.js?v=20260917consegna"></script>
   <script>
-  /* Lampada: parte al 30% di luce e si accende "vibrando" ogni volta che la foto rientra nello schermo
+  /* Lampada: parte al 15% di luce (2,4 s) e si accende "vibrando" ogni volta che la foto rientra nello schermo
      (stesso meccanismo del Blade 3D: se esce del tutto si rispegne, se resti fermo lì non si ripete) */
   (function () {
     var f = document.getElementById('lampadaFoto');

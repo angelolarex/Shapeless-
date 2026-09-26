@@ -4,8 +4,41 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hospitality & Architettura | Shapeless</title>
-  <meta name="description" content="Shapeless per ristoranti, hotel e studi di interior design. Oggetti decorativi personalizzabili, prodotti in PLA sostenibile. Condizioni dedicate per professionisti.">
-  <link rel="stylesheet" href="css/style.css">
+  <meta name="description" content="Shapeless per ristoranti, hotel e studi di interior design: oggetti scultorei che danno movimento e carattere agli spazi. Condizioni dedicate ai professionisti.">
+  <link rel="stylesheet" href="css/style.css?v=20260926">
+  <style>
+    /* Hospitality — impaginazione editoriale, senza foto (26/09/2026) */
+    .hosp-intro { padding:clamp(56px, 8vw, 112px) 0 clamp(48px, 6vw, 88px); border-bottom:1px solid var(--border); }
+    .hosp-lead { font-size:clamp(22px, 2.6vw, 34px); font-weight:300; line-height:1.35; color:var(--text); max-width:24em; margin:0; letter-spacing:-.01em; }
+    .hosp-testo { margin-top:clamp(28px, 4vw, 48px); display:grid; grid-template-columns:1fr 1fr; gap:clamp(24px, 4vw, 64px); max-width:900px; }
+    .hosp-testo p { margin:0; font-size:16px; line-height:1.75; color:var(--text-muted); }
+    .hosp-punti { padding:clamp(56px, 7vw, 96px) 0; border-bottom:1px solid var(--border); }
+    .hosp-lista { list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(3, 1fr); gap:clamp(24px, 4vw, 64px); }
+    .hosp-lista li { border-top:1px solid var(--border); padding-top:22px; position:relative; }
+    .hosp-lista li::before { content:''; position:absolute; top:-1px; left:0; width:32px; height:2px; background:var(--accent); }
+    .hosp-lista h3 { font-size:15px; font-weight:600; letter-spacing:0; text-transform:none; margin:0 0 10px; color:var(--text); }
+    .hosp-lista p { font-size:14px; line-height:1.7; color:var(--text-muted); margin:0; }
+    .hosp-offerta-grid { display:grid; grid-template-columns:1fr 1fr; gap:clamp(48px, 7vw, 112px); align-items:start; }
+    .hosp-offerta form { max-width:520px; }
+    /* tablet verticale */
+    @media (max-width: 1024px) and (orientation: portrait), (max-width: 900px) {
+      .hosp-lista { gap:28px; }
+      .hosp-offerta-grid { grid-template-columns:1fr; gap:56px; }
+      .hosp-offerta form { max-width:none; }
+    }
+    /* telefono */
+    @media (max-width: 600px) {
+      .hosp-intro { padding:40px 0 44px; }
+      .hosp-lead { font-size:22px; }
+      .hosp-testo { grid-template-columns:1fr; gap:14px; margin-top:24px; }
+      .hosp-testo p { font-size:15px; }
+      .hosp-punti { padding:40px 0 24px; }
+      .hosp-lista { grid-template-columns:1fr; gap:0; }
+      .hosp-lista li { padding:22px 0 26px; }
+      .hosp-lista p { font-size:14px; }
+      .hosp-offerta-grid { gap:48px; }
+    }
+  </style>
 </head>
 <body>
 
@@ -21,12 +54,11 @@
           <a href="shapeless-brand.html">Shapeless</a>
         </div>
       </li>
-      <li class="nav-item active"><a href="collab.html">Lavora con noi</a></li>
+      <li class="nav-item active"><a href="collab.html">Collab</a></li>
       <li class="nav-item">
         <span>Community</span>
         <div class="dropdown">
           <a href="faq.html">FAQ</a>
-          <a href="blog.html">Blog</a>
         </div>
       </li>
       <li class="nav-item"><a href="contatti.html">Contatti</a></li>
@@ -44,12 +76,11 @@
         <a href="shapeless-brand.html">Shapeless</a>
       </div>
     </div>
-    <a href="collab.html">Lavora con noi</a>
+    <a href="collab.html">Collab</a>
     <div class="mob-group">
       <button type="button" class="mob-section-title">Community<span class="mob-chevron"></span></button>
       <div class="mob-sub">
         <a href="faq.html">FAQ</a>
-        <a href="blog.html">Blog</a>
       </div>
     </div>
     <a href="contatti.html">Contatti</a>
@@ -64,64 +95,41 @@
     </div>
   </div>
 
-  <!-- INTRO -->
-  <section class="section" style="border-bottom: 1px solid var(--border);">
+  <!-- INTRO (senza foto, 26/09/2026) -->
+  <section class="hosp-intro">
     <div class="container">
-      <div class="grid-2" style="gap: 80px; align-items: start;">
-        <div>
-          <p style="font-size:18px; color:var(--accent2); line-height:1.8; margin-bottom:24px;">
-            Che tu gestisca un ristorante, un hotel o lavori a progetti di interior design, Shapeless ti aiuta a valorizzare i tuoi spazi.
-          </p>
-          <p>
-            I nostri oggetti decorativi — vasi, lampade e complementi d'arredo — portano uno stile
-            naturale e contemporaneo, ideale per ambienti eleganti che vogliono distinguersi con personalità.
-          </p>
-          <p>
-            Dall'hospitality agli studi di progettazione, collaboriamo con realtà che cercano identità
-            visiva e attenzione ai dettagli.
-          </p>
-        </div>
-        <div>
-          <img src="images/fff.png" alt="Vasi Shapeless in un ambiente ristorante" style="width:100%; aspect-ratio:4/3; object-fit:cover; border-radius:2px;">
-        </div>
+      <p class="hosp-lead">Che tu gestisca un ristorante, un hotel o lavori a progetti di interior design, Shapeless ti aiuta a valorizzare i tuoi spazi.</p>
+      <div class="hosp-testo">
+        <p>I nostri oggetti, vasi e lampade, danno movimento e carattere agli spazi: una presenza scultorea che resta impressa a chi entra.</p>
+        <p>Dall'hospitality agli studi di progettazione, collaboriamo con realtà che cercano identità visiva e attenzione ai dettagli.</p>
       </div>
     </div>
   </section>
 
-  <!-- FEATURES -->
-  <section class="section" style="border-bottom: 1px solid var(--border);">
+  <!-- TRE PUNTI -->
+  <section class="hosp-punti">
     <div class="container">
-      <div class="feature-grid">
-
-        <div class="feature">
-          <div class="feature-icon">🛠</div>
-          <h4>Per progettisti e interior designer</h4>
-          <p>Puoi includere i prodotti Shapeless nelle tue proposte di progetto, accedendo a condizioni
-          dedicate per professionisti del settore. Schede tecniche e catalogo digitale disponibili.</p>
-        </div>
-
-        <div class="feature">
-          <div class="feature-icon">✦</div>
-          <h4>Personalizzazione su misura</h4>
-          <p>Colore, dimensione, finiture — su richiesta. Creiamo progetti esclusivi pensati per un
-          determinato ambiente, con possibilità di co-branding.</p>
-        </div>
-
-        <div class="feature">
-          <div class="feature-icon">♻️</div>
-          <h4>Materiali naturali e filosofia green</h4>
-          <p>Tutti i prodotti nascono in 3D da PLA, un materiale vegetale derivato dal mais. Produzione
-          senza sprechi né stock inutilizzato — ogni pezzo nasce per un motivo.</p>
-        </div>
-
-      </div>
+      <ul class="hosp-lista">
+        <li>
+          <h3>Per progettisti e interior designer</h3>
+          <p>Puoi includere i prodotti Shapeless nelle tue proposte di progetto, con condizioni dedicate ai professionisti. Schede tecniche e catalogo digitale disponibili.</p>
+        </li>
+        <li>
+          <h3>Personalizzazione su misura</h3>
+          <p>Colore, dimensione, finiture: su richiesta. Progetti pensati per un ambiente preciso, anche in co-branding.</p>
+        </li>
+        <li>
+          <h3>Progettato in Italia, dal mais</h3>
+          <p>Ogni pezzo è progettato e realizzato in Italia in PLA, un materiale di origine vegetale che nasce dal mais, e prodotto solo quando serve al progetto.</p>
+        </li>
+      </ul>
     </div>
   </section>
 
   <!-- COSA OFFRIAMO -->
-  <section class="section" style="border-bottom: 1px solid var(--border);">
+  <section class="section hosp-offerta">
     <div class="container">
-      <div class="grid-2" style="gap: 80px; align-items: start;">
+      <div class="hosp-offerta-grid">
         <div>
           <p class="label">Cosa offriamo</p>
           <h2 class="mb-32"><strong>Condizioni dedicate</strong><br>ai professionisti</h2>
@@ -188,7 +196,8 @@
       <div class="footer-grid">
         <div class="footer-brand">
           <img src="images/Logo Shapeless.png" alt="Shapeless" class="footer-logo-img">
-          <p>Oggetti d'arredo scultorei, progettati e prodotti in Italia in un materiale vegetale che nasce dal mais.</p>
+          <p>Design in movimento. Oggetti scultorei progettati in Italia per dare carattere agli spazi,
+          realizzati su ordinazione in un materiale di origine vegetale.</p>
           <div class="social-links" style="margin-top: 24px;">
             <a href="https://www.instagram.com/shapeless.di/" target="_blank">Instagram</a>
             <a href="https://www.facebook.com/Shapeless.di" target="_blank">Facebook</a>
@@ -200,23 +209,24 @@
           <a href="il-mais.html">Il Mais</a>
           <a href="shapeless-brand.html">Il Brand</a>
           <a href="collab.html">Collab</a>
-          <a href="rivenditori.html">Rivenditori</a>
         </div>
         <div class="footer-col">
           <h5>Community</h5>
           <a href="faq.html">FAQ</a>
-          <a href="blog.html">Blog</a>
           <a href="contatti.html">Contatti</a>
         </div>
         <div class="footer-col">
           <h5>Contatti</h5>
           <a href="mailto:info@shapeless.shop">info@shapeless.shop</a>
           <a href="tel:+393274465586">+39 327 446 5586</a>
-          <p style="font-size:12px; margin-top:12px; color:var(--text-muted);">Viale della Regione 32B<br>93100 Caltanissetta (IT)</p>
+          <a href="tel:+390934591960">+39 0934 591960</a>
+          <p style="font-size:12px; margin-top:12px; color:var(--text-muted);">
+            Viale della Regione 32B<br>93100 Caltanissetta (IT)
+          </p>
         </div>
       </div>
       <div class="footer-bottom">
-        <p>© 2025 Shapeless — Larecchiuta Angelo — P.IVA 01927390854</p>
+        <p>© 2026 Shapeless — Larecchiuta Angelo — P.IVA 01927390854</p>
         <div style="display:flex; gap:24px; flex-wrap:wrap;">
           <a href="privacy.html" style="font-size:12px; color:var(--text-muted);">Privacy Policy</a>
           <a href="#" style="font-size:12px; color:var(--text-muted);">Cookie Policy</a>
