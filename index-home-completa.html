@@ -620,6 +620,29 @@
       .footer-bottom > div { justify-content:space-between; gap:12px !important; }
     }
   </style>
+  <style>
+    /* ===== 26/09 — titolo nuovo in alto: gerarchia tagline → titolo → sottotitolo → pulsante ===== */
+    .hf-h1 em { display:block; margin-top:.08em; }
+    .hf-label { opacity:.9; }
+    .hf-sub { text-wrap:balance; }
+    /* tablet orizzontale e computer: colonna di testo più larga, titolo su 4 righe al massimo */
+    @media (min-width: 1025px), (min-width: 901px) and (orientation: landscape) {
+      .hf-testo { max-width:min(500px, 36vw); }
+      .hf-label { margin-bottom:20px; }
+      .hf-h1 { font-size:clamp(34px, 3.3vw, 56px); line-height:1.06; letter-spacing:-.015em; margin-bottom:24px; }
+      .hf-sub { font-size:clamp(15px, 1.2vw, 18px); line-height:1.6; max-width:24em; margin-bottom:32px; }
+    }
+    /* tablet verticale */
+    @media (min-width: 601px) and (max-width: 1024px) and (orientation: portrait) {
+      .hf-h1 { font-size:clamp(38px, 5.4vw, 48px); line-height:1.06; }
+      .hf-sub { font-size:17px; max-width:26em; }
+    }
+    /* telefono */
+    @media (max-width: 600px) {
+      .hf-h1 { font-size:clamp(29px, 8vw, 34px); line-height:1.08; margin-bottom:16px; }
+      .hf-sub { font-size:15px; line-height:1.55; }
+    }
+  </style>
 </head>
 <body class="page-home">
 
@@ -680,8 +703,8 @@
     <div class="hf-in">
       <div class="hf-testo">
         <p class="hf-label">Design in movimento</p>
-        <h1 class="hf-h1">Forme in movimento. <em>Spazi con carattere.</em></h1>
-        <p class="hf-sub">Vasi e lampade progettati in Italia per dare movimento e carattere agli spazi che vivi.</p>
+        <h1 class="hf-h1">La forma cambia con la luce. <em>Lo spazio cambia con la forma.</em></h1>
+        <p class="hf-sub">Vasi e lampade pensati per dare carattere agli spazi che vivi.</p>
         <a href="tutti-i-design.html" class="hf-btn">Scopri la collezione</a>
       </div>
     </div>
@@ -870,7 +893,7 @@
   </footer>
 
   <script src="js/main.js"></script>
-  <script src="js/lang-testi.js?v=20260926collab"></script>
+  <script src="js/lang-testi.js?v=20260926titolo"></script>
   <script src="js/lang.js?v=20260923"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="js/blade_geo.js"></script>

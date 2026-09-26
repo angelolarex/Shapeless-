@@ -990,5 +990,8 @@ window.ShapelessTestiEN = {
   "Lampada Shapeless accesa su un tavolo, di sera, con il cielo stellato alla finestra": "Shapeless lamp lit on a table in the evening, with a starry sky in the window",
   "Puoi includere i prodotti Shapeless nelle tue proposte di progetto, con condizioni dedicate ai professionisti. Schede tecniche e catalogo digitale disponibili.": "You can include Shapeless products in your project proposals, with dedicated terms for professionals. Technical sheets and digital catalogue available.",
   "Colore, dimensione, finiture: su richiesta. Progetti pensati per un ambiente preciso, anche in co-branding.": "Colour, size, finishes: on request. Projects designed for a specific space, co-branding included.",
-  "Collab | Shapeless": "Collab | Shapeless"
+  "Collab | Shapeless": "Collab | Shapeless",
+  "La forma cambia con la luce.": "Form changes with the light.",
+  "Lo spazio cambia con la forma.": "Space changes with form.",
+  "Vasi e lampade pensati per dare carattere agli spazi che vivi.": "Vases and lamps designed to give character to the spaces you live in."
 };
