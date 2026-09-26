@@ -549,6 +549,45 @@
       .tech-testo h2 { font-size:30px; }
     }
   </style>
+  <style>
+    /* ===================== 2.0 — refinement finale ===================== */
+    /* 02 emozione: un solo blocco di testo, che il layout sposta (sopra la foto su telefono/tablet verticale, a destra su computer) */
+    .emo { display:grid; grid-template-columns:1fr; gap:32px; }
+    .emo-testa h2 { margin:0; font-size:30px; line-height:1.12; text-wrap:balance; }
+    .emo-testa p { margin:16px 0 0; color:var(--text-muted); max-width:34em; }
+    .emo-testa p + p { margin-top:10px; }
+    @media (min-width: 601px) {
+      .emo-testa h2 { font-size:clamp(34px, 4.6vw, 44px); }
+      .emo-testa p { font-size:17px; line-height:1.7; }
+    }
+    @media (min-width: 901px) and (orientation: landscape), (min-width: 1025px) {
+      .emo { grid-template-columns:1.05fr 1fr; gap:clamp(56px, 7vw, 112px); align-items:center; }
+      .emo .lampada-foto { order:1; }
+      .emo-testa { order:2; }
+      .emo-testa h2 { font-size:clamp(30px, 2.9vw, 48px); line-height:1.1; }
+      .emo-testa p { font-size:clamp(16px, 1.2vw, 18px); max-width:26em; }
+      .emo-testa p:first-of-type { margin-top:28px; }
+    }
+
+    /* 03 filosofia: un piccolo manifesto — più grande, più aria, separato dal resto */
+    @media (min-width: 601px) {
+      .filo { padding:clamp(120px, 14vw, 216px) 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+      .filo .label { margin-bottom:28px; }
+      .filo-h2 { font-size:clamp(52px, 7.4vw, 116px); line-height:.98; }
+      .filo-righe { margin-top:clamp(64px, 7vw, 112px); }
+      .filo-righe p { font-size:clamp(24px, 3vw, 44px); line-height:1.3; margin-bottom:.4em; }
+      .filo-chiusa { font-size:clamp(16px, 1.25vw, 19px); margin-top:clamp(56px, 6vw, 96px); max-width:28em; }
+    }
+    @media (max-width: 600px) {
+      .filo { padding-bottom:88px; border-bottom:1px solid var(--border); }
+      .filo-h2 { font-size:40px; }
+      .filo-righe p { font-size:19px; }
+    }
+
+    /* 07 stampa: titolo con una riga sotto, niente curriculum */
+    .stampa .sez-intro { margin-top:14px; }
+    @media (min-width: 901px) { .stampa .sez-testa { max-width:none; } }
+  </style>
 </head>
 <body class="page-home">
 
@@ -621,18 +660,13 @@
   <!-- 02 EMOZIONE -->
   <section class="sez sez-perche emozione">
     <div class="container">
-      <header class="sez-testa sez-testa-centro">
-        <h2>Non riempiamo gli spazi. <strong>Li facciamo vivere.</strong></h2>
-        <p class="sez-intro">Basta un oggetto per cambiare il modo in cui vivi una stanza. Ogni forma Shapeless entra nello spazio senza confondersi con esso: lo attraversa, lo accende, gli dà un punto di vista.</p>
-      </header>
-      <div class="perche">
+      <div class="emo">
+        <header class="emo-testa">
+          <h2>Non riempiamo gli spazi.<br><strong>Li facciamo vivere.</strong></h2>
+          <p>Basta un oggetto per cambiare il modo in cui vivi una stanza.</p>
+          <p>Ogni forma Shapeless entra nello spazio senza confondersi con esso: lo attraversa, ne cattura la luce, gli dà un punto di vista.</p>
+        </header>
         <figure class="perche-foto lampada-foto" id="lampadaFoto"><img src="images/lampada-sera-1024.jpg" srcset="images/lampada-sera-700.jpg 700w, images/lampada-sera-1024.jpg 1024w" sizes="(max-width: 900px) 100vw, 50vw" alt="Lampada Shapeless accesa su un tavolo, di sera, con il cielo stellato alla finestra" loading="lazy"></figure>
-        <div class="perche-testo">
-          <header class="perche-testa-pc">
-            <h2>Non riempiamo gli spazi.<br><strong>Li facciamo vivere.</strong></h2>
-            <p class="sez-intro">Basta un oggetto per cambiare il modo in cui vivi una stanza. Ogni forma Shapeless entra nello spazio senza confondersi con esso: lo attraversa, lo accende, gli dà un punto di vista.</p>
-          </header>
-        </div>
       </div>
     </div>
   </section>
@@ -691,7 +725,7 @@
       <p class="label">Dietro ogni forma</p>
       <ul class="prove-lista">
         <li><h3>Progettato e realizzato in Italia.</h3><p>Disegnato nel nostro studio, realizzato in Sicilia, pezzo per pezzo.</p></li>
-        <li><h3>Dal mais, non dal petrolio.</h3><p>PLA di origine vegetale: leggero, resistente, riciclabile.</p></li>
+        <li><h3>Dal mais, non dal petrolio.</h3><p>PLA, un materiale di origine vegetale. Leggero e resistente.</p></li>
         <li><h3>Realizzato quando lo scegli.</h3><p>Nessun magazzino: ogni pezzo prende forma dopo il tuo ordine.</p></li>
       </ul>
       <div class="prove-link"><a href="chi-siamo.html" class="link-freccia">La nostra storia <span>→</span></a><a href="il-mais.html" class="link-freccia">Il materiale <span>→</span></a></div>
@@ -719,7 +753,8 @@
     <div class="container">
       <header class="sez-testa">
         <p class="label">Stampa e fiere</p>
-        <h2>Dalle fiere <strong>alle riviste.</strong></h2>
+        <h2>Shapeless, <strong>fuori dallo studio.</strong></h2>
+        <p class="sez-intro">Dove abbiamo portato le nostre forme, e chi ne ha scritto.</p>
       </header>
       <ul class="fiere-riga" aria-label="Fiere">
         <li>Milano Design Week</li>
@@ -744,7 +779,7 @@
     <div class="container">
       <figure class="nl3-foto"><img src="images/Shapeless%201-46_edited.jpg" alt="Vasi di design Shapeless all'aperto" loading="lazy"></figure>
       <div class="nl3-testo">
-        <p class="label">Newsletter</p>
+        <p class="label">Community</p>
         <h2>Nuove forme, <strong>prima di tutti.</strong></h2>
         <p>Entra nel mondo Shapeless e ricevi in anteprima nuove forme, colori e appuntamenti.</p>
         <form class="newsletter-form nl3-form" name="newsletter" method="POST" action="grazie.html">
