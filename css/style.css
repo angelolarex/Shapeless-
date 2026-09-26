@@ -2036,30 +2036,32 @@ img, video, canvas { max-width: 100%; }
 .legale-link { margin-top: 48px !important; padding-top: 24px; border-top: 1px solid var(--border); }
 
 
-/* ===== Piè di pagina nuovo (26/09/2026) — uguale in tutte le pagine, stesso margine a sinistra e a destra ===== */
-footer { padding:56px 0 32px; background:#efedea; }
-.footer-grid { grid-template-columns:1.6fr 1fr 1fr auto; gap:40px; margin-bottom:40px; }
-.footer-brand > p { display:block !important; font-size:13px; line-height:1.6; color:var(--text-muted); max-width:34em; margin:-8px 0 0; }
-.footer-logo-img { transform:translateX(-9.5%); transform-origin:left center; }
-.footer-col h5 { font-size:11px; font-weight:600; letter-spacing:.16em; margin:0 0 16px; }
-.footer-col a { font-size:14px; padding:5px 0; }
+/* ===== Piè di pagina (26/09/2026, v2 compatta) — uguale in tutte le pagine =====
+   Il file del logo ha tanto margine trasparente sopra, sotto e a sinistra: lo recupero con margini negativi,
+   così non restano vuoti e il logo si allinea al testo. Su telefono e tablet verticale la colonna di destra
+   è allineata a destra: il margine destro è uguale a quello sinistro. */
+footer { padding:48px 0 28px; background:#efedea; }
+.footer-grid { grid-template-columns:1.6fr 1fr 1fr auto; gap:40px; margin-bottom:36px; align-items:start; }
+.footer-logo-img { height:84px; margin:-28px 0 -16px; transform:translateX(-9.5%); transform-origin:left center; }
+.footer-brand > p { display:block !important; font-size:13px; line-height:1.6; color:var(--text-muted); max-width:34em; margin:0; }
+.footer-brand .social-links { margin-top:16px !important; }
+.footer-col h5 { font-size:11px; font-weight:600; letter-spacing:.16em; margin:0 0 14px; }
+.footer-col a { font-size:14px; padding:4px 0; }
 .footer-col p { font-size:13px !important; line-height:1.6; }
 .footer-col:last-child { justify-self:end; }
-.footer-bottom { padding-top:24px; }
+.footer-bottom { padding-top:22px; }
 .footer-bottom p, .footer-bottom a { font-size:12px !important; }
-@media (max-width: 900px) {
-  .footer-grid { grid-template-columns:1fr 1fr; gap:32px 24px; }
+@media (max-width: 900px), (max-width: 1024px) and (orientation: portrait) {
+  footer { padding:36px 0 24px; }
+  .footer-grid { grid-template-columns:1fr 1fr; gap:28px 24px; margin-bottom:28px; }
   .footer-brand { grid-column:1 / -1; }
+  .footer-logo-img { height:84px; margin:-28px 0 -16px; }
   .footer-brand > p { max-width:none; }
-  .footer-col:last-child { grid-column:1 / -1; justify-self:stretch; display:grid; grid-template-columns:1fr 1fr; column-gap:24px; align-items:start; }
+  .footer-col:nth-child(3) { text-align:right; }
+  .footer-col:last-child { grid-column:1 / -1; justify-self:stretch; display:grid; grid-template-columns:1fr auto; column-gap:24px; align-items:start; }
   .footer-col:last-child h5 { grid-column:1 / -1; }
   .footer-col:last-child a { grid-column:1; }
-  .footer-col:last-child a:first-of-type { grid-column:1 / -1; }
-  .footer-col:last-child p { grid-column:2; grid-row:3 / span 2; margin-top:5px !important; }
-}
-@media (max-width: 600px) {
-  footer { padding:44px 0 28px; }
-  .footer-grid { margin-bottom:28px; }
+  .footer-col:last-child p { grid-column:2; grid-row:2 / span 3; margin:4px 0 0 !important; text-align:right; }
   .footer-bottom { flex-direction:column; align-items:stretch; gap:10px; }
   .footer-bottom > div { justify-content:space-between; gap:12px !important; }
 }

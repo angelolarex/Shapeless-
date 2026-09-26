@@ -966,7 +966,6 @@ window.ShapelessTestiEN = {
   "Esplora la collezione": "Explore the collection",
   "Dietro ogni forma": "Behind every form",
   "Progettato e realizzato in Italia.": "Designed and made in Italy.",
-  "Disegnato nel nostro studio, realizzato in Sicilia, pezzo per pezzo.": "Drawn in our studio, made in Sicily, piece by piece.",
   "Dal mais, non dal petrolio.": "From corn, not from oil.",
   "PLA, un materiale di origine vegetale. Leggero e resistente.": "PLA, a plant-based material. Light and strong.",
   "Realizzato quando lo scegli.": "Made when you choose it.",
@@ -993,5 +992,14 @@ window.ShapelessTestiEN = {
   "Collab | Shapeless": "Collab | Shapeless",
   "La forma cambia con la luce.": "Form changes with the light.",
   "Lo spazio cambia con la forma.": "Space changes with form.",
-  "Vasi e lampade pensati per dare carattere agli spazi che vivi.": "Vases and lamps designed to give character to the spaces you live in."
+  "Vasi e lampade pensati per dare carattere agli spazi che vivi.": "Vases and lamps designed to give character to the spaces you live in.",
+  "All'alba, una linea.": "At dawn, a line.",
+  "A mezzogiorno, un volume.": "At noon, a volume.",
+  "Al tramonto, un'ombra.": "At sunset, a shadow.",
+  "Disegnato nel nostro studio, realizzato pezzo per pezzo.": "Drawn in our studio, made piece by piece.",
+  "Entra nel mondo Shapeless: ricevi in anteprima nuove forme e nuovi colori.": "Join the Shapeless world: be the first to see new forms and new colours.",
+  "10%": "10%",
+  "di benvenuto sul tuo primo ordine": "welcome discount on your first order",
+  "Ogni vaso è disegnato e prodotto in Italia, e seguito pezzo per pezzo fino alla spedizione.": "Every vase is designed and made in Italy, and looked after piece by piece until it ships.",
+  "Ogni forma nasce nel nostro studio e prende vita pezzo per pezzo, seguita con cura fino a quando arriva da te.": "Every form is born in our studio and comes to life piece by piece, looked after with care until it reaches you."
 };

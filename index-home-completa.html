@@ -6,7 +6,7 @@
   <title>Shapeless | Design in movimento — vasi e lampade progettati in Italia</title>
   <meta name="robots" content="noindex">
   <meta name="description" content="Vasi e lampade progettati in Italia per dare movimento e carattere agli spazi che vivi. Realizzati su ordinazione, in un materiale di origine vegetale. Scopri Bombato, Blade e Vulcano.">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=20260926b">
   <style>
     /* Homepage: label hero più marcata */
     .hero .label { font-weight: 600; letter-spacing: 0.22em; }
@@ -339,26 +339,9 @@
     .nl3 { padding:88px 0 64px; }
     .nl3-foto { max-width:820px; margin:0 auto 40px; }
     .nl3-foto img { aspect-ratio:2000/1497 !important; object-position:50% 50% !important; }
-    /* piè di pagina */
-    footer { padding:56px 0 32px; background:#efedea; }
-    .footer-grid { grid-template-columns:1.5fr 1fr 1fr 1.2fr; gap:40px; margin-bottom:40px; }
-    .footer-brand > p { display:block !important; font-size:13px; line-height:1.6; color:var(--text-muted); max-width:300px; margin:-8px 0 0; }
-    .footer-col h5 { font-size:11px; font-weight:600; letter-spacing:.16em; margin:0 0 16px; }
-    .footer-col a { font-size:14px; padding:5px 0; }
-    .footer-col p { font-size:13px !important; line-height:1.6; }
-    .footer-bottom { padding-top:24px; }
-    .footer-bottom p, .footer-bottom a { font-size:12px !important; }
-    @media (max-width: 900px) {
-      .footer-grid { grid-template-columns:1fr 1fr; gap:32px 24px; }
-      .footer-brand { grid-column:1 / -1; }
-      .footer-col:last-child { grid-column:1 / -1; }
-    }
     @media (max-width: 600px) {
       .nl3 { padding:56px 0 40px; }
       .nl3-foto { margin-bottom:28px; }
-      footer { padding:44px 0 28px; }
-      .footer-grid { margin-bottom:28px; }
-      .footer-bottom { flex-direction:column; align-items:flex-start; gap:10px; }
     }
   </style>
   <style>
@@ -597,28 +580,6 @@
       .filo-righe p, .filo-righe p:nth-child(2), .filo-righe p:nth-child(3) { margin-left:0; font-size:min(18px, 4.6vw); line-height:1.4; margin-bottom:.3em; }
       .filo-chiusa { margin:32px 0 0; max-width:none; }
     }
-    /* piè di pagina: stesso margine a sinistra e a destra */
-    footer .container { box-sizing:border-box; }
-    /* il file del logo ha un margine trasparente a sinistra: lo recupero, così il logo si allinea al testo */
-    .footer-logo-img { transform:translateX(-9.5%); transform-origin:left center; }
-    .footer-brand > p { max-width:34em; }
-    @media (min-width: 901px) {
-      .footer-grid { grid-template-columns:1.6fr 1fr 1fr auto; }
-      .footer-col:last-child { justify-self:end; }
-    }
-    @media (max-width: 900px) {
-      .footer-brand > p { max-width:none; }
-      .footer-grid { grid-template-columns:1fr 1fr; column-gap:24px; }
-      .footer-col:last-child { display:grid; grid-template-columns:1fr 1fr; column-gap:24px; align-items:start; }
-      .footer-col:last-child h5 { grid-column:1 / -1; }
-      .footer-col:last-child a { grid-column:1; }
-      .footer-col:last-child a:first-of-type { grid-column:1 / -1; }
-      .footer-col:last-child p { grid-column:2; grid-row:3 / span 2; margin-top:5px !important; }
-    }
-    @media (max-width: 600px) {
-      .footer-bottom { align-items:stretch; }
-      .footer-bottom > div { justify-content:space-between; gap:12px !important; }
-    }
   </style>
   <style>
     /* ===== 26/09 — titolo nuovo in alto: gerarchia tagline → titolo → sottotitolo → pulsante ===== */
@@ -642,6 +603,14 @@
       .hf-h1 { font-size:clamp(29px, 8vw, 34px); line-height:1.08; margin-bottom:16px; }
       .hf-sub { font-size:15px; line-height:1.55; }
     }
+  </style>
+  <style>
+    /* ===== 26/09 — newsletter: il 10% sopra il modulo, più grande ===== */
+    .nl3-testo > p.nl3-sconto { margin:-8px 0 20px; font-size:clamp(18px, 1.8vw, 22px); font-weight:300; line-height:1.35; color:var(--text); }
+    .nl3-testo h2 { text-wrap:balance; }
+    .nl3-testo h2 strong { white-space:nowrap; }
+    .nl3-testo .nl3-privacy { margin-top:14px; }
+    .nl3-sconto strong { font-weight:700; color:var(--accent); font-size:1.25em; letter-spacing:-.01em; margin-right:.15em; }
   </style>
 </head>
 <body class="page-home">
@@ -730,9 +699,9 @@
       <p class="label">Filosofia</p>
       <h2 class="filo-h2">La forma <strong>non sta mai ferma.</strong></h2>
       <div class="filo-righe">
-        <p>Guardata da un'altra angolazione, cambia.</p>
-        <p>Colpita dalla luce, cambia.</p>
-        <p>Inserita in uno spazio, cambia ancora.</p>
+        <p>All'alba, una linea.</p>
+        <p>A mezzogiorno, un volume.</p>
+        <p>Al tramonto, un'ombra.</p>
       </div>
       <p class="filo-chiusa">È da questa idea che nasce Shapeless: progettare oggetti capaci di creare movimento, anche quando tutto intorno è fermo.</p>
     </div>
@@ -777,7 +746,7 @@
     <div class="container">
       <p class="label">Dietro ogni forma</p>
       <ul class="prove-lista">
-        <li><h3>Progettato e realizzato in Italia.</h3><p>Disegnato nel nostro studio, realizzato in Sicilia, pezzo per pezzo.</p></li>
+        <li><h3>Progettato e realizzato in Italia.</h3><p>Disegnato nel nostro studio, realizzato pezzo per pezzo.</p></li>
         <li><h3>Dal mais, non dal petrolio.</h3><p>PLA, un materiale di origine vegetale. Leggero e resistente.</p></li>
         <li><h3>Realizzato quando lo scegli.</h3><p>Nessun magazzino: ogni pezzo prende forma dopo il tuo ordine.</p></li>
       </ul>
@@ -834,13 +803,13 @@
       <div class="nl3-testo">
         <p class="label">Community</p>
         <h2>Nuove forme, <strong>prima di tutti.</strong></h2>
-        <p>Entra nel mondo Shapeless e ricevi in anteprima nuove forme, colori e appuntamenti.</p>
+        <p>Entra nel mondo Shapeless: ricevi in anteprima nuove forme e nuovi colori.</p>
+        <p class="nl3-sconto"><strong>10%</strong> di benvenuto sul tuo primo ordine</p>
         <form class="newsletter-form nl3-form" name="newsletter" method="POST" action="grazie.html">
           <label for="nl-email" class="nl-sr">La tua email</label>
           <input id="nl-email" type="email" name="email" placeholder="La tua email" autocomplete="email" required>
           <button type="submit">Iscriviti <span aria-hidden="true">→</span></button>
         </form>
-        <p class="nl3-benvenuto">Per darti il benvenuto, il 10% sul primo ordine.</p>
         <p class="nl3-privacy">Iscrivendoti accetti la <a href="privacy.html">privacy policy</a>. Puoi cancellarti quando vuoi.</p>
       </div>
     </div>
@@ -893,7 +862,7 @@
   </footer>
 
   <script src="js/main.js"></script>
-  <script src="js/lang-testi.js?v=20260926titolo"></script>
+  <script src="js/lang-testi.js?v=20260926nl"></script>
   <script src="js/lang.js?v=20260923"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="js/blade_geo.js"></script>
