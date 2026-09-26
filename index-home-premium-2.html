@@ -433,7 +433,7 @@
     }
 
     /* 03 filosofia: sezione editoriale, solo tipografia, tanto spazio */
-    .filo { background:#ece7e1; border-bottom:0; padding:clamp(96px, 13vw, 184px) 0; }
+    .filo { background:var(--bg); border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:clamp(96px, 13vw, 184px) 0; }
     .filo .label { margin:0 0 20px; }
     .filo-h2 { font-size:clamp(40px, 6.4vw, 96px); font-weight:300; line-height:1.02; letter-spacing:-.02em; margin:0; max-width:14ch; }
     .filo-h2 strong { font-weight:700; display:block; }
@@ -487,7 +487,7 @@
     .fiere-riga li { font-size:clamp(20px, 2.4vw, 34px); font-weight:300; letter-spacing:-.01em; color:var(--text); padding:0 clamp(18px, 3vw, 44px); border-left:1px solid var(--border); }
     .fiere-riga li:first-child { padding-left:0; border-left:0; }
     .citazioni { display:grid; grid-template-columns:repeat(2, 1fr); max-width:1000px; gap:clamp(20px, 3vw, 40px); }
-    .cit { display:flex; flex-direction:column; gap:18px; padding:28px 0 0; border-top:2px solid var(--text); color:var(--text); }
+    .cit { display:flex; flex-direction:column; gap:16px; padding:26px 0 0; border-top:1px solid var(--text); color:var(--text); }
     .cit-testata { font-size:11px; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); }
     .cit-titolo { font-size:clamp(19px, 1.7vw, 24px); font-weight:300; line-height:1.35; }
     .cit-leggi { margin-top:auto; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--text-muted); }
@@ -505,6 +505,33 @@
     /* 08 newsletter: il 10% resta secondario */
     .nl3-benvenuto { font-size:13px; color:var(--text); margin:18px 0 0; }
     .nl3-benvenuto + .nl3-privacy { margin-top:6px; }
+    /* ===== 2.0 — telefono: elementi nuovi più compatti ed eleganti ===== */
+    @media (max-width: 600px) {
+      .filo { padding:72px 0 80px; }
+      .filo .label { margin-bottom:16px; }
+      .filo-h2 { font-size:38px; }
+      .filo-righe { margin-top:40px; }
+      .filo-righe p { font-size:18px; line-height:1.4; margin-bottom:.45em; }
+      .filo-chiusa { margin-top:36px; font-size:15px; line-height:1.7; padding-top:20px; }
+      #collezione .sez-testa { margin-bottom:36px; }
+      #collezione .sez-intro { font-size:15px; }
+      .prove .label { margin-bottom:20px; }
+      .prove-lista { gap:0; }
+      .prove-lista li { padding:18px 0 20px; }
+      .prove-lista h3 { font-size:15px; margin-bottom:4px; }
+      .prove-lista p { font-size:14px; }
+      .prove-link { margin-top:24px; }
+      .stampa .sez-testa { margin-bottom:24px; }
+      .fiere-riga { flex-direction:column; gap:8px; padding:0; margin:0 0 36px; border:0; }
+      .fiere-riga li { font-size:16px; font-weight:400; color:var(--text); padding:0 0 0 22px; border:0; position:relative; }
+      .fiere-riga li::before { content:''; position:absolute; left:0; top:.72em; width:12px; height:1px; background:var(--accent); }
+      .citazioni { gap:0; border-bottom:1px solid var(--border); }
+      .cit { gap:8px; padding:20px 0 22px; border-top:1px solid var(--border); }
+      .cit-testata { font-size:10px; letter-spacing:.14em; }
+      .cit-titolo { font-size:17px; line-height:1.4; }
+      .cit-leggi { font-size:10px; margin-top:4px; }
+      .tech-testo h2 { font-size:30px; }
+    }
   </style>
 </head>
 <body class="page-home">
@@ -662,9 +689,9 @@
         <div class="tech-canvas-wrap"><canvas id="vaseCanvas" aria-label="Vaso Blade in 3D"></canvas><p class="tech-hint">Trascina per girarlo</p></div>
         <div class="tech-testo">
           <p class="label">Esperienza</p>
-          <h2>Giralo. <strong>Guardalo cambiare.</strong></h2>
-          <p>Il Blade nasce da una linea che ruota e sale nello spazio. Muovilo e osserva come cambia la sua silhouette, piega dopo piega.</p>
-          <p>La fabbricazione digitale è ciò che rende possibile questa forma: la costruiamo un sottile strato alla volta.</p>
+          <h2>Ruota nello spazio. <strong>Anche da fermo.</strong></h2>
+          <p>Il Blade nasce da una torsione: le sue pieghe salgono avvolgendosi attorno al centro, e anche immobile sembra girare su se stesso. Trascinalo e seguilo in tutte e tre le dimensioni.</p>
+          <p>È la fabbricazione digitale a rendere possibile questa geometria: la costruiamo un sottile strato alla volta.</p>
           <a href="esplora-blade.html" class="btn btn-chiaro">Esplora il Blade in 3D</a>
         </div>
       </div>
