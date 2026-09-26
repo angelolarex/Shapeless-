@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shapeless | Design in movimento — vasi e lampade progettati in Italia</title>
+  <meta name="robots" content="noindex">
+  <meta name="description" content="Vasi e lampade progettati in Italia per dare movimento e carattere agli spazi che vivi. Realizzati su ordinazione, in un materiale di origine vegetale. Scopri Bombato, Blade e Vulcano.">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* Homepage: label hero più marcata */
+    .hero .label { font-weight: 600; letter-spacing: 0.22em; }
+
+    /* Sezione "Il progetto": immagine leggermente più grande del testo */
+    .grid-2-wide { grid-template-columns: 1.25fr 1fr; gap: 64px; }
+    @media (max-width: 900px) {
+      .grid-2-wide { grid-template-columns: 1fr; gap: 40px; }
+    }
+  </style>
+
+  <style>
+    /* ===== ANTEPRIMA home v12 — un solo sistema: tutto allineato a sinistra ===== */
+    :root { --bordeaux-grande:#6b1f45; }
+    /* sezioni */
+    .sez { padding:96px 0; border-bottom:1px solid var(--border); }
+    .sez-bordeaux { background:var(--bordeaux-grande); color:#fff; border-bottom:0; }
+    .sez-testa { max-width:640px; margin:0 0 48px; }
+    .sez-testa h2 { margin:10px 0 0; text-wrap:balance; }
+    .sez-intro { margin:18px 0 0; color:var(--text-muted); }
+    .sez-intro strong { color:var(--text); font-weight:600; }
+    .sez-cta { margin-top:56px; display:flex; flex-direction:column; align-items:flex-start; gap:14px; }
+    .sez-nota { margin:0; font-size:13px; color:var(--text-muted); }
+    /* pulsanti */
+    .btn-prim { background:var(--accent); border-color:var(--accent); color:#fff; min-width:260px; text-align:center; }
+    .btn-prim:hover { background:var(--accent2); border-color:var(--accent2); color:#fff; }
+    .btn-sec { min-width:220px; text-align:center; }
+    .btn-sec:hover { background:var(--text); color:var(--bg); }
+    .btn-chiaro { color:#fff; border-color:rgba(255,255,255,.75); min-width:240px; text-align:center; margin-top:12px; }
+    .btn-chiaro:hover { background:#fff; color:var(--accent); }
+    .link-freccia { font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); }
+    .link-freccia span { display:inline-block; transition:transform .25s; }
+    .link-freccia:hover span { transform:translateX(4px); }
+    .cta-doppia { display:flex; align-items:center; gap:28px; flex-wrap:wrap; margin-top:40px; }
+
+    /* hero */
+    .hf { position:relative; margin-top:var(--nav-h); height:min(86vh, 900px); min-height:560px; overflow:hidden; background:#8a4e3b; color:#fff; }
+    .hf-foto { position:absolute; inset:0; overflow:hidden; }
+    .hf-img { width:100%; height:100%; object-fit:cover; object-position:50% 42%; transform-origin:62% 60%; animation:hf-zoom 16s ease-in-out infinite alternate; }
+    @keyframes hf-zoom { from { transform:scale(1); } to { transform:scale(1.07); } }
+    .hf-velo { position:absolute; inset:0; pointer-events:none; background:linear-gradient(90deg, rgba(52,18,14,.66) 0%, rgba(52,18,14,.40) 24%, rgba(52,18,14,0) 42%); }
+    .hf-in { position:relative; z-index:2; height:100%; max-width:var(--max); margin:0 auto; padding:0 40px; display:flex; align-items:center; }
+    .hf-testo { max-width:400px; }
+    .hf-testo > * { animation:hf-su .9s cubic-bezier(.2,.7,.2,1) both; }
+    .hf-testo > :nth-child(2) { animation-delay:.12s; } .hf-testo > :nth-child(3) { animation-delay:.24s; } .hf-testo > :nth-child(4) { animation-delay:.36s; }
+    @keyframes hf-su { from { transform:translateY(12px); } to { transform:none; } }
+    .hf-label { font-size:11px; font-weight:600; letter-spacing:.24em; text-transform:uppercase; color:rgba(255,255,255,.82); margin:0 0 14px; }
+    .hf-h1 { font-size:clamp(40px, 4vw, 58px); line-height:1.06; font-weight:700; letter-spacing:-.01em; color:#fff; margin:0 0 20px; text-wrap:balance; }
+    .hf-h1 em { font-style:normal; font-weight:200; }
+    .hf-sub { font-size:16px; line-height:1.6; color:rgba(255,255,255,.9); margin:0 0 28px; }
+    .hf-btn { display:inline-block; padding:15px 30px; background:#fff; color:var(--accent); font-size:11px; font-weight:600; letter-spacing:.2em; text-transform:uppercase; border:1px solid #fff; transition:background .25s, color .25s; }
+    .hf-btn:hover { background:transparent; color:#fff; }
+    @media (prefers-reduced-motion: reduce) { .hf-img, .hf-testo > * { animation:none; } }
+
+    /* fiere: una frase, niente maiuscole */
+    .fiere { padding:20px 0; border-bottom:1px solid var(--border); }
+    .fiere p { margin:0; font-size:14px; color:var(--text-muted); }
+    .fiere strong { font-weight:500; color:var(--text); }
+
+    /* prodotti */
+    .prodotti { display:grid; grid-template-columns:repeat(3, 1fr); gap:32px; }
+    .pc { display:block; color:var(--text); }
+    .pc-img { aspect-ratio:4/5; display:flex; align-items:flex-end; justify-content:center; padding:0 6% 4%; margin-bottom:18px; }
+    .pc-img img { width:84%; height:88%; object-fit:contain; object-position:center bottom; transition:transform .5s cubic-bezier(.2,.7,.2,1); }
+    .pc-img img.pc-larga { width:92%; }
+    .pc-img img.pc-bassa { height:74%; }
+    .pc:hover .pc-img img { transform:translateY(-6px); }
+    .pc-riga { display:flex; justify-content:space-between; align-items:baseline; gap:12px; }
+    .pc-riga h3 { font-size:15px; font-weight:600; letter-spacing:.02em; margin:0; }
+    .pc-prezzo { font-size:15px; }
+    .pc-desc { margin:4px 0 0; font-size:13px; color:var(--text-muted); }
+    .pc-colori { display:flex; align-items:center; gap:6px; margin-top:12px; }
+    .pc-colori i { width:12px; height:12px; border-radius:50%; box-shadow:inset 0 0 0 1px rgba(0,0,0,.12); }
+    .pc-colori span { font-size:12px; color:var(--text-muted); margin-left:6px; }
+
+    /* 3D */
+    .tech-grid { display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center; }
+    .tech-canvas-wrap { position:relative; height:540px; }
+    .tech-canvas-wrap canvas { width:100%; height:100%; display:block; cursor:grab;
+      -webkit-mask-image:linear-gradient(180deg, transparent 0%, #000 8%, #000 82%, transparent 100%); mask-image:linear-gradient(180deg, transparent 0%, #000 8%, #000 82%, transparent 100%); }
+    .tech-canvas-wrap canvas:active { cursor:grabbing; }
+    .tech-hint { position:absolute; left:0; right:0; bottom:4px; text-align:center; font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:rgba(255,214,228,.55); margin:0; transition:opacity .4s; pointer-events:none; }
+    .tech-3d.ruotato .tech-hint { opacity:0; }
+    .sez-bordeaux .label { color:rgba(255,255,255,.7); }
+    .sez-bordeaux h2, .sez-bordeaux h2 strong { color:#fff; }
+    .tech-testo h2 { margin:10px 0 24px; }
+    .tech-testo p { color:rgba(255,255,255,.8); max-width:480px; }
+
+    /* perché */
+    .perche { display:grid; grid-template-columns:1.2fr 1fr; gap:64px; align-items:center; }
+    .perche-foto { margin:0; }
+    .perche-foto img { width:100%; aspect-ratio:3/2; object-fit:cover; display:block; border-radius:2px; }
+    .valori { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:28px; }
+    .valori h3 { font-size:17px; font-weight:600; margin:0 0 6px; color:var(--text); letter-spacing:0; text-transform:none; }
+    .valori p { margin:0; color:var(--text-muted); }
+
+    /* stampa */
+    .pl { list-style:none; margin:0; padding:0; border-bottom:1px solid var(--border); max-width:920px; }
+    .pl li { border-top:1px solid var(--border); }
+    .pl a { display:grid; grid-template-columns:64px 200px 1fr 24px; gap:24px; align-items:baseline; padding:26px 0; color:var(--text); }
+    .pl-anno { font-size:12px; color:var(--text-muted); font-variant-numeric:tabular-nums; }
+    .pl-testata { font-size:12px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); }
+    .pl-titolo { font-size:19px; font-weight:300; line-height:1.4; }
+    .pl-freccia { color:var(--accent); transition:transform .25s; justify-self:end; }
+    .pl a:hover .pl-titolo { color:var(--accent); }
+    .pl a:hover .pl-freccia { transform:translateX(4px); }
+
+    /* newsletter */
+    .nl { background:var(--bordeaux-grande); color:#fff; }
+    .nl-box { display:grid; grid-template-columns:1fr 1fr; }
+    .nl-foto img { width:100%; height:100%; min-height:460px; object-fit:cover; display:block; }
+    .nl-testo { padding:72px clamp(28px, 6vw, 96px); display:flex; flex-direction:column; justify-content:center; }
+    .nl-testo .label { color:rgba(255,255,255,.7); }
+    .nl-testo h2, .nl-testo h2 strong { color:#fff; }
+    .nl-testo h2 { margin:10px 0 16px; }
+    .nl-testo > p { color:rgba(255,255,255,.82); margin:0 0 28px; max-width:440px; }
+    .nl-sr { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); }
+    .newsletter-form.nl-form { display:flex !important; flex-direction:row !important; max-width:460px; border-bottom:1px solid rgba(255,255,255,.8); gap:0; }
+    .newsletter-form.nl-form input { flex:1 1 auto; min-width:0; background:transparent; border:0 !important; padding:14px 0; font-size:15px; color:#fff; outline:none; }
+    .newsletter-form.nl-form input::placeholder { color:rgba(255,255,255,.6); }
+    .newsletter-form.nl-form button { background:transparent; border:0; padding:14px 0 14px 18px; color:#fff; font-size:11px; font-weight:600; letter-spacing:.18em; text-transform:uppercase; white-space:nowrap; cursor:pointer; }
+    .newsletter-form.nl-form button span { display:inline-block; margin-left:6px; transition:transform .25s; }
+    .newsletter-form.nl-form button:hover span { transform:translateX(4px); }
+    .nl-form:focus-within { border-bottom-color:#fff; }
+    .nl-privacy { font-size:12px; color:rgba(255,255,255,.6); margin:14px 0 0; }
+    .nl-privacy a { color:#fff; text-decoration:underline; text-underline-offset:3px; }
+
+    @media (min-width: 901px) and (max-width: 1200px) {
+      .nav-links { gap:22px; }
+      .nav-links a, .nav-links span { white-space:nowrap; }
+    }
+    /* telefono e tablet */
+    @media (max-width: 900px), (max-width: 1024px) and (orientation: portrait) {
+      .hf { height:auto; min-height:0; display:flex; flex-direction:column; background:linear-gradient(180deg, #7e4a30 0%, #6a3524 55%, #56291c 100%); }
+      .hf-foto { order:1; position:relative; inset:auto; aspect-ratio:20/17;
+        -webkit-mask-image:linear-gradient(180deg, #000 80%, transparent 100%); mask-image:linear-gradient(180deg, #000 80%, transparent 100%); }
+      .hf-img { transform-origin:50% 60%; }
+      .hf-velo { display:none; }
+      .hf-in { order:2; height:auto; padding:0 24px 40px; margin-top:-20px; display:block; }
+      .hf-testo { max-width:560px; }
+      .hf-btn { display:block; text-align:center; max-width:420px; }
+      .tech-grid, .perche, .nl-box { grid-template-columns:1fr; gap:40px; }
+      .nl-foto img { min-height:0; aspect-ratio:16/9; }
+      .nl-testo { padding:48px 24px 56px; }
+    }
+    @media (min-width: 601px) and (max-width: 1024px) and (orientation: portrait) {
+      .hf-foto { aspect-ratio:16/10; }
+      .hf-h1 { font-size:44px; }
+      .prodotti { gap:20px; }
+      .tech-canvas-wrap { height:440px; }
+      .nl-box { grid-template-columns:1fr 1fr; gap:0; }
+      .nl-foto img { aspect-ratio:auto; height:100%; min-height:420px; }
+      .nl-testo { padding:48px 36px; }
+    }
+    @media (max-width: 600px) {
+      .sez { padding:64px 0; }
+      .sez-testa { margin-bottom:32px; }
+      .hf-label { font-size:10px; margin-bottom:10px; }
+      .hf-h1 { font-size:32px; line-height:1.08; margin-bottom:14px; }
+      .hf-sub { font-size:15px; line-height:1.5; margin-bottom:22px; }
+      .fiere { padding:16px 0; }
+      .fiere p { font-size:13px; line-height:1.5; }
+      /* vasi: scorrono di lato, si vede un pezzo del successivo */
+      .prodotti { display:flex; overflow-x:auto; scroll-snap-type:x mandatory; scroll-padding-left:24px; gap:16px; margin:0 -24px; padding:0 24px 6px; scrollbar-width:none; }
+      .prodotti::-webkit-scrollbar { display:none; }
+      .pc { flex:0 0 76%; scroll-snap-align:start; }
+      .sez-cta { margin-top:36px; align-items:stretch; }
+      .btn-prim, .btn-sec, .btn-chiaro { width:100%; min-width:0; }
+      .cta-doppia { flex-direction:column; align-items:stretch; gap:20px; text-align:center; }
+      .tech-canvas-wrap { height:340px; }
+      .tech-grid { gap:24px; }
+      .pl a { grid-template-columns:auto 1fr 20px; grid-template-areas:"anno testata freccia" "titolo titolo titolo"; gap:8px 14px; padding:22px 0; }
+      .pl-anno { grid-area:anno; } .pl-testata { grid-area:testata; } .pl-freccia { grid-area:freccia; } .pl-titolo { grid-area:titolo; font-size:17px; }
+    }
+  </style>
+  <style>
+    /* ===== v13: prodotti su piedistallo, newsletter nel contenitore ===== */
+    .pc-img { aspect-ratio:1/1; background:#ebe8e4; border-radius:2px; display:flex; align-items:center; justify-content:center; padding:10%; margin-bottom:16px; }
+    .pc-img img, .pc-img img.pc-larga, .pc-img img.pc-bassa { width:100%; height:100%; object-fit:contain; object-position:center; }
+    .pc-img img.pc-larga { width:92%; }
+    .pc-img img.pc-bassa { height:88%; }
+    .pc:hover .pc-img img { transform:scale(1.03); }
+    .pc-nome { font-size:16px; font-weight:600; letter-spacing:.01em; margin:0; }
+    .pc-desc { margin:4px 0 0; }
+    .nl { padding:96px 0; }
+    .nl-box { display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center; }
+    .nl-foto img { width:100%; height:auto; min-height:0; aspect-ratio:4/3; object-fit:cover; object-position:50% 70%; border-radius:2px; }
+    .nl-testo { padding:0; }
+    @media (max-width: 900px), (max-width: 1024px) and (orientation: portrait) {
+      .nl-box { grid-template-columns:1fr; gap:32px; }
+      .nl-foto img { aspect-ratio:4/3; }
+      .nl-testo { padding:0; }
+    }
+    @media (min-width: 601px) and (max-width: 1024px) and (orientation: portrait) {
+      .nl-box { grid-template-columns:1fr 1fr; gap:40px; }
+      .nl-foto img { aspect-ratio:3/4; min-height:0; height:auto; }
+      .nl-testo { padding:0; }
+    }
+    @media (max-width: 600px) {
+      .nl { padding:64px 0; }
+      .pc { flex:0 0 68%; }
+      .pc-img { margin-bottom:14px; }
+    }
+  </style>
+  <style>
+    /* ===== v14 ===== */
+    .sez-testa-centro { text-align:center; margin-left:auto; margin-right:auto; }
+    /* vasi: niente riquadro, in scala e appoggiati sulla stessa base */
+    .pc-img { background:none !important; aspect-ratio:4/5; padding:0 !important; display:flex; align-items:flex-end; justify-content:center; margin-bottom:18px; }
+    .pc-img img { width:auto !important; max-width:100%; object-fit:contain; object-position:center bottom; display:block; transform-origin:center bottom; }
+    .pc:hover .pc-img img { transform:translateY(-4px); }
+    /* newsletter: campo chiaro + pulsante pieno */
+    .newsletter-form.nl-form2 { border-bottom:0 !important; max-width:480px; gap:10px; flex-wrap:nowrap; }
+    .newsletter-form.nl-form2 input { background:rgba(255,255,255,.10) !important; border:1px solid rgba(255,255,255,.55) !important; padding:16px 18px !important; font-size:15px; color:#fff; border-radius:2px; }
+    .newsletter-form.nl-form2 input:focus { border-color:#fff !important; background:rgba(255,255,255,.16) !important; }
+    .newsletter-form.nl-form2 button { background:#fff !important; color:var(--accent) !important; padding:16px 24px !important; border-radius:2px; }
+    .newsletter-form.nl-form2 button:hover { background:#f3e7ec !important; }
+    .nl-form2:focus-within { border-bottom:0 !important; }
+    @media (max-width: 600px) {
+      .newsletter-form.nl-form2 { flex-direction:column !important; }
+      .newsletter-form.nl-form2 input, .newsletter-form.nl-form2 button { width:100%; }
+    }
+  </style>
+  <style>
+    /* ===== v15 ===== */
+    /* perché: valori separati da linee sottili */
+    .valori { gap:0; border-bottom:1px solid var(--border); }
+    .valori li { display:grid; grid-template-columns:minmax(150px, 38%) 1fr; gap:8px 28px; padding:22px 0; border-top:1px solid var(--border); position:relative; }
+    .valori li::before { content:''; position:absolute; top:-1px; left:0; width:32px; height:2px; background:var(--accent); }
+    .valori h3 { margin:0; font-size:16px; }
+    .valori p { font-size:15px; line-height:1.6; }
+    .cta-doppia { margin-top:36px; }
+    /* vasi: testi centrati sotto le immagini */
+    .pc { text-align:center; }
+    .pc-colori { justify-content:center; }
+    .sez-cta { align-items:center; text-align:center; }
+    /* newsletter chiara e raccolta */
+    .nl3 { padding:96px 0 104px; }
+    .nl3-foto { margin:0 0 48px; }
+    .nl3-foto img { width:100%; aspect-ratio:21/9; object-fit:cover; object-position:50% 72%; display:block; border-radius:2px; }
+    .nl3-testo { max-width:560px; margin:0 auto; text-align:center; }
+    .nl3-testo h2 { margin:10px 0 16px; }
+    .nl3-testo > p { color:var(--text-muted); margin:0 auto 32px; }
+    .newsletter-form.nl3-form { display:flex !important; flex-direction:row !important; max-width:440px; margin:0 auto; border-bottom:1px solid var(--text); gap:0; }
+    .newsletter-form.nl3-form input { flex:1 1 auto; min-width:0; background:transparent !important; border:0 !important; padding:14px 0 !important; font-size:15px; color:var(--text); outline:none; }
+    .newsletter-form.nl3-form input::placeholder { color:#8a8280; }
+    .newsletter-form.nl3-form button { background:transparent !important; border:0 !important; padding:14px 0 14px 16px !important; color:var(--accent) !important; font-size:11px; font-weight:600; letter-spacing:.18em; text-transform:uppercase; white-space:nowrap; cursor:pointer; }
+    .newsletter-form.nl3-form button span { display:inline-block; margin-left:6px; transition:transform .25s; }
+    .newsletter-form.nl3-form button:hover span { transform:translateX(4px); }
+    .nl3-form:focus-within { border-bottom-color:var(--accent); }
+    .nl3-privacy { font-size:12px; color:var(--text-muted); margin:16px 0 0; }
+    .nl3-privacy a { color:var(--text); text-decoration:underline; text-underline-offset:3px; }
+    /* stacco dal piè di pagina */
+    footer { margin-top:0; }
+    .nl3 + footer, .nl3 ~ footer { border-top:1px solid rgba(0,0,0,.10); }
+    @media (max-width: 600px) {
+      .valori li { grid-template-columns:1fr; gap:6px; padding:20px 0; }
+      .nl3 { padding:64px 0 72px; }
+      .nl3-foto { margin-bottom:36px; }
+      .nl3-foto img { aspect-ratio:4/3; }
+      .nl3-testo { text-align:left; }
+      .newsletter-form.nl3-form { margin:0; }
+    }
+  </style>
+  <style>
+    /* ===== v16 ===== */
+    .sez-perche { padding-top:64px; }
+    /* newsletter: campo bianco ben visibile + pulsante pieno attaccato */
+    .newsletter-form.nl3-form { border-bottom:0 !important; max-width:460px; background:#fff; border:1px solid #cdc5c2 !important; border-radius:2px; overflow:hidden; }
+    .newsletter-form.nl3-form input { padding:16px 16px !important; color:var(--text); }
+    .newsletter-form.nl3-form button { background:var(--accent) !important; color:#fff !important; padding:16px 22px !important; }
+    .newsletter-form.nl3-form button:hover { background:var(--accent2) !important; }
+    .nl3-form:focus-within { border-color:var(--accent) !important; box-shadow:0 0 0 3px rgba(107,31,69,.10); }
+    @media (max-width: 600px) {
+      .sez-perche { padding-top:40px; }
+      .newsletter-form.nl3-form button { padding:16px 16px !important; letter-spacing:.14em; }
+    }
+  </style>
+  <style>
+    /* ===== v17: computer e tablet in orizzontale ===== */
+    @media (min-width: 901px) and (orientation: landscape), (min-width: 1025px) {
+      /* in alto: foto Solaris a tutta larghezza, testo bianco sul muro libero a sinistra */
+      .hf { height:min(84vh, 880px); min-height:540px; background:#6f3a2a; }
+      .hf-foto { inset:0; left:0; -webkit-mask-image:none; mask-image:none; }
+      .hf-foto picture { display:block; width:100%; height:100%; }
+      .hf-img { object-position:62% 50%; transform-origin:72% 60%; }
+      .hf-velo { display:block; background:linear-gradient(90deg, rgba(40,14,10,.38) 0%, rgba(40,14,10,.20) 34%, rgba(40,14,10,0) 52%); }
+      .hf-in { max-width:none; padding:0 0 0 clamp(40px, 7vw, 150px); }
+      .hf-testo { max-width:min(440px, 32vw); }
+      .hf-h1 { font-size:clamp(38px, 3.9vw, 64px); }
+      /* testate centrate dove i contenuti sono centrati */
+      #collezione .sez-testa { text-align:center; margin-left:auto; margin-right:auto; }
+      #collezione .sez-intro { margin-left:auto; margin-right:auto; }
+      /* perché: foto e valori */
+      .perche { grid-template-columns:1.15fr 1fr; gap:72px; }
+      .valori li { grid-template-columns:minmax(180px, 42%) 1fr; }
+      /* 3D */
+      .tech-grid { grid-template-columns:1.1fr 1fr; }
+      /* newsletter: foto un po' meno larga */
+      .nl3-foto { max-width:1040px; margin-left:auto; margin-right:auto; }
+    }
+    @media (min-width: 901px) and (max-width: 1180px) and (orientation: landscape) {
+      .sez { padding:80px 0; }
+      .hf-in { padding-left:40px; }
+      .hf-testo { max-width:340px; }
+      .hf-sub { font-size:15px; }
+      .tech-canvas-wrap { height:460px; }
+      .perche { gap:48px; }
+      .valori li { grid-template-columns:1fr; gap:6px; }
+    }
+  </style>
+  <style>
+    /* ===== v18 ===== */
+    /* tablet verticale: foto più alta, così i vasi si possono centrare */
+    @media (min-width: 601px) and (max-width: 1024px) and (orientation: portrait) {
+      .hf-foto { aspect-ratio:4/3; }
+    }
+    /* computer e tablet orizzontale: foto Solaris intera in altezza (si vede sotto la base dei vasi), spostata a destra */
+    @media (min-width: 901px) and (orientation: landscape), (min-width: 1025px) {
+      .hf { height:clamp(480px, 50vw, 88vh); min-height:0; background:#5a2c1f; }
+      .hf-img { object-position:100% 70%; transform-origin:80% 45%; animation-name:hf-zoom-d; }
+      @keyframes hf-zoom-d { from { transform:scale(1); } to { transform:scale(1.035); } }
+      .hf-velo { background:linear-gradient(90deg, rgba(40,14,10,.42) 0%, rgba(40,14,10,.22) 30%, rgba(40,14,10,0) 44%); }
+      .hf-in { padding-left:clamp(32px, 5vw, 120px); }
+      .hf-testo { max-width:min(400px, 30vw); }
+      .hf-h1 { font-size:clamp(34px, 3.5vw, 60px); }
+      .hf-sub { font-size:clamp(14px, 1.15vw, 17px); }
+    }
+    /* newsletter: foto intera, senza tagli */
+    .nl3 { padding:88px 0 64px; }
+    .nl3-foto { max-width:820px; margin:0 auto 40px; }
+    .nl3-foto img { aspect-ratio:2000/1497 !important; object-position:50% 50% !important; }
+    /* piè di pagina */
+    footer { padding:56px 0 32px; background:#efedea; }
+    .footer-grid { grid-template-columns:1.5fr 1fr 1fr 1.2fr; gap:40px; margin-bottom:40px; }
+    .footer-brand > p { display:block !important; font-size:13px; line-height:1.6; color:var(--text-muted); max-width:300px; margin:-8px 0 0; }
+    .footer-col h5 { font-size:11px; font-weight:600; letter-spacing:.16em; margin:0 0 16px; }
+    .footer-col a { font-size:14px; padding:5px 0; }
+    .footer-col p { font-size:13px !important; line-height:1.6; }
+    .footer-bottom { padding-top:24px; }
+    .footer-bottom p, .footer-bottom a { font-size:12px !important; }
+    @media (max-width: 900px) {
+      .footer-grid { grid-template-columns:1fr 1fr; gap:32px 24px; }
+      .footer-brand { grid-column:1 / -1; }
+      .footer-col:last-child { grid-column:1 / -1; }
+    }
+    @media (max-width: 600px) {
+      .nl3 { padding:56px 0 40px; }
+      .nl3-foto { margin-bottom:28px; }
+      footer { padding:44px 0 28px; }
+      .footer-grid { margin-bottom:28px; }
+      .footer-bottom { flex-direction:column; align-items:flex-start; gap:10px; }
+    }
+  </style>
+  <style>
+    /* ===== v19 ===== */
+    @media (min-width: 901px) and (orientation: landscape), (min-width: 1025px) {
+      /* vasi un filo più grandi, testo un filo più grande */
+      .hf-img { transform-origin:92% 62%; animation-name:hf-zoom-d2; }
+      @keyframes hf-zoom-d2 { from { transform:scale(1.08); } to { transform:scale(1.11); } }
+      .hf-h1 { font-size:clamp(36px, 3.8vw, 64px); }
+      .hf-sub { font-size:clamp(15px, 1.25vw, 18px); }
+      .hf-testo { max-width:min(430px, 32vw); }
+      /* fascia bordeaux 3D: meno colore pieno sopra e sotto */
+      .tech-3d.sez { padding:56px 0; }
+      .tech-canvas-wrap { height:470px; }
+    }
+    @media (max-width: 900px), (max-width: 1024px) and (orientation: portrait) {
+      .tech-3d.sez { padding:48px 0 56px; }
+    }
+    @media (prefers-reduced-motion: reduce) { .hf-img { transform:scale(1.08); } }
+  </style>
+  <style>
+    /* ===== v20: foto newsletter, un po' meno cielo e meno pavimento ===== */
+    .nl3-foto img { aspect-ratio:16/10 !important; object-position:50% 38% !important; }
+  </style>
+  <style>
+    /* ===== Lampada che si accende allo scroll (sezione "Non riempiamo gli spazi") ===== */
+    .perche-foto.lampada-foto { overflow:hidden; border-radius:2px; background:#0d0b10; }
+    .perche-foto.lampada-foto img { aspect-ratio:1/1; object-position:50% 55%; }
+    @media (max-width: 600px) {
+      .perche-foto.lampada-foto img { aspect-ratio:4/5; object-position:50% 46%; }
+    }
+    /* Computer e tablet orizzontale: titolo accanto alla foto, foto verticale, valori uno sotto l'altro */
+    .perche-testa-pc { display:none; }
+    @media (min-width: 901px) and (orientation: landscape), (min-width: 1025px) {
+      .sez-perche .sez-testa-centro { display:none; }
+      .perche-testa-pc { display:block; margin:0 0 36px; }
+      .perche-testa-pc h2 { margin:0; font-size:clamp(30px, 2.7vw, 44px); line-height:1.12; }
+      .perche-testa-pc .sez-intro { margin:18px 0 0; max-width:32em; }
+      .perche { grid-template-columns:1fr 1fr; gap:88px; align-items:center; }
+      .perche-foto.lampada-foto img { aspect-ratio:4/5; object-position:50% 46%; }
+      .valori li { grid-template-columns:1fr; gap:6px; padding:20px 0; }
+      .valori p { max-width:34em; }
+    }
+    @media (min-width: 901px) and (max-width: 1180px) and (orientation: landscape) {
+      .perche { gap:56px; }
+    }
+    .lampada-foto.spenta img { filter:brightness(.28) saturate(.7); }
+    .lampada-foto.accesa img { animation:lampadaAccensione 1.9s ease-out both; }
+    @keyframes lampadaAccensione {
+      0%   { filter:brightness(.30) saturate(.75); }
+      30%  { filter:brightness(.42) saturate(.8); }
+      36%  { filter:brightness(.78) saturate(.95); }
+      40%  { filter:brightness(.38) saturate(.8); }
+      46%  { filter:brightness(.92) saturate(1); }
+      50%  { filter:brightness(.55) saturate(.88); }
+      55%  { filter:brightness(1.05) saturate(1); }
+      59%  { filter:brightness(.8) saturate(.95); }
+      66%  { filter:brightness(1.04) saturate(1); }
+      100% { filter:brightness(1) saturate(1); }
+    }
+  </style>
+  <style>
+    /* ===================== HOME PREMIUM 2.0 ===================== */
+    /* 02 emozione: solo foto + titolo (su computer testo centrato in altezza accanto alla foto) */
+    .emozione { border-bottom:0; }
+    @media (min-width: 901px) and (orientation: landscape), (min-width: 1025px) {
+      .emozione { padding:96px 0 104px; }
+      .emozione .perche { grid-template-columns:1.05fr 1fr; gap:clamp(56px, 7vw, 112px); }
+      .emozione .perche-testa-pc { margin:0; }
+      .emozione .perche-testa-pc h2 { font-size:clamp(30px, 2.9vw, 48px); line-height:1.1; }
+      .emozione .perche-testa-pc .sez-intro { font-size:clamp(16px, 1.2vw, 18px); line-height:1.7; max-width:26em; margin-top:28px; }
+    }
+
+    /* 03 filosofia: sezione editoriale, solo tipografia, tanto spazio */
+    .filo { background:#ece7e1; border-bottom:0; padding:clamp(96px, 13vw, 184px) 0; }
+    .filo .label { margin:0 0 20px; }
+    .filo-h2 { font-size:clamp(40px, 6.4vw, 96px); font-weight:300; line-height:1.02; letter-spacing:-.02em; margin:0; max-width:14ch; }
+    .filo-h2 strong { font-weight:700; display:block; }
+    .filo-righe { margin:clamp(48px, 6vw, 88px) 0 0; }
+    .filo-righe p { font-size:clamp(21px, 2.5vw, 36px); font-weight:300; line-height:1.35; color:var(--text); margin:0 0 .35em; }
+    .filo-righe p:nth-child(2) { margin-left:clamp(20px, 9vw, 150px); }
+    .filo-righe p:nth-child(3) { margin-left:clamp(40px, 18vw, 300px); }
+    .filo-chiusa { margin:clamp(40px, 5vw, 72px) 0 0 clamp(40px, 18vw, 300px); max-width:30em; font-size:clamp(15px, 1.15vw, 17px); line-height:1.75; color:var(--text-muted); padding-top:24px; border-top:1px solid rgba(0,0,0,.14); position:relative; }
+    .filo-chiusa::before { content:''; position:absolute; top:-1px; left:0; width:32px; height:2px; background:var(--accent); }
+    /* le tre righe entrano scalando, ogni volta che la sezione torna nello schermo */
+    .filo.pronta .filo-righe p, .filo.pronta .filo-chiusa { opacity:0; transform:translateX(-28px); }
+    .filo.in-vista .filo-righe p, .filo.in-vista .filo-chiusa { opacity:1; transform:none; transition:opacity .9s ease, transform 1.1s cubic-bezier(.2,.7,.2,1); }
+    .filo.in-vista .filo-righe p:nth-child(2) { transition-delay:.18s; }
+    .filo.in-vista .filo-righe p:nth-child(3) { transition-delay:.36s; }
+    .filo.in-vista .filo-chiusa { transition-delay:.6s; }
+    @media (max-width: 600px) {
+      .filo-righe p { font-size:19px; }
+      .filo-righe p:nth-child(2) { margin-left:18px; }
+      .filo-righe p:nth-child(3) { margin-left:36px; }
+      .filo-chiusa { margin-left:0; }
+    }
+
+    /* 04 collezione: più aria, solo nome */
+    #collezione .sez-testa { margin-bottom:56px; }
+    #collezione .sez-intro { font-size:17px; }
+    .pc-colori { margin-top:14px; gap:5px; }
+    .pc-colori i { width:9px; height:9px; }
+    @media (min-width: 901px) and (orientation: landscape), (min-width: 1025px) {
+      .prodotti { gap:clamp(32px, 4vw, 64px); }
+      #collezione .sez-cta { margin-top:64px; }
+    }
+
+    /* 05 prove: fascia sottile, conferma del valore */
+    .prove { padding:72px 0; background:var(--bg); }
+    .prove .label { margin:0 0 28px; }
+    .prove-lista { list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(3, 1fr); gap:clamp(24px, 4vw, 64px); }
+    .prove-lista li { border-top:1px solid var(--border); padding-top:22px; position:relative; }
+    .prove-lista li::before { content:''; position:absolute; top:-1px; left:0; width:32px; height:2px; background:var(--accent); }
+    .prove-lista h3 { font-size:15px; font-weight:600; letter-spacing:0; text-transform:none; margin:0 0 8px; color:var(--text); }
+    .prove-lista p { font-size:14px; line-height:1.65; color:var(--text-muted); margin:0; max-width:26em; }
+    .prove-link { display:flex; gap:32px; flex-wrap:wrap; margin-top:36px; }
+    @media (max-width: 600px) {
+      .prove { padding:56px 0; }
+      .prove-lista { grid-template-columns:1fr; gap:24px; }
+      .prove-link { gap:20px 28px; }
+    }
+
+    /* 07 stampa e fiere: fiere in grande, citazioni come schede editoriali */
+    .stampa .sez-testa { margin-bottom:40px; }
+    .fiere-riga { list-style:none; margin:0 0 56px; padding:28px 0; display:flex; flex-wrap:wrap; gap:12px 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+    .fiere-riga li { font-size:clamp(20px, 2.4vw, 34px); font-weight:300; letter-spacing:-.01em; color:var(--text); padding:0 clamp(18px, 3vw, 44px); border-left:1px solid var(--border); }
+    .fiere-riga li:first-child { padding-left:0; border-left:0; }
+    .citazioni { display:grid; grid-template-columns:repeat(2, 1fr); max-width:1000px; gap:clamp(20px, 3vw, 40px); }
+    .cit { display:flex; flex-direction:column; gap:18px; padding:28px 0 0; border-top:2px solid var(--text); color:var(--text); }
+    .cit-testata { font-size:11px; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); }
+    .cit-titolo { font-size:clamp(19px, 1.7vw, 24px); font-weight:300; line-height:1.35; }
+    .cit-leggi { margin-top:auto; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--text-muted); }
+    .cit-leggi span { display:inline-block; transition:transform .25s; }
+    .cit:hover .cit-titolo { color:var(--accent); }
+    .cit:hover .cit-leggi span { transform:translateX(4px); }
+    @media (max-width: 900px), (max-width: 1024px) and (orientation: portrait) {
+      .citazioni { grid-template-columns:1fr; gap:32px; }
+    }
+    @media (max-width: 600px) {
+      .fiere-riga { flex-direction:column; gap:10px; padding:22px 0; margin-bottom:40px; }
+      .fiere-riga li { padding:0; border-left:0; }
+    }
+
+    /* 08 newsletter: il 10% resta secondario */
+    .nl3-benvenuto { font-size:13px; color:var(--text); margin:18px 0 0; }
+    .nl3-benvenuto + .nl3-privacy { margin-top:6px; }
+  </style>
+</head>
+<body class="page-home">
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><img src="images/Logo Shapeless.png" alt="Shapeless" class="nav-logo-img"></a>
+    <ul class="nav-links">
+      <li class="nav-item">
+        <span>About</span>
+        <div class="dropdown">
+          <a href="chi-siamo.html">Chi siamo</a>
+          <a href="il-mais.html">Il Mais</a>
+          <a href="shapeless-brand.html">Shapeless</a>
+        </div>
+      </li>
+      <li class="nav-item"><a href="collab.html">Lavora con noi</a></li>
+      <li class="nav-item">
+        <span>Community</span>
+        <div class="dropdown">
+          <a href="faq.html">FAQ</a>
+          <a href="blog.html">Blog</a>
+        </div>
+      </li>
+      <li class="nav-item"><a href="contatti.html">Contatti</a></li>
+      <li class="nav-item nav-cart"><a href="carrello.html">Carrello <span class="cart-badge">0</span></a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    </div>
+  </nav>
+
+  <!-- MOBILE NAV -->
+  <div class="nav-mobile">
+    <div class="mob-group">
+      <button type="button" class="mob-section-title">About<span class="mob-chevron"></span></button>
+      <div class="mob-sub">
+        <a href="chi-siamo.html">Chi siamo</a>
+        <a href="il-mais.html">Il Mais</a>
+        <a href="shapeless-brand.html">Shapeless</a>
+      </div>
+    </div>
+    <a href="collab.html">Lavora con noi</a>
+    <div class="mob-group">
+      <button type="button" class="mob-section-title">Community<span class="mob-chevron"></span></button>
+      <div class="mob-sub">
+        <a href="faq.html">FAQ</a>
+        <a href="blog.html">Blog</a>
+      </div>
+    </div>
+    <a href="contatti.html">Contatti</a>
+    <a href="carrello.html">Carrello <span class="cart-badge">0</span></a>
+  </div>
+
+  <!-- HERO -->
+  <section class="hf">
+    <div class="hf-foto"><picture><source media="(min-width: 901px) and (orientation: landscape), (min-width: 1025px)" srcset="images/solaris-hero-1600.jpg 1600w, images/solaris-hero-2400.jpg 2400w" sizes="100vw"><img class="hf-img" src="images/IMG_1471.jpg" alt="Vasi di design Shapeless Blade, Bombato e Vulcano su fondo terracotta"></picture></div>
+    <div class="hf-velo"></div>
+    <div class="hf-in">
+      <div class="hf-testo">
+        <p class="hf-label">Design in movimento</p>
+        <h1 class="hf-h1">Forme in movimento. <em>Spazi con carattere.</em></h1>
+        <p class="hf-sub">Vasi e lampade progettati in Italia per dare movimento e carattere agli spazi che vivi.</p>
+        <a href="tutti-i-design.html" class="hf-btn">Scopri la collezione</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 EMOZIONE -->
+  <section class="sez sez-perche emozione">
+    <div class="container">
+      <header class="sez-testa sez-testa-centro">
+        <h2>Non riempiamo gli spazi. <strong>Li facciamo vivere.</strong></h2>
+        <p class="sez-intro">Basta un oggetto per cambiare il modo in cui vivi una stanza. Ogni forma Shapeless entra nello spazio senza confondersi con esso: lo attraversa, lo accende, gli dà un punto di vista.</p>
+      </header>
+      <div class="perche">
+        <figure class="perche-foto lampada-foto" id="lampadaFoto"><img src="images/lampada-sera-1024.jpg" srcset="images/lampada-sera-700.jpg 700w, images/lampada-sera-1024.jpg 1024w" sizes="(max-width: 900px) 100vw, 50vw" alt="Lampada Shapeless accesa su un tavolo, di sera, con il cielo stellato alla finestra" loading="lazy"></figure>
+        <div class="perche-testo">
+          <header class="perche-testa-pc">
+            <h2>Non riempiamo gli spazi.<br><strong>Li facciamo vivere.</strong></h2>
+            <p class="sez-intro">Basta un oggetto per cambiare il modo in cui vivi una stanza. Ogni forma Shapeless entra nello spazio senza confondersi con esso: lo attraversa, lo accende, gli dà un punto di vista.</p>
+          </header>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 FILOSOFIA -->
+  <section class="sez filo" id="filosofia">
+    <div class="container">
+      <p class="label">Filosofia</p>
+      <h2 class="filo-h2">La forma <strong>non sta mai ferma.</strong></h2>
+      <div class="filo-righe">
+        <p>Guardata da un'altra angolazione, cambia.</p>
+        <p>Colpita dalla luce, cambia.</p>
+        <p>Inserita in uno spazio, cambia ancora.</p>
+      </div>
+      <p class="filo-chiusa">È da questa idea che nasce Shapeless: progettare oggetti capaci di creare movimento, anche quando tutto intorno è fermo.</p>
+    </div>
+  </section>
+
+  <!-- 04 COLLEZIONE -->
+  <section class="sez" id="collezione">
+    <div class="container">
+      <header class="sez-testa sez-testa-centro">
+        <p class="label">Collezione</p>
+        <h2>Una collezione <strong>in movimento.</strong></h2>
+        <p class="sez-intro">Forme diverse. Un unico linguaggio.</p>
+      </header>
+      <div class="prodotti">
+        <a href="prodotto-bombato.html" class="pc">
+          <div class="pc-img"><img src="images/bombato-transparent.png" alt="Vaso di design Bombato giallo" style="height:56%"></div>
+          <h3 class="pc-nome">Bombato</h3>
+          <p class="pc-desc">Vaso scultura</p>
+          <div class="pc-colori"><i style="background:#a3444d"></i><i style="background:#0095a1"></i><i style="background:#6b1492"></i><i style="background:#dd1d76"></i><i style="background:#fed003"></i></div>
+        </a>
+        <a href="prodotto-blade.html" class="pc">
+          <div class="pc-img"><img src="images/blade-transparent.png" alt="Vaso di design Blade Red Wine" style="height:90%"></div>
+          <h3 class="pc-nome">Blade</h3>
+          <p class="pc-desc">Vaso scultura</p>
+          <div class="pc-colori"><i style="background:#a3444d"></i><i style="background:#91535d"></i><i style="background:#bcbfb0"></i><i style="background:#346371"></i><i style="background:#d8d0cd"></i></div>
+        </a>
+        <a href="prodotto-vulcano.html" class="pc">
+          <div class="pc-img"><img src="images/vulcano-transparent.png" alt="Vaso di design Vulcano antracite" style="height:67%"></div>
+          <h3 class="pc-nome">Vulcano</h3>
+          <p class="pc-desc">Vaso scultura</p>
+          <div class="pc-colori"><i style="background:#a3444d"></i><i style="background:#646666"></i><i style="background:#e7cac0"></i><i style="background:#346371"></i><i style="background:#0095a1"></i></div>
+        </a>
+      </div>
+      <div class="sez-cta">
+        <a href="tutti-i-design.html" class="btn btn-prim">Esplora la collezione</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 PROVE -->
+  <section class="sez prove">
+    <div class="container">
+      <p class="label">Dietro ogni forma</p>
+      <ul class="prove-lista">
+        <li><h3>Progettato e realizzato in Italia.</h3><p>Disegnato nel nostro studio, realizzato in Sicilia, pezzo per pezzo.</p></li>
+        <li><h3>Dal mais, non dal petrolio.</h3><p>PLA di origine vegetale: leggero, resistente, riciclabile.</p></li>
+        <li><h3>Realizzato quando lo scegli.</h3><p>Nessun magazzino: ogni pezzo prende forma dopo il tuo ordine.</p></li>
+      </ul>
+      <div class="prove-link"><a href="chi-siamo.html" class="link-freccia">La nostra storia <span>→</span></a><a href="il-mais.html" class="link-freccia">Il materiale <span>→</span></a></div>
+    </div>
+  </section>
+
+  <!-- 06 3D / ESPERIENZA -->
+  <section class="sez sez-bordeaux tech-3d" id="hero3d">
+    <div class="container">
+      <div class="tech-grid">
+        <div class="tech-canvas-wrap"><canvas id="vaseCanvas" aria-label="Vaso Blade in 3D"></canvas><p class="tech-hint">Trascina per girarlo</p></div>
+        <div class="tech-testo">
+          <p class="label">Esperienza</p>
+          <h2>Giralo. <strong>Guardalo cambiare.</strong></h2>
+          <p>Il Blade nasce da una linea che ruota e sale nello spazio. Muovilo e osserva come cambia la sua silhouette, piega dopo piega.</p>
+          <p>La fabbricazione digitale è ciò che rende possibile questa forma: la costruiamo un sottile strato alla volta.</p>
+          <a href="esplora-blade.html" class="btn btn-chiaro">Esplora il Blade in 3D</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 STAMPA E FIERE -->
+  <section class="sez stampa">
+    <div class="container">
+      <header class="sez-testa">
+        <p class="label">Stampa e fiere</p>
+        <h2>Visti <strong>da vicino.</strong></h2>
+      </header>
+      <ul class="fiere-riga" aria-label="Fiere">
+        <li>Milano Design Week</li>
+        <li>Milano Home</li>
+        <li>Vebo Napoli</li>
+      </ul>
+      <div class="citazioni">
+        <a class="cit" href="https://thenycjournal.com/top-10-interior-designers-to-look-out-for-in-2024/" target="_blank" rel="noopener">
+          <span class="cit-testata">The NYC Journal · 2024</span>
+          <span class="cit-titolo">“Top 10 Interior Designers To Look Out For In 2024”</span>
+          <span class="cit-leggi">Leggi <span>→</span></span></a>
+        <a class="cit" href="https://www.entrepreneursherald.com/blog/shaping-stories-through-design-an-interview-with-angelo-larecchiuta-founder?categoryId=105" target="_blank" rel="noopener">
+          <span class="cit-testata">Entrepreneurs Herald · 2024</span>
+          <span class="cit-titolo">“Shaping Stories Through Design”</span>
+          <span class="cit-leggi">Leggi l'intervista <span>→</span></span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 NEWSLETTER -->
+  <section class="nl3">
+    <div class="container">
+      <figure class="nl3-foto"><img src="images/Shapeless%201-46_edited.jpg" alt="Vasi di design Shapeless all'aperto" loading="lazy"></figure>
+      <div class="nl3-testo">
+        <p class="label">Newsletter</p>
+        <h2>Nuove forme, <strong>prima di tutti.</strong></h2>
+        <p>Entra nel mondo Shapeless e ricevi in anteprima nuove forme, colori e appuntamenti.</p>
+        <form class="newsletter-form nl3-form" name="newsletter" method="POST" action="grazie.html">
+          <label for="nl-email" class="nl-sr">La tua email</label>
+          <input id="nl-email" type="email" name="email" placeholder="La tua email" autocomplete="email" required>
+          <button type="submit">Iscriviti <span aria-hidden="true">→</span></button>
+        </form>
+        <p class="nl3-benvenuto">Per darti il benvenuto, il 10% sul primo ordine.</p>
+        <p class="nl3-privacy">Iscrivendoti accetti la <a href="privacy.html">privacy policy</a>. Puoi cancellarti quando vuoi.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="images/Logo Shapeless.png" alt="Shapeless" class="footer-logo-img">
+          <p>Design in movimento. Oggetti scultorei progettati in Italia per dare carattere agli spazi,
+          realizzati su ordinazione in un materiale di origine vegetale.</p>
+          <div class="social-links" style="margin-top: 24px;">
+            <a href="https://www.instagram.com/shapeless.di/" target="_blank">Instagram</a>
+            <a href="https://www.facebook.com/Shapeless.di" target="_blank">Facebook</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h5>Esplora</h5>
+          <a href="chi-siamo.html">Chi siamo</a>
+          <a href="il-mais.html">Il Mais</a>
+          <a href="shapeless-brand.html">Il Brand</a>
+          <a href="collab.html">Lavora con noi</a>
+        </div>
+        <div class="footer-col">
+          <h5>Community</h5>
+          <a href="faq.html">FAQ</a>
+          <a href="blog.html">Blog</a>
+          <a href="contatti.html">Contatti</a>
+        </div>
+        <div class="footer-col">
+          <h5>Contatti</h5>
+          <a href="mailto:info@shapeless.shop">info@shapeless.shop</a>
+          <a href="tel:+393274465586">+39 327 446 5586</a>
+          <a href="tel:+390934591960">+39 0934 591960</a>
+          <p style="font-size:12px; margin-top:12px; color:var(--text-muted);">
+            Viale della Regione 32B<br>93100 Caltanissetta (IT)
+          </p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 Shapeless — Larecchiuta Angelo — P.IVA 01927390854</p>
+        <div style="display:flex; gap:24px; flex-wrap:wrap;">
+          <a href="privacy.html" style="font-size:12px; color:var(--text-muted);">Privacy Policy</a>
+          <a href="#" style="font-size:12px; color:var(--text-muted);">Cookie Policy</a>
+          <a href="termini-di-vendita.html" style="font-size:12px; color:var(--text-muted);">Termini e condizioni</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/lang-testi.js?v=20260923home"></script>
+  <script src="js/lang.js?v=20260923"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="js/blade_geo.js"></script>
+  <script>
+/* Vaso Blade a fili: cresce quando entra nello schermo, poi si gira col dito o col mouse */
+(function () {
+  'use strict';
+  var canvas = document.getElementById('vaseCanvas');
+  var wrap = document.getElementById('hero3d');
+  if (!canvas || !wrap || typeof THREE === 'undefined' || !window.BLADE_V || !window.BLADE_L) return;
+
+  var BG = 0x6b1f45, YMIN = -2.2, YMAX = 2.2, BUILD_MS = 4300;
+  var isMobile = window.innerWidth < 768;
+  var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.localClippingEnabled = true;
+  var scene = new THREE.Scene();
+  scene.fog = new THREE.Fog(BG, 9.4, 14.2);
+  var camera = new THREE.PerspectiveCamera(30, 1, 0.1, 100);
+  camera.position.set(0, 0.15, isMobile ? 10.4 : 11.6);
+
+  var clip = new THREE.Plane(new THREE.Vector3(0, -1, 0), YMIN - 0.05);
+  var bottomClip = new THREE.Plane(new THREE.Vector3(0, 1, 0), 2.15);
+  var cLow = new THREE.Color(0xc4588a), cHigh = new THREE.Color(0xfff2f7);
+  function mat(op, fog, planes) {
+    return new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, opacity: op,
+      blending: THREE.AdditiveBlending, depthWrite: false, fog: fog, clippingPlanes: planes });
+  }
+  var matMain = mat(0.95, true, [clip, bottomClip]);
+  var matGlow = mat(0.16, true, [clip, bottomClip]);
+  var matRing = mat(1.0, false, [clip]);
+  var mats = [matMain, matGlow, matRing];
+
+  var vase = new THREE.Group();
+  var V = window.BLADE_V, L = window.BLADE_L, off = 0, tmp = new THREE.Color();
+  for (var ci = 0; ci < L.length; ci++) {
+    var len = L[ci], pos = V.subarray(off * 3, (off + len) * 3); off += len;
+    var col = new Float32Array(len * 3), avg = 0;
+    for (var i = 0; i < len; i++) {
+      var y = pos[i * 3 + 1]; avg += y;
+      var t = Math.min(1, Math.max(0, (y - YMIN) / (YMAX - YMIN)));
+      tmp.copy(cLow).lerp(cHigh, Math.pow(t, 1.4));
+      col[i * 3] = tmp.r; col[i * 3 + 1] = tmp.g; col[i * 3 + 2] = tmp.b;
+    }
+    avg /= len;
+    var g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.BufferAttribute(pos.slice(), 3));
+    g.setAttribute('color', new THREE.BufferAttribute(col, 3));
+    if (avg < YMIN + 0.5 || avg > YMAX - 0.5) { vase.add(new THREE.Line(g, matRing)); }
+    else {
+      vase.add(new THREE.Line(g, matMain));
+      var glow = new THREE.Line(g, matGlow); glow.scale.set(1.018, 1, 1.018); vase.add(glow);
+    }
+  }
+  scene.add(vase);
+
+  /* alone di luce sul piano */
+  (function () {
+    var c = document.createElement('canvas'); c.width = c.height = 256;
+    var x = c.getContext('2d'), gr = x.createRadialGradient(128, 128, 4, 128, 128, 128);
+    gr.addColorStop(0, 'rgba(255,190,215,0.34)'); gr.addColorStop(0.3, 'rgba(255,170,205,0.10)'); gr.addColorStop(0.7, 'rgba(255,170,205,0.02)'); gr.addColorStop(1, 'rgba(255,170,205,0)');
+    x.fillStyle = gr; x.fillRect(0, 0, 256, 256);
+    var m = new THREE.Mesh(new THREE.PlaneGeometry(4.0, 4.0), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(c), transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, fog: false }));
+    m.rotation.x = -Math.PI / 2; m.position.y = YMIN - 0.06; scene.add(m);
+  })();
+
+  /* anello che "stampa" salendo */
+  var ringMat = new THREE.MeshBasicMaterial({ color: 0xffe3ee, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, fog: false });
+  var ring = new THREE.Mesh(new THREE.TorusGeometry(0.74, 0.008, 6, 96), ringMat); ring.rotation.x = Math.PI / 2; scene.add(ring);
+  var haloMat = new THREE.MeshBasicMaterial({ color: 0xff9ec4, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, fog: false });
+  var halo = new THREE.Mesh(new THREE.TorusGeometry(0.74, 0.07, 8, 96), haloMat); halo.rotation.x = Math.PI / 2; scene.add(halo);
+
+  /* rotazione col dito o col mouse */
+  var rotY = 0, velY = 0, tiltX = 0, dragging = false, lastX = 0, lastY = 0, built = false, buildStart = null;
+  canvas.style.touchAction = 'pan-y';
+  canvas.addEventListener('pointerdown', function (e) { dragging = true; lastX = e.clientX; lastY = e.clientY; try { canvas.setPointerCapture(e.pointerId); } catch (_) {} wrap.classList.add('ruotato'); });
+  canvas.addEventListener('pointermove', function (e) {
+    if (!dragging) return;
+    var dx = e.clientX - lastX; lastX = e.clientX;
+    velY = dx * 0.009; rotY += velY;
+    tiltX = Math.max(-0.35, Math.min(0.35, tiltX + (e.clientY - lastY) * 0.003)); lastY = e.clientY;
+  });
+  function stop() { dragging = false; }
+  canvas.addEventListener('pointerup', stop); canvas.addEventListener('pointercancel', stop); canvas.addEventListener('pointerleave', stop);
+
+  function resize() {
+    var w = canvas.clientWidth, h = canvas.clientHeight;
+    if (!w || !h) { requestAnimationFrame(resize); return; }
+    renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
+  }
+  resize(); window.addEventListener('resize', resize);
+
+  var raf = null, visible = false, uscito = true;
+  function riparti() {
+    built = false; buildStart = null; velY = 0; tiltX = 0;
+    mats.forEach(function (m) { m.clippingPlanes = (m === matRing) ? [clip] : [clip, bottomClip]; m.needsUpdate = true; });
+    clip.constant = YMIN - 0.05; ring.visible = halo.visible = true;
+  }
+  function loop(t) {
+    raf = requestAnimationFrame(loop);
+    if (buildStart === null) buildStart = t;
+    if (!built) {
+      var p = Math.min((t - buildStart) / BUILD_MS, 1), e = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+      clip.constant = YMIN + (YMAX - YMIN) * e;
+      ring.position.y = halo.position.y = clip.constant;
+      var a = p < 0.04 ? p / 0.04 : p > 0.94 ? (1 - p) / 0.06 : 1;
+      ringMat.opacity = a * 0.95; haloMat.opacity = a * 0.28;
+      rotY = e * Math.PI * 2.4;
+      if (p >= 1) { built = true; ring.visible = halo.visible = false; mats.forEach(function (m) { m.clippingPlanes = []; m.needsUpdate = true; }); }
+    } else if (!dragging) {
+      velY *= 0.94; rotY += velY + 0.0036; tiltX *= 0.96;
+    }
+    vase.rotation.y = rotY; vase.rotation.x = tiltX;
+    renderer.render(scene, camera);
+  }
+  clip.constant = YMIN - 0.05; renderer.render(scene, camera);
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (en) {
+      en.forEach(function (x) {
+        if (x.intersectionRatio === 0) {            /* uscito del tutto: si ferma e si prepara a ricrescere */
+          uscito = true; visible = false; if (raf) { cancelAnimationFrame(raf); raf = null; }
+        } else if (x.intersectionRatio >= 0.45 && !visible) {
+          if (uscito) { riparti(); uscito = false; }
+          visible = true; raf = requestAnimationFrame(loop);
+        }
+      });
+    }, { threshold: [0, 0.45] }).observe(canvas);
+  } else { visible = true; raf = requestAnimationFrame(loop); }
+})();
+  </script>
+  <script>
+  /* Tiene il gruppo di vasi al centro della foto: stesso margine a sinistra (Blade) e a destra (Vulcano) */
+  (function () {
+    var box = document.querySelector('.hf-foto'), img = box && box.querySelector('img');
+    if (!img) return;
+    var CENTRO = 0.6025; /* centro del gruppo di vasi nella foto, da 0 a 1 */
+    var DESKTOP = window.matchMedia('(min-width: 901px) and (orientation: landscape), (min-width: 1025px)');
+    function centra() {
+      if (DESKTOP.matches) { img.style.objectPosition = ''; return; }
+      var W = box.clientWidth, H = box.clientHeight, iw = img.naturalWidth || 2000, ih = img.naturalHeight || 1333;
+      var s = Math.max(W / iw, H / ih), dw = iw * s;
+      if (dw - W < 1) { img.style.objectPosition = '50% 60%'; return; }
+      var off = Math.min(Math.max(CENTRO * dw - W / 2, 0), dw - W);
+      img.style.objectPosition = (off / (dw - W) * 100).toFixed(1) + '% 60%';
+    }
+    if (img.complete) centra(); else img.addEventListener('load', centra);
+    window.addEventListener('resize', centra);
+  })();
+  </script>
+  <script src="js/shop-config.js?v=20260922lagoon"></script>
+  <script src="js/cart.js?v=20260917consegna"></script>
+  <script>
+  /* Lampada: parte al 30% di luce e si accende "vibrando" ogni volta che la foto rientra nello schermo
+     (stesso meccanismo del Blade 3D: se esce del tutto si rispegne, se resti fermo lì non si ripete) */
+  (function () {
+    var f = document.getElementById('lampadaFoto');
+    if (!f || !('IntersectionObserver' in window)) return;
+    var visibile = false;
+    f.classList.add('spenta');
+    new IntersectionObserver(function (en) {
+      en.forEach(function (x) {
+        if (x.intersectionRatio === 0) {
+          visibile = false; f.classList.remove('accesa'); f.classList.add('spenta');
+        } else if (x.intersectionRatio >= 0.6 && !visibile) {
+          visibile = true; f.classList.remove('accesa'); void f.offsetWidth;
+          f.classList.remove('spenta'); f.classList.add('accesa');
+        }
+      });
+    }, { threshold: [0, 0.6] }).observe(f);
+  })();
+  </script>
+  <script>
+  /* Filosofia: le tre righe entrano ogni volta che la sezione torna nello schermo (come il Blade e la lampada) */
+  (function () {
+    var f = document.getElementById('filosofia');
+    if (!f || !('IntersectionObserver' in window)) return;
+    f.classList.add('pronta');
+    new IntersectionObserver(function (en) {
+      en.forEach(function (x) {
+        if (x.intersectionRatio === 0) f.classList.remove('in-vista');
+        else if (x.intersectionRatio >= 0.3) f.classList.add('in-vista');
+      });
+    }, { threshold: [0, 0.3] }).observe(f);
+  })();
+  </script>
+</body>
+</html>
