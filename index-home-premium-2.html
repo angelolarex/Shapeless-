@@ -405,11 +405,11 @@
     @media (min-width: 901px) and (max-width: 1180px) and (orientation: landscape) {
       .perche { gap:56px; }
     }
-    .lampada-foto.spenta img { filter:brightness(.28) saturate(.7); }
+    .lampada-foto.spenta img { filter:brightness(.22) saturate(.65); }
     .lampada-foto.accesa img { animation:lampadaAccensione 1.9s ease-out both; }
     @keyframes lampadaAccensione {
-      0%   { filter:brightness(.30) saturate(.75); }
-      30%  { filter:brightness(.42) saturate(.8); }
+      0%   { filter:brightness(.22) saturate(.65); }
+      30%  { filter:brightness(.34) saturate(.75); }
       36%  { filter:brightness(.78) saturate(.95); }
       40%  { filter:brightness(.38) saturate(.8); }
       46%  { filter:brightness(.92) saturate(1); }
@@ -524,7 +524,17 @@
       .stampa .sez-testa { margin-bottom:24px; }
       .fiere-riga { flex-direction:column; gap:8px; padding:0; margin:0 0 36px; border:0; }
       .fiere-riga li { font-size:16px; font-weight:400; color:var(--text); padding:0 0 0 22px; border:0; position:relative; }
+      .fiere-riga li, .fiere-riga li:first-child { padding-left:24px; }
       .fiere-riga li::before { content:''; position:absolute; left:0; top:.72em; width:12px; height:1px; background:var(--accent); }
+      .stampa { padding-bottom:40px; }
+      .citazioni { border-bottom:0; }
+      .cit:last-child { padding-bottom:8px; }
+      /* emozione → filosofia: meno vuoto tra la foto e il testo */
+      .emozione { padding-bottom:8px; }
+      .filo { padding-top:44px; padding-bottom:64px; border-top:0; }
+      /* emozione allineata a sinistra come il resto della pagina */
+      .emozione .sez-testa-centro { text-align:left; margin-left:0; }
+      .emozione .sez-testa-centro h2 { font-size:30px; line-height:1.12; }
       .citazioni { gap:0; border-bottom:1px solid var(--border); }
       .cit { gap:8px; padding:20px 0 22px; border-top:1px solid var(--border); }
       .cit-testata { font-size:10px; letter-spacing:.14em; }
@@ -703,7 +713,7 @@
     <div class="container">
       <header class="sez-testa">
         <p class="label">Stampa e fiere</p>
-        <h2>Visti <strong>da vicino.</strong></h2>
+        <h2>Dalle fiere <strong>alle riviste.</strong></h2>
       </header>
       <ul class="fiere-riga" aria-label="Fiere">
         <li>Milano Design Week</li>
