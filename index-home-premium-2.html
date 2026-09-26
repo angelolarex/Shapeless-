@@ -505,6 +505,12 @@
     /* 08 newsletter: il 10% resta secondario */
     .nl3-benvenuto { font-size:13px; color:var(--text); margin:18px 0 0; }
     .nl3-benvenuto + .nl3-privacy { margin-top:6px; }
+    /* telefono e tablet verticale: la colonna testo accanto alla foto è vuota, niente spazio in più sotto la lampada */
+    @media (max-width: 900px), (max-width: 1024px) and (orientation: portrait) {
+      .emozione .perche-testo { display:none; }
+      .emozione { padding-bottom:16px; }
+      .filo { border-top:0; padding-top:56px; }
+    }
     /* ===== 2.0 — telefono: elementi nuovi più compatti ed eleganti ===== */
     @media (max-width: 600px) {
       .filo { padding:72px 0 80px; }
@@ -531,7 +537,7 @@
       .cit:last-child { padding-bottom:8px; }
       /* emozione → filosofia: meno vuoto tra la foto e il testo */
       .emozione { padding-bottom:8px; }
-      .filo { padding-top:44px; padding-bottom:64px; border-top:0; }
+      .filo { padding-top:40px; padding-bottom:64px; border-top:0; }
       /* emozione allineata a sinistra come il resto della pagina */
       .emozione .sez-testa-centro { text-align:left; margin-left:0; }
       .emozione .sez-testa-centro h2 { font-size:30px; line-height:1.12; }
@@ -700,7 +706,7 @@
         <div class="tech-testo">
           <p class="label">Esperienza</p>
           <h2>Ruota nello spazio. <strong>Anche da fermo.</strong></h2>
-          <p>Il Blade nasce da una torsione: le sue pieghe salgono avvolgendosi attorno al centro, e anche immobile sembra girare su se stesso. Trascinalo e seguilo in tutte e tre le dimensioni.</p>
+          <p>Lame verticali che si avvitano verso l'alto, in equilibrio dinamico. Girandoci intorno la forma cambia a ogni passo e non si legge mai due volte: trascinalo e scoprilo da ogni lato.</p>
           <p>È la fabbricazione digitale a rendere possibile questa geometria: la costruiamo un sottile strato alla volta.</p>
           <a href="esplora-blade.html" class="btn btn-chiaro">Esplora il Blade in 3D</a>
         </div>
