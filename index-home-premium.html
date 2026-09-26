@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shapeless | Design in movimento — vasi scultura progettati in Italia</title>
+  <title>Shapeless | Design in movimento — vasi e lampade progettati in Italia</title>
   <meta name="robots" content="noindex">
-  <meta name="description" content="Vasi scultura progettati in Italia per dare movimento e carattere agli spazi che vivi. Realizzati su ordinazione, in un materiale di origine vegetale. Scopri Bombato, Blade e Vulcano.">
+  <meta name="description" content="Vasi e lampade progettati in Italia per dare movimento e carattere agli spazi che vivi. Realizzati su ordinazione, in un materiale di origine vegetale. Scopri Bombato, Blade e Vulcano.">
   <link rel="stylesheet" href="css/style.css">
   <style>
     /* Homepage: label hero più marcata */
@@ -383,6 +383,28 @@
     /* ===== v20: foto newsletter, un po' meno cielo e meno pavimento ===== */
     .nl3-foto img { aspect-ratio:16/10 !important; object-position:50% 38% !important; }
   </style>
+  <style>
+    /* ===== Lampada che si accende allo scroll (sezione "Non riempiamo gli spazi") ===== */
+    .perche-foto.lampada-foto { overflow:hidden; border-radius:2px; background:#0d0b10; }
+    .perche-foto.lampada-foto img { aspect-ratio:1/1; object-position:50% 55%; }
+    @media (max-width: 600px) {
+      .perche-foto.lampada-foto img { aspect-ratio:4/5; object-position:50% 46%; }
+    }
+    .lampada-foto.spenta img { filter:brightness(.28) saturate(.7); }
+    .lampada-foto.accesa img { animation:lampadaAccensione 1.9s ease-out both; }
+    @keyframes lampadaAccensione {
+      0%   { filter:brightness(.30) saturate(.75); }
+      30%  { filter:brightness(.42) saturate(.8); }
+      36%  { filter:brightness(.78) saturate(.95); }
+      40%  { filter:brightness(.38) saturate(.8); }
+      46%  { filter:brightness(.92) saturate(1); }
+      50%  { filter:brightness(.55) saturate(.88); }
+      55%  { filter:brightness(1.05) saturate(1); }
+      59%  { filter:brightness(.8) saturate(.95); }
+      66%  { filter:brightness(1.04) saturate(1); }
+      100% { filter:brightness(1) saturate(1); }
+    }
+  </style>
 </head>
 <body class="page-home">
 
@@ -446,7 +468,7 @@
       <div class="hf-testo">
         <p class="hf-label">Design in movimento</p>
         <h1 class="hf-h1">Forme in movimento. <em>Spazi con carattere.</em></h1>
-        <p class="hf-sub">Vasi scultura progettati in Italia per dare movimento, carattere e una nuova identità agli spazi che vivi.</p>
+        <p class="hf-sub">Vasi e lampade progettati in Italia per dare movimento, carattere e una nuova identità agli spazi che vivi.</p>
         <a href="tutti-i-design.html" class="hf-btn">Scopri la collezione</a>
       </div>
     </div>
@@ -460,7 +482,7 @@
         <p class="sez-intro">Ogni oggetto Shapeless nasce per rompere la staticità di un ambiente. Le forme cambiano prospettiva e catturano la luce: entrano nello spazio senza confondersi con esso.</p>
       </header>
       <div class="perche">
-        <figure class="perche-foto"><img src="images/rivenditori-negozio.jpg" alt="Vasi di design Shapeless esposti in un negozio"></figure>
+        <figure class="perche-foto lampada-foto" id="lampadaFoto"><img src="images/lampada-sera-1024.jpg" srcset="images/lampada-sera-700.jpg 700w, images/lampada-sera-1024.jpg 1024w" sizes="(max-width: 900px) 100vw, 55vw" alt="Lampada Shapeless accesa su un tavolo, di sera, con il cielo stellato alla finestra" loading="lazy"></figure>
         <div class="perche-testo">
           <ul class="valori">
             <li><h3>Progettato e realizzato in Italia</h3><p>Ogni forma nasce nel nostro studio e prende vita in Sicilia, pezzo per pezzo, seguita con cura fino a quando arriva da te.</p></li>
@@ -761,5 +783,25 @@
   </script>
   <script src="js/shop-config.js?v=20260922lagoon"></script>
   <script src="js/cart.js?v=20260917consegna"></script>
+  <script>
+  /* Lampada: parte al 30% di luce e si accende "vibrando" ogni volta che la foto rientra nello schermo
+     (stesso meccanismo del Blade 3D: se esce del tutto si rispegne, se resti fermo lì non si ripete) */
+  (function () {
+    var f = document.getElementById('lampadaFoto');
+    if (!f || !('IntersectionObserver' in window)) return;
+    var visibile = false;
+    f.classList.add('spenta');
+    new IntersectionObserver(function (en) {
+      en.forEach(function (x) {
+        if (x.intersectionRatio === 0) {
+          visibile = false; f.classList.remove('accesa'); f.classList.add('spenta');
+        } else if (x.intersectionRatio >= 0.6 && !visibile) {
+          visibile = true; f.classList.remove('accesa'); void f.offsetWidth;
+          f.classList.remove('spenta'); f.classList.add('accesa');
+        }
+      });
+    }, { threshold: [0, 0.6] }).observe(f);
+  })();
+  </script>
 </body>
 </html>
