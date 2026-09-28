@@ -612,6 +612,14 @@
     .nl3-testo .nl3-privacy { margin-top:14px; }
     .nl3-sconto strong { font-weight:700; color:var(--accent); font-size:1.25em; letter-spacing:-.01em; margin-right:.15em; }
   </style>
+  <style>
+    /* ===== 28/09 — PC e tablet orizzontale: meno vuoto prima e dopo la Filosofia ===== */
+    @media (min-width: 1025px), (min-width: 901px) and (orientation: landscape) {
+      .emozione { padding-bottom:64px; }
+      .filo { padding-top:clamp(80px, 8vw, 128px); padding-bottom:clamp(80px, 8vw, 128px); }
+      #collezione { padding-top:clamp(72px, 7vw, 112px); }
+    }
+  </style>
 </head>
 <body class="page-home">
 
