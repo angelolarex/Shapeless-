@@ -136,12 +136,12 @@
       },
       spin: {
         id: 'spin',
-        nome: 'Spin',
+        nome: 'Spira',        /* 28/09: prima si chiamava Spin (id e file restano 'spin') */
         prezzo: 159.00,      /* 19x19x36h cm */
         altezzaCm: 36,
         immagine: 'images/spin-transparent.webp',
         render: 'images/render/spin-{hex}.webp',
-        pagina: 'prodotto-spin.html',
+        pagina: 'prodotto-spira.html',
         configuratore: null
       },
       /* Zig: due misure = due prodotti, cosi' carrello, cassa e pannello

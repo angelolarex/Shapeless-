@@ -54,7 +54,7 @@ const CATALOGO = {
   bombato: { nome: 'Bombato', prezzo:  9500, immagine: 'images/bombato-transparent.png' },
   /* 28/09/2026 — prezzi dati da Angelo (listino 08-01-2026, prezzo al pubblico) */
   torsione: { nome: 'Torsione',    prezzo:  7900, immagine: 'images/torsione-transparent.webp', senzaVetro: true },
-  spin:     { nome: 'Spin',        prezzo: 15900, immagine: 'images/spin-transparent.webp' },
+  spin:     { nome: 'Spira',        prezzo: 15900, immagine: 'images/spin-transparent.webp' },
   'zig-s':  { nome: 'Zig Piccolo', prezzo: 14900, immagine: 'images/zig-transparent.webp' },
   'zig-l':  { nome: 'Zig Grande',  prezzo: 20500, immagine: 'images/zig-transparent.webp' }
 };

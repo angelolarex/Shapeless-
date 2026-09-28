@@ -366,6 +366,7 @@
       var testo = nodo.nodeValue;
       var tradotto = D[chiave(testo)];
       if (tradotto === undefined) tradotto = mesiInglese(chiave(testo));
+      if (tradotto === undefined) tradotto = schemi(chiave(testo));
       if (tradotto === undefined) return;
       var prima = testo.match(/^\s*/)[0], dopo = testo.match(/\s*$/)[0];
       nodo.nodeValue = prima + tradotto + dopo;
@@ -386,6 +387,20 @@
     var nuovo = testo.replace(/(\d{1,2})\s+(gennaio|febbraio|marzo|aprile|maggio|giugno|luglio|agosto|settembre|ottobre|novembre|dicembre)/gi,
       function (_, giorno, mese) { return giorno + ' ' + MESI[mese.toLowerCase()]; });
     return nuovo === testo ? undefined : nuovo;
+  }
+
+  /* 28/09/2026 — frasi scritte al volo dalle schede prodotto (cambiano col colore
+     scelto, quindi non possono stare tutte nel dizionario). */
+  var SCHEMI = [
+    [/^Aggiungi al carrello — (.+)$/, 'Add to cart — $1'],
+    [/^Aggiungi ([A-Z].+)$/, 'Add $1'],
+    [/^(.+) è nel carrello\.$/, '$1 is in your cart.']
+  ];
+  function schemi(testo) {
+    for (var i = 0; i < SCHEMI.length; i++) {
+      if (SCHEMI[i][0].test(testo)) return testo.replace(SCHEMI[i][0], SCHEMI[i][1]);
+    }
+    return undefined;
   }
 
   var ATTRIBUTI = ['placeholder', 'alt', 'aria-label', 'title', 'value'];

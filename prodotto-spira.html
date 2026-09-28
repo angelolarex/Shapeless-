@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bombato | Shapeless</title>
-  <meta name="description" content="Bombato: foto reali e modello 3D nello stesso posto. Scegli fra tredici colori e il vaso si accende in 3D; torni alle foto quando vuoi, senza cambiare pagina.">
+  <title>Spira | Shapeless</title>
+  <meta name="description" content="Spira: un vaso ampio percorso da nervature che salgono girando, come l'acqua in un vortice. Tredici colori, 36 cm, Hidden Nest in vetro incluso.">
   <link rel="stylesheet" href="css/style.css?v=20260928footer">
   <link rel="stylesheet" href="css/negozio.css">
 
@@ -323,7 +323,7 @@
             <!-- vista 3D (il modello viene caricato solo al primo utilizzo) -->
             <div class="pv-vista" id="vista-3d">
               <model-viewer id="mv"
-                alt="Vaso Bombato di Shapeless, modello 3D interattivo"
+                alt="Vaso Spira di Shapeless, modello 3D interattivo"
                 camera-controls
                 disable-pan
                 touch-action="none"
@@ -331,10 +331,10 @@
                 auto-rotate-delay="2500"
                 rotation-per-second="6deg"
                 interaction-prompt="none"
-                camera-orbit="20deg 78deg 0.86m"
-                camera-target="0m 0.095m 0m"
-                min-camera-orbit="auto 30deg 0.54m"
-                max-camera-orbit="auto 92deg 1.06m"
+                camera-orbit="20deg 78deg 0.98m"
+                camera-target="0m 0.18m 0m"
+                min-camera-orbit="auto 30deg 0.73m"
+                max-camera-orbit="auto 92deg 1.23m"
                 field-of-view="28deg"
                 min-field-of-view="20deg"
                 shadow-intensity="0.28"
@@ -361,25 +361,21 @@
           <div class="pv-descr">
             <p class="label">Il design</p>
           <p class="pv-testo">
-            Bombato è il vaso che riempie lo spazio senza occuparlo: un volume rotondo percorso da
-            scanalature verticali, che la luce accende e spegne mentre ci giri intorno.
+            Spira è un vaso ampio e morbido, percorso da sottili nervature che salgono girando, come l'acqua quando scorre in un vortice. Da vicino ogni riga prende la luce per conto suo; da lontano resta una forma piena e calma.
           </p>
 
           <ul class="pv-elenco" style="margin-top:24px; display:flex; flex-direction:column; gap:10px;">
             <li style="font-size:13px; color:var(--text-muted);">— Progettato e prodotto in Italia</li>
             <li style="font-size:13px; color:var(--text-muted);">— Materiale vegetale: PLA dal mais e dalla canna da zucchero</li>
-            <li style="font-size:13px; color:var(--text-muted);">— Tredici colori, alto 19 cm</li>
+            <li style="font-size:13px; color:var(--text-muted);">— Tredici colori, alto 36 cm</li>
             <li style="font-size:13px; color:var(--text-muted);">— Prodotto su richiesta, nessuno stock</li>
             <li style="font-size:13px; color:var(--text-muted);">— Hidden Nest in vetro incluso</li>
           </ul>
 
-          <!-- Ogni vaso ha il suo vetro: quello del Bombato e' largo e basso,
-               quello di Blade alto e stretto. Mostrarlo col disegno e la misura
-               evita la domanda "che fiori ci stanno?" prima che nasca. -->
           <div class="pv-vetro">
-            <img src="images/Bicchieri%20-%20Hidden%20nest/8x15h-transparent.png"
-                 alt="Vetro Hidden Nest su misura per Bombato, Ø 8 per 15 cm di altezza">
-            <p>Vetro Hidden Nest su misura per Bombato — <strong>&#216; 8x15h cm</strong></p>
+            <img src="images/Bicchieri%20-%20Hidden%20nest/6x30h-transparent.png"
+                 alt="Vetro Hidden Nest su misura per Spira, Ø 6 per 30 cm di altezza">
+            <p>Vetro Hidden Nest su misura per Spira — <strong>&#216; 6x30h cm</strong></p>
           </div>
           </div>
         </div>
@@ -387,21 +383,21 @@
         <!-- ---------- COLONNA INFORMAZIONI ---------- -->
         <div class="pv-info">
           <p class="label">Collezione</p>
-          <h1 style="font-size:clamp(40px,5.5vw,68px);">Bombato</h1>
+          <h1 style="font-size:clamp(40px,5.5vw,68px);">Spira</h1>
           <p class="pv-sottotitolo" style="font-size:18px; color:var(--accent2); margin-top:20px; line-height:1.7;">
-            L'icona che ha dato forma a Shapeless.
+            Nervature che salgono girando, come l'acqua in un vortice.
           </p>
           <p class="pv-misure" style="font-size:12px; letter-spacing:0; color:var(--text-muted); margin-top:10px; line-height:1.6;">
-            <span style="text-transform:uppercase; letter-spacing:.14em; font-size:10.5px;">Dimensioni</span>&nbsp;&nbsp;25x25x19h cm
+            <span style="text-transform:uppercase; letter-spacing:.14em; font-size:10.5px;">Dimensioni</span>&nbsp;&nbsp;<span id="pv-dim">19x19x36h cm</span>
           </p>
 
           <!-- colori: il gesto che accende il 3D -->
           <div class="pv-blocco-colori">
             <div class="label">Scegli il colore</div>
             <div class="color-swatches" id="colors">
-              <button type="button" class="color-swatch active" data-color="#a3444d" data-name="Red Wine" style="background:#a3444d;" aria-label="Red Wine"></button>
+              <button type="button" class="color-swatch" data-color="#a3444d" data-name="Red Wine" style="background:#a3444d;" aria-label="Red Wine"></button>
               <button type="button" class="color-swatch" data-color="#91535d" data-name="Bordeaux" style="background:#91535d;" aria-label="Bordeaux"></button>
-              <button type="button" class="color-swatch" data-color="#bcbfb0" data-name="Sage" style="background:#bcbfb0;" aria-label="Sage"></button>
+              <button type="button" class="color-swatch active" data-color="#bcbfb0" data-name="Sage" style="background:#bcbfb0;" aria-label="Sage"></button>
               <button type="button" class="color-swatch" data-color="#646666" data-name="Antracite" style="background:#646666;" aria-label="Antracite"></button>
               <button type="button" class="color-swatch" data-color="#d8d0cd" data-name="Off White" style="background:#d8d0cd;" aria-label="Off White"></button>
               <button type="button" class="color-swatch" data-color="#e7cac0" data-name="Rosè" style="background:#e7cac0;" aria-label="Rosè"></button>
@@ -413,7 +409,7 @@
               <button type="button" class="color-swatch" data-color="#00924f" data-name="Verde" style="background:#00924f;" aria-label="Verde"></button>
               <button type="button" class="color-swatch" data-color="#e0bf42" data-name="Golden" style="background:#e0bf42;" aria-label="Golden"></button>
             </div>
-            <div class="pv-colorname" id="colorname">Red Wine</div>
+            <div class="pv-colorname" id="colorname">Sage</div>
             <p class="pv-invito" id="pv-invito">Tocca un colore: il vaso diventa 3D e lo puoi girare.</p>
           </div>
 
@@ -430,13 +426,13 @@
           <!-- acquisto -->
           <div class="cfg-acquisto">
             <div class="cfg-prezzo">
-              <strong id="cfg-prezzo">€ 95,00</strong>
+              <strong id="cfg-prezzo">€ 159,00</strong>
               <span id="cfg-prezzo-nota">IVA inclusa · spedizione gratuita in Italia</span>
             </div>
 
             <button type="button" class="btn btn-fill cfg-add" id="cfg-add">
-              <span class="cfg-add-pallino" id="cfg-add-pallino" style="background:#a3444d"></span>
-              <span id="cfg-add-testo">Aggiungi al carrello — Bombato Red Wine</span>
+              <span class="cfg-add-pallino" id="cfg-add-pallino" style="background:#bcbfb0"></span>
+              <span id="cfg-add-testo">Aggiungi al carrello — Spira Sage</span>
             </button>
 
             <p class="cfg-rassicura">
@@ -449,12 +445,12 @@
           <!-- realtà aumentata -->
           <div class="ar-box">
             <span class="label">Vedilo nel tuo spazio</span>
-            <button type="button" class="btn btn-accent ar-btn" id="ar-btn" hidden>Appoggia Bombato nella tua stanza</button>
+            <button type="button" class="btn btn-accent ar-btn" id="ar-btn" hidden>Appoggia Spira nella tua stanza</button>
             <div class="ar-qr" id="ar-qr" hidden>
               <div class="qr" id="qr-target"></div>
               <p><strong>Inquadra il codice con la fotocamera del telefono.</strong>
                  Si aprirà questa pagina col colore che hai scelto, e da lì potrai appoggiare
-                 Bombato sul mobile di casa tua in scala reale — è alto 19 cm.</p>
+                 Spira sul mobile di casa tua in scala reale — è alto <span id="pv-alto">36</span> cm.</p>
             </div>
             <p class="cfg-note" id="ar-note"></p>
           </div>
@@ -471,24 +467,20 @@
     <div class="container">
       <div class="grid-2" style="align-items:center; gap:72px;">
         <div class="reveal">
-          <p class="label">Il simbolo</p>
-          <h2 class="mb-24"><strong>Il Bombato</strong>, dove tutto è cominciato</h2>
+          <p class="label">La forma</p>
+          <h2 class="mb-24"><strong>Spira</strong>, l'acqua che gira</h2>
           <p style="font-size:17px; color:var(--accent2);">
-            Una forma che è diventata un segno.
+            Un vortice lento, dal piede alla bocca.
           </p>
           <p>
-            Nato come pezzo fondativo della prima collezione Shapeless, il Bombato è oggi uno dei simboli
-            più iconici del brand. La sua geometria morbida si espande con una bombatura distintiva,
-            trasformando un profilo classico in un volume contemporaneo di forte presenza scenica.
+            Spira segue il movimento dell'acqua quando gira su se stessa: le nervature partono dalla base e salgono a spirale, stringendosi verso l'alto come un gorgo che si calma.
           </p>
           <p>
-            Le nervature che lo percorrono dal piede al bordo catturano la luce e cambiano con lo sguardo:
-            da vicino raccontano la precisione della lavorazione, da lontano restituiscono una silhouette
-            piena e riconoscibile, pensata per essere protagonista in qualsiasi ambiente.
+            È un vaso generoso, fatto per i mazzi importanti e per i rami lunghi. Sul pavimento accanto a un divano o su una consolle all'ingresso, porta in casa un movimento che non si ferma.
           </p>
         </div>
         <div class="reveal reveal-delay-2">
-          <img src="images/Bombato/bombato-dettaglio-viola.jpg" alt="Dettaglio del vaso Bombato viola" loading="lazy" style="width:100%; aspect-ratio:4/5; object-fit:cover; border-radius:2px;">
+          <img src="images/Spin/web/spin-magenta-rametto.jpg" alt="Vaso Spira Magenta con un rametto" loading="lazy" style="width:100%; aspect-ratio:4/5; object-fit:cover; border-radius:2px;">
         </div>
       </div>
     </div>
@@ -502,22 +494,22 @@
 
       <div class="faq-item">
         <div class="faq-question">Materiale<div class="faq-icon">+</div></div>
-        <div class="faq-answer"><p>PLA (acido polilattico), un biopolimero di origine vegetale ricavato da mais o canna da zucchero. Leggero, resistente e impermeabile.</p></div>
+        <div class="faq-answer"><p>PLA (acido polilattico), un materiale di origine vegetale ricavato da mais o canna da zucchero. Leggero, resistente e impermeabile.</p></div>
       </div>
 
       <div class="faq-item">
         <div class="faq-question">Dimensioni<div class="faq-icon">+</div></div>
-        <div class="faq-answer"><p>Dimensioni 25x25x19h cm: altezza 19 cm, diametro massimo 25 cm. Ogni pezzo è prodotto on demand nel colore che scegli.</p></div>
+        <div class="faq-answer"><p>Dimensioni 19x19x36h cm: altezza 36 cm, diametro massimo 19 cm. Ogni pezzo è prodotto on demand nel colore che scegli.</p></div>
       </div>
 
       <div class="faq-item">
         <div class="faq-question">Hidden Nest incluso<div class="faq-icon">+</div></div>
-        <div class="faq-answer"><p>Ogni Bombato include l'inserto Hidden Nest in vetro, pensato per accogliere acqua e fiori freschi preservando il PLA nel tempo. <a href="#hidden-nest" style="color:var(--accent);">Scopri di più qui sotto ↓</a></p></div>
+        <div class="faq-answer"><p>Ogni Spira include l'inserto Hidden Nest in vetro, pensato per accogliere acqua e fiori freschi preservando il PLA nel tempo. <a href="#hidden-nest" style="color:var(--accent);">Scopri di più qui sotto ↓</a></p></div>
       </div>
 
       <div class="faq-item">
         <div class="faq-question">Cura e manutenzione<div class="faq-icon">+</div></div>
-        <div class="faq-answer"><p>Basta un panno asciutto e morbido, o un pennello per la polvere che si ferma fra le lame. Evitare l'esposizione solare diretta e prolungata e le fonti di calore dirette, che nel tempo possono favorire lo scolorimento del PLA.</p></div>
+        <div class="faq-answer"><p>Basta un panno asciutto e morbido, o un pennello per la polvere che si ferma fra le nervature. Evitare l'esposizione solare diretta e prolungata e le fonti di calore dirette, che nel tempo possono favorire lo scolorimento del PLA.</p></div>
       </div>
 
       <div class="faq-item">
@@ -599,12 +591,12 @@
   <!-- barra fissa su telefono: aggiunge al carrello il colore scelto -->
   <div class="barra-mobile" id="barra-mobile">
     <div class="barra-mobile-txt">
-      <span id="barra-prezzo">€ 95,00</span>
+      <span id="barra-prezzo">€ 159,00</span>
     </div>
     <!-- Una frase sola dentro un solo elemento: il bottone e' un contenitore
          flessibile, e fra due pezzi separati lo spazio viene ignorato -
          usciva "AGGIUNGIBLADE ANTRACITE". -->
-    <button type="button" class="btn btn-fill" id="barra-add"><span id="barra-colore">Aggiungi Bombato Red Wine</span></button>
+    <button type="button" class="btn btn-fill" id="barra-add"><span id="barra-colore">Aggiungi Spira Sage</span></button>
   </div>
 
   <script src="js/main.js"></script>
@@ -625,10 +617,13 @@
      mostrata per prima quando quel colore e' selezionato (gia' previsto).
      ========================================================================= */
   var FOTO = [
-    { src:'images/bombato-transparent.png', alt:'Bombato — vista frontale' },
-    { src:'images/Bombato/IMG_1339.jpg', alt:'Bombato Viola, dettaglio ravvicinato' },
-    { src:'images/Bombato/Isola il vaso verde .png', alt:'Bombato Emerald Green con pianta, su un tavolino' },
-    { src:'images/Bombato/Shapeless 1-68.jpg', alt:'Bombato Giallo tra le mani, con rametti secchi' }
+    { src:'images/spin-scontornato.webp?v=4', alt:'Spira Sage — vista frontale' },
+    { src:'images/Spin/web/spin-giallo-roccia.jpg', alt:'Spira Giallo appoggiato su una roccia' },
+    { src:'images/Spin/web/spin-magenta-roccia.jpg', alt:'Spira Magenta tra le rocce vicino all\'acqua' },
+    { src:'images/Spin/web/spin-magenta-rametto.jpg', alt:'Spira Magenta con un rametto, all\'aperto' },
+    { src:'images/Spin/web/spin-sage-mani.jpg', alt:'Spira Sage tenuto tra le mani' },
+    { src:'images/Spin/web/spin-giallo-mani.jpg', alt:'Spira Giallo sollevato tra le mani' },
+    { src:'images/Spin/web/spin-sage-dettaglio.jpg', alt:'Spira Sage, dettaglio delle nervature' }
   ];
   </script>
 
@@ -649,7 +644,7 @@
     var prec    = document.getElementById('pv-prec');
     var succ    = document.getElementById('pv-succ');
 
-    var stato = { vista:'foto', foto:0, color:'#a3444d', nomeColore:'Red Wine', modelloAvviato:false };
+    var stato = { vista:'foto', foto:0, color:'#bcbfb0', nomeColore:'Sage', modelloAvviato:false };
 
     /* ---------------------------------------------------------------- FOTO */
 
@@ -686,7 +681,7 @@
     t3d.type = 'button';
     t3d.className = 'pv-thumb pv-thumb-3d';
     t3d.dataset.vista = '3d';
-    t3d.innerHTML = '<span class="pallino" id="thumb-pallino" style="background:#a3444d"></span>' +
+    t3d.innerHTML = '<span class="pallino" id="thumb-pallino" style="background:#bcbfb0"></span>' +
                     '<span class="txt">3D</span>';
     thumbs.appendChild(t3d);
     var thumbPallino = document.getElementById('thumb-pallino');
@@ -814,7 +809,7 @@
        file nuovo con quello vecchio che ha in memoria - le coordinate finiscono
        fuori posto e il vaso esce a strisce colorate. Ogni ricostruzione del
        modello prende un numero nuovo. */
-    function fileDelColore(hex) { return 'models-web/bombato6-' + hex.replace('#', '') + '.gltf'; }
+    function fileDelColore(hex) { return 'models-web/spin1-' + hex.replace('#', '') + '.gltf'; }
 
     /* Il visualizzatore 3D (~300 KB) non viene caricato all'apertura della
        pagina: chi arriva vede prima le foto. Lo carichiamo appena il browser
@@ -941,8 +936,8 @@
     var stretto = window.matchMedia && window.matchMedia('(max-width: 980px)');
     function altezzaInquadratura() {
       var mobile = stretto && stretto.matches;
-      mv.setAttribute('camera-target', mobile ? '0m 0.082m 0m' : '0m 0.095m 0m');
-      mv.setAttribute('camera-orbit',  mobile ? '20deg 78deg 0.96m' : '20deg 78deg 0.86m');
+      mv.setAttribute('camera-target', mobile ? '0m 0.153m 0m' : '0m 0.18m 0m');
+      mv.setAttribute('camera-orbit',  mobile ? '20deg 78deg 1.10m' : '20deg 78deg 0.98m');
     }
     if (stretto) {
       altezzaInquadratura();
@@ -963,7 +958,7 @@
       stato.color = b.dataset.color;
       stato.nomeColore = b.dataset.name;
       nome.textContent = stato.nomeColore;
-      thumbPallino.style.background = stato.color;
+      thumbPallino.style.background = b.style.background;
       /* IL PASSAGGIO CHIAVE: scegliere un colore accende il 3D, senza cambiare pagina */
       mostra3D();
       if (arQr && !arQr.hidden) disegnaQr();
@@ -989,7 +984,7 @@
         arQr.hidden = false;
         arNote.hidden = true;
       } catch (err) {
-        arNote.textContent = 'Apri questa pagina dal telefono per vedere Bombato nel tuo spazio.';
+        arNote.textContent = 'Apri questa pagina dal telefono per vedere Spira nel tuo spazio.';
       }
     }
 
@@ -1054,7 +1049,7 @@
           stato.color = b.dataset.color;
           stato.nomeColore = b.dataset.name;
           nome.textContent = stato.nomeColore;
-          thumbPallino.style.background = stato.color;
+          thumbPallino.style.background = b.style.background;
         }
       }
       if (/[?&]vista=3d/.test(location.search)) mostra3D();
@@ -1071,7 +1066,7 @@
     });
 
     /* serve agli altri blocchi (carrello, barra mobile) */
-    window.PVBombato = {
+    window.PVSpira = {
       colore: function () { return { hex: stato.color, nome: stato.nomeColore }; }
     };
   })();
@@ -1082,7 +1077,7 @@
      Legge il colore attivo dal DOM: resta indipendente dal blocco qui sopra,
      e si copia tale e quale sugli altri vasi cambiando solo ID_PRODOTTO. */
   (function () {
-    var ID_PRODOTTO = 'bombato';
+    var ID_PRODOTTO = 'spin';
 
     var C = window.ShapelessConfig;
     var Cart = window.ShapelessCart;
@@ -1112,7 +1107,7 @@
          colore. Il bottone dice cosa finisce nel carrello: il vaso, e in quale
          colore. */
       testo.textContent = 'Aggiungi al carrello — ' + prodotto.nome + ' ' + c.nome;
-      pallino.style.background = c.hex;
+      pallino.style.background = C.sfondoColore(c.hex);
       barraColore.textContent = 'Aggiungi ' + prodotto.nome + ' ' + c.nome;
     }
 
