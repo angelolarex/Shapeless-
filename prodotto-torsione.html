@@ -230,6 +230,28 @@
     .pv-thumb-3d .pallino{ width:16px; height:16px; }
     .pv-thumb-3d .txt{ font-size:8px; }
   }
+
+  /* 28/09/2026 — le colonne non si allargano mai per colpa delle miniature: il riquadro
+     del vaso resta sempre della stessa misura. Se le miniature sono troppe, su computer
+     compaiono due frecce per scorrerle. */
+  .pv-grid > *{ min-width:0; }
+  .pv-thumbs-wrap{ position:relative; margin-top:22px; }
+  .pv-thumbs-wrap > .pv-thumbs{ margin-top:0; }
+  .pv-thumbs-freccia{
+    position:absolute; top:50%; transform:translateY(-50%); z-index:2;
+    width:30px; height:30px; border-radius:50%; padding:0; cursor:pointer;
+    background:rgba(250,250,248,.94); border:1px solid var(--border); color:var(--text);
+    font-size:14px; line-height:1; display:none; align-items:center; justify-content:center;
+    transition:opacity .2s;
+  }
+  .pv-thumbs-freccia.prec{ left:-15px; }
+  .pv-thumbs-freccia.succ{ right:-15px; }
+  .pv-thumbs-wrap .pv-thumbs-freccia[disabled]{ opacity:0 !important; pointer-events:none; }
+  @media (hover:hover) and (pointer:fine){ .pv-thumbs-wrap.scorre .pv-thumbs-freccia{ display:flex; } }
+  @media (max-width:980px){
+    .pv-thumbs-wrap{ display:contents; }
+    .pv-thumbs-freccia{ display:none !important; }
+  }
   </style>
 </head>
 <body>
@@ -389,7 +411,11 @@
                colori: sul computer, sotto il riquadro alto, finivano fuori
                schermo e nessuno sapeva che ci fossero altre foto. Su telefono
                tornano sotto il riquadro (vedi l'ordine piu' in basso). -->
-          <div class="pv-thumbs" id="pv-thumbs"><!-- riempita da JS --></div>
+          <div class="pv-thumbs-wrap" id="pv-thumbs-wrap">
+            <button type="button" class="pv-thumbs-freccia prec" aria-label="Miniature precedenti">‹</button>
+            <div class="pv-thumbs" id="pv-thumbs"><!-- riempita da JS --></div>
+            <button type="button" class="pv-thumbs-freccia succ" aria-label="Miniature successive">›</button>
+          </div>
 
           <!-- acquisto -->
           <div class="cfg-acquisto">
@@ -1102,6 +1128,28 @@
     }
 
     aggiornaBottone();
+  })();
+  </script>
+  <script>
+  /* 28/09/2026 — frecce per scorrere le miniature quando non ci stanno tutte */
+  (function () {
+    var wrap = document.getElementById('pv-thumbs-wrap');
+    var t = document.getElementById('pv-thumbs');
+    if (!wrap || !t) return;
+    var prec = wrap.querySelector('.prec'), succ = wrap.querySelector('.succ');
+    function aggiorna() {
+      var scorre = t.scrollWidth > t.clientWidth + 2;
+      wrap.classList.toggle('scorre', scorre);
+      prec.disabled = t.scrollLeft <= 2;
+      succ.disabled = t.scrollLeft + t.clientWidth >= t.scrollWidth - 2;
+    }
+    prec.addEventListener('click', function () { t.scrollBy({ left: -t.clientWidth * 0.8, behavior: 'smooth' }); });
+    succ.addEventListener('click', function () { t.scrollBy({ left:  t.clientWidth * 0.8, behavior: 'smooth' }); });
+    t.addEventListener('scroll', aggiorna, { passive: true });
+    window.addEventListener('resize', aggiorna);
+    window.addEventListener('load', aggiorna);
+    setTimeout(aggiorna, 300);
+    aggiorna();
   })();
   </script>
 </body>
