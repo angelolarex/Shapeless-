@@ -2065,3 +2065,15 @@ footer { padding:48px 0 28px; background:#efedea; }
   .footer-bottom { flex-direction:column; align-items:stretch; gap:10px; }
   .footer-bottom > div { justify-content:space-between; gap:12px !important; }
 }
+
+/* 28/09/2026 — telefono: piè di pagina con più margine a sinistra e a destra (richiesta di Angelo),
+   così le colonne di destra (Community, indirizzo) si avvicinano e il vuoto centrale si stringe. */
+@media (max-width: 600px) {
+  footer .container { padding-left: 32px; padding-right: 32px; }
+  /* l'indirizzo resta su due righe, senza spezzarsi */
+  .footer-col:last-child { column-gap: 16px; }
+  .footer-col:last-child p { white-space: nowrap; font-size: 12px !important; }
+}
+@media (max-width: 374px) {
+  footer .container { padding-left: 22px; padding-right: 22px; }
+}
