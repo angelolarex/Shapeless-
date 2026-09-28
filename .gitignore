@@ -109,3 +109,6 @@ _pagamenti/*.ps1
 _strumenti/*.zip
 _strumenti/*.zip.usato
 images/Zig/IMG_*.jpg
+images/Spin/*.jpg
+images/Spin/*.png
+images/Zig/*.png

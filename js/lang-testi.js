@@ -1066,5 +1066,20 @@ window.ShapelessTestiEN = {
   "Zig MT Mar e MT Blu, uno appoggiato di lato": "Zig MT Mar and MT Blu, one lying on its side",
   "Zig MT Mar con fiori accanto a Zig MT Blu": "Zig MT Mar with flowers next to Zig MT Blu",
   "Zig nei tre colori: MT Mar, MT Blu, MT Vio": "Zig in three colours: MT Mar, MT Blu, MT Vio",
-  "Vaso Zig MT Mar con rametti fioriti": "Zig MT Mar vase with flowering sprigs"
+  "Vaso Zig MT Mar con rametti fioriti": "Zig MT Mar vase with flowering sprigs",
+  "Spin Sage — vista frontale": "Spin Sage — front view",
+  "Spin Giallo appoggiato su una roccia": "Spin Giallo resting on a rock",
+  "Spin Magenta tra le rocce vicino all'acqua": "Spin Magenta among the rocks by the water",
+  "Spin Magenta con un rametto, all'aperto": "Spin Magenta with a sprig, outdoors",
+  "Spin Sage tenuto tra le mani": "Spin Sage held in the hands",
+  "Spin Giallo sollevato tra le mani": "Spin Giallo lifted in the hands",
+  "Spin Sage, dettaglio delle nervature": "Spin Sage, detail of the ribs",
+  "Vaso Spin Magenta con un rametto": "Spin Magenta vase with a sprig",
+  "Zig MT Vio — vista frontale": "Zig MT Vio — front view",
+  "Zig MT Vio su fondo bordeaux": "Zig MT Vio on a burgundy background",
+  "Zig MT Mar e MT Blu su un tavolino in soggiorno": "Zig MT Mar and MT Blu on a living-room coffee table",
+  "Zig MT Vio, dettaglio delle pieghe": "Zig MT Vio, detail of the folds",
+  "In arrivo": "Coming soon",
+  "Altri design": "More designs",
+  "Già pronti, li stiamo portando sul sito": "Already made, on their way to the site"
 };

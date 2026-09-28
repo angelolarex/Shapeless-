@@ -399,11 +399,11 @@
           <div class="pv-blocco-colori">
             <div class="label">Scegli il colore</div>
             <div class="color-swatches" id="colors">
-              <button type="button" class="color-swatch active" data-color="#0b89a7" data-name="MT Blu" style="background:linear-gradient(90deg,#0e9182,#0781cc);" aria-label="MT Blu"></button>
+              <button type="button" class="color-swatch" data-color="#0b89a7" data-name="MT Blu" style="background:linear-gradient(90deg,#0e9182,#0781cc);" aria-label="MT Blu"></button>
               <button type="button" class="color-swatch" data-color="#4f422a" data-name="MT Mar" style="background:linear-gradient(90deg,#6f5c36,#2e291d);" aria-label="MT Mar"></button>
-              <button type="button" class="color-swatch" data-color="#8c218c" data-name="MT Vio" style="background:linear-gradient(90deg,#c5246d,#531dab);" aria-label="MT Vio"></button>
+              <button type="button" class="color-swatch active" data-color="#8c218c" data-name="MT Vio" style="background:linear-gradient(90deg,#c5246d,#531dab);" aria-label="MT Vio"></button>
             </div>
-            <div class="pv-colorname" id="colorname">MT Blu</div>
+            <div class="pv-colorname" id="colorname">MT Vio</div>
             <p class="pv-invito" id="pv-invito">Tocca un colore: il vaso diventa 3D e lo puoi girare.</p>
           </div>
 
@@ -421,8 +421,8 @@
             </div>
 
             <button type="button" class="btn btn-fill cfg-add" id="cfg-add">
-              <span class="cfg-add-pallino" id="cfg-add-pallino" style="background:linear-gradient(90deg,#0e9182,#0781cc)"></span>
-              <span id="cfg-add-testo">Aggiungi al carrello — Zig Piccolo MT Blu</span>
+              <span class="cfg-add-pallino" id="cfg-add-pallino" style="background:linear-gradient(90deg,#c5246d,#531dab)"></span>
+              <span id="cfg-add-testo">Aggiungi al carrello — Zig Piccolo MT Vio</span>
             </button>
 
             <p class="cfg-rassicura">
@@ -586,12 +586,12 @@
     <!-- Una frase sola dentro un solo elemento: il bottone e' un contenitore
          flessibile, e fra due pezzi separati lo spazio viene ignorato -
          usciva "AGGIUNGIBLADE ANTRACITE". -->
-    <button type="button" class="btn btn-fill" id="barra-add"><span id="barra-colore">Aggiungi Zig Piccolo MT Blu</span></button>
+    <button type="button" class="btn btn-fill" id="barra-add"><span id="barra-colore">Aggiungi Zig Piccolo MT Vio</span></button>
   </div>
 
   <script src="js/main.js"></script>
   <script src="js/chat.js?v=20260922en" defer></script>
-  <script src="js/lang-testi.js?v=20260928nuovi"></script>
+  <script src="js/lang-testi.js?v=20260928foto"></script>
   <script src="js/lang.js?v=20260923"></script>
   <script src="js/shop-config.js?v=20260928nuovi"></script>
   <script src="js/cart.js?v=20260917consegna"></script>
@@ -607,11 +607,13 @@
      mostrata per prima quando quel colore e' selezionato (gia' previsto).
      ========================================================================= */
   var FOTO = [
-    { src:'images/zig-transparent.webp', alt:'Zig MT Blu — vista frontale' },
+    { src:'images/zig-scontornato.webp', alt:'Zig MT Vio — vista frontale' },
+    { src:'images/Zig/web/zig-mtvio.jpg', alt:'Zig MT Vio su fondo bordeaux' },
+    { src:'images/Zig/web/zig-soggiorno.jpg', alt:'Zig MT Mar e MT Blu su un tavolino in soggiorno' },
+    { src:'images/Zig/web/zig-mtvio-dettaglio.jpg', alt:'Zig MT Vio, dettaglio delle pieghe' },
     { src:'images/Zig/web/zig-mtmar-fiori.jpg', alt:'Zig MT Mar con rametti fioriti, su un piano verde salvia' },
     { src:'images/Zig/web/zig-mtblu-dettaglio.jpg', alt:'Zig MT Blu, dettaglio delle pieghe nei due colori' },
     { src:'images/Zig/web/zig-mtblu-mtmar.jpg', alt:'Zig MT Mar e MT Blu, uno appoggiato di lato' },
-    { src:'images/Zig/web/zig-mtmar-mtblu.jpg', alt:'Zig MT Mar con fiori accanto a Zig MT Blu' },
     { src:'images/Zig/web/zig-tre-colori.jpg', alt:'Zig nei tre colori: MT Mar, MT Blu, MT Vio' }
   ];
   </script>
@@ -663,7 +665,7 @@
     var prec    = document.getElementById('pv-prec');
     var succ    = document.getElementById('pv-succ');
 
-    var stato = { vista:'foto', foto:0, color:'#0b89a7', nomeColore:'MT Blu', modelloAvviato:false };
+    var stato = { vista:'foto', foto:0, color:'#8c218c', nomeColore:'MT Vio', modelloAvviato:false };
 
     /* ---------------------------------------------------------------- FOTO */
 
@@ -700,7 +702,7 @@
     t3d.type = 'button';
     t3d.className = 'pv-thumb pv-thumb-3d';
     t3d.dataset.vista = '3d';
-    t3d.innerHTML = '<span class="pallino" id="thumb-pallino" style="background:linear-gradient(90deg,#0e9182,#0781cc)"></span>' +
+    t3d.innerHTML = '<span class="pallino" id="thumb-pallino" style="background:linear-gradient(90deg,#c5246d,#531dab)"></span>' +
                     '<span class="txt">3D</span>';
     thumbs.appendChild(t3d);
     var thumbPallino = document.getElementById('thumb-pallino');

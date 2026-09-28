@@ -373,9 +373,9 @@
           <div class="pv-blocco-colori">
             <div class="label">Scegli il colore</div>
             <div class="color-swatches" id="colors">
-              <button type="button" class="color-swatch active" data-color="#a3444d" data-name="Red Wine" style="background:#a3444d;" aria-label="Red Wine"></button>
+              <button type="button" class="color-swatch" data-color="#a3444d" data-name="Red Wine" style="background:#a3444d;" aria-label="Red Wine"></button>
               <button type="button" class="color-swatch" data-color="#91535d" data-name="Bordeaux" style="background:#91535d;" aria-label="Bordeaux"></button>
-              <button type="button" class="color-swatch" data-color="#bcbfb0" data-name="Sage" style="background:#bcbfb0;" aria-label="Sage"></button>
+              <button type="button" class="color-swatch active" data-color="#bcbfb0" data-name="Sage" style="background:#bcbfb0;" aria-label="Sage"></button>
               <button type="button" class="color-swatch" data-color="#646666" data-name="Antracite" style="background:#646666;" aria-label="Antracite"></button>
               <button type="button" class="color-swatch" data-color="#d8d0cd" data-name="Off White" style="background:#d8d0cd;" aria-label="Off White"></button>
               <button type="button" class="color-swatch" data-color="#e7cac0" data-name="Rosè" style="background:#e7cac0;" aria-label="Rosè"></button>
@@ -387,7 +387,7 @@
               <button type="button" class="color-swatch" data-color="#00924f" data-name="Verde" style="background:#00924f;" aria-label="Verde"></button>
               <button type="button" class="color-swatch" data-color="#e0bf42" data-name="Golden" style="background:#e0bf42;" aria-label="Golden"></button>
             </div>
-            <div class="pv-colorname" id="colorname">Red Wine</div>
+            <div class="pv-colorname" id="colorname">Sage</div>
             <p class="pv-invito" id="pv-invito">Tocca un colore: il vaso diventa 3D e lo puoi girare.</p>
           </div>
 
@@ -405,8 +405,8 @@
             </div>
 
             <button type="button" class="btn btn-fill cfg-add" id="cfg-add">
-              <span class="cfg-add-pallino" id="cfg-add-pallino" style="background:#a3444d"></span>
-              <span id="cfg-add-testo">Aggiungi al carrello — Spin Red Wine</span>
+              <span class="cfg-add-pallino" id="cfg-add-pallino" style="background:#bcbfb0"></span>
+              <span id="cfg-add-testo">Aggiungi al carrello — Spin Sage</span>
             </button>
 
             <p class="cfg-rassicura">
@@ -453,9 +453,8 @@
             È un vaso generoso, fatto per i mazzi importanti e per i rami lunghi. Sul pavimento accanto a un divano o su una consolle all'ingresso, porta in casa un movimento che non si ferma.
           </p>
         </div>
-        <!-- ⏳ Immagine provvisoria (render 3D): da sostituire con una foto vera quando arriva -->
-        <div class="reveal reveal-delay-2" style="background:var(--bg2); border-radius:2px; aspect-ratio:4/5; display:flex; align-items:center; justify-content:center;">
-          <img src="images/render/spin-346371.webp" alt="Vaso Spin emerald green (immagine 3D)" loading="lazy" style="max-width:70%; max-height:86%; object-fit:contain;">
+        <div class="reveal reveal-delay-2">
+          <img src="images/Spin/web/spin-magenta-rametto.jpg" alt="Vaso Spin Magenta con un rametto" loading="lazy" style="width:100%; aspect-ratio:4/5; object-fit:cover; border-radius:2px;">
         </div>
       </div>
     </div>
@@ -571,12 +570,12 @@
     <!-- Una frase sola dentro un solo elemento: il bottone e' un contenitore
          flessibile, e fra due pezzi separati lo spazio viene ignorato -
          usciva "AGGIUNGIBLADE ANTRACITE". -->
-    <button type="button" class="btn btn-fill" id="barra-add"><span id="barra-colore">Aggiungi Spin Red Wine</span></button>
+    <button type="button" class="btn btn-fill" id="barra-add"><span id="barra-colore">Aggiungi Spin Sage</span></button>
   </div>
 
   <script src="js/main.js"></script>
   <script src="js/chat.js?v=20260922en" defer></script>
-  <script src="js/lang-testi.js?v=20260928nuovi"></script>
+  <script src="js/lang-testi.js?v=20260928foto"></script>
   <script src="js/lang.js?v=20260923"></script>
   <script src="js/shop-config.js?v=20260928nuovi"></script>
   <script src="js/cart.js?v=20260917consegna"></script>
@@ -592,8 +591,13 @@
      mostrata per prima quando quel colore e' selezionato (gia' previsto).
      ========================================================================= */
   var FOTO = [
-    /* ⏳ per ora solo l'immagine dal modello 3D: le foto vere si aggiungono qui sotto */
-    { src:'images/spin-transparent.webp', alt:'Spin — vista frontale' }
+    { src:'images/spin-scontornato.webp', alt:'Spin Sage — vista frontale' },
+    { src:'images/Spin/web/spin-giallo-roccia.jpg', alt:'Spin Giallo appoggiato su una roccia' },
+    { src:'images/Spin/web/spin-magenta-roccia.jpg', alt:'Spin Magenta tra le rocce vicino all\'acqua' },
+    { src:'images/Spin/web/spin-magenta-rametto.jpg', alt:'Spin Magenta con un rametto, all\'aperto' },
+    { src:'images/Spin/web/spin-sage-mani.jpg', alt:'Spin Sage tenuto tra le mani' },
+    { src:'images/Spin/web/spin-giallo-mani.jpg', alt:'Spin Giallo sollevato tra le mani' },
+    { src:'images/Spin/web/spin-sage-dettaglio.jpg', alt:'Spin Sage, dettaglio delle nervature' }
   ];
   </script>
 
@@ -614,7 +618,7 @@
     var prec    = document.getElementById('pv-prec');
     var succ    = document.getElementById('pv-succ');
 
-    var stato = { vista:'foto', foto:0, color:'#a3444d', nomeColore:'Red Wine', modelloAvviato:false };
+    var stato = { vista:'foto', foto:0, color:'#bcbfb0', nomeColore:'Sage', modelloAvviato:false };
 
     /* ---------------------------------------------------------------- FOTO */
 
@@ -651,7 +655,7 @@
     t3d.type = 'button';
     t3d.className = 'pv-thumb pv-thumb-3d';
     t3d.dataset.vista = '3d';
-    t3d.innerHTML = '<span class="pallino" id="thumb-pallino" style="background:#a3444d"></span>' +
+    t3d.innerHTML = '<span class="pallino" id="thumb-pallino" style="background:#bcbfb0"></span>' +
                     '<span class="txt">3D</span>';
     thumbs.appendChild(t3d);
     var thumbPallino = document.getElementById('thumb-pallino');
