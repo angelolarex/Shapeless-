@@ -3,12 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- 28/09/2026: COPIA DI PROVA del catalogo (2 per riga su telefono + prezzi). Nascosta. -->
+  <meta name="robots" content="noindex">
   <title>Tutti i design | Shapeless</title>
   <meta name="description" content="Tutti i design Shapeless: vasi e lampade scultura progettati in Italia per dare movimento e carattere agli spazi. Ogni pezzo è realizzato quando lo scegli.">
   <link rel="stylesheet" href="css/style.css?v=20260928footer">
   <style>
-    /* 28/09: nome, sottotitolo e link centrati sotto l'immagine */
+    /* Copia di prova 28/09: tutta la scheda e' il link; sotto l'immagine solo nome e prezzo */
     .products-grid .product-card{ text-align:center; }
+    .products-grid .product-card .pc-prezzo{ display:block; margin-top:6px; font-size:13px; color:var(--text-muted); letter-spacing:.02em; }
+    .products-grid .product-card .pc-sotto, .products-grid .product-card .pc-link{ display:none !important; }
+    /* telefono e tablet verticale: 2 per riga */
+    @media (max-width: 900px){
+      .grid-3.products-grid{ grid-template-columns:1fr 1fr !important; gap:28px 14px !important; }
+      .products-grid .product-card .card-img{ aspect-ratio:4/5; }
+      .products-grid .product-card .product-card-title{ font-size:10.5px; margin-top:10px; }
+      .products-grid .product-card .pc-prezzo{ font-size:12px; margin-top:4px; }
+      .products-grid .card-in-arrivo .pc-arrivo-testo{ font-size:11px !important; line-height:1.45; }
+    }
   </style>
 </head>
 <body>
@@ -79,8 +91,9 @@
             <img src="images/bombato-transparent.png" alt="Bombato" style="width:82%; height:82%; object-fit:contain; object-position:center bottom;">
           </div>
           <p class="product-card-title">Bombato</p>
-          <p style="font-size:13px; color:var(--text-muted); margin-top:6px;">Vaso scultura</p>
-          <span style="display:inline-block; margin-top:12px; font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent);">Scopri il design →</span>
+          <span class="pc-prezzo" data-prezzo="bombato"></span>
+          <p class="pc-sotto" style="font-size:13px; color:var(--text-muted); margin-top:6px;">Vaso scultura</p>
+          <span class="pc-link" style="display:inline-block; margin-top:12px; font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent);">Scopri il design →</span>
         </a>
 
         <a href="prodotto-blade.html" class="product-card reveal reveal-delay-2">
@@ -88,8 +101,9 @@
             <img src="images/blade-transparent.png" alt="Blade" style="width:82%; height:82%; object-fit:contain; object-position:center bottom;">
           </div>
           <p class="product-card-title">Blade</p>
-          <p style="font-size:13px; color:var(--text-muted); margin-top:6px;">Vaso scultura</p>
-          <span style="display:inline-block; margin-top:12px; font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent);">Scopri il design →</span>
+          <span class="pc-prezzo" data-prezzo="blade"></span>
+          <p class="pc-sotto" style="font-size:13px; color:var(--text-muted); margin-top:6px;">Vaso scultura</p>
+          <span class="pc-link" style="display:inline-block; margin-top:12px; font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent);">Scopri il design →</span>
         </a>
 
         <a href="prodotto-vulcano.html" class="product-card reveal reveal-delay-3">
@@ -97,8 +111,9 @@
             <img src="images/vulcano-transparent.png" alt="Vulcano" style="width:66%; height:66%; object-fit:contain; object-position:center bottom;">
           </div>
           <p class="product-card-title">Vulcano</p>
-          <p style="font-size:13px; color:var(--text-muted); margin-top:6px;">Vaso scultura</p>
-          <span style="display:inline-block; margin-top:12px; font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent);">Scopri il design →</span>
+          <span class="pc-prezzo" data-prezzo="vulcano"></span>
+          <p class="pc-sotto" style="font-size:13px; color:var(--text-muted); margin-top:6px;">Vaso scultura</p>
+          <span class="pc-link" style="display:inline-block; margin-top:12px; font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent);">Scopri il design →</span>
         </a>
 
         <!-- 28/09/2026: Spin, Torsione, Zig. Immagine provvisoria dal modello 3D
@@ -108,8 +123,9 @@
             <img src="images/spin-scontornato.webp?v=4" alt="Spin" style="width:80%; height:80%; object-fit:contain; object-position:center bottom;">
           </div>
           <p class="product-card-title">Spin</p>
-          <p style="font-size:13px; color:var(--text-muted); margin-top:6px;">Vaso scultura</p>
-          <span style="display:inline-block; margin-top:12px; font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent);">Scopri il design →</span>
+          <span class="pc-prezzo" data-prezzo="spin"></span>
+          <p class="pc-sotto" style="font-size:13px; color:var(--text-muted); margin-top:6px;">Vaso scultura</p>
+          <span class="pc-link" style="display:inline-block; margin-top:12px; font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent);">Scopri il design →</span>
         </a>
 
         <!-- 28/09: TORSIONE NASCOSTO dal catalogo (pagina pronta, con noindex). Per rimetterlo: togliere il commento.
@@ -128,8 +144,9 @@
             <img src="images/zig-scontornato.webp?v=4" alt="Zig" style="width:62%; height:62%; object-fit:contain; object-position:center bottom;">
           </div>
           <p class="product-card-title">Zig</p>
-          <p style="font-size:13px; color:var(--text-muted); margin-top:6px;">Vaso scultura</p>
-          <span style="display:inline-block; margin-top:12px; font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent);">Scopri il design →</span>
+          <span class="pc-prezzo" data-prezzo="zig-s"></span>
+          <p class="pc-sotto" style="font-size:13px; color:var(--text-muted); margin-top:6px;">Vaso scultura</p>
+          <span class="pc-link" style="display:inline-block; margin-top:12px; font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent);">Scopri il design →</span>
         </a>
 
         <!-- 28/09: segnaposto per i design pronti ma non ancora caricati sul sito -->
@@ -138,7 +155,7 @@
             <span style="font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:var(--text-muted);">In arrivo</span>
           </div>
           <p class="product-card-title" style="color:var(--text-muted);">Altri design</p>
-          <p style="font-size:13px; color:var(--text-muted); margin-top:6px;">Già pronti, li stiamo portando sul sito</p>
+          <p class="pc-arrivo-testo" style="font-size:13px; color:var(--text-muted); margin-top:6px;">Già pronti, li stiamo portando sul sito</p>
         </div>
 
         <!-- ⚠️ STARLIGHT NASCOSTA dal catalogo — non cancellata.
@@ -156,7 +173,7 @@
           </div>
           <p class="product-card-title">Starlight</p>
           <p style="font-size:13px; color:var(--text-muted); margin-top:6px;">Lampada scultura</p>
-          <span style="display:inline-block; margin-top:12px; font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent);">Scopri il design →</span>
+          <span class="pc-link" style="display:inline-block; margin-top:12px; font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent);">Scopri il design →</span>
         </a>
         -->
 
@@ -236,5 +253,16 @@
   <script src="js/lang.js?v=20260923"></script>
   <script src="js/shop-config.js?v=20260928nuovi"></script>
   <script src="js/cart.js?v=20260917consegna"></script>
+  <script>
+  /* prezzi presi da shop-config.js: sono gli stessi della cassa */
+  (function(){
+    var C=window.ShapelessConfig, Cart=window.ShapelessCart; if(!C) return;
+    document.querySelectorAll('[data-prezzo]').forEach(function(el){
+      var p=C.prodotti[el.dataset.prezzo]; if(!p) return;
+      var t=Cart&&Cart.formatPrice?Cart.formatPrice(p.prezzo):('€ '+p.prezzo.toFixed(2).replace('.',','));
+      el.textContent=(el.dataset.prezzo==='zig-s'?'da ':'')+t;
+    });
+  })();
+  </script>
 </body>
 </html>
