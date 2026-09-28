@@ -1001,5 +1001,12 @@ window.ShapelessTestiEN = {
   "10%": "10%",
   "di benvenuto sul tuo primo ordine": "welcome discount on your first order",
   "Ogni vaso è disegnato e prodotto in Italia, e seguito pezzo per pezzo fino alla spedizione.": "Every vase is designed and made in Italy, and looked after piece by piece until it ships.",
-  "Ogni forma nasce nel nostro studio e prende vita pezzo per pezzo, seguita con cura fino a quando arriva da te.": "Every form is born in our studio and comes to life piece by piece, looked after with care until it reaches you."
+  "Ogni forma nasce nel nostro studio e prende vita pezzo per pezzo, seguita con cura fino a quando arriva da te.": "Every form is born in our studio and comes to life piece by piece, looked after with care until it reaches you.",
+  "Come l'acqua che scorre.": "Like flowing water.",
+  "Come il vento tra le foglie.": "Like the wind through the leaves.",
+  "Come la luce che attraversa una stanza.": "Like light moving across a room.",
+  "Shapeless nasce da qui: forme che seguono il flusso della natura e portano movimento nella tua casa, anche quando tutto intorno è fermo.": "This is where Shapeless begins: forms that follow the flow of nature and bring movement into your home, even when everything around is still.",
+  "Progettato e prodotto in Italia.": "Designed and made in Italy.",
+  "Dal primo schizzo all'ultimo dettaglio, seguito con cura.": "From the first sketch to the last detail, looked after with care.",
+  "Solo quando lo scegli.": "Only when you choose it."
 };
