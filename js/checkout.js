@@ -166,7 +166,7 @@
         '<div class="riep-prezzo">' + Cart.formatPrice(it.prezzo * it.qty) + '</div>';
       r.querySelector('.riep-nome').textContent = it.nome + (it.qty > 1 ? ' × ' + it.qty : '');
       if (it.colore) {
-        r.querySelector('.riep-pallino').style.background = it.coloreHex || '#000';
+        r.querySelector('.riep-pallino').style.background = window.ShapelessConfig.sfondoColore(it.coloreHex);
         r.querySelector('.riep-colore span:last-child').textContent = it.colore;
       }
       box.appendChild(r);

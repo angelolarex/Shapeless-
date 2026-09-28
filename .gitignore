@@ -104,3 +104,8 @@ _pagamenti/pannello.html
 _pagamenti/pannello.js
 _pagamenti/pannello-icone.js
 _pagamenti/*.ps1
+
+# 28/09/2026: pacchetti usati da Claude per spostare file (non servono online)
+_strumenti/*.zip
+_strumenti/*.zip.usato
+images/Zig/IMG_*.jpg

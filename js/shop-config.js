@@ -120,6 +120,51 @@
         pagina: 'prodotto-bombato.html',
         configuratore: null,
         disegno: 'images/bombato-linea.svg'
+      },
+      /* 28/09/2026 — Torsione, Spin, Zig (prezzi dati da Angelo, listino 08-01-2026).
+         Niente disegno a tratto per ora: nel carrello va il render 3D nel colore
+         scelto (images/render/<nome>-<hex>.webp, stessa luce del sito). */
+      torsione: {
+        id: 'torsione',
+        nome: 'Torsione',
+        prezzo: 79.00,       /* 13x13x36h cm — senza Hidden Nest */
+        altezzaCm: 36,
+        immagine: 'images/torsione-transparent.webp',
+        render: 'images/render/torsione-{hex}.webp',
+        pagina: 'prodotto-torsione.html',
+        configuratore: null
+      },
+      spin: {
+        id: 'spin',
+        nome: 'Spin',
+        prezzo: 159.00,      /* 19x19x36h cm */
+        altezzaCm: 36,
+        immagine: 'images/spin-transparent.webp',
+        render: 'images/render/spin-{hex}.webp',
+        pagina: 'prodotto-spin.html',
+        configuratore: null
+      },
+      /* Zig: due misure = due prodotti, cosi' carrello, cassa e pannello
+         sanno sempre quale misura e' stata comprata. Una sola pagina. */
+      'zig-s': {
+        id: 'zig-s',
+        nome: 'Zig Piccolo',
+        prezzo: 149.00,      /* 18x18x25h cm */
+        altezzaCm: 25,
+        immagine: 'images/zig-transparent.webp',
+        render: 'images/render/zig-{hex}.webp',
+        pagina: 'prodotto-zig.html',
+        configuratore: null
+      },
+      'zig-l': {
+        id: 'zig-l',
+        nome: 'Zig Grande',
+        prezzo: 205.00,      /* 23x23x32h cm */
+        altezzaCm: 32,
+        immagine: 'images/zig-transparent.webp',
+        render: 'images/render/zig-{hex}.webp',
+        pagina: 'prodotto-zig.html',
+        configuratore: null
       }
     },
 
@@ -137,7 +182,18 @@
       { hex: '#00924f', nome: 'Verde' },
       { hex: '#5b644f', nome: 'Forest Green' },
       /* 22/09/2026: solo Vulcano e Bombato (Blade no). Ricavato dalla foto, zone di mezzo. */
-      { hex: '#0095a1', nome: 'Blu Lagoon' }
+      { hex: '#0095a1', nome: 'Blu Lagoon' },
+      /* 28/09/2026: Bombato/Spin/Torsione */
+      { hex: '#6b1492', nome: 'Viola' },
+      { hex: '#dd1d76', nome: 'Magenta' },
+      { hex: '#fed003', nome: 'Giallo' },
+      { hex: '#e0bf42', nome: 'Golden' },
+      /* 28/09/2026: multicolore dello Zig (PLA bicolore, cambia girandogli
+         intorno). hex = tinta di mezzo; "sfumatura" = i due colori veri,
+         usati per disegnare il pallino a gradiente. */
+      { hex: '#0b89a7', nome: 'MT Blu', sfumatura: ['#0e9182', '#0781cc'] },
+      { hex: '#4f422a', nome: 'MT Mar', sfumatura: ['#6f5c36', '#2e291d'] },
+      { hex: '#8c218c', nome: 'MT Vio', sfumatura: ['#c5246d', '#531dab'] }
     ],
 
     /* ------------------------------------------------------------------
@@ -229,6 +285,20 @@
       if (CONFIG.colori[i].hex.toLowerCase() === hex) return CONFIG.colori[i].nome;
     }
     return '';
+  };
+
+  /* Lo sfondo del pallino di un colore: tinta unita, o gradiente per i
+     multicolore (Zig). Da usare al posto di hex nello style background. */
+  CONFIG.sfondoColore = function (hex) {
+    if (!hex) return '#000';
+    var h = hex.toLowerCase();
+    for (var i = 0; i < CONFIG.colori.length; i++) {
+      var c = CONFIG.colori[i];
+      if (c.hex.toLowerCase() === h && c.sfumatura) {
+        return 'linear-gradient(90deg,' + c.sfumatura[0] + ',' + c.sfumatura[1] + ')';
+      }
+    }
+    return hex;
   };
 
   window.ShapelessConfig = CONFIG;

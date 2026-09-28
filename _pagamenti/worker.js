@@ -51,7 +51,12 @@ import { gestisciPannello } from './pannello.js';
 const CATALOGO = {
   blade:   { nome: 'Blade',   prezzo: 21500, immagine: 'images/blade-transparent.png' },
   vulcano: { nome: 'Vulcano', prezzo:  9500, immagine: 'images/vulcano-transparent.png' },
-  bombato: { nome: 'Bombato', prezzo:  9500, immagine: 'images/bombato-transparent.png' }
+  bombato: { nome: 'Bombato', prezzo:  9500, immagine: 'images/bombato-transparent.png' },
+  /* 28/09/2026 — prezzi dati da Angelo (listino 08-01-2026, prezzo al pubblico) */
+  torsione: { nome: 'Torsione',    prezzo:  7900, immagine: 'images/torsione-transparent.webp', senzaVetro: true },
+  spin:     { nome: 'Spin',        prezzo: 15900, immagine: 'images/spin-transparent.webp' },
+  'zig-s':  { nome: 'Zig Piccolo', prezzo: 14900, immagine: 'images/zig-transparent.webp' },
+  'zig-l':  { nome: 'Zig Grande',  prezzo: 20500, immagine: 'images/zig-transparent.webp' }
 };
 /* i prezzi sono in CENTESIMI: Stripe lavora sempre in centesimi */
 
@@ -171,6 +176,10 @@ const DOMINIO = 'https://shapeless.shop';
    (images/stripe/<prodotto>-<hex>.png). Un colore sconosciuto non rompe
    niente: si usa l'immagine senza pallino. */
 const COLORI_HEX = ['a3444d','91535d','bcbfb0','646666','d8d0cd','e7cac0','346371','00924f','5b644f','0095a1'];   /* 0095a1 Blu Lagoon (22/09) */
+/* 28/09: immagini Stripe dei vasi nuovi (render 3D + pallino) — Spin e Torsione
+   anche in Viola, Magenta, Giallo, Golden; Zig nei tre multicolore. */
+const COLORI_HEX_NUOVI = ['6b1492','dd1d76','fed003','e0bf42','0b89a7','4f422a','8c218c'];
+const PRODOTTI_NUOVI = ['torsione','spin','zig-s','zig-l'];
 
 function paesiDellaZona(zona) {
   if (zona === 'IT') return ['IT'];
@@ -180,7 +189,8 @@ function paesiDellaZona(zona) {
 
 function immagineStripe(id, coloreHex) {
   const hex = String(coloreHex || '').replace('#', '').toLowerCase();
-  const file = COLORI_HEX.includes(hex) ? `${id}-${hex}.png` : `${id}.png`;
+  const noto = COLORI_HEX.includes(hex) || (PRODOTTI_NUOVI.includes(id) && COLORI_HEX_NUOVI.includes(hex));
+  const file = noto ? `${id}-${hex}.png` : `${id}.png`;
   return `${DOMINIO}/images/stripe/${file}`;
 }
 
@@ -228,8 +238,8 @@ async function creaSessione(richiesta, env, origine) {
         unit_amount: p.prezzo,
         product_data: {
           name: p.nome + (colore ? ` — ${colore}` : ''),
-          description: 'Vaso in PLA vegetale, prodotto on demand. ' +
-                       'Inserto Hidden Nest in vetro incluso.',
+          description: 'Vaso in PLA vegetale, prodotto on demand.' +
+                       (p.senzaVetro ? '' : ' Inserto Hidden Nest in vetro incluso.'),
           /* il disegno a tratto con il pallino del colore scelto */
           images: [immagineStripe(a.id, a.coloreHex)]
         }
