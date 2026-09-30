@@ -1089,6 +1089,7 @@ window.ShapelessTestiEN = {
   "Video del vaso Spira Sage": "Video of the Spira Sage vase",
   "Video del vaso Torsione": "Video of the Torsione vase",
   "Torsione su un piano in legno, davanti a una parete chiara": "Torsione on a wooden surface, in front of a light wall",
+  "Torsione giallo su un tavolo in legno, in un salotto": "Yellow Torsione on a wooden table in a living room",
   "Lampade": "Lamps",
   /* 30/09/2026 — Spira in due misure */
   "Piccola": "Small",
