@@ -1086,6 +1086,10 @@ window.ShapelessTestiEN = {
   "Bombato Viola, dettaglio delle pieghe con una mano": "Bombato Viola, detail of the folds with a hand",
   "Video del vaso Bombato Viola": "Video of the Bombato Viola vase",
   "Video del vaso Vulcano": "Video of the Vulcano vase",
+  "Video del vaso Spira Sage": "Video of the Spira Sage vase",
+  "Video del vaso Torsione": "Video of the Torsione vase",
+  "Torsione su un piano in legno, davanti a una parete chiara": "Torsione on a wooden surface, in front of a light wall",
+  "Lampade": "Lamps",
   /* 30/09/2026 — Spira in due misure */
   "Piccola": "Small",
   "Spira: un vaso ampio percorso da nervature che salgono girando, come l'acqua in un vortice. Due misure, tredici colori, Hidden Nest in vetro incluso.": "Spira: a generous vase traced by ribs that spiral upwards, like water in a whirlpool. Two sizes, thirteen colours, Hidden Nest glass included.",

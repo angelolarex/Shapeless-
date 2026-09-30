@@ -129,7 +129,7 @@
         nome: 'Torsione',
         prezzo: 79.00,       /* 13x13x36h cm — senza Hidden Nest */
         altezzaCm: 36,
-        immagine: 'images/torsione-transparent.webp',
+        immagine: 'images/torsione-scontornato.webp',
         render: 'images/render/torsione-{hex}.webp',
         pagina: 'prodotto-torsione.html',
         configuratore: null
@@ -164,7 +164,7 @@
         nome: 'Zig Piccolo',
         prezzo: 149.00,      /* 18x18x25h cm */
         altezzaCm: 25,
-        immagine: 'images/zig-transparent.webp',
+        immagine: 'images/zig-blu-scontornato.webp',
         render: 'images/render/zig-{hex}.webp',
         pagina: 'prodotto-zig.html',
         configuratore: null
@@ -175,7 +175,7 @@
         nome: 'Vulcano Light',
         prezzo: 125.00,      /* 22x22x30h cm */
         altezzaCm: 30,
-        immagine: 'images/vulcano-light-scontornato.webp',
+        immagine: 'images/vulcano-light-vetrina.webp',
         pagina: 'prodotto-vulcano-light.html',
         configuratore: null
       },
@@ -193,7 +193,7 @@
         nome: 'Zig Grande',
         prezzo: 205.00,      /* 23x23x32h cm */
         altezzaCm: 32,
-        immagine: 'images/zig-transparent.webp',
+        immagine: 'images/zig-blu-scontornato.webp',
         render: 'images/render/zig-{hex}.webp',
         pagina: 'prodotto-zig.html',
         configuratore: null
