@@ -54,9 +54,13 @@ const CATALOGO = {
   bombato: { nome: 'Bombato', prezzo:  9500, immagine: 'images/bombato-transparent.png' },
   /* 28/09/2026 — prezzi dati da Angelo (listino 08-01-2026, prezzo al pubblico) */
   torsione: { nome: 'Torsione',    prezzo:  7900, immagine: 'images/torsione-transparent.webp', senzaVetro: true },
-  spin:     { nome: 'Spira',        prezzo: 15900, immagine: 'images/spin-transparent.webp' },
+  spin:     { nome: 'Spira Grande', prezzo: 15900, immagine: 'images/spin-transparent.webp' },
+  'spin-s': { nome: 'Spira Piccola', prezzo:  9500, immagine: 'images/spin-transparent.webp' },
   'zig-s':  { nome: 'Zig Piccolo', prezzo: 14900, immagine: 'images/zig-transparent.webp' },
-  'zig-l':  { nome: 'Zig Grande',  prezzo: 20500, immagine: 'images/zig-transparent.webp' }
+  'zig-l':  { nome: 'Zig Grande',  prezzo: 20500, immagine: 'images/zig-transparent.webp' },
+  /* 30/09/2026 — lampade: niente Hidden Nest, descrizione "Lampada" */
+  'vulcano-light': { nome: 'Vulcano Light', prezzo: 12500, immagine: 'images/vulcano-light-scontornato.webp', lampada: true },
+  starlight:       { nome: 'Starlight',     prezzo: 21500, immagine: 'images/starlight-scontornato.webp', lampada: true }
 };
 /* i prezzi sono in CENTESIMI: Stripe lavora sempre in centesimi */
 
@@ -179,7 +183,7 @@ const COLORI_HEX = ['a3444d','91535d','bcbfb0','646666','d8d0cd','e7cac0','34637
 /* 28/09: immagini Stripe dei vasi nuovi (render 3D + pallino) — Spin e Torsione
    anche in Viola, Magenta, Giallo, Golden; Zig nei tre multicolore. */
 const COLORI_HEX_NUOVI = ['6b1492','dd1d76','fed003','e0bf42','0b89a7','4f422a','8c218c'];
-const PRODOTTI_NUOVI = ['torsione','spin','zig-s','zig-l'];
+const PRODOTTI_NUOVI = ['torsione','spin','spin-s','zig-s','zig-l'];
 
 function paesiDellaZona(zona) {
   if (zona === 'IT') return ['IT'];
@@ -238,8 +242,8 @@ async function creaSessione(richiesta, env, origine) {
         unit_amount: p.prezzo,
         product_data: {
           name: p.nome + (colore ? ` — ${colore}` : ''),
-          description: 'Vaso in PLA vegetale, prodotto on demand.' +
-                       (p.senzaVetro ? '' : ' Inserto Hidden Nest in vetro incluso.'),
+          description: (p.lampada ? 'Lampada in PLA vegetale, prodotta on demand.' : 'Vaso in PLA vegetale, prodotto on demand.') +
+                       ((p.senzaVetro || p.lampada) ? '' : ' Inserto Hidden Nest in vetro incluso.'),
           /* il disegno a tratto con il pallino del colore scelto */
           images: [immagineStripe(a.id, a.coloreHex)]
         }

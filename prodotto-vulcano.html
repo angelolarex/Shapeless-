@@ -250,6 +250,11 @@
     .pv-thumbs-wrap{ display:contents; }
     .pv-thumbs-freccia{ display:none !important; }
   }
+  /* ---- 30/09/2026: video nella galleria ---- */
+  .pv-slide video{ max-width:96%; max-height:88%; width:auto; height:auto; border-radius:2px; background:#000; }
+  .pv-thumb{ position:relative; }
+  .pv-thumb .play{ position:absolute; right:5px; bottom:5px; width:18px; height:18px; border-radius:50%;
+    background:rgba(20,20,20,.72); color:#fff; font-size:8px; line-height:18px; text-align:center; padding-left:1px; }
   </style>
 </head>
 <body>
@@ -606,9 +611,9 @@
 
   <script src="js/main.js"></script>
   <script src="js/chat.js?v=20260922en" defer></script>
-  <script src="js/lang-testi.js?v=20260928lancio"></script>
+  <script src="js/lang-testi.js?v=20260930luci"></script>
   <script src="js/lang.js?v=20260928lancio"></script>
-  <script src="js/shop-config.js?v=20260928lancio"></script>
+  <script src="js/shop-config.js?v=20260930luci"></script>
   <script src="js/cart.js?v=20260917consegna"></script>
   <script src="js/qrcode.js"></script>
 
@@ -625,7 +630,8 @@
     { src:'images/vulcano-transparent.png', alt:'Vulcano — vista frontale' },
     { src:'images/Vulcano/vulcano-ambiente-blu.jpg',     alt:'Vulcano Emerald Green con rami secchi, su una consolle in salotto' },
     { src:'images/Vulcano/vulcano-ambiente-redwine.jpg', alt:'Vulcano Red Wine con rose rosse, su un tavolino accanto al divano' },
-    { src:'images/Vulcano/vulcano-dettaglio.jpg',        alt:'Vulcano, dettaglio ravvicinato della piega e della bocca' }
+    { src:'images/Vulcano/vulcano-dettaglio.jpg',        alt:'Vulcano, dettaglio ravvicinato della piega e della bocca' },
+    { video:'images/Vulcano/web/vulcano-video.mp4', poster:'images/Vulcano/web/vulcano-video-poster.jpg', alt:'Video del vaso Vulcano' }
   ];
   </script>
 
@@ -653,8 +659,13 @@
     FOTO.forEach(function (f, i) {
       var s = document.createElement('div');
       s.className = 'pv-slide';
-      s.innerHTML = '<img src="' + encodeURI(f.src) + '" alt="' + f.alt + '" ' +
-                    (i === 0 ? '' : 'loading="lazy" ') + '>';
+      if (f.video) {
+        s.innerHTML = '<video src="' + encodeURI(f.video) + '" poster="' + encodeURI(f.poster) + '" muted loop playsinline ' +
+                      'controls preload="metadata" aria-label="' + f.alt + '"></video>';
+      } else {
+        s.innerHTML = '<img src="' + encodeURI(f.src) + '" alt="' + f.alt + '" ' +
+                      (i === 0 ? '' : 'loading="lazy" ') + '>';
+      }
       slides.appendChild(s);
 
       var p = document.createElement('span');
@@ -665,7 +676,8 @@
       t.type = 'button';
       t.className = 'pv-thumb' + (i === 0 ? ' attivo' : '');
       t.dataset.foto = i;
-      t.innerHTML = '<img src="' + encodeURI(f.src) + '" alt="' + f.alt + '" loading="lazy">';
+      t.innerHTML = '<img src="' + encodeURI(f.poster || f.src) + '" alt="' + f.alt + '" loading="lazy">' +
+                    (f.video ? '<span class="play">&#9654;</span>' : '');
       thumbs.appendChild(t);
     });
 
@@ -695,7 +707,17 @@
       segnaFotoAttiva(i);
     }
 
+    /* video: parte solo quando e' la foto in vista (e si e' sulle foto), altrimenti si ferma */
+    function gestisciVideo() {
+      slides.querySelectorAll('video').forEach(function (v) {
+        var idx = Array.prototype.indexOf.call(slides.children, v.parentNode);
+        if (stato.vista === 'foto' && idx === stato.foto) { var pr = v.play(); if (pr && pr.catch) pr.catch(function () {}); }
+        else v.pause();
+      });
+    }
+
     function segnaFotoAttiva(i) {
+      setTimeout(gestisciVideo, 0);
       punti.querySelectorAll('.pv-punto').forEach(function (p, k) { p.classList.toggle('attivo', k === i); });
       if (stato.vista === 'foto') aggiornaThumbAttiva();
       prec.disabled = (i === 0);
@@ -757,6 +779,7 @@
 
     function mostra3D() {
       stato.vista = '3d';
+      gestisciVideo();
       avviaModello();
       v3d.classList.add('attiva');
       vFoto.classList.remove('attiva');

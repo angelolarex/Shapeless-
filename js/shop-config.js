@@ -134,11 +134,24 @@
         pagina: 'prodotto-torsione.html',
         configuratore: null
       },
+      /* Spira: due misure = due prodotti (come Zig), una sola pagina.
+         30/09: Grande 19x19x35h 159 euro (id 'spin', resta cosi' per gli ordini
+         vecchi), Piccola 15x15x27h 95 euro. */
       spin: {
         id: 'spin',
-        nome: 'Spira',        /* 28/09: prima si chiamava Spin (id e file restano 'spin') */
-        prezzo: 159.00,      /* 19x19x36h cm */
-        altezzaCm: 36,
+        nome: 'Spira Grande',
+        prezzo: 159.00,      /* 19x19x35h cm */
+        altezzaCm: 35,
+        immagine: 'images/spin-transparent.webp',
+        render: 'images/render/spin-{hex}.webp',
+        pagina: 'prodotto-spira.html',
+        configuratore: null
+      },
+      'spin-s': {
+        id: 'spin-s',
+        nome: 'Spira Piccola',
+        prezzo: 95.00,       /* 15x15x27h cm */
+        altezzaCm: 27,
         immagine: 'images/spin-transparent.webp',
         render: 'images/render/spin-{hex}.webp',
         pagina: 'prodotto-spira.html',
@@ -154,6 +167,25 @@
         immagine: 'images/zig-transparent.webp',
         render: 'images/render/zig-{hex}.webp',
         pagina: 'prodotto-zig.html',
+        configuratore: null
+      },
+      /* 30/09/2026 — lampade (solo foto e video, niente 3D, niente colori) */
+      'vulcano-light': {
+        id: 'vulcano-light',
+        nome: 'Vulcano Light',
+        prezzo: 125.00,      /* 22x22x30h cm */
+        altezzaCm: 30,
+        immagine: 'images/vulcano-light-scontornato.webp',
+        pagina: 'prodotto-vulcano-light.html',
+        configuratore: null
+      },
+      starlight: {
+        id: 'starlight',
+        nome: 'Starlight',
+        prezzo: 215.00,      /* 29x29x27h cm */
+        altezzaCm: 27,
+        immagine: 'images/starlight-scontornato.webp',
+        pagina: 'prodotto-starlight.html',
         configuratore: null
       },
       'zig-l': {

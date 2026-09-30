@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vulcano Light | Shapeless</title>
+  <meta name="description" content="Vulcano Light: una lampada da tavolo in PLA vegetale, con un paralume che sale girando su se stesso e una luce calda per la sera. 22x22x30 cm, progettata e prodotta in Italia.">
+  <link rel="stylesheet" href="css/style.css?v=20260928footer">
+  <link rel="stylesheet" href="css/negozio.css">
+
+  <style>
+  /* ==========================================================================
+     PAGINA UNICA — foto + 3D nello stesso riquadro
+     --------------------------------------------------------------------------
+     L'idea: chi compra non deve scegliere fra "vedere le foto" e "vedere il 3D".
+     C'e' un solo riquadro. Dentro ci sono due viste sovrapposte, e si passa
+     dall'una all'altra senza mai lasciare la pagina:
+
+       - le foto scorrono di lato (si trascina col dito, come su Instagram)
+       - si tocca un colore  -> il riquadro diventa il 3D di quel colore
+       - si tocca una foto o "Foto" -> si torna alle foto, colore conservato
+
+     Tutto qui dentro e' "scoped" con il prefisso .pv- (pagina vaso): non tocca
+     nulla del resto del sito: e' lo stesso impianto di Blade e Bombato, con
+     modello, foto e stati della lampada Starlight.
+     ========================================================================== */
+
+  .pv-grid{ display:grid; grid-template-columns:1.08fr 1fr; gap:64px; align-items:start; }
+  .pv-descr{ margin-top:40px; padding-top:28px; border-top:1px solid var(--border); }
+  .pv-descr > .label{ margin-bottom:14px; }
+  .pv-descr .pv-testo{ font-size:16px; line-height:1.7; margin:0; }
+
+  /* Aria sopra il riquadro. Su telefono ne serve pochissima: il vaso deve
+     entrare quasi tutto nel primo schermo, senza scorrere. */
+  .pv-sezione{ padding-top:calc(var(--nav-h) + 48px); }
+  .pv-indietro{
+    display:inline-block; margin-bottom:28px;
+    font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--text-muted);
+  }
+
+  /* ---- il riquadro unico ---- */
+  .pv-stage{
+    position:relative; background:var(--bg2); border-radius:2px;
+    aspect-ratio:4/5; overflow:hidden;
+  }
+  .pv-vista{
+    position:absolute; inset:0; opacity:0; visibility:hidden;
+    pointer-events:none;
+    transition:opacity .32s ease, visibility .32s;
+  }
+  /* pointer-events e' la riga che conta: per un terzo di secondo, mentre la
+     vista che esce sfuma, sta ancora sopra l'altra. Senza questa riga il 3D
+     in uscita si mangiava il primo tocco sulle foto - si toccava, si
+     trascinava, e non succedeva niente: sembrava bloccato. */
+  .pv-vista.attiva{ opacity:1; visibility:visible; pointer-events:auto; }
+
+  /* ---- vista FOTO: carosello che si trascina ---- */
+  .pv-slides{
+    display:flex; height:100%; overflow-x:auto; overflow-y:hidden;
+    scroll-snap-type:x mandatory; scroll-behavior:smooth;
+    scrollbar-width:none; -ms-overflow-style:none;
+  }
+  .pv-slides::-webkit-scrollbar{ display:none; }
+  .pv-slide{
+    flex:0 0 100%; height:100%; scroll-snap-align:center;
+    display:flex; align-items:center; justify-content:center;
+    padding:24px;
+  }
+  /* La foto sta al centro e non viene mai tagliata, qualunque sia la sua
+     proporzione. Il limite in altezza (88%) tiene il vaso su fondo neutro
+     esattamente com'era; quello in larghezza e' piu' largo perche' gli scatti
+     d'ambiente, quadrati, altrimenti restavano piccoli in un riquadro alto. */
+  .pv-slide img{ max-width:96%; max-height:88%; width:auto; height:auto; object-fit:contain; }
+
+  /* frecce: solo dove c'e' un mouse, sul telefono si trascina e basta */
+  .pv-freccia{
+    position:absolute; top:50%; transform:translateY(-50%); z-index:3;
+    width:40px; height:40px; border-radius:50%; background:rgba(250,250,248,.86);
+    border:1px solid var(--border); cursor:pointer; display:none;
+    align-items:center; justify-content:center; color:var(--text);
+    font-size:15px; line-height:1; padding:0; transition:background .2s, opacity .2s;
+  }
+  .pv-freccia:hover{ background:#fff; }
+  .pv-freccia[disabled]{ opacity:.3; cursor:default; }
+  .pv-freccia.prec{ left:12px; }
+  .pv-freccia.succ{ right:12px; }
+  @media (hover:hover) and (pointer:fine){ .pv-freccia{ display:flex; } }
+
+  /* pallini di posizione, come nelle gallerie del telefono */
+  .pv-punti{
+    position:absolute; left:0; right:0; bottom:14px; z-index:3;
+    display:flex; gap:7px; justify-content:center; pointer-events:none;
+  }
+  .pv-punto{ width:5px; height:5px; border-radius:50%; background:var(--text-muted); opacity:.3; transition:opacity .2s; }
+  .pv-punto.attivo{ opacity:.9; }
+  @media (hover:hover) and (pointer:fine){ .pv-punti{ display:none; } }
+
+  /* ---- vista 3D ----
+     Fondo uguale a quello delle foto: il vaso galleggia sulla pagina, senza
+     riquadri ne' velature colorate. */
+  model-viewer{
+    width:100%; height:100%; display:block; background:transparent;
+    --poster-color:transparent; --progress-bar-color:var(--accent); --progress-bar-height:2px;
+  }
+  model-viewer.pronto{ --progress-bar-color:transparent; }
+
+  /* ---- modalita' notte ----
+     Accendere una lampada su un fondo chiaro non si vede: la luce emessa e'
+     piu' scura della pagina. Quando l'interruttore va su "accesa" il riquadro
+     del 3D scende quindi a una sera in casa — grigio-blu profondo, non nero:
+     il nero pieno spegne le ombre e fa sembrare il modello ritagliato, mentre
+     un fondo appena chiaro lascia leggere il volume e il PLA resta caldo. */
+  .pv-vista{ transition:background .5s ease; }
+  /* Due strati, e l'ordine conta: sopra il bagliore della lampada, sotto la
+     stanza. Una lampada accesa non illumina solo se stessa — se il fondo resta
+     uniforme sembra un fotomontaggio su cartoncino nero. Il bagliore e' molto
+     largo e molto tenue, centrato poco sotto il corpo (li' sta la lampadina):
+     e' la luce che si perde nell'ambiente, non un alone attorno all'oggetto.
+     Colore ambra, lo stesso dell'emissione, altrimenti la luce "esce" di un
+     colore e "arriva" di un altro. */
+  #vista-3d.notte{
+    background:
+      /* ⚠️ Qui c'e' SOLO la luce diffusa della stanza, mai un oggetto.
+         La pozza sul tavolo stava disegnata qui, ed era sbagliato: il riquadro
+         non ruota e non zooma con la scena, quindi allargando l'inquadratura la
+         macchia restava ferma e la lampada sembrava sospesa sopra un disco
+         luminoso. Ora la pozza e' un disco dentro il modello 3D. Qualsiasi cosa
+         debba stare in un punto PRECISO rispetto alla lampada va nella scena,
+         non nel fondo. */
+      radial-gradient(72% 58% at 50% 58%, rgba(255,174,100,.26) 0%,
+                                          rgba(255,164,92,.13) 45%,
+                                          rgba(255,158,88,.04) 74%,
+                                          rgba(255,158,88,0) 100%),
+      radial-gradient(118% 88% at 50% 42%, #423f46 0%, #37343b 52%, #2d2a31 100%);
+  }
+  #vista-3d.notte .pv-hint{ color:rgba(255,255,255,.52); }
+  #vista-3d.notte .pv-caricamento{ background:#2f2d33; color:rgba(255,255,255,.55); }
+
+  /* interruttore spenta/accesa: prende il posto dei pallini colore degli altri
+     prodotti, quindi sta nello stesso punto e ha lo stesso peso visivo */
+  .sl-interruttore{ display:inline-flex; gap:0; border:1px solid var(--border);
+    border-radius:999px; overflow:hidden; background:var(--bg); }
+  .sl-stato{ appearance:none; border:0; background:transparent; cursor:pointer;
+    font-family:inherit; font-size:11px; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--text-muted); padding:12px 26px; transition:background .18s, color .18s; }
+  .sl-stato:hover{ color:var(--text); }
+  .sl-stato.active{ background:var(--text); color:var(--bg); }
+  .sl-stato:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  /* lo stato e' gia' leggibile sull'interruttore: la riga sotto lo ripeteva */
+  .pv-blocco-colori .pv-colorname{ display:none; }
+  /* "Prezzo su richiesta" non e' una cifra: alla taglia del prezzo andava a capo */
+  .cfg-prezzo strong{ font-size:26px; letter-spacing:-.01em; }
+  .pv-hint{
+    position:absolute; left:0; right:0; bottom:14px; text-align:center;
+    font-size:10px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--text-muted); pointer-events:none; opacity:.75;
+  }
+  /* velo di caricamento la primissima volta che si accende il 3D */
+  .pv-caricamento{
+    position:absolute; inset:0; display:none; align-items:center; justify-content:center;
+    background:var(--bg2); z-index:2;
+    font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--text-muted);
+  }
+  .pv-caricamento.visibile{ display:flex; }
+
+  /* ---- interruttore Foto / 3D, sempre visibile sopra il riquadro ---- */
+  .pv-switch{
+    position:absolute; top:10px; right:10px; z-index:4;
+    display:flex; padding:2px; gap:2px;
+    background:rgba(250,250,248,.88); border:1px solid var(--border); border-radius:999px;
+    backdrop-filter:blur(6px);
+  }
+  .pv-switch button{
+    border:0; background:transparent; cursor:pointer; border-radius:999px;
+    padding:5px 12px; font-family:var(--font-body);
+    font-size:9px; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--text-muted); transition:background .2s, color .2s;
+  }
+  .pv-switch button.attivo{ background:var(--text); color:var(--bg); }
+
+  /* ---- miniature: le foto e, in coda, la tessera 3D ---- */
+  .pv-thumbs{ display:flex; gap:12px; margin-top:22px; overflow-x:auto; padding-bottom:2px; scrollbar-width:none; }
+  .pv-thumbs::-webkit-scrollbar{ display:none; }
+  .pv-thumb{
+    width:76px; height:76px; flex:none; border:1px solid var(--border); border-radius:2px;
+    background:var(--bg2); cursor:pointer; padding:8px; overflow:hidden;
+    display:flex; align-items:center; justify-content:center;
+    opacity:.55; transition:opacity .2s, border-color .2s;
+  }
+  .pv-thumb img{ width:100%; height:100%; object-fit:contain; }
+  .pv-thumb.attivo, .pv-thumb:hover{ opacity:1; border-color:var(--accent); }
+  /* la tessera del 3D: un pallino del colore scelto + la scritta */
+  .pv-thumb-3d{ flex-direction:column; gap:6px; }
+  .pv-thumb-3d .pallino{
+    width:20px; height:20px; border-radius:50%; border:1px solid rgba(0,0,0,.12);
+    transition:background .25s;
+  }
+  .pv-thumb-3d .txt{ font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:var(--text-muted); }
+
+  /* La riga di stato ("Modello 3D · Sage") non c'e' piu': lo dicono gia' la
+     pastiglia accesa, la miniatura evidenziata e il nome del colore. Una riga
+     in meno vuol dire prezzo e bottone piu' in alto. */
+
+  @media (max-width:900px){
+    .barra-mobile .btn{ font-size:10px; padding:14px 15px; letter-spacing:.08em; }
+    .barra-mobile-txt span{ font-size:16px; font-weight:600; }
+  }
+
+  /* ---- colonna destra ---- */
+  .pv-blocco-colori{ margin-top:34px; }
+  .pv-colorname{ margin-top:14px; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--text-muted); }
+  .pv-invito{ font-size:12.5px; color:var(--text-muted); margin-top:8px; line-height:1.7; }
+
+  /* Il vetro incluso, col suo disegno e la sua misura */
+  .pv-vetro{ display:flex; align-items:center; gap:14px; margin-top:20px; }
+  .pv-vetro img{ width:34px; height:auto; flex:none; }
+  .pv-vetro p{ font-size:12px; line-height:1.6; color:var(--text-muted); margin:0; }
+  .pv-vetro strong{ color:var(--text); font-weight:600; }
+
+  .ar-box{ margin-top:34px; padding:22px 24px; background:var(--bg2); border:1px solid var(--border); border-radius:2px; }
+  .ar-box .label{ margin-bottom:16px; display:block; }
+  .ar-btn{ width:100%; justify-content:center; text-align:center; }
+  .ar-btn[hidden]{ display:none !important; }
+  .ar-qr{ display:flex; gap:20px; align-items:center; }
+  .ar-qr[hidden]{ display:none !important; }
+  .ar-qr .qr{ flex:none; width:116px; height:116px; padding:8px; background:#fff; border:1px solid var(--border); border-radius:2px; }
+  .ar-qr .qr svg{ width:100%; height:100%; display:block; }
+  .ar-qr p{ margin:0; font-size:12.5px; line-height:1.7; color:var(--text-muted); }
+  .ar-qr strong{ color:var(--text); font-weight:600; }
+  .cfg-note{ font-size:12px; line-height:1.7; color:var(--text-muted); margin-top:18px; }
+  @media (max-width:520px){ .ar-qr{ flex-direction:column; align-items:flex-start; } }
+
+  /* ---- telefono: riquadro in alto, colori subito sotto, acquisto a seguire ---- */
+  @media (max-width:980px){
+    /* meno aria sopra: il riquadro sale, il vaso entra quasi tutto subito */
+    .pv-sezione{ padding-top:calc(var(--nav-h) + 12px); }
+    .pv-indietro{ margin-bottom:12px; font-size:10px; }
+    /* align-items:stretch e' obbligatorio: la regola desktop mette "start",
+       che in colonna vale sulla LARGHEZZA e ridurrebbe il riquadro a zero. */
+    .pv-grid{ display:flex; flex-direction:column; gap:0; align-items:stretch; }
+    .pv-stage{ aspect-ratio:auto; height:min(62vh,480px); }
+    /* Su telefono i colori devono stare nel primo schermo, subito sotto le
+       miniature: display:contents scioglie i due contenitori, cosi' riquadro,
+       miniature, colori e riga di stato diventano fratelli e si ordinano. */
+    .pv-info{ display:contents; }
+    .pv-visore{ display:contents; }
+    .pv-stage{ order:1; }
+    .pv-thumbs{ order:2; margin-top:10px; padding-bottom:0; }
+    /* le pastiglie stanno appiccicate alle miniature: ogni pixel qui e' un
+       pixel guadagnato dai colori nel primo schermo */
+    .pv-info > .pv-blocco-colori{ order:3; margin-top:12px; }
+    .pv-info > .pv-blocco-colori > .label{ margin-bottom:0; }
+    #colors{ margin-top:10px; }
+    .pv-info > .cfg-acquisto{ order:4; }
+    .pv-info > .label{ order:5; margin-top:44px; }
+    .pv-info > h1{ order:6; }
+    .pv-info > .pv-sottotitolo{ order:7; }
+    .pv-descr{ display:contents; }
+    .pv-descr > .label{ display:none; }
+    .pv-info > .pv-testo, .pv-descr > .pv-testo{ order:8; }
+    .pv-info > .ar-box{ order:9; }
+    .pv-info > .pv-elenco, .pv-descr > .pv-elenco{ order:10; }
+    .pv-info > .pv-vetro, .pv-descr > .pv-vetro{ order:11; }
+  }
+  @media (max-width:520px){
+    .color-swatches{ gap:10px; }
+    .color-swatch{ width:26px; height:26px; }
+    /* piu' foto, piu' tessere: rimpicciolite ci stanno tutte senza scorrere */
+    .pv-thumbs{ gap:9px; }
+    .pv-thumb{ width:58px; height:58px; padding:6px; }
+    .pv-thumb-3d .pallino{ width:16px; height:16px; }
+    .pv-thumb-3d .txt{ font-size:8px; }
+  }
+
+  /* 28/09/2026 — le colonne non si allargano mai per colpa delle miniature: il riquadro
+     del vaso resta sempre della stessa misura. Se le miniature sono troppe, su computer
+     compaiono due frecce per scorrerle. */
+  .pv-grid > *{ min-width:0; }
+  .pv-thumbs-wrap{ position:relative; margin-top:22px; }
+  .pv-thumbs-wrap > .pv-thumbs{ margin-top:0; }
+  .pv-thumbs-freccia{
+    position:absolute; top:50%; transform:translateY(-50%); z-index:2;
+    width:30px; height:30px; border-radius:50%; padding:0; cursor:pointer;
+    background:rgba(250,250,248,.94); border:1px solid var(--border); color:var(--text);
+    font-size:14px; line-height:1; display:none; align-items:center; justify-content:center;
+    transition:opacity .2s;
+  }
+  .pv-thumbs-freccia.prec{ left:-15px; }
+  .pv-thumbs-freccia.succ{ right:-15px; }
+  .pv-thumbs-wrap .pv-thumbs-freccia[disabled]{ opacity:0 !important; pointer-events:none; }
+  @media (hover:hover) and (pointer:fine){ .pv-thumbs-wrap.scorre .pv-thumbs-freccia{ display:flex; } }
+  @media (max-width:980px){
+    .pv-thumbs-wrap{ display:contents; }
+    .pv-thumbs-freccia{ display:none !important; }
+  }
+  
+  /* ---- 30/09/2026: lampade senza 3D, con video ---- */
+  .pv-slide video{ max-width:96%; max-height:88%; width:auto; height:auto; border-radius:2px; background:#000; }
+  .pv-thumb{ position:relative; }
+  .pv-thumb .play{
+    position:absolute; right:5px; bottom:5px; width:18px; height:18px; border-radius:50%;
+    background:rgba(20,20,20,.72); color:#fff; font-size:8px; line-height:18px; text-align:center; padding-left:1px;
+  }
+  .cfg-add{ gap:0; }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><img src="images/Logo Shapeless.png" alt="Shapeless" class="nav-logo-img"></a>
+    <ul class="nav-links">
+      <li class="nav-item">
+        <span>About</span>
+        <div class="dropdown">
+          <a href="chi-siamo.html">Chi siamo</a>
+          <a href="il-mais.html">Il Mais</a>
+          <a href="shapeless-brand.html">Shapeless</a>
+        </div>
+      </li>
+      <li class="nav-item"><a href="collab.html">Collab</a></li>
+      <li class="nav-item">
+        <span>Community</span>
+        <div class="dropdown">
+          <a href="faq.html">FAQ</a>
+        </div>
+      </li>
+      <li class="nav-item"><a href="contatti.html">Contatti</a></li>
+      <li class="nav-item nav-cart"><a href="carrello.html">Carrello <span class="cart-badge">0</span></a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <div class="nav-mobile">
+    <div class="mob-group">
+      <button type="button" class="mob-section-title">About<span class="mob-chevron"></span></button>
+      <div class="mob-sub">
+        <a href="chi-siamo.html">Chi siamo</a>
+        <a href="il-mais.html">Il Mais</a>
+        <a href="shapeless-brand.html">Shapeless</a>
+      </div>
+    </div>
+    <a href="collab.html">Collab</a>
+    <div class="mob-group">
+      <button type="button" class="mob-section-title">Community<span class="mob-chevron"></span></button>
+      <div class="mob-sub">
+        <a href="faq.html">FAQ</a>
+      </div>
+    </div>
+    <a href="contatti.html">Contatti</a>
+    <a href="carrello.html">Carrello <span class="cart-badge">0</span></a>
+  </div>
+
+  <!-- ===================== PRODOTTO ===================== -->
+  <section class="section pv-sezione" style="border-bottom:1px solid var(--border);">
+    <div class="container">
+
+      <a href="tutti-i-design.html" class="pv-indietro">← Tutti i design</a>
+
+      <div class="pv-grid">
+
+        <!-- ---------- RIQUADRO: foto e video (niente 3D) ---------- -->
+        <div class="pv-visore">
+          <div class="pv-stage" id="pv-stage" tabindex="0">
+            <div class="pv-vista attiva" id="vista-foto">
+              <div class="pv-slides" id="pv-slides"><!-- riempita da JS --></div>
+              <button type="button" class="pv-freccia prec" id="pv-prec" aria-label="Foto precedente">‹</button>
+              <button type="button" class="pv-freccia succ" id="pv-succ" aria-label="Foto successiva">›</button>
+              <div class="pv-punti" id="pv-punti"></div>
+            </div>
+          </div>
+
+          <div class="pv-descr">
+            <p class="label">Il design</p>
+          <p class="pv-testo">
+            Vulcano Light è la lampada della famiglia Vulcano: un paralume che sale aprendosi e girando su se stesso, appoggiato a una base dal profilo morbido. Il PLA lascia passare la luce e la rende calda e ferma, come quella di una candela grande: da accesa riempie la stanza, da spenta resta una scultura sul mobile.
+          </p>
+
+          <ul class="pv-elenco" style="margin-top:24px; display:flex; flex-direction:column; gap:10px;">
+            <li style="font-size:13px; color:var(--text-muted);">— Progettata e prodotta in Italia</li>
+            <li style="font-size:13px; color:var(--text-muted);">— Materiale vegetale: PLA dal mais e dalla canna da zucchero</li>
+            <li style="font-size:13px; color:var(--text-muted);">— Alta 30 cm, base 22x22 cm</li>
+            <li style="font-size:13px; color:var(--text-muted);">— Lampada da tavolo</li>
+            <li style="font-size:13px; color:var(--text-muted);">— Prodotta su richiesta, nessuno stock</li>
+          </ul>
+          </div>
+        </div>
+
+        <!-- ---------- COLONNA INFORMAZIONI ---------- -->
+        <div class="pv-info">
+          <p class="label">Collezione</p>
+          <h1 style="font-size:clamp(40px,5.5vw,68px);">Vulcano Light</h1>
+          <p class="pv-sottotitolo" style="font-size:18px; color:var(--accent2); margin-top:20px; line-height:1.7;">
+            Un paralume che sale girando, e una luce calda per la sera.
+          </p>
+
+          <div class="pv-thumbs-wrap" id="pv-thumbs-wrap">
+            <button type="button" class="pv-thumbs-freccia prec" aria-label="Miniature precedenti">‹</button>
+            <div class="pv-thumbs" id="pv-thumbs"><!-- riempita da JS --></div>
+            <button type="button" class="pv-thumbs-freccia succ" aria-label="Miniature successive">›</button>
+          </div>
+
+          <!-- acquisto -->
+          <div class="cfg-acquisto">
+            <div class="cfg-prezzo">
+              <strong id="cfg-prezzo">€ 125,00</strong>
+              <span id="cfg-prezzo-nota">IVA inclusa · spedizione gratuita in Italia</span>
+            </div>
+
+            <button type="button" class="btn btn-fill cfg-add" id="cfg-add">
+              <span id="cfg-add-testo">Aggiungi al carrello — Vulcano Light</span>
+            </button>
+
+            <p class="cfg-rassicura">
+              Prodotta on demand.
+              <strong>Consegna in Italia entro il <span id="cfg-consegna">—</span></strong> ·
+              spedizione gratuita in Italia · reso entro 14 giorni.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- LA FORMA -->
+  <section class="section" style="border-bottom:1px solid var(--border);">
+    <div class="container">
+      <div class="grid-2" style="align-items:center; gap:72px;">
+        <div class="reveal">
+          <p class="label">La forma</p>
+          <h2 class="mb-24"><strong>Luce</strong> che sale girando</h2>
+          <p>
+            Il paralume parte stretto, appoggiato alla base, e si apre verso l'alto girando su se stesso, come un foglio che si svolge. Da ogni lato della stanza mostra un profilo diverso.
+          </p>
+          <p>
+            La base segue una linea morbida, senza spigoli: tiene in piedi la lampada e regala alla luce un piede caldo, dove la lampada si appoggia al mobile. È fatta per un comodino, una mensola o un angolo della casa che la sera ha bisogno di una luce bassa.
+          </p>
+        </div>
+        <div class="reveal reveal-delay-2">
+          <img src="images/Vulcano%20light/web/vulcano-light-1433-quadrata.jpg" alt="Vulcano Light, dettaglio della base e della luce che esce dal paralume" loading="lazy" style="width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:2px;">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCHEDA TECNICA -->
+  <section class="section" style="border-bottom:1px solid var(--border);">
+    <div class="container" style="max-width:800px;">
+      <p class="label">Scheda tecnica</p>
+      <h2 class="mb-48">Tutto quello che c'è <strong>da sapere</strong></h2>
+
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-question" type="button">Materiale<span class="faq-icon"></span></button>
+          <div class="faq-answer"><p>PLA di origine vegetale, lo stesso dei vasi Shapeless: deriva da mais e canna da zucchero, non dal petrolio. Bianco e opaco da spenta, traslucido quando la luce lo attraversa.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" type="button">Dimensioni<span class="faq-icon"></span></button>
+          <div class="faq-answer"><p>Altezza 30 cm, base 22x22 cm. È una lampada da tavolo: sta su un comodino, una consolle o una mensola profonda.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" type="button">Cura<span class="faq-icon"></span></button>
+          <div class="faq-answer"><p>Si pulisce con un panno morbido asciutto, seguendo il verso delle pieghe. Niente solventi e niente fonti di calore dirette: il PLA è una bioplastica e non ama le alte temperature.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" type="button">Spedizione<span class="faq-icon"></span></button>
+          <div class="faq-answer"><p>Ogni pezzo è prodotto on demand: non teniamo magazzino. Spedizione gratuita in Italia, reso entro 14 giorni.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="images/Logo Shapeless.png" alt="Shapeless" class="footer-logo-img">
+          <p>Design in movimento. Oggetti scultorei progettati in Italia per dare carattere agli spazi,
+          realizzati su ordinazione in un materiale di origine vegetale.</p>
+          <div class="social-links" style="margin-top: 24px;">
+            <a href="https://www.instagram.com/shapeless.di/" target="_blank">Instagram</a>
+            <a href="https://www.facebook.com/Shapeless.di" target="_blank">Facebook</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h5>Esplora</h5>
+          <a href="chi-siamo.html">Chi siamo</a>
+          <a href="il-mais.html">Il Mais</a>
+          <a href="shapeless-brand.html">Il Brand</a>
+          <a href="collab.html">Collab</a>
+        </div>
+        <div class="footer-col">
+          <h5>Community</h5>
+          <a href="faq.html">FAQ</a>
+          <a href="contatti.html">Contatti</a>
+        </div>
+        <div class="footer-col">
+          <h5>Contatti</h5>
+          <a href="mailto:info@shapeless.shop">info@shapeless.shop</a>
+          <a href="tel:+393274465586">+39 327 446 5586</a>
+          <a href="tel:+390934591960">+39 0934 591960</a>
+          <p style="font-size:12px; margin-top:12px; color:var(--text-muted);">
+            Viale della Regione 32B<br>93100 Caltanissetta (IT)
+          </p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 Shapeless — Larecchiuta Angelo — P.IVA 01927390854</p>
+        <div style="display:flex; gap:24px; flex-wrap:wrap;">
+          <a href="privacy.html" style="font-size:12px; color:var(--text-muted);">Privacy Policy</a>
+          <a href="#" style="font-size:12px; color:var(--text-muted);">Cookie Policy</a>
+          <a href="termini-di-vendita.html" style="font-size:12px; color:var(--text-muted);">Termini e condizioni</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- barra fissa su telefono: aggiunge la lampada al carrello -->
+  <div class="barra-mobile" id="barra-mobile">
+    <div class="barra-mobile-txt">
+      <span id="barra-prezzo">€ 125,00</span>
+    </div>
+    <button type="button" class="btn btn-fill" id="barra-add"><span id="barra-colore">Aggiungi Vulcano Light</span></button>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/chat.js?v=20260922en" defer></script>
+  <script src="js/lang-testi.js?v=20260930luci"></script>
+  <script src="js/lang.js?v=20260928lancio"></script>
+  <script src="js/shop-config.js?v=20260930luci"></script>
+  <script src="js/cart.js?v=20260917consegna"></script>
+
+  <script>
+  /* =========================================================================
+     LE FOTO (e i video). Una riga per elemento: miniature, pallini e frecce
+     si adeguano da soli. Foto quadrate o verticali: le orizzontali si
+     ritagliano quadrate prima di caricarle.
+     ========================================================================= */
+  var FOTO = [
+    { src:'images/vulcano-light-scontornato.webp?v=1', alt:'Vulcano Light accesa, vista frontale' },
+    { src:'images/Vulcano light/web/vulcano-light-1430.jpg', alt:'Vulcano Light accesa accanto a un vaso, in una stanza in penombra' },
+    { src:'images/Vulcano light/web/vulcano-light-1415-quadrata.jpg', alt:'Vulcano Light accesa nella penombra' },
+    { src:'images/Vulcano light/web/vulcano-light-1433-quadrata.jpg', alt:'Vulcano Light, dettaglio della base' },
+    { src:'images/Vulcano light/web/vulcano-light-salotto.jpg', alt:'Vulcano Light accesa nel salotto, di sera' },
+    { src:'images/Vulcano light/web/vulcano-light-tavolo.jpg', alt:'Vulcano Light accesa su un tavolo bianco' },
+    { video:'images/Vulcano light/web/vulcano-light-video.mp4', poster:'images/Vulcano light/web/vulcano-light-video-poster.jpg', alt:'Video di Vulcano Light accesa' }
+  ];
+  </script>
+
+  <script>
+  (function () {
+    'use strict';
+
+    var stage   = document.getElementById('pv-stage');
+    var slides  = document.getElementById('pv-slides');
+    var thumbs  = document.getElementById('pv-thumbs');
+    var punti   = document.getElementById('pv-punti');
+    var prec    = document.getElementById('pv-prec');
+    var succ    = document.getElementById('pv-succ');
+    var foto = 0;
+
+    FOTO.forEach(function (f, i) {
+      var s = document.createElement('div');
+      s.className = 'pv-slide';
+      if (f.video) {
+        /* video: parte da solo, muto e in loop, quando e' la foto in vista */
+        s.innerHTML = '<video src="' + encodeURI(f.video) + '" poster="' + encodeURI(f.poster) + '" muted loop playsinline ' +
+                      'controls preload="metadata" aria-label="' + f.alt + '"></video>';
+      } else {
+        s.innerHTML = '<img src="' + encodeURI(f.src) + '" alt="' + f.alt + '" ' + (i === 0 ? '' : 'loading="lazy" ') + '>';
+      }
+      slides.appendChild(s);
+
+      var p = document.createElement('span');
+      p.className = 'pv-punto' + (i === 0 ? ' attivo' : '');
+      punti.appendChild(p);
+
+      var t = document.createElement('button');
+      t.type = 'button';
+      t.className = 'pv-thumb' + (i === 0 ? ' attivo' : '');
+      t.dataset.foto = i;
+      t.innerHTML = '<img src="' + encodeURI(f.poster || f.src) + '" alt="' + f.alt + '" loading="lazy">' +
+                    (f.video ? '<span class="play">&#9654;</span>' : '');
+      thumbs.appendChild(t);
+    });
+
+    /* con una foto sola non servono ne' pallini ne' frecce */
+    if (FOTO.length < 2) {
+      punti.style.display = 'none'; prec.style.display = 'none'; succ.style.display = 'none';
+    }
+
+    function gestisciVideo() {
+      var vs = slides.querySelectorAll('video');
+      vs.forEach(function (v) {
+        var idx = Array.prototype.indexOf.call(slides.children, v.parentNode);
+        if (idx === foto) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+        else v.pause();
+      });
+    }
+
+    function segna(i) {
+      punti.querySelectorAll('.pv-punto').forEach(function (p, k) { p.classList.toggle('attivo', k === i); });
+      thumbs.querySelectorAll('.pv-thumb').forEach(function (t) { t.classList.toggle('attivo', Number(t.dataset.foto) === i); });
+      prec.disabled = (i === 0);
+      succ.disabled = (i === FOTO.length - 1);
+      gestisciVideo();
+    }
+
+    function vai(i, animata) {
+      i = Math.max(0, Math.min(FOTO.length - 1, i));
+      foto = i;
+      slides.scrollTo({ left: slides.clientWidth * i, behavior: animata === false ? 'auto' : 'smooth' });
+      segna(i);
+    }
+
+    /* mentre si trascina, pallino e miniatura seguono il dito */
+    var attesa;
+    slides.addEventListener('scroll', function () {
+      clearTimeout(attesa);
+      attesa = setTimeout(function () {
+        var i = Math.round(slides.scrollLeft / slides.clientWidth);
+        if (i !== foto) { foto = i; segna(i); }
+      }, 90);
+    });
+
+    prec.addEventListener('click', function () { vai(foto - 1); });
+    succ.addEventListener('click', function () { vai(foto + 1); });
+    stage.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowLeft')  vai(foto - 1);
+      if (e.key === 'ArrowRight') vai(foto + 1);
+    });
+    thumbs.addEventListener('click', function (e) {
+      var t = e.target.closest('.pv-thumb'); if (t) vai(Number(t.dataset.foto));
+    });
+    window.addEventListener('resize', function () { vai(foto, false); });
+    segna(0);
+  })();
+  </script>
+
+
+  <script>
+  /* ---- Carrello: una lampada, una misura, nessun colore da scegliere ---- */
+  (function () {
+    var ID_PRODOTTO = 'vulcano-light';
+    var C = window.ShapelessConfig;
+    var Cart = window.ShapelessCart;
+    var prodotto = C.prodotti[ID_PRODOTTO];
+
+    var testo = document.getElementById('cfg-add-testo');
+    var barraTesto = document.getElementById('barra-colore');
+    document.getElementById('cfg-prezzo').textContent   = Cart.formatPrice(prodotto.prezzo);
+    document.getElementById('barra-prezzo').textContent = Cart.formatPrice(prodotto.prezzo);
+    document.getElementById('cfg-consegna').textContent = Cart.dataConsegna();
+    if (C.iva.regime === 'forfettario') {
+      document.getElementById('cfg-prezzo-nota').textContent = 'Spedizione gratuita in Italia';
+    }
+    testo.textContent = 'Aggiungi al carrello — ' + prodotto.nome;
+    barraTesto.textContent = 'Aggiungi ' + prodotto.nome;
+
+    function aggiungi() {
+      Cart.addToCart({
+        id: prodotto.id, nome: prodotto.nome, prezzo: prodotto.prezzo,
+        immagine: prodotto.immagine, colore: '', coloreHex: ''
+      }, 1);
+      Cart.avviso(prodotto.nome + ' è nel carrello.', { href: 'carrello.html', testo: 'Vai al carrello' });
+    }
+    document.getElementById('cfg-add').addEventListener('click', aggiungi);
+    document.getElementById('barra-add').addEventListener('click', aggiungi);
+
+    /* fascia fissa in fondo (telefono): compare quando le miniature sono uscite
+       verso l'alto e il bottone grande non si vede */
+    var barra   = document.getElementById('barra-mobile');
+    var bottone = document.getElementById('cfg-add');
+    var miniature = document.getElementById('pv-thumbs');
+    if (barra && bottone && miniature && 'IntersectionObserver' in window) {
+      var passate = false, bottoneInVista = false;
+      function decidi() { barra.classList.toggle('visibile', passate && !bottoneInVista); }
+      new IntersectionObserver(function (v) {
+        passate = !v[0].isIntersecting && v[0].boundingClientRect.top < 0; decidi();
+      }, { threshold: 0 }).observe(miniature);
+      new IntersectionObserver(function (v) { bottoneInVista = v[0].isIntersecting; decidi(); }, { threshold: 0 }).observe(bottone);
+    }
+  })();
+  </script>
+
+  <script>
+  /* 28/09/2026 — frecce per scorrere le miniature quando non ci stanno tutte */
+  (function () {
+    var wrap = document.getElementById('pv-thumbs-wrap');
+    var t = document.getElementById('pv-thumbs');
+    if (!wrap || !t) return;
+    var prec = wrap.querySelector('.prec'), succ = wrap.querySelector('.succ');
+    function aggiorna() {
+      var scorre = t.scrollWidth > t.clientWidth + 2;
+      wrap.classList.toggle('scorre', scorre);
+      prec.disabled = t.scrollLeft <= 2;
+      succ.disabled = t.scrollLeft + t.clientWidth >= t.scrollWidth - 2;
+    }
+    prec.addEventListener('click', function () { t.scrollBy({ left: -t.clientWidth * 0.8, behavior: 'smooth' }); });
+    succ.addEventListener('click', function () { t.scrollBy({ left:  t.clientWidth * 0.8, behavior: 'smooth' }); });
+    t.addEventListener('scroll', aggiorna, { passive: true });
+    window.addEventListener('resize', aggiorna);
+    window.addEventListener('load', aggiorna);
+    setTimeout(aggiorna, 300);
+    aggiorna();
+  })();
+  </script>
+</body>
+</html>

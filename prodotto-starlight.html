@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Starlight | Shapeless</title>
-  <meta name="description" content="Starlight: foto reali e modello 3D nello stesso posto. Scegli fra nove colori e il vaso si accende in 3D; torni alle foto quando vuoi, senza cambiare pagina.">
+  <meta name="description" content="Starlight: una lampada da tavolo in PLA vegetale fatta di una piega continua. Da spenta è una scultura bianca, da accesa diventa luce. 29x29x27 cm, progettata e prodotta in Italia.">
   <link rel="stylesheet" href="css/style.css?v=20260928footer">
   <link rel="stylesheet" href="css/negozio.css">
 
@@ -293,6 +293,15 @@
     .pv-thumbs-wrap{ display:contents; }
     .pv-thumbs-freccia{ display:none !important; }
   }
+  
+  /* ---- 30/09/2026: lampade senza 3D, con video ---- */
+  .pv-slide video{ max-width:96%; max-height:88%; width:auto; height:auto; border-radius:2px; background:#000; }
+  .pv-thumb{ position:relative; }
+  .pv-thumb .play{
+    position:absolute; right:5px; bottom:5px; width:18px; height:18px; border-radius:50%;
+    background:rgba(20,20,20,.72); color:#fff; font-size:8px; line-height:18px; text-align:center; padding-left:1px;
+  }
+  .cfg-add{ gap:0; }
   </style>
 </head>
 <body>
@@ -351,62 +360,21 @@
 
       <div class="pv-grid">
 
-        <!-- ---------- RIQUADRO UNICO: foto + 3D ---------- -->
+        <!-- ---------- RIQUADRO: foto e video (niente 3D) ---------- -->
         <div class="pv-visore">
-          <div class="pv-stage" id="pv-stage">
-
-            <!-- vista foto -->
+          <div class="pv-stage" id="pv-stage" tabindex="0">
             <div class="pv-vista attiva" id="vista-foto">
               <div class="pv-slides" id="pv-slides"><!-- riempita da JS --></div>
               <button type="button" class="pv-freccia prec" id="pv-prec" aria-label="Foto precedente">‹</button>
               <button type="button" class="pv-freccia succ" id="pv-succ" aria-label="Foto successiva">›</button>
               <div class="pv-punti" id="pv-punti"></div>
             </div>
-
-            <!-- vista 3D (il modello viene caricato solo al primo utilizzo) -->
-            <div class="pv-vista" id="vista-3d">
-              <model-viewer id="mv"
-                alt="Lampada Starlight di Shapeless, modello 3D interattivo"
-                camera-controls
-                disable-pan
-                touch-action="none"
-                auto-rotate
-                auto-rotate-delay="2500"
-                rotation-per-second="6deg"
-                interaction-prompt="none"
-                camera-orbit="20deg 78deg 0.85m"
-                camera-target="0m 0.136m 0m"
-                min-camera-orbit="auto 30deg 0.66m"
-                max-camera-orbit="auto 92deg 1.10m"
-                field-of-view="28deg"
-                min-field-of-view="20deg"
-                shadow-intensity="0"
-                shadow-softness="0.55"
-                exposure="1.00"
-                environment-image="models-web/studio-shapeless.hdr"
-                tone-mapping="neutral"
-                ar
-                ar-modes="scene-viewer webxr quick-look"
-                ar-scale="fixed"
-                ar-placement="floor"></model-viewer>
-              <span class="pv-hint" id="pv-hint">Trascina per ruotare · scorri per avvicinare</span>
-              <div class="pv-caricamento" id="pv-caricamento">Carico il modello…</div>
-            </div>
-
-            <!-- interruttore sempre presente: la via di ritorno alle foto -->
-            <div class="pv-switch" role="group" aria-label="Foto o 3D">
-              <button type="button" class="attiva" data-vista="foto">Foto</button>
-              <button type="button" data-vista="3d">3D</button>
-            </div>
-
           </div>
 
           <div class="pv-descr">
             <p class="label">Il design</p>
           <p class="pv-testo">
-            Starlight è una piega continua che si chiude su se stessa: da spenta è un solido
-            bianco, pieno di spigoli e di righe di stampa. Accesa cambia mestiere — il PLA
-            diventa traslucido e la stessa geometria che prima faceva ombra ora disegna la luce.
+            Starlight è una piega continua che si chiude su se stessa: da spenta è un solido bianco, pieno di spigoli e di righe di stampa. Accesa cambia mestiere — il PLA diventa traslucido e la stessa geometria che prima faceva ombra ora disegna la luce.
           </p>
 
           <ul class="pv-elenco" style="margin-top:24px; display:flex; flex-direction:column; gap:10px;">
@@ -427,58 +395,29 @@
             Spenta è una piega. Accesa è luce.
           </p>
 
-          <!-- l'interruttore: qui il gesto che accende il 3D e' letteralmente
-               accendere la lampada -->
-          <div class="pv-blocco-colori">
-            <div class="label">Provala</div>
-            <div class="sl-interruttore" id="colors" role="group" aria-label="Lampada accesa o spenta">
-              <button type="button" class="sl-stato active" data-acceso="0">Spenta</button>
-              <button type="button" class="sl-stato" data-acceso="1">Accesa</button>
-            </div>
-            <div class="pv-colorname" id="colorname">Spenta</div>
-            <p class="pv-invito" id="pv-invito">Tocca l'interruttore: la lampada diventa 3D e la puoi girare.</p>
-          </div>
-
-          <!-- Le miniature stanno nella colonna delle informazioni, sotto i
-               colori: sul computer, sotto il riquadro alto, finivano fuori
-               schermo e nessuno sapeva che ci fossero altre foto. Su telefono
-               tornano sotto il riquadro (vedi l'ordine piu' in basso). -->
           <div class="pv-thumbs-wrap" id="pv-thumbs-wrap">
             <button type="button" class="pv-thumbs-freccia prec" aria-label="Miniature precedenti">‹</button>
             <div class="pv-thumbs" id="pv-thumbs"><!-- riempita da JS --></div>
             <button type="button" class="pv-thumbs-freccia succ" aria-label="Miniature successive">›</button>
           </div>
 
-          <!-- acquisto: Starlight non ha ancora un prezzo deciso. Meglio un
-               contatto onesto che una cifra inventata su un sito che vende. -->
+          <!-- acquisto -->
           <div class="cfg-acquisto">
             <div class="cfg-prezzo">
-              <strong id="cfg-prezzo">Prezzo su richiesta</strong>
-              <span id="cfg-prezzo-nota">Scrivici per disponibilità e tempi di consegna</span>
+              <strong id="cfg-prezzo">€ 215,00</strong>
+              <span id="cfg-prezzo-nota">IVA inclusa · spedizione gratuita in Italia</span>
             </div>
 
-            <a href="contatti.html" class="btn btn-fill cfg-add" id="cfg-add">
-              <span id="cfg-add-testo">Richiedi Starlight</span>
-            </a>
+            <button type="button" class="btn btn-fill cfg-add" id="cfg-add">
+              <span id="cfg-add-testo">Aggiungi al carrello — Starlight</span>
+            </button>
 
             <p class="cfg-rassicura">
-              Prodotta on demand · spedizione gratuita in Italia · reso entro 14 giorni.
+              Prodotta on demand.
+              <strong>Consegna in Italia entro il <span id="cfg-consegna">—</span></strong> ·
+              spedizione gratuita in Italia · reso entro 14 giorni.
             </p>
           </div>
-
-          <!-- realtà aumentata -->
-          <div class="ar-box">
-            <span class="label">Vedilo nel tuo spazio</span>
-            <button type="button" class="btn btn-accent ar-btn" id="ar-btn" hidden>Appoggia Starlight nella tua stanza</button>
-            <div class="ar-qr" id="ar-qr" hidden>
-              <div class="qr" id="qr-target"></div>
-              <p><strong>Inquadra il codice con la fotocamera del telefono.</strong>
-                 Si aprirà questa pagina, e da lì potrai appoggiare Starlight sul tuo
-                 tavolo in scala reale — è alta 27 cm e larga 30.</p>
-            </div>
-            <p class="cfg-note" id="ar-note"></p>
-          </div>
-
 
         </div>
 
@@ -490,25 +429,18 @@
   <section class="section" style="border-bottom:1px solid var(--border);">
     <div class="container">
       <div class="grid-2" style="align-items:center; gap:72px;">
-        <div>
+        <div class="reveal">
           <p class="label">La forma</p>
           <h2 class="mb-24"><strong>Luce</strong> che passa attraverso una piega</h2>
           <p>
-            Il paralume è un unico foglio piegato: due coni che si incontrano sulla linea più
-            larga, come una lanterna di carta irrigidita. Ogni faccia è piana, ogni spigolo è
-            vero — nessuna curva addolcisce il passaggio da una all'altra.
+            Il paralume è un unico foglio piegato: due coni che si incontrano sulla linea più larga, come una lanterna di carta irrigidita. Ogni faccia è piana, ogni spigolo è vero — nessuna curva addolcisce il passaggio da una all'altra.
           </p>
           <p>
-            È questa geometria a fare il lavoro quando la lampada si accende. Le facce rivolte
-            verso di te diffondono, gli spigoli restano linee luminose sottili, e dal basso —
-            dove la lampadina è più vicina al materiale — la luce esce più calda. Lo stesso
-            pezzo, nella stessa stanza, ha due vite a seconda dell'interruttore.
+            È questa geometria a fare il lavoro quando la lampada si accende. Le facce rivolte verso di te diffondono, gli spigoli restano linee luminose sottili, e dal basso — dove la lampadina è più vicina al materiale — la luce esce più calda. Lo stesso pezzo, nella stessa stanza, ha due vite a seconda dell'interruttore.
           </p>
         </div>
-        <div>
-          <img src="images/Starlight/starlight-dettaglio.png"
-               alt="Starlight, dettaglio ravvicinato delle pieghe e dell'apertura a stella"
-               style="width:100%; border-radius:2px;">
+        <div class="reveal reveal-delay-2">
+          <img src="images/Starlight/web/starlight-dettaglio-quadrata.webp" alt="Starlight, dettaglio ravvicinato delle pieghe e dell&#x27;apertura a stella" loading="lazy" style="width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:2px;">
         </div>
       </div>
     </div>
@@ -590,18 +522,34 @@
     </div>
   </footer>
 
+  <!-- barra fissa su telefono: aggiunge la lampada al carrello -->
+  <div class="barra-mobile" id="barra-mobile">
+    <div class="barra-mobile-txt">
+      <span id="barra-prezzo">€ 215,00</span>
+    </div>
+    <button type="button" class="btn btn-fill" id="barra-add"><span id="barra-colore">Aggiungi Starlight</span></button>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/chat.js?v=20260922en" defer></script>
+  <script src="js/lang-testi.js?v=20260930luci"></script>
+  <script src="js/lang.js?v=20260928lancio"></script>
+  <script src="js/shop-config.js?v=20260930luci"></script>
+  <script src="js/cart.js?v=20260917consegna"></script>
+
   <script>
   /* =========================================================================
-     LE FOTO
-     -------------------------------------------------------------------------
-     Per aggiungerne una basta aggiungere una riga qui sotto: miniature,
-     pallini e frecce si adeguano da soli. Se un giorno avremo la foto vera
-     di un colore preciso, si aggiunge "colore:'#xxxxxx'" e la foto verra'
-     mostrata per prima quando quel colore e' selezionato (gia' previsto).
+     LE FOTO (e i video). Una riga per elemento: miniature, pallini e frecce
+     si adeguano da soli. Foto quadrate o verticali: le orizzontali si
+     ritagliano quadrate prima di caricarle.
      ========================================================================= */
   var FOTO = [
-    { src:'images/starlight-transparent.png',           alt:'Starlight accesa, vista frontale' },
-    { src:'images/Starlight/starlight-dettaglio.png',   alt:'Starlight spenta, dettaglio delle pieghe e dell\'apertura a stella' }
+    { src:'images/starlight-scontornato.webp?v=1', alt:'Starlight accesa, vista frontale' },
+    { src:'images/lampada-sera-1024.jpg', alt:'Starlight accesa di sera, su un mobile' },
+    { src:'images/starlight-transparent.png', alt:'Starlight accesa nella penombra' },
+    { src:'images/Starlight/web/starlight-dettaglio-quadrata.webp', alt:'Starlight spenta, dettaglio delle pieghe e dell\'apertura a stella' },
+    { src:'images/Starlight/web/starlight-accensione.jpg', alt:'Starlight che si accende, con una mano sul cavo' },
+    { video:'images/Starlight/web/starlight-video.mp4', poster:'images/Starlight/web/starlight-video-poster.jpg', alt:'Video di Starlight accesa' }
   ];
   </script>
 
@@ -613,24 +561,20 @@
     var slides  = document.getElementById('pv-slides');
     var thumbs  = document.getElementById('pv-thumbs');
     var punti   = document.getElementById('pv-punti');
-    var vFoto   = document.getElementById('vista-foto');
-    var v3d     = document.getElementById('vista-3d');
-    var mv      = document.getElementById('mv');
-    var velo    = document.getElementById('pv-caricamento');
-    var nome    = document.getElementById('colorname');
-    var invito  = document.getElementById('pv-invito');
     var prec    = document.getElementById('pv-prec');
     var succ    = document.getElementById('pv-succ');
-
-    var stato = { vista:'foto', foto:0, acceso:false, modelloAvviato:false };
-
-    /* ---------------------------------------------------------------- FOTO */
+    var foto = 0;
 
     FOTO.forEach(function (f, i) {
       var s = document.createElement('div');
       s.className = 'pv-slide';
-      s.innerHTML = '<img src="' + encodeURI(f.src) + '" alt="' + f.alt + '" ' +
-                    (i === 0 ? '' : 'loading="lazy" ') + '>';
+      if (f.video) {
+        /* video: parte da solo, muto e in loop, quando e' la foto in vista */
+        s.innerHTML = '<video src="' + encodeURI(f.video) + '" poster="' + encodeURI(f.poster) + '" muted loop playsinline ' +
+                      'controls preload="metadata" aria-label="' + f.alt + '"></video>';
+      } else {
+        s.innerHTML = '<img src="' + encodeURI(f.src) + '" alt="' + f.alt + '" ' + (i === 0 ? '' : 'loading="lazy" ') + '>';
+      }
       slides.appendChild(s);
 
       var p = document.createElement('span');
@@ -641,444 +585,110 @@
       t.type = 'button';
       t.className = 'pv-thumb' + (i === 0 ? ' attivo' : '');
       t.dataset.foto = i;
-      t.innerHTML = '<img src="' + encodeURI(f.src) + '" alt="' + f.alt + '" loading="lazy">';
+      t.innerHTML = '<img src="' + encodeURI(f.poster || f.src) + '" alt="' + f.alt + '" loading="lazy">' +
+                    (f.video ? '<span class="play">&#9654;</span>' : '');
       thumbs.appendChild(t);
     });
 
-    /* Con una foto sola non servono ne' pallini ne' frecce: comparirebbero
-       solo per dire che non c'e' altro. Tornano da soli quando le foto
-       diventano due o piu'. */
+    /* con una foto sola non servono ne' pallini ne' frecce */
     if (FOTO.length < 2) {
-      punti.style.display = 'none';
-      prec.style.display = 'none';
-      succ.style.display = 'none';
+      punti.style.display = 'none'; prec.style.display = 'none'; succ.style.display = 'none';
     }
 
-    /* la tessera del 3D, in coda alle foto */
-    var t3d = document.createElement('button');
-    t3d.type = 'button';
-    t3d.className = 'pv-thumb pv-thumb-3d';
-    t3d.dataset.vista = '3d';
-    t3d.innerHTML = '<span class="pallino" id="thumb-pallino" style="background:#cfcdc8"></span>' +
-                    '<span class="txt">3D</span>';
-    thumbs.appendChild(t3d);
-    var thumbPallino = document.getElementById('thumb-pallino');
-
-    function vaiAFoto(i, conAnimazione) {
-      i = Math.max(0, Math.min(FOTO.length - 1, i));
-      stato.foto = i;
-      slides.scrollTo({ left: slides.clientWidth * i, behavior: conAnimazione === false ? 'auto' : 'smooth' });
-      segnaFotoAttiva(i);
+    function gestisciVideo() {
+      var vs = slides.querySelectorAll('video');
+      vs.forEach(function (v) {
+        var idx = Array.prototype.indexOf.call(slides.children, v.parentNode);
+        if (idx === foto) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+        else v.pause();
+      });
     }
 
-    function segnaFotoAttiva(i) {
+    function segna(i) {
       punti.querySelectorAll('.pv-punto').forEach(function (p, k) { p.classList.toggle('attivo', k === i); });
-      if (stato.vista === 'foto') aggiornaThumbAttiva();
+      thumbs.querySelectorAll('.pv-thumb').forEach(function (t) { t.classList.toggle('attivo', Number(t.dataset.foto) === i); });
       prec.disabled = (i === 0);
       succ.disabled = (i === FOTO.length - 1);
-      didascalia();
+      gestisciVideo();
     }
 
-    /* mentre si trascina, il pallino e la miniatura seguono il dito */
+    function vai(i, animata) {
+      i = Math.max(0, Math.min(FOTO.length - 1, i));
+      foto = i;
+      slides.scrollTo({ left: slides.clientWidth * i, behavior: animata === false ? 'auto' : 'smooth' });
+      segna(i);
+    }
+
+    /* mentre si trascina, pallino e miniatura seguono il dito */
     var attesa;
     slides.addEventListener('scroll', function () {
       clearTimeout(attesa);
       attesa = setTimeout(function () {
         var i = Math.round(slides.scrollLeft / slides.clientWidth);
-        if (i !== stato.foto) { stato.foto = i; segnaFotoAttiva(i); }
+        if (i !== foto) { foto = i; segna(i); }
       }, 90);
     });
 
-    prec.addEventListener('click', function () { vaiAFoto(stato.foto - 1); });
-    succ.addEventListener('click', function () { vaiAFoto(stato.foto + 1); });
-
-    /* frecce della tastiera, quando il riquadro ha il fuoco */
+    prec.addEventListener('click', function () { vai(foto - 1); });
+    succ.addEventListener('click', function () { vai(foto + 1); });
     stage.addEventListener('keydown', function (e) {
-      if (stato.vista !== 'foto') return;
-      if (e.key === 'ArrowLeft')  vaiAFoto(stato.foto - 1);
-      if (e.key === 'ArrowRight') vaiAFoto(stato.foto + 1);
+      if (e.key === 'ArrowLeft')  vai(foto - 1);
+      if (e.key === 'ArrowRight') vai(foto + 1);
     });
-
-    /* ------------------------------------------------------ CAMBIO DI VISTA */
-
-    function mostraFoto(i) {
-      var stavaGiaSulleFoto = (stato.vista === 'foto');
-      if (typeof i === 'number') { i = Math.max(0, Math.min(FOTO.length - 1, i)); stato.foto = i; }
-      stato.vista = 'foto';
-      vFoto.classList.add('attiva');
-      v3d.classList.remove('attiva');
-      /* Il carosello si riallinea SEMPRE alla foto giusta, e di netto.
-         Nascondere e riscoprire un contenitore che scorre a scatti lo lascia
-         spesso a meta' fra due foto: da li' il dito non lo smuove piu'.
-         Il riallineamento va fatto quando e' di nuovo visibile, altrimenti il
-         browser lo ignora - da qui il rinvio al fotogramma successivo. */
-      requestAnimationFrame(function () {
-        var meta = slides.clientWidth * stato.foto;
-        /* fra una foto e l'altra si scorre dolce; tornando dal 3D si riparte
-           di netto, per non lasciare il carosello a meta' strada */
-        if (stavaGiaSulleFoto) slides.scrollTo({ left: meta, behavior: 'smooth' });
-        else slides.scrollLeft = meta;
-        segnaFotoAttiva(stato.foto);
-      });
-      /* Mentre si guardano le foto il vaso smette di girare: niente giostra
-         invisibile. Si toglie e si rimette l'attributo, NON si usa pause():
-         quello spegne il visualizzatore e play() non lo risveglia, cosi' al
-         ritorno il 3D restava immobile - sembrava bloccato. */
-      girello(false);
-      aggiornaInterruttore();
-      aggiornaThumbAttiva();
-      didascalia();
-      ricordaNellIndirizzo();
-    }
-
-    function mostra3D() {
-      stato.vista = '3d';
-      avviaModello();
-      v3d.classList.add('attiva');
-      vFoto.classList.remove('attiva');
-      girello(true);
-      aggiornaInterruttore();
-      aggiornaThumbAttiva();
-      didascalia();
-      ricordaNellIndirizzo();
-    }
-
-    function aggiornaInterruttore() {
-      document.querySelectorAll('.pv-switch button').forEach(function (b) {
-        b.classList.toggle('attiva', b.dataset.vista === stato.vista);
-      });
-    }
-
-    function aggiornaThumbAttiva() {
-      thumbs.querySelectorAll('.pv-thumb').forEach(function (t) {
-        var suo = (stato.vista === '3d')
-          ? (t.dataset.vista === '3d')
-          : (t.dataset.foto !== undefined && Number(t.dataset.foto) === stato.foto);
-        t.classList.toggle('attivo', suo);
-      });
-    }
-
-    /* Una riga sola sotto le pastiglie, e dice cosa fare adesso: dove ti trovi
-       lo dicono gia' la pastiglia accesa e la miniatura evidenziata. */
-    function didascalia() {
-      invito.textContent = (stato.vista === '3d')
-        ? 'Girala con il dito, e prova l\'interruttore. Per le foto reali tocca una miniatura.'
-        : 'Tocca l\'interruttore: la lampada diventa 3D e la puoi girare.';
-    }
-
     thumbs.addEventListener('click', function (e) {
-      var t = e.target.closest('.pv-thumb'); if (!t) return;
-      if (t.dataset.vista === '3d') mostra3D();
-      else mostraFoto(Number(t.dataset.foto));
+      var t = e.target.closest('.pv-thumb'); if (t) vai(Number(t.dataset.foto));
     });
-
-    document.querySelector('.pv-switch').addEventListener('click', function (e) {
-      var b = e.target.closest('button'); if (!b) return;
-      if (b.dataset.vista === '3d') mostra3D(); else mostraFoto();
-    });
-
-    /* --------------------------------------------------------------- 3D */
-
-    /* Un file solo, e un GLB invece di gltf+bin: Starlight non ha varianti di
-       colore, quindi non c'e' niente da tenere separato. Il numero nel nome
-       serve lo stesso: se la geometria cambia mantenendo il nome, il browser
-       puo' servire il file vecchio che ha in memoria. */
-    /* ⚠️ La versione in coda non e' decorativa. Il .glb sta allo stesso indirizzo
-     da settimane e il browser se lo tiene in cache anche dopo un aggiornamento:
-     si finiva per guardare il modello di ieri e dare la colpa al modello di
-     oggi. Alzare questo numero a ogni ricostruzione del .glb. */
-    var MODELLO = 'models-web/starlight1.glb?v=7';
-    function fileDelColore() { return MODELLO; }
-
-    /* Il visualizzatore 3D (~300 KB) non viene caricato all'apertura della
-       pagina: chi arriva vede prima le foto. Lo carichiamo appena il browser
-       e' libero, cosi' al primo tocco su un colore e' gia' pronto. */
-    var moduloChiesto = false;
-    function caricaModulo() {
-      if (moduloChiesto) return;
-      moduloChiesto = true;
-      var s = document.createElement('script');
-      s.type = 'module';
-      s.src = 'js/model-viewer.min.js';
-      document.head.appendChild(s);
-    }
-    if ('requestIdleCallback' in window) requestIdleCallback(caricaModulo, { timeout: 2500 });
-    else window.addEventListener('load', function () { setTimeout(caricaModulo, 800); });
-
-    /* Il visualizzatore pesa quasi un mega: su una rete lenta, fra il dito che
-       tocca il colore e il vaso che compare puo' passare qualche secondo, e
-       sembra che non succeda niente. Al primo sfioramento delle pastiglie o
-       delle miniature il caricamento parte subito: quando il dito si alza il
-       piu' e' gia' fatto. 'once' perche' basta la prima volta. */
-    ['pointerdown', 'touchstart'].forEach(function (evento) {
-      document.getElementById('colors').addEventListener(evento, caricaModulo, { once: true, passive: true });
-      thumbs.addEventListener(evento, caricaModulo, { once: true, passive: true });
-    });
-
-    /* Il modello di Starlight pesa poco (240 KB: 421 facce e tre texture
-       piccole), ma il visualizzatore no. Aspettare il tocco per iniziare a
-       scaricare vuol dire far aspettare il cliente col dito a mezz'aria, quindi
-       appena la pagina ha finito le sue cose prepariamo tutto di nascosto:
-       al primo tocco sull'interruttore la lampada c'e' gia'.
-       Non lo facciamo a chi ha chiesto il risparmio dati o naviga in 2G: li'
-       tre mega non richiesti sarebbero una scortesia. */
-    function preparaModello() {
-      caricaModulo();
-      if (mv.getAttribute('src')) return;
-      var rete = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-      if (rete && (rete.saveData || /(^|-)2g$/.test(rete.effectiveType || ''))) return;
-      mv.setAttribute('src', MODELLO);
-    }
-    window.addEventListener('load', function () {
-      if ('requestIdleCallback' in window) requestIdleCallback(preparaModello, { timeout: 3000 });
-      else setTimeout(preparaModello, 1200);
-    });
-
-    var attesaVelo;
-    function avviaModello() {
-      caricaModulo();
-      /* se dopo dieci secondi il modello non c'e', meglio dirlo che lasciare
-         un rettangolo grigio muto: le foto restano a un tocco di distanza */
-      clearTimeout(attesaVelo);
-      attesaVelo = setTimeout(function () {
-        if (!mv.loaded && velo.classList.contains('visibile')) {
-          velo.textContent = 'Il modello ci sta mettendo troppo — tocca una foto per tornare alle immagini.';
-        }
-      }, 10000);
-      var voluto = MODELLO;
-      /* Il velo serve solo la primissima volta, quando il modello non c'e'
-         ancora. Cambiare colore a modello gia' caricato costa due kilobyte:
-         far lampeggiare "carico il modello" per un terzo di secondo darebbe
-         l'impressione di una fatica che non c'e'. */
-      if (mv.getAttribute('src') !== voluto) {
-        mv.classList.remove('pronto');
-        if (!mv.loaded) velo.classList.add('visibile');
-        mv.setAttribute('src', voluto);
-      } else if (!mv.loaded) {
-        velo.classList.add('visibile');
-      }
-      stato.modelloAvviato = true;
-      accendi();
-    }
-
-    /* Rete di sicurezza: tornando dalla realta' aumentata (o quando la memoria
-       grafica finisce) alcuni telefoni perdono il contesto WebGL e al posto del
-       vaso resta un rettangolo grigio. Qui ce ne accorgiamo e lo ricarichiamo. */
-    function ricarica3D() {
-      var s = mv.getAttribute('src'); if (!s) return;
-      velo.classList.add('visibile');
-      mv.removeAttribute('src');
-      setTimeout(function () { mv.setAttribute('src', s); }, 60);
-    }
-
-    function sorvegliaTela() {
-      var c = mv.shadowRoot && mv.shadowRoot.querySelector('canvas');
-      if (!c || c.dataset.sorvegliata) return;
-      c.dataset.sorvegliata = '1';
-      c.addEventListener('webglcontextlost', function (e) { e.preventDefault(); ricarica3D(); });
-    }
-
-    /* accende e spegne la rotazione lenta, senza toccare il motore grafico */
-    function girello(acceso) {
-      if (acceso) { if (!mv.hasAttribute('auto-rotate')) mv.setAttribute('auto-rotate', ''); }
-      else mv.removeAttribute('auto-rotate');
-    }
-
-    /* Accendere non vuol dire cambiare colore: vuol dire dare al paralume una
-       propria emissione. Il gradiente e' gia' nel file (piu' luce in basso, dove
-       sta la lampadina, meno sulla punta), qui si alza o si azzera l'intensita'.
-       Anche l'ombra si alleggerisce: un oggetto che emette luce non puo' avere
-       la stessa ombra dura di uno spento. */
-    var EMISSIONE = [1.0, 0.78, 0.52];
-    var POZZA = [1.0, 0.68, 0.40];   /* la luce che cade sul piano, un filo piu' calda */
-
-    function accendi() {
-      /* L'emissione si puo' toccare solo a modello caricato; il resto — fondo,
-         esposizione, ombra — vale subito, anche mentre il .glb sta arrivando,
-         altrimenti premendo "accesa" durante il caricamento non succede niente
-         e poi la scena si accende di colpo. */
-      if (mv.model && mv.model.materials && mv.model.materials.length) {
-        try {
-          mv.model.materials[0].setEmissiveFactor(stato.acceso ? EMISSIONE : [0, 0, 0]);
-          /* Il terzo materiale e' il disco d'appoggio, e fa due mestieri:
-             da spenta e' l'ombra di contatto (nero al 42%), da accesa e' la
-             pozza di luce (stesso disco, emissione ambra). Sta nella scena,
-             quindi segue la telecamera — che e' esattamente cio' che il
-             gradiente CSS non sapeva fare. */
-          var appoggio = mv.model.materials[2];
-          if (appoggio) {
-            appoggio.pbrMetallicRoughness.setBaseColorFactor([0, 0, 0, stato.acceso ? 0.58 : 0.24]);
-            appoggio.setEmissiveFactor(stato.acceso ? POZZA : [0, 0, 0]);
-          }
-        } catch (e) { /* visualizzatore vecchio: la lampada resta spenta, pazienza */ }
-      }
-      /* l'ombra del visualizzatore resta a zero: la fa il disco (vedi sopra) */
-      /* Sera: fondo scuro nel riquadro e meno luce d'ambiente. Se lascio
-         l'esposizione da giorno, l'HDR di studio continua a illuminare il
-         paralume dall'esterno e l'emissione non si legge — la lampada sembra
-         accesa in pieno sole. Abbassandola resta il gradiente interno. */
-      v3d.classList.toggle('notte', !!stato.acceso);
-      mv.setAttribute('exposure', stato.acceso ? '0.86' : '1.00');
-      thumbPallino.style.background = stato.acceso ? '#f0b877' : '#cfcdc8';
-    }
-
-    mv.addEventListener('load', function () {
-      mv.classList.add('pronto');
-      clearTimeout(attesaVelo);
-      velo.classList.remove('visibile');
-      velo.textContent = 'Carico il modello…';
-      accendi();
-      impostaAR();
-      sorvegliaTela();
-      /* se il modello e' arrivato mentre si guardano le foto, sta fermo */
-      girello(stato.vista === '3d');
-    });
-
-    /* se il caricamento fallisce non lasciamo il velo acceso all'infinito */
-    mv.addEventListener('error', function () {
-      velo.textContent = 'Modello non disponibile — tocca una foto per tornare alle immagini.';
-    });
-
-    /* Sul telefono il vaso e' un filo piu' alto nell'inquadratura e un filo
-       piu' lontano: qualche millimetro d'aria ai lati e sopra, invece di
-       toccare i bordi del riquadro. */
-    var stretto = window.matchMedia && window.matchMedia('(max-width: 980px)');
-    function altezzaInquadratura() {
-      var mobile = stretto && stretto.matches;
-      mv.setAttribute('camera-target', mobile ? '0m 0.116m 0m' : '0m 0.136m 0m');
-      mv.setAttribute('camera-orbit',  mobile ? '20deg 78deg 0.95m' : '20deg 78deg 0.85m');
-    }
-    if (stretto) {
-      altezzaInquadratura();
-      if (stretto.addEventListener) stretto.addEventListener('change', altezzaInquadratura);
-    }
-    if (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) {
-      document.getElementById('pv-hint').textContent = 'Trascina per ruotare · pizzica per avvicinare';
-    }
-
-
-    /* -------------------------------------------------------- INTERRUTTORE */
-
-    var swatches = document.getElementById('colors');
-
-    swatches.addEventListener('click', function (e) {
-      var b = e.target.closest('.sl-stato'); if (!b) return;
-      this.querySelectorAll('.sl-stato').forEach(function (s) { s.classList.remove('active'); });
-      b.classList.add('active');
-      stato.acceso = (b.dataset.acceso === '1');
-      nome.textContent = stato.acceso ? 'Accesa' : 'Spenta';
-      accendi();
-      /* IL PASSAGGIO CHIAVE: toccare l'interruttore accende il 3D, senza cambiare pagina */
-      mostra3D();
-      if (arQr && !arQr.hidden) disegnaQr();
-    });
-
-    /* ------------------------------------------------ REALTA' AUMENTATA */
-
-    var arBtn = document.getElementById('ar-btn');
-    var arQr  = document.getElementById('ar-qr');
-    var arNote= document.getElementById('ar-note');
-
-    function indirizzoConStato() {
-      return location.origin + location.pathname +
-             (stato.acceso ? '?stato=accesa&vista=3d' : '?vista=3d');
-    }
-
-    function disegnaQr() {
-      try {
-        var q = qrcode(0, 'M');
-        q.addData(indirizzoConStato());
-        q.make();
-        document.getElementById('qr-target').innerHTML = q.createSvgTag({ cellSize: 4, margin: 1, scalable: true });
-        arQr.hidden = false;
-        arNote.hidden = true;
-      } catch (err) {
-        arNote.textContent = 'Apri questa pagina dal telefono per vedere Starlight nel tuo spazio.';
-      }
-    }
-
-    function impostaAR() {
-      var locale = location.protocol === 'file:' ||
-                   /^(localhost|127\.|0\.0\.0\.0|\[::1\])/.test(location.hostname);
-      if (mv.canActivateAR) {
-        arBtn.hidden = false;
-        arNote.textContent = 'Inquadra il piano e appoggia la lampada dove vuoi.';
-        return;
-      }
-      if (locale) {
-        arNote.textContent = 'La realtà aumentata funziona da smartphone e tablet, e solo con il sito ' +
-          'pubblicato online. Da questa copia locale non è raggiungibile: il codice da inquadrare ' +
-          'comparirà una volta caricata la pagina su shapeless.shop.';
-        return;
-      }
-      var tattile = window.matchMedia && window.matchMedia('(pointer: coarse)').matches && window.innerWidth < 1024;
-      if (tattile) {
-        arNote.textContent = 'Questo dispositivo o browser non supporta la realtà aumentata. ' +
-          'Su iPhone funziona con Safari, su Android con Chrome e i servizi ARCore aggiornati.';
-        return;
-      }
-      disegnaQr();
-    }
-
-    arBtn.addEventListener('click', function () { if (mv.activateAR) mv.activateAR(); });
-
-    /* L'ombra di appoggio in realta' aumentata resta appena accennata, quando
-       tocca a noi disegnarla. Attenzione: su Android l'AR si apre con Scene
-       Viewer di Google - scelto apposta, perche' mette il vaso in scala reale
-       fin dal primo istante - e li' l'ombra la disegna Google: da qui non si
-       tocca. Questo blocco vale dove l'AR gira dentro la pagina (webxr). */
-    mv.addEventListener('ar-status', function (e) {
-      var s = e.detail.status;
-      if (s === 'session-started') mv.setAttribute('shadow-intensity', '0');
-      if (s === 'not-presenting')  mv.setAttribute('shadow-intensity', '0');
-    });
-
-    mv.addEventListener('ar-status', function (e) {
-      if (e.detail.status === 'failed') {
-        arNote.hidden = false;
-        arNote.textContent = 'Non è stato possibile avviare la realtà aumentata su questo dispositivo.';
-      }
-    });
-
-    /* -------------------------------------------------------- INDIRIZZO */
-
-    function ricordaNellIndirizzo() {
-      if (!history.replaceState) return;
-      var q = (stato.acceso ? '?stato=accesa' : '?stato=spenta') + (stato.vista === '3d' ? '&vista=3d' : '');
-      history.replaceState(null, '', location.pathname + q);
-    }
-
-    (function statoDallIndirizzo() {
-      if (/[?&]stato=accesa/.test(location.search)) {
-        var b = swatches.querySelector('.sl-stato[data-acceso="1"]');
-        if (b) {
-          swatches.querySelectorAll('.sl-stato').forEach(function (s) { s.classList.remove('active'); });
-          b.classList.add('active');
-          stato.acceso = true;
-          nome.textContent = 'Accesa';
-        }
-      }
-      if (/[?&]vista=3d/.test(location.search)) mostra3D();
-    })();
-
-    /* stato iniziale */
-    aggiornaInterruttore();
-    aggiornaThumbAttiva();
-    didascalia();
-
-    /* la vista foto e' assoluta: alla prima apertura il carosello parte da 0 */
-    window.addEventListener('resize', function () {
-      if (stato.vista === 'foto') vaiAFoto(stato.foto, false);
-    });
-
-    window.PVStarlight = {
-      acceso: function () { return stato.acceso; }
-    };
+    window.addEventListener('resize', function () { vai(foto, false); });
+    segna(0);
   })();
   </script>
 
-  <script src="js/main.js"></script>
-  <script src="js/chat.js?v=20260922en" defer></script>
+
+  <script>
+  /* ---- Carrello: una lampada, una misura, nessun colore da scegliere ---- */
+  (function () {
+    var ID_PRODOTTO = 'starlight';
+    var C = window.ShapelessConfig;
+    var Cart = window.ShapelessCart;
+    var prodotto = C.prodotti[ID_PRODOTTO];
+
+    var testo = document.getElementById('cfg-add-testo');
+    var barraTesto = document.getElementById('barra-colore');
+    document.getElementById('cfg-prezzo').textContent   = Cart.formatPrice(prodotto.prezzo);
+    document.getElementById('barra-prezzo').textContent = Cart.formatPrice(prodotto.prezzo);
+    document.getElementById('cfg-consegna').textContent = Cart.dataConsegna();
+    if (C.iva.regime === 'forfettario') {
+      document.getElementById('cfg-prezzo-nota').textContent = 'Spedizione gratuita in Italia';
+    }
+    testo.textContent = 'Aggiungi al carrello — ' + prodotto.nome;
+    barraTesto.textContent = 'Aggiungi ' + prodotto.nome;
+
+    function aggiungi() {
+      Cart.addToCart({
+        id: prodotto.id, nome: prodotto.nome, prezzo: prodotto.prezzo,
+        immagine: prodotto.immagine, colore: '', coloreHex: ''
+      }, 1);
+      Cart.avviso(prodotto.nome + ' è nel carrello.', { href: 'carrello.html', testo: 'Vai al carrello' });
+    }
+    document.getElementById('cfg-add').addEventListener('click', aggiungi);
+    document.getElementById('barra-add').addEventListener('click', aggiungi);
+
+    /* fascia fissa in fondo (telefono): compare quando le miniature sono uscite
+       verso l'alto e il bottone grande non si vede */
+    var barra   = document.getElementById('barra-mobile');
+    var bottone = document.getElementById('cfg-add');
+    var miniature = document.getElementById('pv-thumbs');
+    if (barra && bottone && miniature && 'IntersectionObserver' in window) {
+      var passate = false, bottoneInVista = false;
+      function decidi() { barra.classList.toggle('visibile', passate && !bottoneInVista); }
+      new IntersectionObserver(function (v) {
+        passate = !v[0].isIntersecting && v[0].boundingClientRect.top < 0; decidi();
+      }, { threshold: 0 }).observe(miniature);
+      new IntersectionObserver(function (v) { bottoneInVista = v[0].isIntersecting; decidi(); }, { threshold: 0 }).observe(bottone);
+    }
+  })();
+  </script>
+
   <script>
   /* 28/09/2026 — frecce per scorrere le miniature quando non ci stanno tutte */
   (function () {
@@ -1101,7 +711,5 @@
     aggiorna();
   })();
   </script>
-  <script src="js/lang-testi.js?v=20260928lancio"></script>
-  <script src="js/lang.js?v=20260928lancio"></script>
 </body>
 </html>

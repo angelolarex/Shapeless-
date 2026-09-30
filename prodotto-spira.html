@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Spira | Shapeless</title>
-  <meta name="description" content="Spira: un vaso ampio percorso da nervature che salgono girando, come l'acqua in un vortice. Tredici colori, 36 cm, Hidden Nest in vetro incluso.">
+  <meta name="description" content="Spira: un vaso ampio percorso da nervature che salgono girando, come l'acqua in un vortice. Due misure, tredici colori, Hidden Nest in vetro incluso.">
   <link rel="stylesheet" href="css/style.css?v=20260928footer">
   <link rel="stylesheet" href="css/negozio.css">
 
@@ -250,6 +250,22 @@
     .pv-thumbs-wrap{ display:contents; }
     .pv-thumbs-freccia{ display:none !important; }
   }
+  /* ---- Spira: scelta della misura (28/09) ---- */
+  .pv-blocco-misura{ margin-top:34px; }
+  .pv-blocco-misura > .label{ margin-bottom:12px; }
+  .pv-misure-scelta{ display:flex; gap:10px; flex-wrap:wrap; }
+  .pv-misure-scelta button{
+    border:1px solid var(--border); background:transparent; cursor:pointer; border-radius:2px;
+    padding:10px 16px; font-family:var(--font-body); font-size:12px; letter-spacing:.06em;
+    color:var(--text); display:flex; flex-direction:column; align-items:flex-start; gap:3px;
+    transition:border-color .2s, background .2s;
+  }
+  .pv-misure-scelta button span{ font-size:10.5px; color:var(--text-muted); letter-spacing:0; }
+  .pv-misure-scelta button.attiva{ border-color:var(--text); background:var(--bg2); }
+  @media (max-width:980px){
+    .pv-info > .pv-blocco-misura{ order:3; margin-top:14px; }
+    .pv-misure-scelta button{ padding:8px 12px; }
+  }
   </style>
 </head>
 <body>
@@ -331,10 +347,10 @@
                 auto-rotate-delay="2500"
                 rotation-per-second="6deg"
                 interaction-prompt="none"
-                camera-orbit="20deg 78deg 0.98m"
-                camera-target="0m 0.18m 0m"
-                min-camera-orbit="auto 30deg 0.73m"
-                max-camera-orbit="auto 92deg 1.23m"
+                camera-orbit="20deg 78deg 0.76m"
+                camera-target="0m 0.135m 0m"
+                min-camera-orbit="auto 30deg 0.56m"
+                max-camera-orbit="auto 92deg 0.96m"
                 field-of-view="28deg"
                 min-field-of-view="20deg"
                 shadow-intensity="0.28"
@@ -367,15 +383,16 @@
           <ul class="pv-elenco" style="margin-top:24px; display:flex; flex-direction:column; gap:10px;">
             <li style="font-size:13px; color:var(--text-muted);">— Progettato e prodotto in Italia</li>
             <li style="font-size:13px; color:var(--text-muted);">— Materiale vegetale: PLA dal mais e dalla canna da zucchero</li>
-            <li style="font-size:13px; color:var(--text-muted);">— Tredici colori, alto 36 cm</li>
+            <li style="font-size:13px; color:var(--text-muted);">— Due misure: 27 cm e 35 cm di altezza</li>
+            <li style="font-size:13px; color:var(--text-muted);">— Tredici colori</li>
             <li style="font-size:13px; color:var(--text-muted);">— Prodotto su richiesta, nessuno stock</li>
             <li style="font-size:13px; color:var(--text-muted);">— Hidden Nest in vetro incluso</li>
           </ul>
 
           <div class="pv-vetro">
-            <img src="images/Bicchieri%20-%20Hidden%20nest/6x30h-transparent.png"
-                 alt="Vetro Hidden Nest su misura per Spira, Ø 6 per 30 cm di altezza">
-            <p>Vetro Hidden Nest su misura per Spira — <strong>&#216; 6x30h cm</strong></p>
+            <img id="pv-vetro-img" src="images/Bicchieri%20-%20Hidden%20nest/6x20h-transparent.png"
+                 alt="Vetro Hidden Nest su misura per Spira">
+            <p>Vetro Hidden Nest su misura per Spira — <strong id="pv-vetro-misura">&#216; 6x20h cm</strong></p>
           </div>
           </div>
         </div>
@@ -388,8 +405,17 @@
             Nervature che salgono girando, come l'acqua in un vortice.
           </p>
           <p class="pv-misure" style="font-size:12px; letter-spacing:0; color:var(--text-muted); margin-top:10px; line-height:1.6;">
-            <span style="text-transform:uppercase; letter-spacing:.14em; font-size:10.5px;">Dimensioni</span>&nbsp;&nbsp;<span id="pv-dim">19x19x36h cm</span>
+            <span style="text-transform:uppercase; letter-spacing:.14em; font-size:10.5px;">Dimensioni</span>&nbsp;&nbsp;<span id="pv-dim">15x15x27h cm</span>
           </p>
+
+          <!-- misura: due Spira, stesso disegno -->
+          <div class="pv-blocco-misura">
+            <div class="label">Scegli la misura</div>
+            <div class="pv-misure-scelta" id="misure" role="group" aria-label="Misura">
+              <button type="button" class="attiva" data-misura="s">Piccola <span>15x15x27h cm</span></button>
+              <button type="button" data-misura="l">Grande <span>19x19x35h cm</span></button>
+            </div>
+          </div>
 
           <!-- colori: il gesto che accende il 3D -->
           <div class="pv-blocco-colori">
@@ -426,13 +452,13 @@
           <!-- acquisto -->
           <div class="cfg-acquisto">
             <div class="cfg-prezzo">
-              <strong id="cfg-prezzo">€ 159,00</strong>
+              <strong id="cfg-prezzo">€ 95,00</strong>
               <span id="cfg-prezzo-nota">IVA inclusa · spedizione gratuita in Italia</span>
             </div>
 
             <button type="button" class="btn btn-fill cfg-add" id="cfg-add">
               <span class="cfg-add-pallino" id="cfg-add-pallino" style="background:#bcbfb0"></span>
-              <span id="cfg-add-testo">Aggiungi al carrello — Spira Sage</span>
+              <span id="cfg-add-testo">Aggiungi al carrello — Spira Piccola Sage</span>
             </button>
 
             <p class="cfg-rassicura">
@@ -450,7 +476,7 @@
               <div class="qr" id="qr-target"></div>
               <p><strong>Inquadra il codice con la fotocamera del telefono.</strong>
                  Si aprirà questa pagina col colore che hai scelto, e da lì potrai appoggiare
-                 Spira sul mobile di casa tua in scala reale — è alto <span id="pv-alto">36</span> cm.</p>
+                 Spira sul mobile di casa tua in scala reale — è alto <span id="pv-alto">27</span> cm.</p>
             </div>
             <p class="cfg-note" id="ar-note"></p>
           </div>
@@ -499,7 +525,7 @@
 
       <div class="faq-item">
         <div class="faq-question">Dimensioni<div class="faq-icon">+</div></div>
-        <div class="faq-answer"><p>Dimensioni 19x19x36h cm: altezza 36 cm, diametro massimo 19 cm. Ogni pezzo è prodotto on demand nel colore che scegli.</p></div>
+        <div class="faq-answer"><p>Due misure: Piccola 15x15x27h cm, Grande 19x19x35h cm. Ogni pezzo è prodotto on demand nel colore che scegli.</p></div>
       </div>
 
       <div class="faq-item">
@@ -591,19 +617,19 @@
   <!-- barra fissa su telefono: aggiunge al carrello il colore scelto -->
   <div class="barra-mobile" id="barra-mobile">
     <div class="barra-mobile-txt">
-      <span id="barra-prezzo">€ 159,00</span>
+      <span id="barra-prezzo">€ 95,00</span>
     </div>
     <!-- Una frase sola dentro un solo elemento: il bottone e' un contenitore
          flessibile, e fra due pezzi separati lo spazio viene ignorato -
          usciva "AGGIUNGIBLADE ANTRACITE". -->
-    <button type="button" class="btn btn-fill" id="barra-add"><span id="barra-colore">Aggiungi Spira Sage</span></button>
+    <button type="button" class="btn btn-fill" id="barra-add"><span id="barra-colore">Aggiungi Spira Piccola Sage</span></button>
   </div>
 
   <script src="js/main.js"></script>
   <script src="js/chat.js?v=20260922en" defer></script>
-  <script src="js/lang-testi.js?v=20260928lancio"></script>
+  <script src="js/lang-testi.js?v=20260930luci"></script>
   <script src="js/lang.js?v=20260928lancio"></script>
-  <script src="js/shop-config.js?v=20260928lancio"></script>
+  <script src="js/shop-config.js?v=20260930luci"></script>
   <script src="js/cart.js?v=20260917consegna"></script>
   <script src="js/qrcode.js"></script>
 
@@ -625,6 +651,36 @@
     { src:'images/Spin/web/spin-giallo-mani.jpg', alt:'Spira Giallo sollevato tra le mani' },
     { src:'images/Spin/web/spin-sage-dettaglio.jpg', alt:'Spira Sage, dettaglio delle nervature' }
   ];
+  </script>
+
+  <script>
+  /* ---- Spira: misura scelta (piccola / grande). Cambia prodotto, prezzo,
+     misure scritte e modello 3D (stesso file, scala 1,28 sul grande). ---- */
+  (function () {
+    var misura = /[?&]misura=l/.test(location.search) ? 'l' : 's';
+    var DATI = {
+      s: { dim:'15x15x27h cm', alto:'27', vetro:'&#216; 6x20h cm', vetroImg:'6x20h-transparent.png' },
+      l: { dim:'19x19x35h cm', alto:'35', vetro:'&#216; 6x30h cm', vetroImg:'6x30h-transparent.png' }
+    };
+    window.PVMisura = function () { return misura; };
+    function scrivi() {
+      var d = DATI[misura];
+      document.getElementById('pv-dim').textContent = d.dim;
+      document.getElementById('pv-alto').textContent = d.alto;
+      var v = document.getElementById('pv-vetro-misura'); if (v) v.innerHTML = d.vetro;
+      var vi = document.getElementById('pv-vetro-img'); if (vi) vi.src = 'images/Bicchieri%20-%20Hidden%20nest/' + d.vetroImg;
+      document.querySelectorAll('#misure button').forEach(function (b) {
+        b.classList.toggle('attiva', b.dataset.misura === misura);
+      });
+    }
+    document.getElementById('misure').addEventListener('click', function (e) {
+      var b = e.target.closest('button'); if (!b || b.dataset.misura === misura) return;
+      misura = b.dataset.misura;
+      scrivi();
+      document.dispatchEvent(new CustomEvent('pv-misura', { detail: misura }));
+    });
+    scrivi();
+  })();
   </script>
 
   <script>
@@ -809,7 +865,7 @@
        file nuovo con quello vecchio che ha in memoria - le coordinate finiscono
        fuori posto e il vaso esce a strisce colorate. Ogni ricostruzione del
        modello prende un numero nuovo. */
-    function fileDelColore(hex) { return 'models-web/spin1-' + hex.replace('#', '') + '.gltf'; }
+    function fileDelColore(hex) { return 'models-web/spin1' + (window.PVMisura ? window.PVMisura() : 's') + '-' + hex.replace('#', '') + '.gltf'; }
 
     /* Il visualizzatore 3D (~300 KB) non viene caricato all'apertura della
        pagina: chi arriva vede prima le foto. Lo carichiamo appena il browser
@@ -936,8 +992,12 @@
     var stretto = window.matchMedia && window.matchMedia('(max-width: 980px)');
     function altezzaInquadratura() {
       var mobile = stretto && stretto.matches;
-      mv.setAttribute('camera-target', mobile ? '0m 0.153m 0m' : '0m 0.18m 0m');
-      mv.setAttribute('camera-orbit',  mobile ? '20deg 78deg 1.10m' : '20deg 78deg 0.98m');
+      var grande = (window.PVMisura && window.PVMisura() === 'l');
+      var t = grande ? 0.175 : 0.135, d = grande ? 0.96 : 0.76;
+      mv.setAttribute('camera-target', '0m ' + (mobile ? (t * 0.85).toFixed(3) : t) + 'm 0m');
+      mv.setAttribute('camera-orbit',  '20deg 78deg ' + (mobile ? (d * 1.12).toFixed(2) : d) + 'm');
+      mv.setAttribute('min-camera-orbit', 'auto 30deg ' + (d * 0.74).toFixed(2) + 'm');
+      mv.setAttribute('max-camera-orbit', 'auto 92deg ' + (d * 1.26 * (mobile ? 1.12 : 1)).toFixed(2) + 'm');
     }
     if (stretto) {
       altezzaInquadratura();
@@ -972,7 +1032,7 @@
 
     function indirizzoConStato() {
       return location.origin + location.pathname +
-             '?colore=' + stato.color.replace('#', '') + '&vista=3d';
+             '?colore=' + stato.color.replace('#', '') + (window.PVMisura() === 'l' ? '&misura=l' : '') + '&vista=3d';
     }
 
     function disegnaQr() {
@@ -1035,7 +1095,7 @@
 
     function ricordaNellIndirizzo() {
       if (!history.replaceState) return;
-      var q = '?colore=' + stato.color.replace('#', '') + (stato.vista === '3d' ? '&vista=3d' : '');
+      var q = '?colore=' + stato.color.replace('#', '') + (window.PVMisura() === 'l' ? '&misura=l' : '') + (stato.vista === '3d' ? '&vista=3d' : '');
       history.replaceState(null, '', location.pathname + q);
     }
 
@@ -1065,6 +1125,13 @@
       if (stato.vista === 'foto') vaiAFoto(stato.foto, false);
     });
 
+    document.addEventListener('pv-misura', function () {
+      altezzaInquadratura();
+      if (mv.getAttribute('src')) mv.setAttribute('src', fileDelColore(stato.color));
+      ricordaNellIndirizzo();
+      if (arQr && !arQr.hidden) disegnaQr();
+    });
+
     /* serve agli altri blocchi (carrello, barra mobile) */
     window.PVSpira = {
       colore: function () { return { hex: stato.color, nome: stato.nomeColore }; }
@@ -1077,11 +1144,18 @@
      Legge il colore attivo dal DOM: resta indipendente dal blocco qui sopra,
      e si copia tale e quale sugli altri vasi cambiando solo ID_PRODOTTO. */
   (function () {
-    var ID_PRODOTTO = 'spin';
+    var ID_PRODOTTO = (window.PVMisura && window.PVMisura() === 'l') ? 'spin' : 'spin-s';
 
     var C = window.ShapelessConfig;
     var Cart = window.ShapelessCart;
     var prodotto = C.prodotti[ID_PRODOTTO];
+    /* Zig: cambiando misura cambiano prodotto e prezzo */
+    document.addEventListener('pv-misura', function () {
+      prodotto = C.prodotti[window.PVMisura() === 'l' ? 'spin' : 'spin-s'];
+      document.getElementById('cfg-prezzo').textContent   = Cart.formatPrice(prodotto.prezzo);
+      document.getElementById('barra-prezzo').textContent = Cart.formatPrice(prodotto.prezzo);
+      aggiornaBottone();
+    });
 
     var testo   = document.getElementById('cfg-add-testo');
     var pallino = document.getElementById('cfg-add-pallino');
