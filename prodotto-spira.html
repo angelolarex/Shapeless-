@@ -649,12 +649,12 @@
      ========================================================================= */
   var FOTO = [
     { src:'images/spin-scontornato.webp?v=6', alt:'Spira Sage — vista frontale' },
+    { video:'images/Spin/web/spin-video.mp4', poster:'images/Spin/web/spin-video-poster.jpg', alt:'Video del vaso Spira Sage' },
     { src:'images/Spin/web/spin-giallo-roccia.jpg', alt:'Spira Giallo appoggiato su una roccia' },
     { src:'images/Spin/web/spin-magenta-roccia.jpg', alt:'Spira Magenta tra le rocce vicino all\'acqua' },
     { src:'images/Spin/web/spin-magenta-rametto.jpg', alt:'Spira Magenta con un rametto, all\'aperto' },
     { src:'images/Spin/web/spin-sage-mani.jpg', alt:'Spira Sage tenuto tra le mani' },
-    { src:'images/Spin/web/spin-giallo-mani.jpg', alt:'Spira Giallo sollevato tra le mani' },
-    { video:'images/Spin/web/spin-video.mp4', poster:'images/Spin/web/spin-video-poster.jpg', alt:'Video del vaso Spira Sage' }
+    { src:'images/Spin/web/spin-giallo-mani.jpg', alt:'Spira Giallo sollevato tra le mani' }
   ];
   </script>
 
@@ -1015,7 +1015,7 @@
     function altezzaInquadratura() {
       var mobile = stretto && stretto.matches;
       var grande = (window.PVMisura && window.PVMisura() === 'l');
-      var t = grande ? 0.175 : 0.135, d = grande ? 0.96 : 0.76;
+      var t = grande ? 0.175 : 0.175, d = grande ? 0.96 : 0.96;
       mv.setAttribute('camera-target', '0m ' + (mobile ? (t * 0.85).toFixed(3) : t) + 'm 0m');
       mv.setAttribute('camera-orbit',  '20deg 78deg ' + (mobile ? (d * 1.12).toFixed(2) : d) + 'm');
       mv.setAttribute('min-camera-orbit', 'auto 30deg ' + (d * 0.74).toFixed(2) + 'm');
