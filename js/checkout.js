@@ -159,7 +159,7 @@
       if (!azioni || typeof azioni.updateShippingAddress !== 'function') return;
       var paese = $('paese').value;
       if (!paese) return;
-      var r = azioni.updateShippingAddress({ name: ($('nome').value + ' ' + $('cognome').value).trim() || 'Cliente', address: { country: paese } });
+      var r = azioni.updateShippingAddress({ name: ($('nome').value + ' ' + $('cognome').value).trim() || 'Cliente', address: { country: paese, line1: ($('indirizzo').value || '').trim() || '-' } });
       if (r && r.catch) r.catch(function (e) { console.warn('paese non comunicato:', e); });
     } catch (e) { console.warn('paese non comunicato:', e); }
   }
