@@ -188,6 +188,11 @@
           }
           if (s.stato !== 'complete') return;
 
+          /* Pixel Meta: acquisto (parte solo se il visitatore ha accettato il consenso) */
+          if (window.shapelessPixel && typeof s.totale === 'number') {
+            window.shapelessPixel.purchase({ id: idSessione, value: s.totale / 100, items: o && o.articoli });
+          }
+
           /* pagato: il carrello si svuota qui, e solo qui */
           Cart.clearCart();
           if (o) { o.stato = 'pagato'; Cart.saveOrdine(o); }
@@ -238,6 +243,7 @@
     mostraArticoli();
   })();
   </script>
+  <script src="js/meta-pixel.js?v=20261003meta" defer></script>
   <script src="js/analytics.js?v=20261003an" defer></script>
 </body>
 </html>

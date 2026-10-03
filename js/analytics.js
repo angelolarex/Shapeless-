@@ -146,6 +146,15 @@
   });
   addEventListener('pagehide', inviaTempo);
 
+  /* battito: ogni 20 s, finche' la pagina e' in primo piano, dice "sono ancora qui" (serve al contatore LIVE) */
+  var battiti = 0;
+  var bt = setInterval(function () {
+    if (document.visibilityState !== 'visible') return;
+    if (++battiti > 90) { clearInterval(bt); return; }
+    var corpo = JSON.stringify({ s: sid, o: P, d: DISP, l: LANG, ev: [] });
+    try { if (navigator.sendBeacon) navigator.sendBeacon(EP, new Blob([corpo], { type: 'text/plain' })); } catch (e) {}
+  }, 20000);
+
   /* ------------------------------------------------------------ click */
   function etichetta(el) {
     var t = el.getAttribute('data-an') || el.getAttribute('aria-label') || el.getAttribute('title') || '';
