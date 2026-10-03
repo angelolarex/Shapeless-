@@ -87,7 +87,7 @@
         nome: 'Blade',
         prezzo: 215.00,      /* 28x28x37h cm — listino 17/09 */
         altezzaCm: 37,
-        immagine: 'images/blade-transparent.png',
+        immagine: 'images/blade-transparent.webp',
         pagina: 'prodotto-blade.html',
         configuratore: null,
         /* Disegno tecnico a tratto: e' quello che va nel carrello e in cassa.
@@ -103,7 +103,7 @@
         nome: 'Vulcano',
         prezzo: 95.00,       /* 22x22x26h cm — listino 17/09 */
         altezzaCm: 26,
-        immagine: 'images/vulcano-transparent.png',
+        immagine: 'images/vulcano-transparent.webp',
         pagina: 'prodotto-vulcano.html',
         configuratore: null,
         /* Stesso criterio di Blade: nel carrello e in cassa va il disegno a
@@ -116,7 +116,7 @@
         nome: 'Bombato',
         prezzo: 95.00,       /* 25x25x19h cm — listino 17/09 */
         altezzaCm: 19,
-        immagine: 'images/bombato-transparent.png',
+        immagine: 'images/bombato-transparent.webp',
         pagina: 'prodotto-bombato.html',
         configuratore: null,
         disegno: 'images/bombato-linea.svg'

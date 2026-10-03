@@ -626,7 +626,7 @@
   <!-- NAV -->
   <nav class="nav">
     <div class="nav-inner">
-    <a href="index.html" class="nav-logo"><img src="images/Logo Shapeless.png" alt="Shapeless" class="nav-logo-img"></a>
+    <a href="index.html" class="nav-logo"><img src="images/logo-shapeless.webp" alt="Shapeless" class="nav-logo-img"></a>
     <ul class="nav-links">
       <li class="nav-item">
         <span>About</span>
@@ -696,7 +696,7 @@
           <p>Basta un oggetto per cambiare il modo in cui vivi una stanza.</p>
           <p>Ogni forma Shapeless entra nello spazio senza confondersi con esso: lo attraversa, ne cattura la luce, gli dà un punto di vista.</p>
         </header>
-        <figure class="perche-foto lampada-foto" id="lampadaFoto"><img src="images/lampada-sera-1024.jpg" srcset="images/lampada-sera-700.jpg 700w, images/lampada-sera-1024.jpg 1024w" sizes="(max-width: 900px) 100vw, 50vw" alt="Lampada Shapeless accesa su un tavolo, di sera, con il cielo stellato alla finestra" loading="lazy"></figure>
+        <figure class="perche-foto lampada-foto" id="lampadaFoto"><img loading="lazy" decoding="async" src="images/lampada-sera-1024.jpg" srcset="images/lampada-sera-700.jpg 700w, images/lampada-sera-1024.jpg 1024w" sizes="(max-width: 900px) 100vw, 50vw" alt="Lampada Shapeless accesa su un tavolo, di sera, con il cielo stellato alla finestra" loading="lazy"></figure>
       </div>
     </div>
   </section>
@@ -725,19 +725,19 @@
       </header>
       <div class="prodotti">
         <a href="prodotto-bombato.html" class="pc">
-          <div class="pc-img"><img src="images/bombato-transparent.png" alt="Vaso di design Bombato giallo" style="height:56%"></div>
+          <div class="pc-img"><img loading="lazy" decoding="async" src="images/bombato-transparent.webp" alt="Vaso di design Bombato giallo" style="height:56%"></div>
           <h3 class="pc-nome">Bombato</h3>
           <p class="pc-desc">Vaso scultura</p>
           <div class="pc-colori"><i style="background:#a3444d"></i><i style="background:#0095a1"></i><i style="background:#6b1492"></i><i style="background:#dd1d76"></i><i style="background:#fed003"></i></div>
         </a>
         <a href="prodotto-blade.html" class="pc">
-          <div class="pc-img"><img src="images/blade-transparent.png" alt="Vaso di design Blade Red Wine" style="height:90%"></div>
+          <div class="pc-img"><img loading="lazy" decoding="async" src="images/blade-transparent.webp" alt="Vaso di design Blade Red Wine" style="height:90%"></div>
           <h3 class="pc-nome">Blade</h3>
           <p class="pc-desc">Vaso scultura</p>
           <div class="pc-colori"><i style="background:#a3444d"></i><i style="background:#91535d"></i><i style="background:#bcbfb0"></i><i style="background:#346371"></i><i style="background:#d8d0cd"></i></div>
         </a>
         <a href="prodotto-vulcano.html" class="pc">
-          <div class="pc-img"><img src="images/vulcano-transparent.png" alt="Vaso di design Vulcano antracite" style="height:67%"></div>
+          <div class="pc-img"><img loading="lazy" decoding="async" src="images/vulcano-transparent.webp" alt="Vaso di design Vulcano antracite" style="height:67%"></div>
           <h3 class="pc-nome">Vulcano</h3>
           <p class="pc-desc">Vaso scultura</p>
           <div class="pc-colori"><i style="background:#a3444d"></i><i style="background:#646666"></i><i style="background:#e7cac0"></i><i style="background:#346371"></i><i style="background:#0095a1"></i></div>
@@ -830,7 +830,7 @@
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand">
-          <img src="images/Logo Shapeless.png" alt="Shapeless" class="footer-logo-img">
+          <img loading="lazy" src="images/logo-shapeless.webp" alt="Shapeless" class="footer-logo-img">
           <p>Design in movimento. Oggetti scultorei progettati in Italia per dare carattere agli spazi,
           realizzati su ordinazione in un materiale di origine vegetale.</p>
           <div class="social-links" style="margin-top: 24px;">
@@ -1022,8 +1022,8 @@
     window.addEventListener('resize', centra);
   })();
   </script>
-  <script src="js/shop-config.js?v=20260930luci"></script>
-  <script src="js/cart.js?v=20260917consegna"></script>
+  <script src="js/shop-config.js?v=20261003veloce"></script>
+  <script src="js/cart.js?v=20261003prezzi"></script>
   <script>
   /* Lampada: parte al 15% di luce (2,4 s) e si accende "vibrando" ogni volta che la foto rientra nello schermo
      (stesso meccanismo del Blade 3D: se esce del tutto si rispegne, se resti fermo lì non si ripete) */
@@ -1058,5 +1058,6 @@
     }, { threshold: [0, 0.3] }).observe(f);
   })();
   </script>
+  <script src="js/analytics.js?v=20261003an" defer></script>
 </body>
 </html>

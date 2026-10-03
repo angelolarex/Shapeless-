@@ -35,7 +35,7 @@
    Cloudflare Workers, gratis fino a 100.000 richieste al giorno.
    =========================================================================== */
 
-import { gestisciPannello } from './pannello.js';
+import { gestisciPannello, registraEventi } from './pannello.js';
 
 /* ---------------------------------------------------------------- catalogo
    DEVE restare allineato a js/shop-config.js. Quando cambi un prezzo,
@@ -501,6 +501,11 @@ export default {
     /* Pannello ordini: /pannello e tutto quello che sta sotto */
     const pannello = await gestisciPannello(richiesta, env, url);
     if (pannello) return pannello;
+
+    /* Statistiche del sito: POST /t (js/analytics.js). Mai errori verso il visitatore. */
+    if (url.pathname === '/t' && richiesta.method === 'POST') {
+      return await registraEventi(richiesta, env, ORIGINI_AMMESSE.includes(origine));
+    }
 
     if (richiesta.method === 'OPTIONS') {
       return new Response(null, { status: 204, headers: intestazioniCORS(origine) });

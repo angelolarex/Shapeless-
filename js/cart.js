@@ -38,9 +38,22 @@
     catch (e) { /* navigazione privata o spazio esaurito: si prosegue lo stesso */ }
   }
 
+  /* Allinea prezzo e nome al listino attuale (shop-config.js): chi aveva messo
+     un articolo nel carrello prima di un cambio prezzo non vede cifre vecchie.
+     Il prezzo vero lo calcola comunque il Worker, questo e' solo la vista. */
+  function alListino(cart) {
+    var P = (cfg() && cfg().prodotti) || null;
+    if (!P || !cart) return cart;
+    cart.forEach(function (i) {
+      var p = P[i.id];
+      if (p && typeof p.prezzo === 'number') { i.prezzo = p.prezzo; if (p.nome) i.nome = p.nome; }
+    });
+    return cart;
+  }
+
   function getCart() {
     var cart = leggi(CART_KEY, null);
-    if (cart) return cart;
+    if (cart) return alListino(cart);
 
     // Migrazione dalla versione 1: chi aveva gia' articoli nel carrello non li perde.
     var vecchio = leggi(CART_KEY_V1, null);
