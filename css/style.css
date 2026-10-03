@@ -2077,3 +2077,12 @@ footer { padding:48px 0 28px; background:#efedea; }
 @media (max-width: 374px) {
   footer .container { padding-left: 22px; padding-right: 22px; }
 }
+
+
+/* ---- codice di benvenuto dopo l'iscrizione alla newsletter (3/10) ---- */
+.nl-codice { max-width: 440px; }
+.nl-codice-t { font-size: 13px; letter-spacing: .16em; text-transform: uppercase; color: var(--text-muted, #4a4848); margin: 0 0 12px; }
+.nl-codice-riga { display: flex; align-items: stretch; border: 1px solid var(--border, #d9d5d0); background: #fff; }
+.nl-codice-riga code { flex: 1; padding: 14px 18px; font-family: inherit; font-size: 20px; font-weight: 500; letter-spacing: .28em; color: var(--accent, #6b1f45); }
+.nl-codice-riga button { border: 0; background: var(--accent, #6b1f45); color: #fff; padding: 0 22px; font: inherit; font-size: 12px; letter-spacing: .16em; text-transform: uppercase; cursor: pointer; }
+.nl-codice-n { font-size: 13.5px; color: var(--text-muted, #4a4848); margin: 12px 0 0; line-height: 1.5; }

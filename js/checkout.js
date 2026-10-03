@@ -82,6 +82,7 @@
     }
     stripe = window.Stripe(chiave, { locale: EN ? 'en' : 'it' });
     numeroOrdine = Cart.nuovoNumeroOrdine();
+    avviaCodice();
     nuovaSessione();
   });
 
@@ -200,6 +201,54 @@
     $('riep-totale').textContent = s.total.total.amount;
     $('barra-totale').textContent = s.total.total.amount;
     $('btn-paga-cifra').textContent = s.total.total.amount;
+    /* riga sconto, solo se c'e' un codice applicato */
+    var sc = s.total.discount;
+    var riga = $('riep-sconto-riga');
+    if (riga) {
+      if (sc && sc.minorUnitsAmount > 0) { riga.hidden = false; $('riep-sconto').textContent = '−' + sc.amount; }
+      else riga.hidden = true;
+    }
+  }
+
+  /* ====================================================== codice sconto */
+  var codiceApplicato = '';
+  function msgCodice(t, ok) {
+    var m = $('codice-msg'); if (!m) return;
+    m.textContent = t || ''; m.className = 'codice-msg' + (t ? (ok ? ' ok' : ' no') : '');
+  }
+  function applicaCodice(codice, silenzioso) {
+    codice = (codice || '').trim().toUpperCase();
+    if (!codice) return Promise.resolve();
+    if (!azioni || typeof azioni.applyPromotionCode !== 'function') {
+      if (!silenzioso) msgCodice(T('Un attimo, la cassa si sta caricando.', 'One moment, checkout is loading.'), false);
+      return Promise.resolve();
+    }
+    var mioAz = azioni;
+    $('codice-applica').disabled = true;
+    return Promise.resolve(azioni.applyPromotionCode(codice)).then(function (res) {
+      if (mioAz !== azioni) return;
+      if (res && res.type === 'error') {
+        codiceApplicato = '';
+        if (!silenzioso) msgCodice(T('Codice non valido o già usato.', 'Invalid code or already used.'), false);
+        else try { localStorage.removeItem('shp_codice10'); } catch (e) {}
+        return;
+      }
+      codiceApplicato = codice;
+      msgCodice(T('Codice ', 'Code ') + codice + T(' applicato.', ' applied.'), true);
+      $('codice-form').hidden = false; $('codice-apri').hidden = true;
+      $('codice-campo').value = codice;
+      if (res && res.session) aggiornaDaSessione(res.session);
+    }).catch(function () {
+      if (!silenzioso) msgCodice(T('Non riesco ad applicare il codice, riprova.', 'Could not apply the code, try again.'), false);
+    }).then(function () { $('codice-applica').disabled = false; });
+  }
+  function avviaCodice() {
+    var ap = $('codice-apri'); if (!ap) return;
+    ap.addEventListener('click', function () { ap.hidden = true; $('codice-form').hidden = false; $('codice-campo').focus(); });
+    $('codice-applica').addEventListener('click', function () { applicaCodice($('codice-campo').value, false); });
+    $('codice-campo').addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') { e.preventDefault(); applicaCodice($('codice-campo').value, false); }
+    });
   }
 
   /* ====================================================== sessione Stripe */
@@ -287,6 +336,12 @@
           typeof azioni.updateShippingOption === 'function') {
         return azioni.updateShippingOption(s.shippingOptions[0].id);
       }
+    })
+    .then(function () {
+      if (mio !== turno) return;
+      /* codice gia' scelto in questa visita, o ricevuto con la newsletter: si applica da solo */
+      var salvato = codiceApplicato; try { salvato = salvato || localStorage.getItem('shp_codice10') || ''; } catch (e) {}
+      if (salvato) return applicaCodice(salvato, true);
     })
     .then(function () { if (mio === turno) $('btn-paga').disabled = false; })
     .catch(function (err) {

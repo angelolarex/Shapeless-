@@ -79,6 +79,28 @@ document.addEventListener('DOMContentLoaded', function () {
      ───────────────────────────────────────────────────────── */
   var W3F_KEY = '3a7d3d19-a98c-4862-9524-8542e870b2ba';
 
+  /* Dopo l'iscrizione alla newsletter il codice di benvenuto compare subito, con tasto Copia.
+     Si salva anche sul dispositivo: in cassa si applica da solo. */
+  var CODICE_BENVENUTO = 'FIRSTSH';
+  function mostraCodiceBenvenuto(form) {
+    var en = false; try { en = localStorage.getItem('shapeless_lang') === 'en'; } catch (e) {}
+    try { localStorage.setItem('shp_codice10', CODICE_BENVENUTO); } catch (e) {}
+    var box = document.createElement('div');
+    box.className = 'nl-codice';
+    box.innerHTML =
+      '<p class="nl-codice-t">' + (en ? 'Welcome — here is your code' : 'Benvenuto — ecco il tuo codice') + '</p>' +
+      '<div class="nl-codice-riga"><code>' + CODICE_BENVENUTO + '</code>' +
+      '<button type="button">' + (en ? 'Copy' : 'Copia') + '</button></div>' +
+      '<p class="nl-codice-n">' + (en ? '10% off your first order. It will be applied automatically at checkout on this device.'
+                                      : '10% sul tuo primo ordine. In cassa lo trovi già applicato su questo dispositivo.') + '</p>';
+    form.parentNode.replaceChild(box, form);
+    var b = box.querySelector('button');
+    b.addEventListener('click', function () {
+      var ok = function () { b.textContent = en ? 'Copied' : 'Copiato'; };
+      try { navigator.clipboard.writeText(CODICE_BENVENUTO).then(ok, ok); } catch (e) { ok(); }
+    });
+  }
+
   function submitWeb3Form(form) {
     form.addEventListener('submit', function(e) {
       e.preventDefault();
@@ -97,6 +119,7 @@ document.addEventListener('DOMContentLoaded', function () {
       .then(function(res) { return res.json(); })
       .then(function(json) {
         if (json.success) {
+          if (form.classList.contains('newsletter-form')) { mostraCodiceBenvenuto(form); return; }
           window.location.href = 'grazie.html';
         } else {
           if (btn) { btn.disabled = false; btn.textContent = btn._orig || 'Invia'; }

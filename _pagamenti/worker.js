@@ -152,6 +152,34 @@ async function chiamaStripe(percorso, corpo, chiave) {
   return dati;
 }
 
+/* ============================================================ codice di benvenuto
+   Codice FIRSTSH: 10% sul primo ordine, valido solo per clienti che non hanno
+   mai pagato (first_time_transaction). Se non esiste ancora su Stripe lo crea
+   questa funzione (una volta per avvio del servizio). Se qualcosa va storto
+   NON blocca mai la cassa: semplicemente il campo codice dira' "non valido".
+   Per cambiare sconto o nome: modificare qui e creare il nuovo codice su Stripe
+   (Catalogo prodotti -> Coupon) disattivando il vecchio. */
+const CODICE_BENVENUTO = 'FIRSTSH';
+let codiceBenvenutoOk = false;
+async function assicuraCodiceBenvenuto(chiave) {
+  if (codiceBenvenutoOk) return;
+  try {
+    const h = { 'Authorization': `Bearer ${chiave}`, 'Stripe-Version': STRIPE_VERSIONE };
+    const r = await fetch(`https://api.stripe.com/v1/promotion_codes?code=${CODICE_BENVENUTO}&limit=1`, { headers: h });
+    const d = await r.json();
+    if (r.ok && d.data && d.data.length) { codiceBenvenutoOk = true; return; }
+    if (!r.ok) throw new Error(d.error?.message || 'elenco codici ' + r.status);
+    const coupon = await chiamaStripe('coupons', { percent_off: 10, duration: 'once', name: 'Benvenuto Shapeless 10%' }, chiave);
+    await chiamaStripe('promotion_codes', {
+      coupon: coupon.id, code: CODICE_BENVENUTO,
+      restrictions: { first_time_transaction: true }
+    }, chiave);
+    codiceBenvenutoOk = true;
+  } catch (e) {
+    console.error('codice benvenuto:', e && e.message);
+  }
+}
+
 /* ============================================================ crea-sessione
 
    CASSA INCORPORATA (dal 16 settembre 2026)
@@ -265,8 +293,13 @@ async function creaSessione(richiesta, env, origine) {
      ⚠️ Apple Pay, Google Pay, PayPal e Klarna nel modulo INCORPORATO
      compaiono solo se il dominio shapeless.shop e' registrato in Stripe:
      Impostazioni → Metodi di pagamento → Domini dei metodi di pagamento. */
+  /* codice di benvenuto (10%, una sola volta per cliente): si crea da solo su Stripe la prima volta */
+  await assicuraCodiceBenvenuto(env.STRIPE_SECRET_KEY);
+
   const sessione = await chiamaStripe('checkout/sessions', {
     mode: 'payment',
+    /* il cliente puo' scrivere un codice sconto (campo in cassa -> applyPromotionCode) */
+    allow_promotion_codes: true,
     /* CASSA NOSTRA (dal 16/09 pomeriggio): i campi di contatto e indirizzo li
        disegniamo noi in checkout.html, nell'ordine che vogliamo e sempre
        visibili; Stripe mette solo il riquadro dei metodi di pagamento.
