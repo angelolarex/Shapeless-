@@ -161,6 +161,7 @@ async function chiamaStripe(percorso, corpo, chiave) {
    (Catalogo prodotti -> Coupon) disattivando il vecchio. */
 const CODICE_BENVENUTO = 'FIRSTSH';
 let codiceBenvenutoOk = false;
+let codiceBenvenutoErr = '';
 async function assicuraCodiceBenvenuto(chiave) {
   if (codiceBenvenutoOk) return;
   try {
@@ -169,14 +170,26 @@ async function assicuraCodiceBenvenuto(chiave) {
     const d = await r.json();
     if (r.ok && d.data && d.data.length) { codiceBenvenutoOk = true; return; }
     if (!r.ok) throw new Error(d.error?.message || 'elenco codici ' + r.status);
+    let passo = 'coupon';
     const coupon = await chiamaStripe('coupons', { percent_off: 10, duration: 'once', name: 'Benvenuto Shapeless 10%' }, chiave);
-    await chiamaStripe('promotion_codes', {
-      coupon: coupon.id, code: CODICE_BENVENUTO,
-      restrictions: { first_time_transaction: true }
-    }, chiave);
+    passo = 'codice';
+    try {
+      await chiamaStripe('promotion_codes', {
+        promotion: { type: 'coupon', coupon: coupon.id }, code: CODICE_BENVENUTO,
+        restrictions: { first_time_transaction: true }
+      }, chiave);
+    } catch (e1) {
+      /* versioni piu' vecchie dell'API: coupon al primo livello */
+      passo = 'codice-vecchio(' + String(e1 && e1.message).slice(0, 80) + ')';
+      await chiamaStripe('promotion_codes', {
+        coupon: coupon.id, code: CODICE_BENVENUTO,
+        restrictions: { first_time_transaction: true }
+      }, chiave);
+    }
     codiceBenvenutoOk = true;
   } catch (e) {
-    console.error('codice benvenuto:', e && e.message);
+    codiceBenvenutoErr = 'v3 ' + String(e && e.message || e).slice(0, 200);
+    console.error('codice benvenuto:', codiceBenvenutoErr);
   }
 }
 
@@ -362,7 +375,7 @@ async function creaSessione(richiesta, env, origine) {
                 '/ordine-ricevuto.html?sessione={CHECKOUT_SESSION_ID}'
   }, env.STRIPE_SECRET_KEY);
 
-  return json({ clientSecret: sessione.client_secret, id: sessione.id }, 200, origine);
+  return json({ clientSecret: sessione.client_secret, id: sessione.id, ...(codiceBenvenutoErr ? { codiceErr: codiceBenvenutoErr } : {}) }, 200, origine);
 }
 
 /* ============================================================ dettagli-ordine
