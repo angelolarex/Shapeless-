@@ -166,15 +166,15 @@
       parole: ['colore', 'colori', 'tinta', 'rosso', 'verde', 'nero', 'bianco', 'grigio', 'viola', 'giallo', 'rosa', 'blu', 'antracite', 'abbinare', 'abbinamento', 'consiglio', 'consigli', 'colour', 'colours', 'color', 'colors', 'red', 'green', 'black', 'white', 'grey', 'gray', 'pink', 'blue', 'match', 'advice'] },
     { id: 'acqua', etichetta: function () { return T('Fiori e acqua', 'Flowers and water'); }, risposta: function () {
         return T('Sì: in ogni vaso c\'è l\'<b>Hidden Nest</b>, un vetro su misura (incluso) che contiene l\'acqua per i fiori freschi e protegge il vaso.' +
-          '<br><br>Il PLA è impermeabile e non danneggia le piante. Meglio tenerlo in casa, lontano dal sole diretto e prolungato.',
+          '<br><br>Acqua e fiori vanno nell\'inserto in vetro Hidden Nest, non direttamente nel PLA. Il PLA non danneggia le piante. Meglio tenerlo in casa, lontano dal sole diretto e prolungato.',
           'Yes: every vase has the <b>Hidden Nest</b>, a made-to-measure glass insert (included) that holds water for fresh flowers and protects the vase.' +
-          '<br><br>PLA is waterproof and doesn\'t harm plants. Best kept indoors, away from strong direct sunlight.');
+          '<br><br>Water and flowers go in the Hidden Nest glass insert, not straight into the PLA. PLA doesn\'t harm plants. Best kept indoors, away from strong direct sunlight.');
       },
       parole: ['acqua', 'fiori', 'fiore', 'piante', 'pianta', 'terra', 'vetro', 'hidden nest', 'nest', 'impermeabile', 'esterno', 'fuori', 'giardino', 'balcone', 'terrazzo', 'water', 'flowers', 'flower', 'plants', 'plant', 'soil', 'glass', 'waterproof', 'outdoor', 'outside', 'garden', 'balcony'] },
     { id: 'cura', etichetta: function () { return T('Materiale e cura', 'Material and care'); }, risposta: function () {
-        return T('È <b>PLA</b>, un materiale di origine vegetale ricavato da mais o canna da zucchero: leggero, resistente, impermeabile e riciclabile.' +
+        return T('È <b>PLA</b>, un materiale di origine vegetale ricavato da mais o canna da zucchero: leggero, resistente e riciclabile.' +
           '<br><br>Per pulirlo basta un panno asciutto e morbido, o un pennello per la polvere tra le nervature. Evita sole diretto prolungato e fonti di calore: col tempo possono scolorirlo.',
-          'It\'s <b>PLA</b>, a plant-based material made from corn or sugar cane: light, strong, waterproof and recyclable.' +
+          'It\'s <b>PLA</b>, a plant-based material made from corn or sugar cane: light, strong and recyclable.' +
           '<br><br>To clean it, a soft dry cloth is enough, or a brush for the dust between the ribs. Avoid long direct sunlight and heat sources: over time they can fade the colour.');
       },
       parole: ['materiale', 'pla', 'plastica', 'mais', 'resistente', 'fragile', 'rompe', 'stampa 3d', 'stampato', 'ecologico', 'sostenibile', 'pulire', 'pulizia', 'sole', 'manutenzione', 'polvere', 'calore', 'scolora', 'material', 'plastic', 'corn', 'strong', 'durable', 'break', '3d printed', 'eco', 'sustainable', 'clean', 'cleaning', 'sun', 'dust', 'heat'] },
