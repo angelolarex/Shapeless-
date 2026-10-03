@@ -148,20 +148,6 @@
 
     aggiornaRiepilogoLocale();
     if (daCambio && stripe && zonaDi(paese) !== zonaSessione) nuovaSessione();
-    else if (daCambio) comunicaPaese();
-  }
-
-  /* Dice a Stripe il paese del cliente appena lo sappiamo: Klarna (e altri
-     metodi) si mostrano solo se Stripe conosce il paese di consegna. Prima
-     lo passavamo solo al momento di pagare, e Klarna spariva (3/10). */
-  function comunicaPaese() {
-    try {
-      if (!azioni || typeof azioni.updateShippingAddress !== 'function') return;
-      var paese = $('paese').value;
-      if (!paese) return;
-      var r = azioni.updateShippingAddress({ name: ($('nome').value + ' ' + $('cognome').value).trim() || 'Cliente', address: { country: paese, line1: ($('indirizzo').value || '').trim() || '-' } });
-      if (r && r.catch) r.catch(function (e) { console.warn('paese non comunicato:', e); });
-    } catch (e) { console.warn('paese non comunicato:', e); }
   }
 
   /* ====================================================== riepilogo */
@@ -302,7 +288,6 @@
         return azioni.updateShippingOption(s.shippingOptions[0].id);
       }
     })
-    .then(function () { if (mio === turno) comunicaPaese(); })
     .then(function () { if (mio === turno) $('btn-paga').disabled = false; })
     .catch(function (err) {
       if (mio !== turno) return;
