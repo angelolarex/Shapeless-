@@ -24,6 +24,13 @@
     if (/[?&]noanalytics=0/.test(location.search)) localStorage.removeItem('shp_no_an');
     if (localStorage.getItem('shp_no_an') === '1') return;
   } catch (e) {}
+  /* ?sonoio=1 su un dispositivo: le sue visite restano registrate ma nel pannello compaiono come "Sei tu" */
+  var IO = 0;
+  try {
+    if (/[?&]sonoio=1/.test(location.search)) localStorage.setItem('shp_io', '1');
+    if (/[?&]sonoio=0/.test(location.search)) localStorage.removeItem('shp_io');
+    IO = localStorage.getItem('shp_io') === '1' ? 1 : 0;
+  } catch (e) {}
   if (/^(localhost|127\.|\[::1\])/.test(location.hostname) || location.protocol === 'file:') return;
   if (navigator.doNotTrack === '1' || navigator.webdriver) return;
   if (/bot|crawl|spider|slurp|headless|lighthouse|pagespeed|preview/i.test(navigator.userAgent)) return;
@@ -104,7 +111,7 @@
   function manda() {
     if (timer) { clearTimeout(timer); timer = null; }
     if (!coda.length) return;
-    var corpo = JSON.stringify({ s: sid, o: P, d: DISP, l: LANG, ev: coda.splice(0, 20) });
+    var corpo = JSON.stringify({ s: sid, i: IO, o: P, d: DISP, l: LANG, ev: coda.splice(0, 20) });
     try {
       if (navigator.sendBeacon && navigator.sendBeacon(EP, new Blob([corpo], { type: 'text/plain' }))) return;
     } catch (e) {}
@@ -151,7 +158,7 @@
   var bt = setInterval(function () {
     if (document.visibilityState !== 'visible') return;
     if (++battiti > 90) { clearInterval(bt); return; }
-    var corpo = JSON.stringify({ s: sid, o: P, d: DISP, l: LANG, ev: [] });
+    var corpo = JSON.stringify({ s: sid, i: IO, o: P, d: DISP, l: LANG, ev: [] });
     try { if (navigator.sendBeacon) navigator.sendBeacon(EP, new Blob([corpo], { type: 'text/plain' })); } catch (e) {}
   }, 20000);
 
