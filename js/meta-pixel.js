@@ -24,7 +24,8 @@
 
   function leggi() { try { return localStorage.getItem(CHIAVE); } catch (e) { return null; } }
   function scrivi(v) { try { localStorage.setItem(CHIAVE, v); } catch (e) {} }
-  var EN = (document.documentElement.lang || '').toLowerCase().indexOf('en') === 0;
+  /* lingua del banner = lingua scelta dal visitatore con il pulsante IT/EN (letta quando il banner compare) */
+  function inglese() { try { return localStorage.getItem('shapeless_lang') === 'en'; } catch (e) { return (document.documentElement.lang || '').toLowerCase().indexOf('en') === 0; } }
   var P = location.pathname.split('/').pop() || 'index.html';
   var attivo = false;
 
@@ -100,6 +101,7 @@
   function banner() {
     if (document.getElementById('shp-consenso')) return;
     segnala('mostrato');
+    var EN = inglese();
     var b = document.createElement('div');
     b.id = 'shp-consenso'; b.setAttribute('role', 'dialog'); b.setAttribute('aria-label', EN ? 'Cookie preferences' : 'Preferenze cookie');
     b.style.cssText = 'position:fixed;left:16px;right:16px;bottom:16px;max-width:560px;margin:0 auto;z-index:2000;background:#fff;color:#0a0a0a;' +

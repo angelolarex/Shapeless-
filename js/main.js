@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function () {
     form.addEventListener('submit', function(e) {
       e.preventDefault();
       var btn = form.querySelector('button[type="submit"]');
-      if (btn) { btn.disabled = true; btn.textContent = 'Invio in corso…'; }
+      if (btn) { btn._orig = btn._orig || btn.textContent; btn.disabled = true; btn.textContent = 'Invio in corso…'; }
 
       var data = new FormData(form);
       data.append('access_key', W3F_KEY);
@@ -104,7 +104,9 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       })
       .catch(function() {
-        window.location.href = 'grazie.html';
+        /* rete assente o servizio che non risponde: il messaggio NON e' partito, quindi niente "Grazie" */
+        if (btn) { btn.disabled = false; btn.textContent = btn._orig || 'Invia'; }
+        alert('Non siamo riusciti a inviare il messaggio. Controlla la connessione e riprova, oppure scrivi a info@shapeless.shop');
       });
     });
   }
