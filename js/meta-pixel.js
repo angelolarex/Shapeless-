@@ -28,6 +28,13 @@
   var P = location.pathname.split('/').pop() || 'index.html';
   var attivo = false;
 
+  /* le scelte di consenso si segnalano anche alle statistiche interne (analytics.js), cosi' il Pannello
+     sa quanti visitatori il Pixel puo' vedere. Coda + evento: analytics.js parte dopo di noi. */
+  function segnala(v, x) {
+    (window.shpAnQ = window.shpAnQ || []).push([v, x || '']);
+    try { document.dispatchEvent(new CustomEvent('shp:consenso', { detail: { v: v, x: x || '' } })); } catch (e) {}
+  }
+
   function carica() {
     if (attivo) return; attivo = true;
     !function (f, b, e, v, n, t, s) {
@@ -92,6 +99,7 @@
   /* ---------------------------------------------------------------- banner */
   function banner() {
     if (document.getElementById('shp-consenso')) return;
+    segnala('mostrato');
     var b = document.createElement('div');
     b.id = 'shp-consenso'; b.setAttribute('role', 'dialog'); b.setAttribute('aria-label', EN ? 'Cookie preferences' : 'Preferenze cookie');
     b.style.cssText = 'position:fixed;left:16px;right:16px;bottom:16px;max-width:560px;margin:0 auto;z-index:2000;background:#fff;color:#0a0a0a;' +
@@ -107,7 +115,7 @@
     b.addEventListener('click', function (e) {
       var s = e.target && e.target.getAttribute && e.target.getAttribute('data-s');
       if (!s) return;
-      scrivi(s); b.remove();
+      scrivi(s); b.remove(); segnala(s, 'banner');
       if (s === 'si') carica();
       else { try { if (window.fbq) { fbq('consent', 'revoke'); } } catch (x) {} }
     });
@@ -117,6 +125,7 @@
   window.shapelessConsenso = { riapri: function () { var x = document.getElementById('shp-consenso'); if (x) x.remove(); banner(); } };
 
   var c = leggi();
+  if (c === 'si' || c === 'no') segnala(c, 'salvato');
   if (c === 'si') carica();
   else if (c !== 'no') {
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', banner); else banner();

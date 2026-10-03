@@ -203,6 +203,14 @@
     }
     qtaPrima = ora;
   });
+  /* consenso marketing (vedi meta-pixel.js): serve al Pannello per sapere quanti visitatori il Pixel Meta puo' vedere */
+  function consenso(v, x) {
+    if (v !== 'mostrato' && v !== 'si' && v !== 'no') return;
+    if (ss('shp_cs_' + v + x)) return;          /* una volta per visita */
+    ss('shp_cs_' + v + x, '1'); ev('consenso', v, x);
+  }
+  (window.shpAnQ || []).splice(0).forEach(function (a) { consenso(a[0], a[1]); });
+  document.addEventListener('shp:consenso', function (e) { var d = (e && e.detail) || {}; consenso(d.v, d.x); });
   document.addEventListener('submit', function (e) {
     var f = e.target;
     ev('form', (f && (f.getAttribute('data-an') || f.id || f.getAttribute('name') || f.getAttribute('action') || 'modulo')) || 'modulo');
