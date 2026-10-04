@@ -36,6 +36,7 @@
    =========================================================================== */
 
 import { gestisciPannello, registraEventi } from './pannello.js';
+import { iscrizioneNewsletter, disiscrizione } from './newsletter.js';
 
 /* ---------------------------------------------------------------- catalogo
    DEVE restare allineato a js/shop-config.js. Quando cambi un prezzo,
@@ -555,6 +556,15 @@ export default {
 
     if (richiesta.method === 'OPTIONS') {
       return new Response(null, { status: 204, headers: intestazioniCORS(origine) });
+    }
+
+    /* Newsletter: iscrizione dal sito (email di benvenuto) e annullamento dal link nell'email */
+    if (url.pathname === '/iscrizione' && richiesta.method === 'POST') {
+      return await iscrizioneNewsletter(richiesta, env, ORIGINI_AMMESSE.includes(origine),
+        (dati, stato) => json(dati, stato, origine));
+    }
+    if (url.pathname === '/disiscriviti' && (richiesta.method === 'GET' || richiesta.method === 'POST')) {
+      return await disiscrizione(richiesta, env, url);
     }
 
     try {

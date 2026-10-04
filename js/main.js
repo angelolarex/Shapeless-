@@ -79,6 +79,28 @@ document.addEventListener('DOMContentLoaded', function () {
      ───────────────────────────────────────────────────────── */
   var W3F_KEY = '3a7d3d19-a98c-4862-9524-8542e870b2ba';
 
+  /* ─────────────────────────────────────────────────────────
+     DESIGN GUARDATI — serve solo all'email di benvenuto della newsletter.
+     Sulle schede prodotto si segna sul dispositivo (localStorage) quali design
+     hai aperto. Nulla parte finché non ti iscrivi alla newsletter: in quel caso
+     l'elenco viaggia con l'iscrizione e l'email ti ricorda quei design.
+     Non si segna nulla con "Do Not Track" o con ?noanalytics=1.
+     ───────────────────────────────────────────────────────── */
+  var WORKER_NL = 'https://shapeless-pagamenti.shapeless-shop.workers.dev';
+  function leggiVisti() {
+    try { var a = JSON.parse(localStorage.getItem('shp_visti') || '[]'); return Array.isArray(a) ? a : []; } catch (e) { return []; }
+  }
+  (function segnaVisto() {
+    var m = location.pathname.match(/prodotto-([a-z0-9-]+)\.html$/);
+    if (!m) return;
+    try {
+      if (navigator.doNotTrack === '1' || localStorage.getItem('shp_no_an') === '1') return;
+      var a = leggiVisti().filter(function (x) { return x !== m[1]; });
+      a.push(m[1]);
+      localStorage.setItem('shp_visti', JSON.stringify(a.slice(-8)));
+    } catch (e) {}
+  })();
+
   /* Dopo l'iscrizione alla newsletter il codice di benvenuto compare subito, con tasto Copia.
      Si salva anche sul dispositivo: in cassa si applica da solo. */
   var CODICE_BENVENUTO = 'FIRSTSH';
@@ -101,12 +123,45 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  /* Iscrizione newsletter: la registra il nostro servizio (salva l'iscritto e manda l'email di benvenuto).
+     Se il servizio non risponde si ripiega su Web3Forms, cosi' l'iscrizione non va persa. */
+  function iscriviNewsletter(form) {
+    var en = false; try { en = localStorage.getItem('shapeless_lang') === 'en'; } catch (e) {}
+    var campoNome = form.querySelector('[name="nome"]');
+    var corpo = {
+      email: (form.querySelector('[name="email"]') || {}).value || '',
+      nome: campoNome ? campoNome.value : '',
+      lingua: en ? 'en' : 'it',
+      visti: leggiVisti()
+    };
+    return fetch(WORKER_NL + '/iscrizione', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(corpo)
+    }).then(function (res) { return res.json(); }).then(function (j) {
+      if (!j || !j.ok) throw new Error('iscrizione');
+      return j;
+    });
+  }
+
   function submitWeb3Form(form) {
     form.addEventListener('submit', function(e) {
       e.preventDefault();
       var btn = form.querySelector('button[type="submit"]');
       if (btn) { btn._orig = btn._orig || btn.textContent; btn.disabled = true; btn.textContent = 'Invio in corso…'; }
 
+      if (form.classList.contains('newsletter-form')) {
+        iscriviNewsletter(form).then(function () {
+          mostraCodiceBenvenuto(form);
+        }).catch(function () {
+          inviaWeb3(form, btn);   /* ripiego */
+        });
+        return;
+      }
+      inviaWeb3(form, btn);
+    });
+  }
+
+  function inviaWeb3(form, btn) {
+    {
       var data = new FormData(form);
       data.append('access_key', W3F_KEY);
       data.append('subject', 'Nuovo messaggio — ' + (form.getAttribute('name') || 'Shapeless') + ' | Shapeless');
@@ -131,7 +186,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (btn) { btn.disabled = false; btn.textContent = btn._orig || 'Invia'; }
         alert('Non siamo riusciti a inviare il messaggio. Controlla la connessione e riprova, oppure scrivi a info@shapeless.shop');
       });
-    });
+    }
   }
 
   document.querySelectorAll('form[data-form]').forEach(submitWeb3Form);
