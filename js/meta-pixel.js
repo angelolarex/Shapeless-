@@ -112,12 +112,17 @@
     b.id = 'shp-consenso'; b.setAttribute('role', 'dialog'); b.setAttribute('aria-label', EN ? 'Cookie preferences' : 'Preferenze cookie');
     b.style.cssText = 'position:fixed;left:16px;right:16px;bottom:16px;max-width:560px;margin:0 auto;z-index:2000;background:#fff;color:#0a0a0a;' +
       'border:1px solid rgba(0,0,0,.12);border-radius:14px;padding:18px 20px;box-shadow:0 12px 40px rgba(0,0,0,.18);font:14px/1.5 Inter,system-ui,sans-serif';
+    var TEL = window.innerWidth <= 640;
+    if (TEL) {
+      b.style.cssText = 'position:fixed;left:0;right:0;bottom:0;z-index:2000;background:#fff;color:#0a0a0a;border-top:1px solid rgba(0,0,0,.12);' +
+        'border-radius:12px 12px 0 0;padding:10px 14px calc(10px + env(safe-area-inset-bottom));box-shadow:0 -6px 24px rgba(0,0,0,.14);font:12px/1.4 Inter,system-ui,sans-serif';
+    }
     var t = EN
       ? 'We\'d like to use Meta\'s marketing cookies (Pixel) to measure our Instagram and Facebook ads. They are off unless you accept.'
       : 'Vorremmo usare i cookie di marketing di Meta (Pixel) per misurare le nostre inserzioni su Instagram e Facebook. Restano spenti se non accetti.';
-    var btn = 'flex:1;min-width:120px;padding:11px 16px;border-radius:999px;font:600 14px Inter,system-ui,sans-serif;cursor:pointer;border:1px solid #6b1f45;';
-    b.innerHTML = '<p style="margin:0 0 12px">' + t + ' <a href="privacy.html" style="color:#6b1f45;text-decoration:underline">' + (EN ? 'Privacy' : 'Privacy') + '</a></p>' +
-      '<div style="display:flex;gap:10px;flex-wrap:wrap">' +
+    var btn = 'flex:1;min-width:' + (TEL ? '100px' : '120px') + ';padding:' + (TEL ? '8px 12px' : '11px 16px') + ';border-radius:999px;font:600 ' + (TEL ? '13' : '14') + 'px Inter,system-ui,sans-serif;cursor:pointer;border:1px solid #6b1f45;';
+    b.innerHTML = '<p style="margin:0 0 ' + (TEL ? '8' : '12') + 'px">' + t + ' <a href="privacy.html" style="color:#6b1f45;text-decoration:underline">' + (EN ? 'Privacy' : 'Privacy') + '</a></p>' +
+      '<div style="display:flex;gap:' + (TEL ? '8' : '10') + 'px;flex-wrap:wrap">' +
       '<button type="button" data-s="no" style="' + btn + 'background:#fff;color:#6b1f45">' + (EN ? 'Reject' : 'Rifiuta') + '</button>' +
       '<button type="button" data-s="si" style="' + btn + 'background:#6b1f45;color:#fff">' + (EN ? 'Accept' : 'Accetta') + '</button></div>';
     b.addEventListener('click', function (e) {
