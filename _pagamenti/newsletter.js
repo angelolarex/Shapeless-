@@ -25,12 +25,12 @@ const AVVISO_A = 'angelolare@gmail.com';
 
 /* design che si possono "ricordare" nell'email (id usato dal sito -> scheda) */
 const DESIGN = {
-  'bombato':       { nome: 'Bombato',       pagina: 'prodotto-bombato.html',       foto: 'images/email-design/bombato.png' },
-  'vulcano':       { nome: 'Vulcano',       pagina: 'prodotto-vulcano.html',       foto: 'images/email-design/vulcano.png' },
-  'blade':         { nome: 'Blade',         pagina: 'prodotto-blade.html',         foto: 'images/email-design/blade.png' },
-  'spira':         { nome: 'Spira',         pagina: 'prodotto-spira.html',         foto: 'images/email-design/spira.png' },
-  'vulcano-light': { nome: 'Vulcano Light', pagina: 'prodotto-vulcano-light.html', foto: 'images/email-design/vulcano-light.png' },
-  'starlight':     { nome: 'Starlight',     pagina: 'prodotto-starlight.html',     foto: 'images/email-design/starlight.png' }
+  'bombato':       { nome: 'Bombato',       pagina: 'prodotto-bombato.html',       foto: 'images/email-design/bombato.png', r: 1.088 },
+  'vulcano':       { nome: 'Vulcano',       pagina: 'prodotto-vulcano.html',       foto: 'images/email-design/vulcano.png', r: 0.715 },
+  'blade':         { nome: 'Blade',         pagina: 'prodotto-blade.html',         foto: 'images/email-design/blade.png', r: 0.741 },
+  'spira':         { nome: 'Spira',         pagina: 'prodotto-spira.html',         foto: 'images/email-design/spira.png', r: 0.559 },
+  'vulcano-light': { nome: 'Vulcano Light', pagina: 'prodotto-vulcano-light.html', foto: 'images/email-design/vulcano-light.png', r: 0.709 },
+  'starlight':     { nome: 'Starlight',     pagina: 'prodotto-starlight.html',     foto: 'images/email-design/starlight.png', r: 1.069 }
 };
 const MAX_DESIGN_NELLA_MAIL = 2;
 /* se non ha guardato nessun design: questi tre, nell'ordine */
@@ -178,20 +178,24 @@ function componiEmail(iscritto, designIds, urlDisiscrizione) {
   const mostra = visti ? design : VETRINA.map(id => DESIGN[id]);
   const btn = visti ? T.designBtn : T.ricordoBtn;
   const titoloBlocco = visti ? T.designTitolo : T.ricordoTitolo;
-  const bloccoDesign = `
+  const altezza = mostra.length === 1 ? 250 : 190;   /* stessa altezza per tutti i vasi: si regola la larghezza */
+  const bloccoDesign = visti ? `
     <tr><td style="padding:8px 32px 8px;">
       <p style="margin:0 0 14px;font:600 11px/1.4 Arial,Helvetica,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#6b1f45;">${esc(titoloBlocco)}</p>
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
       ${mostra.map(d => `
         <td align="center" valign="top" width="${Math.floor(100 / mostra.length)}%" style="padding:0 6px 8px;">
           <a href="${SITO}/${d.pagina}${utm}" style="text-decoration:none;color:#0a0a0a;">
-            <img src="${SITO}/${d.foto}" height="${visti ? 200 : 160}" alt="${esc(d.nome)}" style="display:block;height:${visti ? 200 : 160}px;width:auto;max-width:100%;border:0;margin:0 auto 8px;">
+            <img src="${SITO}/${d.foto}" width="${Math.round(altezza * d.r)}" alt="${esc(d.nome)}" style="display:block;width:100%;max-width:${Math.round(altezza * d.r)}px;height:auto;border:0;margin:0 auto 8px;">
             <span style="font:600 15px/1.3 Arial,Helvetica,sans-serif;color:#0a0a0a;">${esc(d.nome)}</span>
           </a><br>
           <a href="${SITO}/${d.pagina}${utm}" style="display:inline-block;margin-top:6px;font:600 11px/1 Arial,Helvetica,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#6b1f45;text-decoration:underline;">${esc(btn)}</a>
         </td>`).join('')}
       </tr></table>
-      ${visti ? '' : `<p style="margin:10px 0 0;text-align:center;"><a href="${SITO}/tutti-i-design.html${utm}" style="font:600 11px/1 Arial,Helvetica,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#6b1f45;text-decoration:underline;">${esc(T.tuttiBtn)}</a></p>`}
+    </td></tr>` : `
+    <tr><td align="center" style="padding:8px 32px 8px;">
+      <p style="margin:0 0 12px;font:600 11px/1.4 Arial,Helvetica,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#6b1f45;">${esc(titoloBlocco)}</p>
+      <a href="${SITO}/tutti-i-design.html${utm}" style="display:inline-block;padding:13px 26px;background:#0a0a0a;color:#ffffff;font:600 12px/1 Arial,Helvetica,sans-serif;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;">${esc(T.tuttiBtn)}</a>
     </td></tr>`;
 
   const html = `<!doctype html>
@@ -228,7 +232,7 @@ function componiEmail(iscritto, designIds, urlDisiscrizione) {
   const testo = [
     T.saluto, '', T.intro, '',
     T.codiceTitolo + ': ' + CODICE_BENVENUTO, T.codiceNota, '',
-    titoloBlocco + ':', ...mostra.map(d => `- ${d.nome}: ${SITO}/${d.pagina}${utm}`), ...(visti ? [] : [`${T.tuttiBtn}: ${SITO}/tutti-i-design.html${utm}`]), '',
+    titoloBlocco + ':', ...(visti ? mostra.map(d => `- ${d.nome}: ${SITO}/${d.pagina}${utm}`) : [`${T.tuttiBtn}: ${SITO}/tutti-i-design.html${utm}`]), '',
     T.chiusura, T.firma, '',
     '--', T.perche, T.annulla + ': ' + T.vai
   ].join('\n');
