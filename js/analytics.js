@@ -103,7 +103,37 @@
   var LANG = (function () { try { return localStorage.getItem('shapeless_lang') || document.documentElement.lang || 'it'; } catch (e) { return 'it'; } })().slice(0, 2);
   var PAGINA = (location.pathname.replace(/index\.html$/, '') || '/').slice(0, 120);
 
+  /* ------------------------------------------------------------ punteggio di interesse (stessa formula del Pannello)
+     4 per pagina prodotto vista (max 4) + 1 per click (max 12) + 1 ogni 30 s attivi (max 8) + 3 se scorre una scheda prodotto
+     fino al 75% + 12 carrello + 15 cassa + 8 modulo inviato. A 20 punti parte, una volta per visita, l'evento "shp:interesse"
+     (meta-pixel.js lo passa a Meta solo se il visitatore ha accettato i cookie). Resta nel browser: non viene inviato altrove. */
+  var ST;
+  try { ST = JSON.parse(ss('shp_pt') || 'null'); } catch (e) { ST = null; }
+  if (!ST) ST = { pr: [], cl: 0, sec: 0, scr: 0, car: 0, cas: 0, frm: 0, fatto: 0 };
+  var SLUG = (PAGINA.match(/prodotto-([a-z0-9-]+)\.html$/) || [])[1] || '';
+  function punteggio() {
+    return Math.min(ST.pr.length, 4) * 4 + Math.min(ST.cl, 12) + Math.min(Math.floor(ST.sec / 30), 8) +
+      (ST.scr ? 3 : 0) + (ST.car ? 12 : 0) + (ST.cas ? 15 : 0) + (ST.frm ? 8 : 0);
+  }
+  function valuta(k, n) {
+    if (k === 'pv' && SLUG && ST.pr.indexOf(SLUG) < 0) ST.pr.push(SLUG);
+    if (k === 'pv' && /checkout\.html$/.test(PAGINA)) ST.cas = 1;
+    if (k === 'click') ST.cl++;
+    if (k === 'tempo') ST.sec += n || 0;
+    if (k === 'scroll' && SLUG && n >= 75) ST.scr = 1;
+    if (k === 'carrello') ST.car = 1;
+    if (k === 'form') ST.frm = 1;
+    var pt = punteggio();
+    if (pt >= 20 && !ST.fatto) {
+      ST.fatto = 1;
+      window.shpInteresse = { punteggio: pt, content_name: SLUG };
+      try { document.dispatchEvent(new CustomEvent('shp:interesse', { detail: { punteggio: pt, prodotto: SLUG } })); } catch (e) {}
+    }
+    ss('shp_pt', JSON.stringify(ST));
+  }
+
   function ev(k, v, x, n) {
+    valuta(k, n);
     coda.push({ k: k, p: PAGINA, v: v ? String(v).slice(0, 60) : '', x: x ? String(x).slice(0, 80) : '', n: n == null ? 0 : Math.round(n) });
     if (coda.length >= 10) manda(); else if (!timer) timer = setTimeout(manda, 12000);
   }

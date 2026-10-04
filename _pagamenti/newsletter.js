@@ -42,6 +42,7 @@ const esc = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({ '&': '&a
 /* ------------------------------------------------------------------ archivio */
 
 let pronto = false;
+export async function preparaIscritti(db) { return prepara(db); }
 async function prepara(db) {
   if (pronto) return;
   await db.prepare(`CREATE TABLE IF NOT EXISTS iscritti (
@@ -55,8 +56,10 @@ async function prepara(db) {
       disiscritto INTEGER DEFAULT 0,
       email_inviata INTEGER DEFAULT 0,
       email_errore TEXT DEFAULT '',
-      ip TEXT DEFAULT ''
+      ip TEXT DEFAULT '',
+      sid TEXT DEFAULT ''
     )`).run();
+  try { await db.prepare("ALTER TABLE iscritti ADD COLUMN sid TEXT DEFAULT ''").run(); } catch (e) { /* colonna gia' presente */ }
   await db.prepare('CREATE INDEX IF NOT EXISTS isc_ip ON iscritti (ip, creato)').run();
   pronto = true;
 }
@@ -81,18 +84,54 @@ function nomePulito(v) {
   return n.split(' ').map(p => p.charAt(0).toLocaleUpperCase('it') + p.slice(1).toLocaleLowerCase('it')).join(' ');
 }
 
-/* Il nome non si chiede: se l'indirizzo e' del tipo marco.rossi@ o anna_bianchi@ si prende
-   la prima parte ("Marco", "Anna"). Se non e' chiaro (info@, angelolare@, mario85@...)
-   non si inventa nulla e il saluto resta generico ("Ciao,"). */
-const NON_NOMI = new Set(['info', 'mail', 'posta', 'admin', 'ufficio', 'office', 'contatti', 'contact', 'hello', 'ciao', 'test',
-  'shop', 'store', 'vendite', 'ordini', 'amministrazione', 'segreteria', 'studio', 'design', 'arredi', 'casa', 'noreply', 'no', 'user', 'support']);
-function nomeDaEmail(email) {
-  const locale = String(email || '').split('@')[0].toLowerCase();
-  const pezzi = locale.split(/[._\-+]/).filter(Boolean);
-  if (pezzi.length < 2) return '';                       /* senza separatore non si capisce dove finisce il nome */
-  const primo = pezzi[0];
-  if (!/^\p{L}{2,14}$/u.test(primo) || NON_NOMI.has(primo)) return '';
-  return primo.charAt(0).toLocaleUpperCase('it') + primo.slice(1);
+/* Il nome non si chiede nel form (le persone sono pigre): lo si ricava dall'indirizzo email.
+   Si cerca un nome di battesimo nella parte prima della @ ("marco.rossi", "annabianchi85",
+   "angelolare" -> Angelo). Se non si trova niente di sensato il saluto resta generico ("Ciao,").
+   Meglio un nome sbagliato ogni tanto che nessuno: scelta di Angelo. */
+const NOMI = new Set(`
+andrea angelo antonio alessandro alessio alberto aldo alfredo amedeo antonino armando arturo attilio augusto beniamino benedetto bruno carlo
+carmelo cesare christian claudio corrado cristian cristiano damiano daniele danilo dario davide diego dino domenico donato edoardo elia emanuele
+emilio enrico enzo ettore eugenio fabio fabrizio federico felice ferdinando filippo flavio francesco franco gabriele gaetano gennaro giacomo
+gianluca gianni giancarlo gianmarco gino giorgio giovanni giulio giuseppe gregorio guido gustavo ignazio ivan jacopo leonardo leone lorenzo luca
+luciano lucio luigi manuel manuele marcello marco mario martino massimiliano massimo matteo mattia maurizio mauro michele mirko nicola nicolo
+nunzio oliviero omar orlando oscar osvaldo paolo pasquale patrizio piero pierluigi pietro raffaele raimondo renato renzo riccardo roberto rocco
+rodolfo romano romeo ruggero salvatore samuele sandro santo saverio sebastiano sergio silvio simone stefano tiziano tommaso ugo umberto
+valentino valerio vincenzo vito vittorio walter yuri
+adele adriana agata agnese alba alessandra alice alida amalia anastasia angela angelica anna annalisa annamaria antonella antonia arianna
+aurora barbara beatrice benedetta bianca camilla carla carmela carmen carolina caterina cecilia chiara cinzia claudia clara clelia concetta
+cristina daniela debora deborah diana donatella doriana eleonora elena eliana elisa elisabetta elvira emanuela emma erica ester eva fabiana
+federica fiorella flavia francesca gabriella gaia giada gianna ginevra gioia giorgia giovanna giulia giuliana giusy giusi grazia greta ida
+ilaria imma irene iris isabella jessica laura lavinia letizia lia licia lidia lina linda lisa lorena loredana lorella lucia luciana lucrezia
+ludovica luisa maddalena manuela mara marcella margherita maria mariagrazia marina marisa marta martina matilde maura melissa michela milena
+miriam monica morena nadia natalia nicoletta noemi nora olga ornella paola patrizia paula pamela rachele raffaella rebecca renata rita roberta
+romina rosa rosalia rosanna rosaria rossella sabrina samantha sandra sara serena silvana silvia simona sofia sonia stefania stella susanna
+tania teresa tiziana valentina valeria vanessa vera veronica viola virginia vittoria wanda zaira
+alex john james michael david daniel paul peter thomas mark steven kevin brian jason jack tom ben sam max leo oliver george harry william
+robert richard charles joseph lucas emily olivia sophie sophia charlotte amelia hannah julia sarah kate katie jane mary jennifer lauren megan
+natalie stephanie victoria juan carlos jose pedro pablo miguel luis ana jean pierre michel francois louis marie claire hans klaus stefan
+jurgen andreas florian lukas anja katrin sabine petra ivana igor dmitri natasha ali ahmed mohamed youssef fatima layla nour
+`.split(/\s+/).filter(Boolean));
+const NOMI_PER_LUNGHEZZA = Array.from(NOMI).sort((a, b) => b.length - a.length);
+const NON_NOMI = new Set(['info', 'mail', 'email', 'posta', 'admin', 'ufficio', 'office', 'contatti', 'contact', 'hello', 'ciao', 'test',
+  'shop', 'store', 'vendite', 'ordini', 'amministrazione', 'segreteria', 'studio', 'design', 'arredi', 'casa', 'noreply', 'no', 'user',
+  'support', 'sales', 'team', 'service', 'servizio', 'assistenza', 'azienda', 'lavoro', 'privato', 'personale']);
+
+export function nomeDaEmail(email) {
+  const locale = String(email || '').split('@')[0].toLowerCase()
+    .normalize('NFD').replace(/[̀-ͯ]/g, '');
+  const pezzi = locale.split(/[._\-+]/).map(p => p.replace(/[0-9]/g, '')).filter(p => p.length > 1);
+  const bella = n => n.charAt(0).toLocaleUpperCase('it') + n.slice(1);
+
+  /* 1) uno dei pezzi e' proprio un nome ("marco.rossi", "rossi.marco") */
+  for (const p of pezzi.slice(0, 3)) if (NOMI.has(p)) return bella(p);
+  /* 2) il nome sta attaccato al resto ("angelolare", "mariorossi", "giuliabianchi"): il piu' lungo che combacia all'inizio */
+  const p0 = pezzi[0] || '';
+  for (const n of NOMI_PER_LUNGHEZZA) {
+    if (n.length >= 4 && p0.length > n.length && p0.startsWith(n)) return bella(n);
+  }
+  /* 3) con un separatore ("xxx.yyy") il primo pezzo e' quasi sempre il nome, anche se non lo conosco */
+  if (pezzi.length >= 2 && /^[a-z]{3,14}$/.test(p0) && /[aeiou]/.test(p0) && !/[^aeiou]{5}/.test(p0) && !NON_NOMI.has(p0)) return bella(p0);
+  return '';
 }
 
 /* ------------------------------------------------------------------ email */
@@ -235,6 +274,8 @@ export async function iscrizioneNewsletter(richiesta, env, origineAmmessa, rispo
   /* il nome non si chiede nel form: se arriva lo si usa, altrimenti si prova a ricavarlo dall'email */
   const nome = nomePulito(c.nome) || nomeDaEmail(email);
   const lingua = c.lingua === 'en' ? 'en' : 'it';
+  /* codice casuale della visita (lo stesso delle statistiche): serve al Pannello per sapere quanto era interessato chi si iscrive */
+  const sid = pulisci(c.sid, 24).replace(/[^a-f0-9]/gi, '');
   /* i design arrivano dal dispositivo dell'iscritto: si tengono solo quelli veri, gli ultimi due, senza doppioni */
   const visti = [];
   (Array.isArray(c.visti) ? c.visti : []).slice(-12).forEach(id => {
@@ -262,12 +303,13 @@ export async function iscrizioneNewsletter(richiesta, env, origineAmmessa, rispo
       if (esiste.email_inviata && !esiste.disiscritto) daInviare = false;
       await db.prepare(`UPDATE iscritti SET disiscritto = 0,
           nome = CASE WHEN ?2 != '' THEN ?2 ELSE nome END, lingua = ?3,
-          visti = CASE WHEN ?4 != '' THEN ?4 ELSE visti END WHERE id = ?1`)
-        .bind(esiste.id, nome, lingua, visti.join(',')).run();
+          visti = CASE WHEN ?4 != '' THEN ?4 ELSE visti END,
+          sid = CASE WHEN ?5 != '' THEN ?5 ELSE sid END WHERE id = ?1`)
+        .bind(esiste.id, nome, lingua, visti.join(','), sid).run();
     } else {
       token = casuale();
-      await db.prepare(`INSERT INTO iscritti (email, nome, lingua, visti, creato, token, ip) VALUES (?1,?2,?3,?4,?5,?6,?7)`)
-        .bind(email, nome, lingua, visti.join(','), ora, token, ip).run();
+      await db.prepare(`INSERT INTO iscritti (email, nome, lingua, visti, creato, token, ip, sid) VALUES (?1,?2,?3,?4,?5,?6,?7,?8)`)
+        .bind(email, nome, lingua, visti.join(','), ora, token, ip, sid).run();
     }
 
     let inviata = false;

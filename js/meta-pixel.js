@@ -46,6 +46,12 @@
     fbq('init', PIXEL_ID);
     fbq('track', 'PageView');
     eventiPagina();
+    /* visitatore molto interessato (punteggio calcolato in analytics.js): serve a creare pubblici su misura in Meta */
+    document.addEventListener('shp:interesse', function (e) {
+      var d = (e && e.detail) || {};
+      try { fbq('trackCustom', 'InteresseAlto', { punteggio: d.punteggio || 0, content_name: d.prodotto || '' }); } catch (x) {}
+    });
+    if (window.shpInteresse) { try { fbq('trackCustom', 'InteresseAlto', window.shpInteresse); } catch (x) {} }
   }
 
   function cfg() { return window.ShapelessConfig || {}; }

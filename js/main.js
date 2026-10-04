@@ -132,7 +132,8 @@ document.addEventListener('DOMContentLoaded', function () {
       email: (form.querySelector('[name="email"]') || {}).value || '',
       nome: campoNome ? campoNome.value : '',
       lingua: en ? 'en' : 'it',
-      visti: leggiVisti()
+      visti: leggiVisti(),
+      sid: (function () { try { return sessionStorage.getItem('shp_sid') || ''; } catch (e) { return ''; } })()
     };
     return fetch(WORKER_NL + '/iscrizione', {
       method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(corpo)
