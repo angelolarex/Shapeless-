@@ -25,12 +25,12 @@ const AVVISO_A = 'angelolare@gmail.com';
 
 /* design che si possono "ricordare" nell'email (id usato dal sito -> scheda) */
 const DESIGN = {
-  'bombato':       { nome: 'Bombato',       pagina: 'prodotto-bombato.html',       foto: 'images/stripe/bombato.png' },
-  'vulcano':       { nome: 'Vulcano',       pagina: 'prodotto-vulcano.html',       foto: 'images/stripe/vulcano.png' },
-  'blade':         { nome: 'Blade',         pagina: 'prodotto-blade.html',         foto: 'images/stripe/blade.png' },
-  'spira':         { nome: 'Spira',         pagina: 'prodotto-spira.html',         foto: 'images/stripe/spin.png' },
-  'vulcano-light': { nome: 'Vulcano Light', pagina: 'prodotto-vulcano-light.html', foto: 'images/stripe/vulcano-light.png' },
-  'starlight':     { nome: 'Starlight',     pagina: 'prodotto-starlight.html',     foto: 'images/stripe/starlight.png' }
+  'bombato':       { nome: 'Bombato',       pagina: 'prodotto-bombato.html',       foto: 'images/email-design/bombato.png' },
+  'vulcano':       { nome: 'Vulcano',       pagina: 'prodotto-vulcano.html',       foto: 'images/email-design/vulcano.png' },
+  'blade':         { nome: 'Blade',         pagina: 'prodotto-blade.html',         foto: 'images/email-design/blade.png' },
+  'spira':         { nome: 'Spira',         pagina: 'prodotto-spira.html',         foto: 'images/email-design/spira.png' },
+  'vulcano-light': { nome: 'Vulcano Light', pagina: 'prodotto-vulcano-light.html', foto: 'images/email-design/vulcano-light.png' },
+  'starlight':     { nome: 'Starlight',     pagina: 'prodotto-starlight.html',     foto: 'images/email-design/starlight.png' }
 };
 const MAX_DESIGN_NELLA_MAIL = 2;
 /* se non ha guardato nessun design: questi tre, nell'ordine */
@@ -185,7 +185,7 @@ function componiEmail(iscritto, designIds, urlDisiscrizione) {
       ${mostra.map(d => `
         <td align="center" valign="top" width="${Math.floor(100 / mostra.length)}%" style="padding:0 6px 8px;">
           <a href="${SITO}/${d.pagina}${utm}" style="text-decoration:none;color:#0a0a0a;">
-            <img src="${SITO}/${d.foto}" width="${visti ? 200 : 150}" alt="${esc(d.nome)}" style="display:block;width:100%;max-width:${visti ? 200 : 150}px;height:auto;border:0;margin:0 auto 8px;">
+            <img src="${SITO}/${d.foto}" height="${visti ? 200 : 160}" alt="${esc(d.nome)}" style="display:block;height:${visti ? 200 : 160}px;width:auto;max-width:100%;border:0;margin:0 auto 8px;">
             <span style="font:600 15px/1.3 Arial,Helvetica,sans-serif;color:#0a0a0a;">${esc(d.nome)}</span>
           </a><br>
           <a href="${SITO}/${d.pagina}${utm}" style="display:inline-block;margin-top:6px;font:600 11px/1 Arial,Helvetica,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#6b1f45;text-decoration:underline;">${esc(btn)}</a>
