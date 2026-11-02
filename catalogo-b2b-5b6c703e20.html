@@ -11,13 +11,13 @@ body{background:var(--bg);color:var(--fg);font-family:"Josefin Sans",Arial,sans-
 header{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
 h1{font-family:"Cormorant Garamond",Georgia,serif;font-weight:500;font-size:clamp(20px,3vw,28px);margin:0}
 .tag{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
-.stage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
-#book{width:min(100%,calc((100vh - 150px)*2));aspect-ratio:2/1;max-height:100%}
+.stage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;position:relative;z-index:0;overflow:hidden}
+#book{width:min(100%,calc((100vh - 170px)*2));aspect-ratio:2/1;max-height:100%}
 @media (max-width:700px){#book{width:min(100%,calc(100vh - 170px));aspect-ratio:1/1}}
-@media (orientation:landscape) and (max-height:520px){body{padding:4px 8px;gap:4px}header,.chips{display:none}#book{width:min(100%,calc((100vh - 48px)*2));max-height:none}}
-body.fs{padding:0;gap:4px}body.fs header,body.fs .chips{display:none}body.fs #book{width:min(100vw,calc((100vh - 44px)*2))}
+@media (orientation:landscape) and (max-height:520px){body{padding:4px 8px;gap:4px}header,.chips{display:none}#book{width:min(100%,calc((100vh - 96px)*2));max-height:none}}
+body.fs{padding:0;gap:4px}body.fs header,body.fs .chips{display:none}body.fs #book{width:min(100vw,calc((100vh - 90px)*2))}
 .pg{background:#f2ede9}.pg img{width:100%;height:100%;display:block;user-select:none;-webkit-user-drag:none}
-nav{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}
+nav{position:relative;z-index:10;flex:none;display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}
 button{font:inherit;font-size:13px;color:var(--fg);background:var(--chip);border:1px solid var(--line);border-radius:999px;padding:6px 14px;cursor:pointer;min-height:34px}
 button[aria-current="true"]{background:var(--chip-on);color:var(--chip-fg-on);border-color:var(--chip-on)}
 .ctl{display:flex;align-items:center;gap:10px}#count{min-width:74px;text-align:center;font-size:13px;color:var(--muted)}
