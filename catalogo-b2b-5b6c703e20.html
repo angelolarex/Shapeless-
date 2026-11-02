@@ -16,7 +16,7 @@ h1{font-family:"Cormorant Garamond",Georgia,serif;font-weight:500;font-size:clam
 @media (max-width:700px){#book{width:min(100%,calc(100vh - 170px));aspect-ratio:1/1}}
 @media (orientation:landscape) and (max-height:520px){body{padding:4px 8px;gap:4px}header,.chips{display:none}#book{width:min(100%,calc((100vh - 48px)*2));max-height:none}}
 body.fs{padding:0;gap:4px}body.fs header,body.fs .chips{display:none}body.fs #book{width:min(100vw,calc((100vh - 44px)*2))}
-.pg img{width:100%;height:100%;display:block;user-select:none;-webkit-user-drag:none}
+.pg{background:#f2ede9}.pg img{width:100%;height:100%;display:block;user-select:none;-webkit-user-drag:none}
 nav{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}
 button{font:inherit;font-size:13px;color:var(--fg);background:var(--chip);border:1px solid var(--line);border-radius:999px;padding:6px 14px;cursor:pointer;min-height:34px}
 button[aria-current="true"]{background:var(--chip-on);color:var(--chip-fg-on);border-color:var(--chip-on)}
@@ -34,13 +34,15 @@ var N=56,D="catalogo-b2b-5b6c703e20/",host=document.getElementById("book");
 var chapters=[["Copertina",1],["Visione",4],["Vasi e set",12],["Lampade",38],["Made in Italy",50],["Come ordinare",52]];
 var chipsEl=document.getElementById("chips"),countEl=document.getElementById("count");
 var flip=new St.PageFlip(host,{width:400,height:400,size:"stretch",minWidth:200,maxWidth:1400,minHeight:200,maxHeight:1400,showCover:true,usePortrait:true,maxShadowOpacity:.35,mobileScrollSupport:false,flippingTime:700});
-for(var i=1;i<=N;i++){var d=document.createElement("div");d.className="pg";if(i===1||i===N)d.setAttribute("data-density","hard");var im=document.createElement("img");im.src=D+"p-"+(i<10?"0":"")+i+".jpg";im.alt="Pagina "+i;im.draggable=false;im.decoding="async";d.appendChild(im);host.appendChild(d)}
+for(var i=1;i<=N;i++){var d=document.createElement("div");d.className="pg";if(i===1||i===N)d.setAttribute("data-density","hard");var im=document.createElement("img");im.dataset.src=D+"p-"+(i<10?"0":"")+i+".jpg";im.alt="Pagina "+i;im.draggable=false;im.decoding="async";d.appendChild(im);host.appendChild(d)}
 flip.loadFromHTML(host.querySelectorAll(".pg"));
+var imgs=host.querySelectorAll("img[data-src]");function load(c){for(var k=Math.max(0,c-3);k<=Math.min(N-1,c+9);k++){var m=imgs[k];if(m&&m.dataset.src){m.src=m.dataset.src;m.removeAttribute("data-src")}}}
+load(0);
 chapters.forEach(function(c){var b=document.createElement("button");b.textContent=c[0];b.dataset.p=c[1];b.onclick=function(){flip.turnToPage(c[1]-1)};chipsEl.appendChild(b)});
 function label(i){var p=flip.getOrientation()==="portrait";if(p||i===0||i>=N-1)return(i+1)+" / "+N;return(i+1)+"–"+(i+2)+" / "+N}
 function update(i){countEl.textContent=label(i);var cur=null;chapters.forEach(function(c){if(c[1]-1<=i)cur=c[1]});Array.prototype.forEach.call(chipsEl.children,function(b){b.setAttribute("aria-current",String(+b.dataset.p===cur))})}
-flip.on("flip",function(e){update(e.data)});flip.on("changeOrientation",function(){update(flip.getCurrentPageIndex())});
-document.getElementById("prev").onclick=function(){flip.flipPrev()};document.getElementById("next").onclick=function(){flip.flipNext()};
+flip.on("flip",function(e){update(e.data);load(e.data)});flip.on("changeOrientation",function(){update(flip.getCurrentPageIndex())});
+chapters.forEach(function(c,ix){chipsEl.children[ix].addEventListener("click",function(){load(c[1]-1)})});document.getElementById("prev").onclick=function(){flip.flipPrev()};document.getElementById("next").onclick=function(){flip.flipNext()};
 document.addEventListener("keydown",function(e){if(e.key==="ArrowRight")flip.flipNext();else if(e.key==="ArrowLeft")flip.flipPrev()});
 document.getElementById("fs").onclick=function(){var d=document,el=d.documentElement;try{if(d.fullscreenElement||d.webkitFullscreenElement){(d.exitFullscreen||d.webkitExitFullscreen).call(d)}else{var r=el.requestFullscreen||el.webkitRequestFullscreen;if(r){var p=r.call(el);if(p&&p.catch)p.catch(function(){})}}}catch(e){}document.body.classList.toggle("fs")};
 update(0);
