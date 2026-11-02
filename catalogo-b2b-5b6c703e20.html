@@ -6,16 +6,16 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500&family=Josefin+Sans:wght@300;400&display=swap">
 <style>
 :root{--bg:#e9e4df;--fg:#2c1f18;--muted:#7a6558;--line:#cdc3ba;--chip:#f6f2ee;--chip-on:#2c1f18;--chip-fg-on:#f6f2ee;--accent:#9c7e6e}
-*{box-sizing:border-box}html,body{height:100%;margin:0}
+*{box-sizing:border-box}html,body{height:100%;margin:0}body{height:100vh;height:100dvh}
 body{background:var(--bg);color:var(--fg);font-family:"Josefin Sans",Arial,sans-serif;padding:12px max(12px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:10px;overflow:hidden}
 header{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
 h1{font-family:"Cormorant Garamond",Georgia,serif;font-weight:500;font-size:clamp(20px,3vw,28px);margin:0}
 .tag{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
-.stage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;position:relative;z-index:0;overflow:hidden}
-#book{width:min(100%,calc((100vh - 170px)*2));aspect-ratio:2/1;max-height:100%}
-@media (max-width:700px){#book{width:min(100%,calc(100vh - 170px));aspect-ratio:1/1}}
-@media (orientation:landscape) and (max-height:520px){body{padding:4px 8px;gap:4px}header,.chips{display:none}#book{width:min(100%,calc((100vh - 96px)*2));max-height:none}}
-body.fs{padding:0;gap:4px}body.fs header,body.fs .chips{display:none}body.fs #book{width:min(100vw,calc((100vh - 90px)*2))}
+.stage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;position:relative;z-index:0;overflow:hidden;container-type:size}
+#fit{width:min(100cqw,200cqh);aspect-ratio:2/1}
+@media (max-width:700px) and (orientation:portrait){#fit{width:min(100cqw,100cqh);aspect-ratio:1/1}}
+@media (orientation:landscape) and (max-height:520px){body{padding:4px 8px;gap:4px}header,.chips{display:none}}
+body.fs{padding:0;gap:4px}body.fs header,body.fs .chips{display:none}
 .pg{background:#f2ede9}.pg img{width:100%;height:100%;display:block;user-select:none;-webkit-user-drag:none}
 nav{position:relative;z-index:10;flex:none;display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}
 button{font:inherit;font-size:13px;color:var(--fg);background:var(--chip);border:1px solid var(--line);border-radius:999px;padding:6px 14px;cursor:pointer;min-height:34px}
@@ -26,7 +26,7 @@ button[aria-current="true"]{background:var(--chip-on);color:var(--chip-fg-on);bo
 <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.js"></script>
 </head><body>
 <header><h1>Catalogo B2B Shapeless</h1><span class="tag">Riservato ai rivenditori · prezzi + IVA</span></header>
-<div class="stage"><div id="book"></div></div>
+<div class="stage"><div id="fit"><div id="book"></div></div></div>
 <nav><div class="ctl"><button id="prev" aria-label="Pagina precedente">←</button><span id="count">1 / 56</span><button id="next" aria-label="Pagina successiva">→</button><button id="fs">⛶ Schermo intero</button></div><div class="chips" id="chips"></div></nav>
 <script>
 (function(){
