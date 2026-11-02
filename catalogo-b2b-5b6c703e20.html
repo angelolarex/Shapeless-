@@ -34,7 +34,7 @@ var N=56,D="catalogo-b2b-5b6c703e20/",host=document.getElementById("book");
 var chapters=[["Copertina",1],["Visione",4],["Vasi e set",12],["Lampade",38],["Made in Italy",50],["Come ordinare",52]];
 var chipsEl=document.getElementById("chips"),countEl=document.getElementById("count");
 var flip=new St.PageFlip(host,{width:400,height:400,size:"stretch",minWidth:200,maxWidth:1400,minHeight:200,maxHeight:1400,showCover:true,usePortrait:true,maxShadowOpacity:.35,mobileScrollSupport:false,flippingTime:700});
-for(var i=1;i<=N;i++){var d=document.createElement("div");d.className="pg";if(i===1||i===N)d.setAttribute("data-density","hard");var im=document.createElement("img");im.dataset.src=D+"p-"+(i<10?"0":"")+i+".jpg";im.alt="Pagina "+i;im.draggable=false;im.decoding="async";d.appendChild(im);host.appendChild(d)}
+for(var i=1;i<=N;i++){var d=document.createElement("div");d.className="pg";if(i===1||i===N)d.setAttribute("data-density","hard");var im=document.createElement("img");im.dataset.src=D+"p-"+(i<10?"0":"")+i+".jpg?v=20261102b";im.alt="Pagina "+i;im.draggable=false;im.decoding="async";d.appendChild(im);host.appendChild(d)}
 flip.loadFromHTML(host.querySelectorAll(".pg"));
 var imgs=host.querySelectorAll("img[data-src]");function load(c){for(var k=Math.max(0,c-3);k<=Math.min(N-1,c+9);k++){var m=imgs[k];if(m&&m.dataset.src){m.src=m.dataset.src;m.removeAttribute("data-src")}}}
 load(0);
