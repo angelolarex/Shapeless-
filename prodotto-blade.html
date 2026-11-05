@@ -71,6 +71,17 @@
      esattamente com'era; quello in larghezza e' piu' largo perche' gli scatti
      d'ambiente, quadrati, altrimenti restavano piccoli in un riquadro alto. */
   .pv-slide img{ max-width:96%; max-height:88%; width:auto; height:auto; object-fit:contain; }
+  .pv-slide video{ max-width:96%; max-height:96%; width:auto; height:auto; object-fit:contain; display:block; }
+  /* miniatura del video: un piccolo triangolo di play al centro */
+  .pv-thumb{ position:relative; }
+  .pv-thumb-play{
+    position:absolute; left:50%; top:50%; width:22px; height:22px; margin:-11px 0 0 -11px;
+    border-radius:50%; background:rgba(0,0,0,.55); pointer-events:none;
+  }
+  .pv-thumb-play::after{
+    content:''; position:absolute; left:8px; top:6px;
+    border-style:solid; border-width:5px 0 5px 8px; border-color:transparent transparent transparent #fff;
+  }
 
   /* frecce: solo dove c'e' un mouse, sul telefono si trascina e basta */
   .pv-freccia{
@@ -618,13 +629,17 @@
      ========================================================================= */
   var FOTO = [
     { src:'images/blade-transparent.webp',                alt:'Blade — vista frontale' },
-    { src:'images/Blade/blade-ambiente-sage.jpg',        alt:'Blade Sage su una credenza in legno' },
+    /* Video: parte da solo (muto, in loop) quando la diapositiva e' visibile.
+       "poster" e' il fotogramma mostrato nella miniatura e prima del via. */
+    { video:'videos/blade-ambiente-credenza.mp4', src:'images/Blade/blade-video-credenza-poster.jpg',
+      alt:'Blade Sage su una credenza in legno — video' },
     { src:'images/Blade/blade-ambiente-passeggiata.jpg', alt:'Blade Off White portato a mano su una passerella di legno' },
+    { src:'images/Blade/blade-ambiente-sage.jpg',        alt:'Blade Sage su una credenza in legno' },
+    { src:'images/Blade/blade-ambiente-sage-ulivo.jpg',  alt:'Blade Sage con un ramo di ulivo su un tavolo nero' },
     /* ?v=2 perche' il file ha cambiato contenuto mantenendo lo stesso nome:
        senza, chi ha gia' visto la pagina si ritroverebbe la vecchia versione
        rettangolare tenuta in memoria dal browser. */
-    { src:'images/Blade/blade-ambiente-redwine.jpg?v=2', alt:'Blade Red Wine su un mobile scuro' },
-    { src:'images/Blade/blade-ambiente-offwhite.jpg',    alt:'Blade Off White su un tavolino da salotto' }
+    { src:'images/Blade/blade-ambiente-redwine.jpg?v=2', alt:'Blade Red Wine su un mobile scuro' }
   ];
   </script>
 
@@ -652,8 +667,14 @@
     FOTO.forEach(function (f, i) {
       var s = document.createElement('div');
       s.className = 'pv-slide';
-      s.innerHTML = '<img src="' + encodeURI(f.src) + '" alt="' + f.alt + '" ' +
-                    (i === 0 ? '' : 'loading="lazy" ') + '>';
+      if (f.video) {
+        s.classList.add('pv-slide-video');
+        s.innerHTML = '<video src="' + encodeURI(f.video) + '" poster="' + encodeURI(f.src) + '" ' +
+                      'muted loop playsinline preload="none" aria-label="' + f.alt + '"></video>';
+      } else {
+        s.innerHTML = '<img src="' + encodeURI(f.src) + '" alt="' + f.alt + '" ' +
+                      (i === 0 ? '' : 'loading="lazy" ') + '>';
+      }
       slides.appendChild(s);
 
       var p = document.createElement('span');
@@ -664,7 +685,9 @@
       t.type = 'button';
       t.className = 'pv-thumb' + (i === 0 ? ' attivo' : '');
       t.dataset.foto = i;
-      t.innerHTML = '<img src="' + encodeURI(f.src) + '" alt="' + f.alt + '" loading="lazy">';
+      t.innerHTML = '<img src="' + encodeURI(f.src) + '" alt="' + f.alt + '" loading="lazy">' +
+                    (f.video ? '<span class="pv-thumb-play" aria-hidden="true"></span>' : '');
+      if (f.video) t.classList.add('pv-thumb-video');
       thumbs.appendChild(t);
     });
 
@@ -694,12 +717,23 @@
       segnaFotoAttiva(i);
     }
 
+    /* il video parte solo quando e' la diapositiva a vista, si ferma altrove */
+    function gestisciVideo() {
+      slides.querySelectorAll('video').forEach(function (v) {
+        var k = Array.prototype.indexOf.call(slides.children, v.parentNode);
+        if (stato.vista === 'foto' && k === stato.foto) {
+          var pr = v.play(); if (pr && pr.catch) pr.catch(function () {});
+        } else { v.pause(); }
+      });
+    }
+
     function segnaFotoAttiva(i) {
       punti.querySelectorAll('.pv-punto').forEach(function (p, k) { p.classList.toggle('attivo', k === i); });
       if (stato.vista === 'foto') aggiornaThumbAttiva();
       prec.disabled = (i === 0);
       succ.disabled = (i === FOTO.length - 1);
       didascalia();
+      gestisciVideo();
     }
 
     /* mentre si trascina, il pallino e la miniatura seguono il dito */
@@ -760,6 +794,7 @@
       v3d.classList.add('attiva');
       vFoto.classList.remove('attiva');
       girello(true);
+      gestisciVideo();
       aggiornaInterruttore();
       aggiornaThumbAttiva();
       didascalia();
