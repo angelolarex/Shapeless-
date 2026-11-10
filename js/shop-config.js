@@ -85,7 +85,7 @@
       blade: {
         id: 'blade',
         nome: 'Blade',
-        prezzo: 215.00,      /* 28x28x37h cm — listino 17/09 */
+        prezzo: 205.00,      /* 28x28x37h cm — aggiornato 10/11/2026 */
         altezzaCm: 37,
         immagine: 'images/blade-transparent.webp',
         pagina: 'prodotto-blade.html',

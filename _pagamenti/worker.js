@@ -43,14 +43,14 @@ import { iscrizioneNewsletter, disiscrizione } from './newsletter.js';
    cambialo in tutti e due i posti. */
 
 /* PREZZI VERI dal 17/09 (listino, prezzo suggerito al pubblico):
-       blade 21500 — vulcano 9500 — bombato 9500
+       blade 20500 — vulcano 9500 — bombato 9500
    Vanno tenuti uguali QUI E ANCHE in shop-config.js.
    ⚠️ Attenzione al perche' conta: e' QUESTO file a decidere quanto paga il
    cliente, non il sito. Il carrello sta nel browser e il browser si manipola,
    quindi dal sito arrivano solo gli identificativi e le quantita'. Se avessi
    messo 1 € solo in shop-config.js, il cliente avrebbe visto 1 € e pagato 169. */
 const CATALOGO = {
-  blade:   { nome: 'Blade',   prezzo: 21500, immagine: 'images/blade-transparent.png' },
+  blade:   { nome: 'Blade',   prezzo: 20500, immagine: 'images/blade-transparent.png' },
   vulcano: { nome: 'Vulcano', prezzo:  9500, immagine: 'images/vulcano-transparent.png' },
   bombato: { nome: 'Bombato', prezzo:  9500, immagine: 'images/bombato-transparent.png' },
   /* 28/09/2026 — prezzi dati da Angelo (listino 08-01-2026, prezzo al pubblico) */
