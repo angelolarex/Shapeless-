@@ -34,7 +34,7 @@
         <div class="grazie-segno" aria-hidden="true"></div>
 
         <p class="label" style="text-align:center;">Ordine ricevuto</p>
-        <h1>Grazie, <em id="grazie-nome">ci siamo</em>.</h1>
+        <h1>Grazie di aver scelto <em id="grazie-pezzo">un nostro design</em>.</h1>
         <p style="color:var(--text-muted); margin-top:20px; font-size:16px;">
           Il tuo pezzo entra in produzione. Ti abbiamo scritto a
           <strong id="grazie-email">—</strong> con tutti i dettagli.
@@ -83,13 +83,6 @@
               <div>
                 <strong>Produzione</strong>
                 <p id="grazie-produzione">Il tuo vaso viene prodotto on demand, nel colore che hai scelto.</p>
-              </div>
-            </div>
-            <div class="grazie-passo">
-              <span class="grazie-passo-num">3</span>
-              <div>
-                <strong>Spedizione tracciata</strong>
-                <p>Ti mandiamo il codice di tracciamento appena il pacco parte. Il corriere ti avvisa via SMS.</p>
               </div>
             </div>
           </div>
@@ -145,6 +138,16 @@
 
     function testo(id, v) { if ($(id) && v) $(id).textContent = v; }
 
+    /* titolo: "Grazie di aver scelto Blade" (o "Blade e Bombato"); se non si sa, "un nostro design" */
+    function nomePezzo() {
+      if (!o || !o.articoli || !o.articoli.length) return;
+      var nomi = [];
+      o.articoli.forEach(function (it) { if (it.nome && nomi.indexOf(it.nome) < 0) nomi.push(it.nome); });
+      if (!nomi.length) return;
+      testo('grazie-pezzo', nomi.length > 1 ? nomi.slice(0, -1).join(', ') + ' e ' + nomi[nomi.length - 1] : nomi[0]);
+    }
+    nomePezzo();
+
     function mostraArticoli() {
       if (!o || !o.articoli || !o.articoli.length) return;
       $('grazie-riquadro').hidden = false;
@@ -197,7 +200,6 @@
           Cart.clearCart();
           if (o) { o.stato = 'pagato'; Cart.saveOrdine(o); }
 
-          testo('grazie-nome', (s.nome || '').split(' ')[0] || 'ci siamo');
           testo('grazie-email', s.email);
           testo('grazie-numero', s.numero || (o && o.numero));
           mostraArticoli();
@@ -232,11 +234,9 @@
 
     /* ---- nessuna sessione (modalita' dimostrativa o pagina aperta a mano) ---- */
     if (!o || !o.cliente) {
-      testo('grazie-nome', 'a presto');
       testo('grazie-email', 'la tua email');
       return;
     }
-    testo('grazie-nome', o.cliente.nome || 'ci siamo');
     testo('grazie-email', o.cliente.email);
     testo('grazie-numero', o.numero);
     $('grazie-demo').hidden = o.stato !== 'dimostrativo';
