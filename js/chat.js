@@ -149,9 +149,9 @@
     { id: 'spedizione', etichetta: function () { return T('Spedizione', 'Shipping'); }, risposta: testoSpedizione,
       parole: ['spedizione', 'spedite', 'spedisci', 'spedire', 'estero', 'europa', 'germania', 'francia', 'svizzera', 'spagna', 'inghilterra', 'america', 'mondo', 'corriere', 'gratis', 'gratuita', 'dazi', 'costo spedizione', 'shipping', 'ship', 'abroad', 'europe', 'germany', 'france', 'switzerland', 'uk', 'usa', 'world', 'courier', 'free shipping', 'customs', 'duties'] },
     { id: 'rate', etichetta: function () { return T('Pagare a rate', 'Pay in instalments'); }, risposta: function () {
-        return T('Sì. In cassa puoi pagare con <b>carta, Apple Pay, Google Pay, PayPal</b> (anche in 3 rate), <b>Klarna</b> o <b>Scalapay</b>.' +
+        return T('Sì. In cassa puoi pagare con <b>carta, Apple Pay, Google Pay, PayPal</b> (anche in 3 rate) o <b>Scalapay</b>.' +
           '<br><br>Il pagamento passa da Stripe: i dati della carta non arrivano mai a noi.',
-          'Yes. At checkout you can pay by <b>card, Apple Pay, Google Pay, PayPal</b> (also in 3 instalments), <b>Klarna</b> or <b>Scalapay</b>.' +
+          'Yes. At checkout you can pay by <b>card, Apple Pay, Google Pay, PayPal</b> (also in 3 instalments) or <b>Scalapay</b>.' +
           '<br><br>Payments go through Stripe: your card details never reach us.');
       },
       parole: ['rate', 'rata', 'klarna', 'scalapay', 'paypal', 'pagare', 'pagamento', 'pagamenti', 'carta', 'apple pay', 'google pay', 'bonifico', 'contrassegno', 'sicuro', 'instalments', 'installments', 'pay', 'payment', 'card', 'bank transfer', 'secure'] },

@@ -312,7 +312,7 @@
 
     var el = sdk.createPaymentElement({
       layout: { type: 'accordion', defaultCollapsed: false },
-      paymentMethodOrder: ['card', 'apple_pay', 'google_pay', 'paypal', 'klarna', 'scalapay'],
+      paymentMethodOrder: ['card', 'apple_pay', 'google_pay', 'paypal', 'scalapay'],
       /* nome, email, telefono e indirizzo li abbiamo gia' nei nostri campi:
          il riquadro Stripe non deve richiederli (li passiamo in confirm) */
       fields: { billingDetails: { name: 'never', email: 'never', phone: 'never', address: 'never' } },

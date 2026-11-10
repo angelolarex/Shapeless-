@@ -262,7 +262,7 @@
       valuta: 'EUR',
       /* Metodi mostrati in cassa. Sono quelli che Stripe attiva da pannello:
          qui servono solo a disegnare i loghi e a spiegarli al cliente. */
-      metodi: ['Carta', 'Apple Pay', 'Google Pay', 'PayPal', 'Klarna', 'Satispay']
+      metodi: ['Carta', 'Apple Pay', 'Google Pay', 'PayPal', 'Satispay']
     },
 
     /* ------------------------------------------------------------------
