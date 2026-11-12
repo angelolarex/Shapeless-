@@ -40,6 +40,7 @@ window.ShapelessTestiEN = {
   "Hospitality & Architettura": "Hospitality & Architecture",
   "Creativi": "Creatives",
   "Rivenditori": "Retailers",
+  "I nostri design": "Our designs",
   "Contatti": "Contact",
   "Carrello": "Cart",
   "Panoramica Collab": "Collab overview",
