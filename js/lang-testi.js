@@ -79,6 +79,7 @@ window.ShapelessTestiEN = {
   "Tocca un colore: il vaso diventa 3D e lo puoi girare.": "Tap a colour: the vase turns 3D and you can spin it.",
   "IVA inclusa · spedizione gratuita in Italia": "VAT included · free shipping in Italy",
   "Aggiungi al carrello — Red Wine": "Add to cart — Red Wine",
+  "Pagamento sicuro con": "Secure payment with",
   "Prodotto on demand nel colore che hai scelto.": "Made on demand in the colour you chose.",
   "Consegna in Italia entro il": "Delivery in Italy by",
   "· spedizione gratuita in Italia · reso entro 14 giorni · Hidden Nest in vetro incluso.": "· free shipping in Italy · returns within 14 days · glass Hidden Nest included.",

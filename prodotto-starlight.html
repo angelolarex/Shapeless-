@@ -6,7 +6,7 @@
   <title>Starlight | Shapeless</title>
   <meta name="description" content="Starlight: una lampada da tavolo in PLA vegetale fatta di una piega continua. Da spenta è una scultura bianca, da accesa diventa luce. 29x29x27 cm, progettata e prodotta in Italia.">
   <link rel="stylesheet" href="css/style.css?v=20260928footer">
-  <link rel="stylesheet" href="css/negozio.css?v=20261003sobrio">
+  <link rel="stylesheet" href="css/negozio.css?v=20261112b">
 
   <style>
   /* ==========================================================================
@@ -417,6 +417,17 @@
               <strong>Consegna in Italia entro il <span id="cfg-consegna">—</span></strong> ·
               spedizione gratuita in Italia · reso entro 14 giorni.
             </p>
+
+            <div class="cfg-pagamenti" id="cfg-pagamenti">
+              <span class="cfg-pagamenti-tit">Pagamento sicuro con</span>
+              <ul class="cfg-pagamenti-loghi">
+                <li><img src="images/pagamenti/visa.svg" alt="Visa" width="46" height="15" loading="lazy"></li>
+                <li><img src="images/pagamenti/mastercard.svg" alt="Mastercard" width="30" height="23" loading="lazy"></li>
+                <li><img src="images/pagamenti/applepay.svg" alt="Apple Pay" width="46" height="19" loading="lazy"></li>
+                <li><img src="images/pagamenti/googlepay.svg" alt="Google Pay" width="46" height="18" loading="lazy"></li>
+                <li><img src="images/pagamenti/paypal.svg" alt="PayPal" width="19" height="23" loading="lazy"></li>
+              </ul>
+            </div>
           </div>
 
         </div>
@@ -532,7 +543,7 @@
 
   <script src="js/main.js"></script>
   <script src="js/chat.js?v=20261110a" defer></script>
-  <script src="js/lang-testi.js?v=20261110a"></script>
+  <script src="js/lang-testi.js?v=20261112pag"></script>
   <script src="js/lang.js?v=20260928lancio"></script>
   <script src="js/shop-config.js?v=20261110a"></script>
   <script src="js/cart.js?v=20261003prezzi"></script>
@@ -676,12 +687,12 @@
        verso l'alto e il bottone grande non si vede */
     var barra   = document.getElementById('barra-mobile');
     var bottone = document.getElementById('cfg-add');
-    var miniature = document.getElementById('pv-thumbs');
+    var miniature = document.getElementById('cfg-pagamenti');
     if (barra && bottone && miniature && 'IntersectionObserver' in window) {
       var passate = false, bottoneInVista = false;
-      function decidi() { barra.classList.toggle('visibile', passate && !bottoneInVista); }
+      function decidi() { barra.classList.toggle('visibile', passate); }
       new IntersectionObserver(function (v) {
-        passate = !v[0].isIntersecting && v[0].boundingClientRect.top < 0; decidi();
+        passate = v[0].isIntersecting || v[0].boundingClientRect.top < 0; decidi();
       }, { threshold: 0 }).observe(miniature);
       new IntersectionObserver(function (v) { bottoneInVista = v[0].isIntersecting; decidi(); }, { threshold: 0 }).observe(bottone);
     }

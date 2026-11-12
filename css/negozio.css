@@ -99,6 +99,20 @@
 }
 .cfg-rassicura strong { color: var(--text); font-weight: 500; }
 
+/* loghi dei metodi di pagamento sotto il bottone (12/11/2026) */
+.cfg-pagamenti { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--border); }
+.cfg-pagamenti-tit {
+  display: block; font-size: 10px; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--text-muted); margin-bottom: 12px;
+}
+.cfg-pagamenti-loghi { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; width: 100%; }
+.cfg-pagamenti-loghi li {
+  display: flex; align-items: center; justify-content: center;
+  height: 32px; min-width: 0; padding: 0 5px; background: #fff;
+  border: 1px solid var(--border); border-radius: 5px; box-sizing: border-box;
+}
+.cfg-pagamenti-loghi img { display: block; height: auto; width: auto; max-width: 100%; max-height: 17px; }
+
 @media (max-width: 980px) {
   .cfg-controls > .cfg-acquisto { order: 3; }        /* subito sotto i colori */
 }
