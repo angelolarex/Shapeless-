@@ -162,7 +162,7 @@
       'zig-s': {
         id: 'zig-s',
         nome: 'Zig Piccolo',
-        prezzo: 149.00,      /* 18x18x25h cm */
+        prezzo: 139.00,      /* 18x18x25h cm */
         altezzaCm: 25,
         immagine: 'images/zig-blu-scontornato.webp',
         render: 'images/render/zig-{hex}.webp',
@@ -182,7 +182,7 @@
       starlight: {
         id: 'starlight',
         nome: 'Starlight',
-        prezzo: 215.00,      /* 29x29x27h cm */
+        prezzo: 205.00,      /* 29x29x27h cm */
         altezzaCm: 27,
         immagine: 'images/starlight-scontornato.webp',
         pagina: 'prodotto-starlight.html',
@@ -191,7 +191,7 @@
       'zig-l': {
         id: 'zig-l',
         nome: 'Zig Grande',
-        prezzo: 205.00,      /* 23x23x32h cm */
+        prezzo: 199.00,      /* 23x23x32h cm */
         altezzaCm: 32,
         immagine: 'images/zig-blu-scontornato.webp',
         render: 'images/render/zig-{hex}.webp',

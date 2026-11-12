@@ -57,11 +57,11 @@ const CATALOGO = {
   torsione: { nome: 'Torsione',    prezzo:  7900, immagine: 'images/torsione-scontornato.webp', senzaVetro: true },
   spin:     { nome: 'Spira Grande', prezzo: 15900, immagine: 'images/spin-transparent.webp' },
   'spin-s': { nome: 'Spira Piccola', prezzo:  9500, immagine: 'images/spin-transparent.webp' },
-  'zig-s':  { nome: 'Zig Piccolo', prezzo: 14900, immagine: 'images/zig-blu-scontornato.webp' },
-  'zig-l':  { nome: 'Zig Grande',  prezzo: 20500, immagine: 'images/zig-blu-scontornato.webp' },
+  'zig-s':  { nome: 'Zig Piccolo', prezzo: 13900, immagine: 'images/zig-blu-scontornato.webp' },
+  'zig-l':  { nome: 'Zig Grande',  prezzo: 19900, immagine: 'images/zig-blu-scontornato.webp' },
   /* 30/09/2026 — lampade: niente Hidden Nest, descrizione "Lampada" */
   'vulcano-light': { nome: 'Vulcano Light', prezzo: 12500, immagine: 'images/vulcano-light-vetrina.webp', lampada: true },
-  starlight:       { nome: 'Starlight',     prezzo: 21500, immagine: 'images/starlight-scontornato.webp', lampada: true }
+  starlight:       { nome: 'Starlight',     prezzo: 20500, immagine: 'images/starlight-scontornato.webp', lampada: true }
 };
 /* i prezzi sono in CENTESIMI: Stripe lavora sempre in centesimi */
 
