@@ -50,6 +50,7 @@
   position: fixed; left: 50%; bottom: 28px; z-index: 4000;
   transform: translate(-50%, 20px);
   display: flex; align-items: center; gap: 14px;
+  width: max-content;   /* senza, con left:50% il riquadro si stringeva a meta' schermo e il testo andava a capo */
   max-width: min(520px, calc(100vw - 32px));
   padding: 15px 20px;
   background: var(--text); color: var(--bg);
