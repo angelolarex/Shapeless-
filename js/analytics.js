@@ -248,6 +248,20 @@
   }
   (window.shpAnQ || []).splice(0).forEach(function (a) { consenso(a[0], a[1]); });
   document.addEventListener('shp:consenso', function (e) { var d = (e && e.detail) || {}; consenso(d.v, d.x); });
+  /* percorso d'acquisto (13/11/2026): js/funnel-prodotto.js (solo scheda Blade) chiama window.shpEvento(k, v).
+     Accetta SOLO questi tre segnali, una volta per visita; il resto delle statistiche non cambia. */
+  var NUOVI = { price_visible: 1, cta_visible: 1, cta_click: 1 };
+  window.shpEvento = function (k, v) {
+    try {
+      if (NUOVI[k] !== 1) return;
+      v = String(v || '').slice(0, 20);
+      var chiave = 'shp_ne_' + k + '_' + v;
+      if (ss(chiave)) return;
+      ss(chiave, '1');
+      ev(k, v);
+    } catch (e) {}
+  };
+  try { (window.shpEvQ || []).splice(0).forEach(function (a) { window.shpEvento(a[0], a[1]); }); } catch (e) {}
   document.addEventListener('submit', function (e) {
     var f = e.target;
     ev('form', (f && (f.getAttribute('data-an') || f.id || f.getAttribute('name') || f.getAttribute('action') || 'modulo')) || 'modulo');
