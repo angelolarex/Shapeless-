@@ -46,6 +46,10 @@
     @media (min-width:800px){ .cs-info{ grid-template-columns:repeat(3,1fr); } }
     .cs-info h4{ font-size:11px; letter-spacing:.2em; text-transform:uppercase; margin:0 0 10px; }
     .cs-info p{ font-size:14px; color:var(--text-muted); line-height:1.65; margin:0; }
+    .cs-solo-promo{ display:none; }
+    .promo-on .cs-solo-promo{ display:block; }
+    .cs-info{ grid-template-columns:1fr; }
+    @media (min-width:800px){ .cs-info{ grid-template-columns:repeat(2,1fr); } .promo-on .cs-info{ grid-template-columns:repeat(3,1fr); } }
     .cs-fine .btn + .cs-link{ margin-left:0; }
     .cs-link{ display:block; margin-top:22px; font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); }
     @media (max-width:600px){ .cs-hero-in{ padding-bottom:40px; } .section{ padding:72px 0; } }
@@ -174,7 +178,7 @@
   <section class="section cs-fine">
     <div class="container text-center">
       <div class="cs-info reveal">
-        <div>
+        <div class="cs-solo-promo">
           <h4>Promozione</h4>
           <p data-cs-durata>Sconto applicato direttamente sul prezzo dei tre design della selezione.</p>
         </div>
