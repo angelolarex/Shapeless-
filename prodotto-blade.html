@@ -266,6 +266,15 @@
     .pv-thumbs-wrap{ display:contents; }
     .pv-thumbs-freccia{ display:none !important; }
   }
+  
+    /* offerta a tempo: prezzo pieno barrato (stessa grandezza del prezzo) + scritta piccola */
+    .cfg-prezzo{ flex-direction:column; align-items:flex-start; gap:10px; margin-bottom:22px; }
+    .cfg-prezzo .cfg-prezzo-riga{ display:flex; align-items:baseline; gap:14px; white-space:nowrap; color:var(--text,#111); font-size:inherit; }
+    .cfg-prezzo .prezzo-pieno{ font-size:26px; font-weight:400; letter-spacing:-.02em; color:var(--text-muted,#8a8a8a); text-decoration:line-through; text-decoration-thickness:1px; }
+    .cfg-prezzo-testi{ display:flex; flex-direction:column; gap:6px; }
+    .cfg-prezzo-testi .offerta-nota{ font-size:12px; letter-spacing:.02em; color:var(--text-muted,#8a8a8a); }
+    .barra-prezzi{ display:flex; align-items:baseline; gap:8px; white-space:nowrap; }
+    .barra-prezzi .prezzo-pieno{ font-size:16px; font-weight:400; color:var(--text-muted,#8a8a8a); text-decoration:line-through; }
   </style>
 </head>
 <body>
@@ -419,8 +428,11 @@
           <!-- acquisto -->
           <div class="cfg-acquisto">
             <div class="cfg-prezzo">
-              <strong id="cfg-prezzo">€ 205,00</strong>
-              <span id="cfg-prezzo-nota">IVA inclusa · spedizione gratuita in Italia</span>
+              <span class="cfg-prezzo-riga"><s id="cfg-prezzo-pieno" class="prezzo-pieno" hidden>€ 205,00</s><strong id="cfg-prezzo">€ 185,00</strong></span>
+              <span class="cfg-prezzo-testi">
+                <span id="cfg-prezzo-nota">IVA inclusa · spedizione gratuita in Italia</span>
+                <small id="cfg-offerta" class="offerta-nota" hidden>Offerta valida fino al 27 novembre</small>
+              </span>
             </div>
 
             <button type="button" class="btn btn-fill cfg-add" id="cfg-add">
@@ -584,7 +596,7 @@
   <!-- barra fissa su telefono: aggiunge al carrello il colore scelto -->
   <div class="barra-mobile" id="barra-mobile">
     <div class="barra-mobile-txt">
-      <span id="barra-prezzo">€ 205,00</span>
+      <span class="barra-prezzi"><s id="barra-prezzo-pieno" class="prezzo-pieno" hidden>€ 205,00</s><span id="barra-prezzo">€ 185,00</span></span>
     </div>
     <!-- Una frase sola dentro un solo elemento: il bottone e' un contenitore
          flessibile, e fra due pezzi separati lo spazio viene ignorato -
@@ -596,7 +608,7 @@
   <script src="js/chat.js?v=20261110a" defer></script>
   <script src="js/lang-testi.js?v=20261112pag"></script>
   <script src="js/lang.js?v=20260928lancio"></script>
-  <script src="js/shop-config.js?v=20261110a"></script>
+  <script src="js/shop-config.js?v=20261120a"></script>
   <script src="js/cart.js?v=20261003prezzi"></script>
 
   <script>
@@ -886,6 +898,13 @@
 
     document.getElementById('cfg-prezzo').textContent   = Cart.formatPrice(prodotto.prezzo);
     document.getElementById('barra-prezzo').textContent = Cart.formatPrice(prodotto.prezzo);
+    /* offerta a tempo (vedi js/shop-config.js): prezzo pieno barrato + scritta piccola */
+    if (prodotto.prezzoPieno && prodotto.offertaFinoAl) {
+      var pp = Cart.formatPrice(prodotto.prezzoPieno);
+      var el = document.getElementById('cfg-prezzo-pieno'); el.textContent = pp; el.hidden = false;
+      var eb = document.getElementById('barra-prezzo-pieno'); eb.textContent = pp; eb.hidden = false;
+      document.getElementById('cfg-offerta').hidden = false;
+    }
     document.getElementById('cfg-consegna').textContent = Cart.dataConsegna();
 
     if (C.iva.regime === 'forfettario') {

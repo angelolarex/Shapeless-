@@ -85,7 +85,9 @@
       blade: {
         id: 'blade',
         nome: 'Blade',
-        prezzo: 205.00,      /* 28x28x37h cm — aggiornato 10/11/2026 */
+        prezzo: 185.00,      /* OFFERTA fino al 27/11/2026 (prezzo pieno 205): dopo quella data torna da solo a 205 */
+        prezzoPieno: 205.00,
+        offertaFinoAl: '2026-11-27',
         altezzaCm: 37,
         immagine: 'images/blade-transparent.webp',
         pagina: 'prodotto-blade.html',
@@ -332,6 +334,19 @@
     }
     return hex;
   };
+
+  /* Offerte a tempo: se la data (ora italiana) e' oltre 'offertaFinoAl', il
+     prodotto torna al prezzo pieno da solo, senza dover ripubblicare il sito.
+     DEVE restare uguale a quanto fa il Worker dei pagamenti (_pagamenti/worker.js). */
+  (function () {
+    var oggi;
+    try { oggi = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Rome' }).format(new Date()); }
+    catch (e) { var d = new Date(); oggi = d.getFullYear() + '-' + ('0'+(d.getMonth()+1)).slice(-2) + '-' + ('0'+d.getDate()).slice(-2); }
+    Object.keys(CONFIG.prodotti).forEach(function (k) {
+      var p = CONFIG.prodotti[k];
+      if (p.offertaFinoAl && oggi > p.offertaFinoAl) { p.prezzo = p.prezzoPieno; delete p.offertaFinoAl; delete p.prezzoPieno; }
+    });
+  })();
 
   window.ShapelessConfig = CONFIG;
 

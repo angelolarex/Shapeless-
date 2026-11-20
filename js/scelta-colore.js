@@ -22,6 +22,7 @@
   var testo = document.getElementById('cfg-add-testo');
   var barra = document.getElementById('barra-colore');
   var pall  = document.getElementById('cfg-add-pallino');
+  var bpall = document.getElementById('barra-pallino');   /* pallino anche nella barra fissa (solo dove c'e') */
   var TXT_NOME = 'Scegli un colore';
   var TXT_BTN  = 'Scegli un colore';
 
@@ -31,6 +32,7 @@
     if (testo && testo.textContent !== TXT_BTN)  testo.textContent = TXT_BTN;
     if (barra && barra.textContent !== TXT_BTN)  barra.textContent = TXT_BTN;
     if (pall) pall.style.background = 'transparent';
+    if (bpall) bpall.style.background = 'transparent';
   }
 
   /* stato di partenza: se non arriva da un link con il colore, nessuno acceso */
