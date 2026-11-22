@@ -140,20 +140,8 @@
           <a href="prodotto-torsione.html?colore=a3444d" class="btn btn-fill" data-an="christmas-torsione">Scopri il design</a>
         </article>
 
-        <!-- 2. BOMBATO (Golden, colore gia' scelto nel link) -->
+        <!-- 2. STARLIGHT (bianca, un solo colore) -->
         <article class="cs-card reveal reveal-delay-1">
-          <a href="prodotto-bombato.html?colore=e0bf42" class="cs-img cs-img-foto" aria-label="Bombato Golden">
-            <img src="images/christmas/bombato-natale.webp" alt="Bombato Golden, vaso scultura con fiori secchi in un ambiente natalizio" loading="lazy">
-          </a>
-          <p class="cs-nome">Bombato · Golden</p>
-          <h3>Un gesto di design</h3>
-          <p class="cs-desc">Linee morbide e volumi armoniosi che donano carattere agli ambienti contemporanei.</p>
-          <p class="cs-prezzo" data-cs-prezzo="bombato"><span class="cs-vecchio"></span><span class="cs-nuovo"></span></p>
-          <a href="prodotto-bombato.html?colore=e0bf42" class="btn btn-fill" data-an="christmas-bombato">Scopri il design</a>
-        </article>
-
-        <!-- 3. STARLIGHT (bianca, un solo colore) -->
-        <article class="cs-card reveal reveal-delay-2">
           <a href="prodotto-starlight.html" class="cs-img cs-img-foto" aria-label="Starlight">
             <img src="images/christmas/starlight-natale.webp" alt="Starlight, lampada scultura bianca accesa in un ambiente natalizio" loading="lazy">
           </a>
@@ -162,6 +150,18 @@
           <p class="cs-desc">Geometrie sfaccettate che dialogano con la luce, creando un'atmosfera suggestiva.</p>
           <p class="cs-prezzo" data-cs-prezzo="starlight"><span class="cs-vecchio"></span><span class="cs-nuovo"></span></p>
           <a href="prodotto-starlight.html" class="btn btn-fill" data-an="christmas-starlight">Scopri il design</a>
+        </article>
+
+        <!-- 3. BOMBATO (Golden, colore gia' scelto nel link) -->
+        <article class="cs-card reveal reveal-delay-2">
+          <a href="prodotto-bombato.html?colore=e0bf42" class="cs-img cs-img-foto" aria-label="Bombato Golden">
+            <img src="images/christmas/bombato-natale.webp" alt="Bombato Golden, vaso scultura con fiori secchi in un ambiente natalizio" loading="lazy">
+          </a>
+          <p class="cs-nome">Bombato · Golden</p>
+          <h3>Un gesto di design</h3>
+          <p class="cs-desc">Linee morbide e volumi armoniosi che donano carattere agli ambienti contemporanei.</p>
+          <p class="cs-prezzo" data-cs-prezzo="bombato"><span class="cs-vecchio"></span><span class="cs-nuovo"></span></p>
+          <a href="prodotto-bombato.html?colore=e0bf42" class="btn btn-fill" data-an="christmas-bombato">Scopri il design</a>
         </article>
 
       </div>
@@ -278,10 +278,19 @@
       return d.toLocaleDateString('it-IT', { day: 'numeric', month: 'long' });
     }
 
+    /* Prezzi della selezione, decisi da Angelo il 22/11/2026: barrato = prezzo di listino, grande = prezzo di Natale.
+       ATTENZIONE: sono solo mostrati qui. Carrello, cassa e Worker addebitano ancora i prezzi di js/shop-config.js:
+       vanno allineati PRIMA di far partire la pubblicita'. */
+    var PREZZI_NATALE = { torsione: { vecchio: 85, nuovo: 75 }, starlight: { vecchio: 205, nuovo: 175 }, bombato: { vecchio: 95, nuovo: 79 } };
     document.querySelectorAll('[data-cs-prezzo]').forEach(function (el) {
-      var p = C.prodotti[el.getAttribute('data-cs-prezzo')];
+      var id = el.getAttribute('data-cs-prezzo'), p = C.prodotti[id], n = PREZZI_NATALE[id];
       if (!p) return;
       var vecchio = el.querySelector('.cs-vecchio'), nuovo = el.querySelector('.cs-nuovo');
+      if (n) {
+        vecchio.textContent = euro(n.vecchio); vecchio.style.display = 'inline';
+        nuovo.textContent = euro(n.nuovo);
+        return;
+      }
       vecchio.textContent = euro(p.prezzo);
       nuovo.textContent = euro(mostraPromo ? scontato(p.prezzo) : p.prezzo);
     });
