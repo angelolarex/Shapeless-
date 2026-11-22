@@ -116,7 +116,9 @@
       bombato: {
         id: 'bombato',
         nome: 'Bombato',
-        prezzo: 95.00,       /* 25x25x19h cm — listino 17/09 */
+        prezzo: 79.00,       /* 25x25x19h cm — listino 17/09 */
+        prezzoPieno: 95.00,
+        offertaFinoAl: '2026-12-08',
         altezzaCm: 19,
         immagine: 'images/bombato-transparent.webp',
         pagina: 'prodotto-bombato.html',
@@ -129,7 +131,9 @@
       torsione: {
         id: 'torsione',
         nome: 'Torsione',
-        prezzo: 79.00,       /* 13x13x36h cm — senza Hidden Nest */
+        prezzo: 75.00,       /* 13x13x36h cm — senza Hidden Nest */
+        prezzoPieno: 85.00,
+        offertaFinoAl: '2026-12-08',
         altezzaCm: 36,
         immagine: 'images/torsione-scontornato.webp',
         render: 'images/render/torsione-{hex}.webp',
@@ -184,7 +188,9 @@
       starlight: {
         id: 'starlight',
         nome: 'Starlight',
-        prezzo: 205.00,      /* 29x29x27h cm */
+        prezzo: 175.00,      /* 29x29x27h cm */
+        prezzoPieno: 205.00,
+        offertaFinoAl: '2026-12-08',
         altezzaCm: 27,
         immagine: 'images/starlight-scontornato.webp',
         pagina: 'prodotto-starlight.html',

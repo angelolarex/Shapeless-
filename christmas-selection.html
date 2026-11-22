@@ -262,7 +262,7 @@
   <script src="js/chat.js?v=20261110a" defer></script>
   <script src="js/lang-testi.js?v=20261110a"></script>
   <script src="js/lang.js?v=20260928lancio"></script>
-  <script src="js/shop-config.js?v=20261120a"></script>
+  <script src="js/shop-config.js?v=20261122prezzi"></script>
   <script src="js/cart.js?v=20261003prezzi"></script>
   <script>
   /* ===========================================================================
@@ -294,17 +294,15 @@
       return d.toLocaleDateString('it-IT', { day: 'numeric', month: 'long' });
     }
 
-    /* Prezzi della selezione, decisi da Angelo il 22/11/2026: barrato = prezzo di listino, grande = prezzo di Natale.
-       ATTENZIONE: sono solo mostrati qui. Carrello, cassa e Worker addebitano ancora i prezzi di js/shop-config.js:
-       vanno allineati PRIMA di far partire la pubblicita'. */
-    var PREZZI_NATALE = { torsione: { vecchio: 85, nuovo: 75 }, starlight: { vecchio: 205, nuovo: 175 }, bombato: { vecchio: 95, nuovo: 79 } };
+    /* Prezzi della selezione: arrivano da js/shop-config.js (prezzoPieno barrato, prezzo = offerta di Natale in vigore).
+       Quando l'offerta scade la config torna da sola al prezzo pieno e il barrato sparisce. */
     document.querySelectorAll('[data-cs-prezzo]').forEach(function (el) {
-      var id = el.getAttribute('data-cs-prezzo'), p = C.prodotti[id], n = PREZZI_NATALE[id];
+      var p = C.prodotti[el.getAttribute('data-cs-prezzo')];
       if (!p) return;
       var vecchio = el.querySelector('.cs-vecchio'), nuovo = el.querySelector('.cs-nuovo');
-      if (n) {
-        vecchio.textContent = euro(n.vecchio); vecchio.style.display = 'inline';
-        nuovo.textContent = euro(n.nuovo);
+      if (p.prezzoPieno && p.offertaFinoAl) {
+        vecchio.textContent = euro(p.prezzoPieno); vecchio.style.display = 'inline';
+        nuovo.textContent = euro(p.prezzo);
         return;
       }
       vecchio.textContent = euro(p.prezzo);

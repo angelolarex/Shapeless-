@@ -255,6 +255,10 @@
   .pv-thumb{ position:relative; }
   .pv-thumb .play{ position:absolute; right:5px; bottom:5px; width:18px; height:18px; border-radius:50%;
     background:rgba(20,20,20,.72); color:#fff; font-size:8px; line-height:18px; text-align:center; padding-left:1px; }
+      /* offerta di Natale: prezzo pieno barrato accanto al prezzo in vigore */
+    .cfg-prezzo .prezzo-pieno{ font-size:20px; font-weight:400; color:var(--text-muted,#8a8a8a); text-decoration:line-through; text-decoration-thickness:1px; margin-right:12px; }
+    .cfg-prezzo .offerta-nota{ display:block; font-size:12px; letter-spacing:.02em; color:var(--text-muted,#8a8a8a); margin-top:4px; }
+    .barra-mobile-txt .prezzo-pieno{ font-size:12px; font-weight:400; color:var(--text-muted,#8a8a8a); text-decoration:line-through; margin-right:6px; }
   </style>
 </head>
 <body>
@@ -437,8 +441,9 @@
           <!-- acquisto -->
           <div class="cfg-acquisto">
             <div class="cfg-prezzo">
-              <strong id="cfg-prezzo">€ 95,00</strong>
+              <s id="cfg-prezzo-pieno" class="prezzo-pieno">€ 95,00</s><strong id="cfg-prezzo">€ 79,00</strong>
               <span id="cfg-prezzo-nota">IVA inclusa · spedizione gratuita in Italia</span>
+              <small id="cfg-offerta" class="offerta-nota" hidden>Offerta di Natale valida fino al 8 dicembre</small>
             </div>
 
             <button type="button" class="btn btn-fill cfg-add" id="cfg-add">
@@ -617,7 +622,7 @@
   <!-- barra fissa su telefono: aggiunge al carrello il colore scelto -->
   <div class="barra-mobile" id="barra-mobile">
     <div class="barra-mobile-txt">
-      <span id="barra-prezzo">€ 95,00</span>
+      <s id="barra-prezzo-pieno" class="prezzo-pieno" hidden>€ 95,00</s><span id="barra-prezzo">€ 79,00</span>
     </div>
     <!-- Una frase sola dentro un solo elemento: il bottone e' un contenitore
          flessibile, e fra due pezzi separati lo spazio viene ignorato -
@@ -629,7 +634,7 @@
   <script src="js/chat.js?v=20261110a" defer></script>
   <script src="js/lang-testi.js?v=20261112pag"></script>
   <script src="js/lang.js?v=20260928lancio"></script>
-  <script src="js/shop-config.js?v=20261120a"></script>
+  <script src="js/shop-config.js?v=20261122prezzi"></script>
   <script src="js/cart.js?v=20261003prezzi"></script>
   <script src="js/qrcode.js"></script>
 
@@ -643,7 +648,6 @@
      mostrata per prima quando quel colore e' selezionato (gia' previsto).
      ========================================================================= */
   var FOTO = [
-    { src:'images/bombato-transparent.webp', alt:'Bombato — vista frontale' },
     { src:'images/Bombato/IMG_1339.jpg', alt:'Bombato Viola, dettaglio ravvicinato' },
     { src:'images/Bombato/Isola il vaso verde .png', alt:'Bombato Emerald Green con pianta, su un tavolino' },
     { src:'images/Bombato/Shapeless 1-68.jpg', alt:'Bombato Giallo tra le mani, con rametti secchi' },
@@ -1131,6 +1135,14 @@
 
     document.getElementById('cfg-prezzo').textContent   = Cart.formatPrice(prodotto.prezzo);
     document.getElementById('barra-prezzo').textContent = Cart.formatPrice(prodotto.prezzo);
+    /* offerta a tempo (vedi js/shop-config.js): prezzo pieno barrato + scritta piccola */
+    var elPieno = document.getElementById('cfg-prezzo-pieno'), barraPieno = document.getElementById('barra-prezzo-pieno'), notaOfferta = document.getElementById('cfg-offerta');
+    if (prodotto.prezzoPieno && prodotto.offertaFinoAl) {
+      var ppTxt = Cart.formatPrice(prodotto.prezzoPieno);
+      elPieno.textContent = ppTxt; elPieno.hidden = false;
+      barraPieno.textContent = ppTxt; barraPieno.hidden = false;
+      notaOfferta.hidden = false;
+    } else { elPieno.hidden = true; barraPieno.hidden = true; notaOfferta.hidden = true; }
     document.getElementById('cfg-consegna').textContent = Cart.dataConsegna();
 
     if (C.iva.regime === 'forfettario') {
