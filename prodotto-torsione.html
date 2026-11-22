@@ -256,8 +256,11 @@
   .pv-thumb .play{ position:absolute; right:5px; bottom:5px; width:18px; height:18px; border-radius:50%;
     background:rgba(20,20,20,.72); color:#fff; font-size:8px; line-height:18px; text-align:center; padding-left:1px; }
       /* offerta di Natale: prezzo pieno barrato accanto al prezzo in vigore */
-    .cfg-prezzo .prezzo-pieno{ font-size:20px; font-weight:400; color:var(--text-muted,#8a8a8a); text-decoration:line-through; text-decoration-thickness:1px; margin-right:12px; }
-    .cfg-prezzo .offerta-nota{ display:block; font-size:12px; letter-spacing:.02em; color:var(--text-muted,#8a8a8a); margin-top:4px; }
+    .cfg-prezzo{ flex-direction:column; align-items:flex-start; gap:8px; }
+    .cfg-prezzo .cfg-prezzo-riga{ display:flex; align-items:baseline; gap:14px; white-space:nowrap; color:var(--text,#111); font-size:inherit; }
+    .cfg-prezzo .prezzo-pieno{ font-size:20px; font-weight:400; color:var(--text-muted,#8a8a8a); text-decoration:line-through; text-decoration-thickness:1px; }
+    .cfg-prezzo .cfg-prezzo-testi{ display:flex; flex-direction:column; gap:4px; }
+    .cfg-prezzo .offerta-nota{ font-size:12px; letter-spacing:.02em; color:var(--text-muted,#8a8a8a); }
     .barra-mobile-txt .prezzo-pieno{ font-size:12px; font-weight:400; color:var(--text-muted,#8a8a8a); text-decoration:line-through; margin-right:6px; }
   </style>
 </head>
@@ -429,9 +432,11 @@
           <!-- acquisto -->
           <div class="cfg-acquisto">
             <div class="cfg-prezzo">
-              <s id="cfg-prezzo-pieno" class="prezzo-pieno">€ 85,00</s><strong id="cfg-prezzo">€ 75,00</strong>
-              <span id="cfg-prezzo-nota">IVA inclusa · spedizione gratuita in Italia</span>
-              <small id="cfg-offerta" class="offerta-nota" hidden>Offerta di Natale valida fino al 8 dicembre</small>
+              <span class="cfg-prezzo-riga"><s id="cfg-prezzo-pieno" class="prezzo-pieno">€ 85,00</s><strong id="cfg-prezzo">€ 75,00</strong></span>
+              <span class="cfg-prezzo-testi">
+                <span id="cfg-prezzo-nota">IVA inclusa · spedizione gratuita in Italia</span>
+                <small id="cfg-offerta" class="offerta-nota" hidden>Offerta di Natale valida fino all'8 dicembre</small>
+              </span>
             </div>
 
             <button type="button" class="btn btn-fill cfg-add" id="cfg-add">
@@ -610,6 +615,7 @@
      mostrata per prima quando quel colore e' selezionato (gia' previsto).
      ========================================================================= */
   var FOTO = [
+    { src:'images/christmas/torsione-natale.webp', alt:'Torsione Red Wine in un salotto natalizio, con una mano che lo accarezza' },
     { src:'images/Torsione/web/torsione-salotto.jpg', alt:'Torsione giallo su un tavolo in legno, in un salotto' },
     { video:'images/Torsione/web/torsione-video.mp4', poster:'images/Torsione/web/torsione-video-poster.jpg', alt:'Video del vaso Torsione' },
     { src:'images/Torsione/web/torsione-foto.jpg', alt:'Torsione su un piano in legno, davanti a una parete chiara' }

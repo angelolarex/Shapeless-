@@ -303,8 +303,11 @@
   }
   .cfg-add{ gap:0; }
       /* offerta di Natale: prezzo pieno barrato accanto al prezzo in vigore */
-    .cfg-prezzo .prezzo-pieno{ font-size:20px; font-weight:400; color:var(--text-muted,#8a8a8a); text-decoration:line-through; text-decoration-thickness:1px; margin-right:12px; }
-    .cfg-prezzo .offerta-nota{ display:block; font-size:12px; letter-spacing:.02em; color:var(--text-muted,#8a8a8a); margin-top:4px; }
+    .cfg-prezzo{ flex-direction:column; align-items:flex-start; gap:8px; }
+    .cfg-prezzo .cfg-prezzo-riga{ display:flex; align-items:baseline; gap:14px; white-space:nowrap; color:var(--text,#111); font-size:inherit; }
+    .cfg-prezzo .prezzo-pieno{ font-size:20px; font-weight:400; color:var(--text-muted,#8a8a8a); text-decoration:line-through; text-decoration-thickness:1px; }
+    .cfg-prezzo .cfg-prezzo-testi{ display:flex; flex-direction:column; gap:4px; }
+    .cfg-prezzo .offerta-nota{ font-size:12px; letter-spacing:.02em; color:var(--text-muted,#8a8a8a); }
     .barra-mobile-txt .prezzo-pieno{ font-size:12px; font-weight:400; color:var(--text-muted,#8a8a8a); text-decoration:line-through; margin-right:6px; }
   </style>
 </head>
@@ -410,9 +413,11 @@
           <!-- acquisto -->
           <div class="cfg-acquisto">
             <div class="cfg-prezzo">
-              <s id="cfg-prezzo-pieno" class="prezzo-pieno">€ 205,00</s><strong id="cfg-prezzo">€ 175,00</strong>
-              <span id="cfg-prezzo-nota">IVA inclusa · spedizione gratuita in Italia</span>
-              <small id="cfg-offerta" class="offerta-nota" hidden>Offerta di Natale valida fino al 8 dicembre</small>
+              <span class="cfg-prezzo-riga"><s id="cfg-prezzo-pieno" class="prezzo-pieno">€ 205,00</s><strong id="cfg-prezzo">€ 175,00</strong></span>
+              <span class="cfg-prezzo-testi">
+                <span id="cfg-prezzo-nota">IVA inclusa · spedizione gratuita in Italia</span>
+                <small id="cfg-offerta" class="offerta-nota" hidden>Offerta di Natale valida fino all'8 dicembre</small>
+              </span>
             </div>
 
             <button type="button" class="btn btn-fill cfg-add" id="cfg-add">
@@ -562,6 +567,7 @@
      ritagliano quadrate prima di caricarle.
      ========================================================================= */
   var FOTO = [
+    { src:'images/christmas/starlight-natale.webp', alt:'Starlight accesa su una consolle, tra candela e decorazioni natalizie' },
     { src:'images/lampada-sera-1024.jpg', alt:'Starlight accesa di sera, su un mobile' },
     { video:'images/Starlight/web/starlight-video.mp4', poster:'images/Starlight/web/starlight-video-poster.jpg', alt:'Video di Starlight accesa' },
     { src:'images/Starlight/web/starlight-dettaglio-originale.webp', alt:'Starlight spenta, dettaglio delle pieghe e dell\'apertura a stella' },
