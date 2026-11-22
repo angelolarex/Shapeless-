@@ -30,6 +30,8 @@
     .cs-card{ display:flex; flex-direction:column; }
     .cs-card .cs-img{ aspect-ratio:4/5; background:var(--bg2, #ecece9); display:flex; align-items:flex-end; justify-content:center; overflow:hidden; padding:28px 28px 0; }
     .cs-card .cs-img img{ max-width:100%; width:auto; object-fit:contain; object-position:center bottom; display:block; }
+    .cs-card .cs-img.cs-img-foto{ aspect-ratio:1/1; padding:0; display:block; }
+    .cs-card .cs-img.cs-img-foto img{ width:100%; height:100%; max-width:none; object-fit:cover; object-position:center; }
     .cs-card .cs-nome{ margin:22px 0 4px; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--text-muted); }
     .cs-card h3{ font-size:clamp(20px,2vw,26px); margin:0 0 10px; }
     .cs-card p.cs-desc{ color:var(--text-muted); font-size:15px; line-height:1.6; margin:0 0 16px; }
@@ -128,8 +130,8 @@
 
         <!-- 1. TORSIONE (Red Wine, colore gia' scelto nel link) -->
         <article class="cs-card reveal">
-          <a href="prodotto-torsione.html?colore=a3444d" class="cs-img" aria-label="Torsione Red Wine">
-            <img src="images/render/torsione-a3444d.webp" alt="Torsione, vaso scultura Red Wine" style="height:88%;" loading="lazy">
+          <a href="prodotto-torsione.html?colore=a3444d" class="cs-img cs-img-foto" aria-label="Torsione Red Wine">
+            <img src="images/christmas/torsione-natale.webp" alt="Torsione Red Wine, vaso scultura in un salotto natalizio" loading="lazy">
           </a>
           <p class="cs-nome">Torsione · Red Wine</p>
           <h3>L'eleganza prende forma</h3>
@@ -140,8 +142,8 @@
 
         <!-- 2. BOMBATO (Golden, colore gia' scelto nel link) -->
         <article class="cs-card reveal reveal-delay-1">
-          <a href="prodotto-bombato.html?colore=e0bf42" class="cs-img" aria-label="Bombato Golden">
-            <img src="images/bombato-transparent.webp" alt="Bombato, vaso scultura Golden" style="width:92%; margin-bottom:14%;" loading="lazy">
+          <a href="prodotto-bombato.html?colore=e0bf42" class="cs-img cs-img-foto" aria-label="Bombato Golden">
+            <img src="images/christmas/bombato-natale.webp" alt="Bombato Golden, vaso scultura con fiori secchi in un ambiente natalizio" loading="lazy">
           </a>
           <p class="cs-nome">Bombato · Golden</p>
           <h3>Un gesto di design</h3>
@@ -152,8 +154,8 @@
 
         <!-- 3. STARLIGHT (bianca, un solo colore) -->
         <article class="cs-card reveal reveal-delay-2">
-          <a href="prodotto-starlight.html" class="cs-img" aria-label="Starlight">
-            <img src="images/starlight-scontornato.webp" alt="Starlight, lampada scultura bianca" style="width:92%; margin-bottom:10%;" loading="lazy">
+          <a href="prodotto-starlight.html" class="cs-img cs-img-foto" aria-label="Starlight">
+            <img src="images/christmas/starlight-natale.webp" alt="Starlight, lampada scultura bianca accesa in un ambiente natalizio" loading="lazy">
           </a>
           <p class="cs-nome">Starlight · Bianco</p>
           <h3>La luce diventa design</h3>
