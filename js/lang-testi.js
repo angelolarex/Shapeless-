@@ -1211,5 +1211,14 @@ window.ShapelessTestiEN = {
   "Vulcano — vista frontale": "Vulcano — front view",
   "Vulcano, dettaglio ravvicinato della piega e della bocca": "Vulcano, close-up of the fold and the rim",
   "a presto": "see you soon",
-  "la tua email": "your email"
+  "la tua email": "your email",
+  "Torsione: un vaso alto e snello che ruota su se stesso, come un nastro nel vento. Undici colori, 36 cm, progettato e prodotto in Italia.": "Torsione: a tall, slender vase that turns on itself, like a ribbon in the wind. Eleven colours, 36 cm, designed and made in Italy.",
+  "— Undici colori, alto 36 cm": "— Eleven colours, 36 cm tall",
+  "Bombato: il vaso scultura di Shapeless in tredici colori. Scegli il colore e vedi subito il vaso in quella tinta; se vuoi, lo guardi anche in 3D.": "Bombato: the Shapeless sculpture vase in thirteen colours. Pick a colour and see the vase in that shade right away; if you like, view it in 3D too.",
+  "Vedi in 3D": "View in 3D",
+  "Chiudi 3D": "Close 3D",
+  "Giralo con il dito.": "Turn it with your finger.",
+  "Per rivedere le foto d’ambiente tocca una miniatura.": "To see the room photos again, tap a thumbnail.",
+  "Tocca un colore per vedere Torsione in quella tinta.": "Tap a colour to see Torsione in that shade.",
+  "Tocca un colore per vedere Bombato in quella tinta.": "Tap a colour to see Bombato in that shade."
 };

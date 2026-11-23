@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bombato | Shapeless</title>
-  <meta name="description" content="Bombato: foto reali e modello 3D nello stesso posto. Scegli fra tredici colori e il vaso si accende in 3D; torni alle foto quando vuoi, senza cambiare pagina.">
+  <meta name="description" content="Bombato: il vaso scultura di Shapeless in tredici colori. Scegli il colore e vedi subito il vaso in quella tinta; se vuoi, lo guardi anche in 3D.">
   <link rel="stylesheet" href="css/style.css?v=20260928footer">
   <link rel="stylesheet" href="css/negozio.css?v=20261112b">
 
@@ -53,6 +53,17 @@
      in uscita si mangiava il primo tocco sulle foto - si toccava, si
      trascinava, e non succedeva niente: sembrava bloccato. */
   .pv-vista.attiva{ opacity:1; visibility:visible; pointer-events:auto; }
+
+  /* ---- vista COLORE: il render del vaso nel colore scelto ----
+     Compare SOLO al tocco su un pallino (non e' fra le miniature, che restano
+     le foto d'ambiente). Il file ha fondo bianco pre-schiarito: col multiply
+     il fondo diventa quello del riquadro e il vaso mantiene il suo colore. */
+  #vista-colore{ background:var(--bg2); isolation:isolate; display:flex; align-items:center; justify-content:center; }
+  #colore-img{
+    width:100%; height:100%; object-fit:contain; mix-blend-mode:multiply;
+    transition:opacity .22s ease;
+  }
+  #colore-img.cambia{ opacity:0; }
 
   /* ---- vista FOTO: carosello che si trascina ---- */
   .pv-slides{
@@ -130,6 +141,9 @@
     color:var(--text-muted); transition:background .2s, color .2s;
   }
   .pv-switch button.attivo{ background:var(--text); color:var(--bg); }
+  /* un solo pulsante: "Vedi in 3D" / "Chiudi 3D" */
+  .pv-switch button.pv-vedi3d{ padding:7px 15px; font-size:10px; color:var(--text); }
+  .pv-switch button.pv-vedi3d:hover{ background:var(--text); color:var(--bg); }
 
   /* ---- miniature: le foto e, in coda, la tessera 3D ---- */
   .pv-thumbs{ display:flex; gap:12px; margin-top:22px; overflow-x:auto; padding-bottom:2px; scrollbar-width:none; }
@@ -364,10 +378,14 @@
               <div class="pv-caricamento" id="pv-caricamento">Carico il modello…</div>
             </div>
 
-            <!-- interruttore sempre presente: la via di ritorno alle foto -->
-            <div class="pv-switch" role="group" aria-label="Foto o 3D">
-              <button type="button" class="attiva" data-vista="foto">Foto</button>
-              <button type="button" data-vista="3d">3D</button>
+            <!-- vista COLORE: il render nel colore scelto (si accende toccando un pallino) -->
+            <div class="pv-vista" id="vista-colore">
+              <img id="colore-img" src="" alt="Bombato nel colore scelto" decoding="async">
+            </div>
+
+            <!-- un solo pulsante: apre il 3D e, dal 3D, riporta dov'eri -->
+            <div class="pv-switch">
+              <button type="button" class="pv-vedi3d" id="pv-vedi3d" data-vista="3d">Vedi in 3D</button>
             </div>
 
           </div>
@@ -409,7 +427,7 @@
             <span style="text-transform:uppercase; letter-spacing:.14em; font-size:10.5px;">Dimensioni</span>&nbsp;&nbsp;25x25x19h cm
           </p>
 
-          <!-- colori: il gesto che accende il 3D -->
+          <!-- colori: toccandone uno compare il render di quel colore -->
           <div class="pv-blocco-colori">
             <div class="label">Scegli il colore</div>
             <div class="color-swatches" id="colors">
@@ -428,7 +446,7 @@
               <button type="button" class="color-swatch" data-color="#e0bf42" data-name="Golden" style="background:#e0bf42;" aria-label="Golden"></button>
             </div>
             <div class="pv-colorname" id="colorname">Red Wine</div>
-            <p class="pv-invito" id="pv-invito">Tocca un colore: il vaso diventa 3D e lo puoi girare.</p>
+            <p class="pv-invito" id="pv-invito">Tocca un colore per vedere Bombato in quella tinta.</p>
           </div>
 
           <!-- Le miniature stanno nella colonna delle informazioni, sotto i
@@ -637,7 +655,7 @@
 
   <script src="js/main.js"></script>
   <script src="js/chat.js?v=20261110a" defer></script>
-  <script src="js/lang-testi.js?v=20261112pag"></script>
+  <script src="js/lang-testi.js?v=20261123col"></script>
   <script src="js/lang.js?v=20260928lancio"></script>
   <script src="js/shop-config.js?v=20261122prezzi"></script>
   <script src="js/cart.js?v=20261003prezzi"></script>
@@ -679,7 +697,29 @@
     var prec    = document.getElementById('pv-prec');
     var succ    = document.getElementById('pv-succ');
 
-    var stato = { vista:'foto', foto:0, color:'#a3444d', nomeColore:'Red Wine', modelloAvviato:false };
+    var vCol    = document.getElementById('vista-colore');
+    var imgCol  = document.getElementById('colore-img');
+    var btn3d   = document.getElementById('pv-vedi3d');
+
+    /* Il render del vaso in ogni colore (sito, luce uguale per tutti). Compare nel
+       riquadro solo quando si tocca il pallino: NON e' fra le miniature. */
+    var COLORI = {
+      "#a3444d":"images/Bombato/colori/bombato-red-wine.webp",
+      "#91535d":"images/Bombato/colori/bombato-bordeaux.webp",
+      "#bcbfb0":"images/Bombato/colori/bombato-sage.webp",
+      "#646666":"images/Bombato/colori/bombato-antracite.webp",
+      "#d8d0cd":"images/Bombato/colori/bombato-off-white.webp",
+      "#e7cac0":"images/Bombato/colori/bombato-rose.webp",
+      "#346371":"images/Bombato/colori/bombato-emerald-green.webp",
+      "#0095a1":"images/Bombato/colori/bombato-blu-lagoon.webp",
+      "#6b1492":"images/Bombato/colori/bombato-viola.webp",
+      "#dd1d76":"images/Bombato/colori/bombato-magenta.webp",
+      "#fed003":"images/Bombato/colori/bombato-giallo.webp",
+      "#00924f":"images/Bombato/colori/bombato-verde.webp",
+      "#e0bf42":"images/Bombato/colori/bombato-golden.webp"
+    };
+
+    var stato = { vista:'foto', da:'foto', foto:0, color:'#a3444d', nomeColore:'Red Wine', modelloAvviato:false };
 
     /* ---------------------------------------------------------------- FOTO */
 
@@ -717,15 +757,7 @@
       succ.style.display = 'none';
     }
 
-    /* la tessera del 3D, in coda alle foto */
-    var t3d = document.createElement('button');
-    t3d.type = 'button';
-    t3d.className = 'pv-thumb pv-thumb-3d';
-    t3d.dataset.vista = '3d';
-    t3d.innerHTML = '<span class="pallino" id="thumb-pallino" style="background:#a3444d"></span>' +
-                    '<span class="txt">3D</span>';
-    thumbs.appendChild(t3d);
-    var thumbPallino = document.getElementById('thumb-pallino');
+    var thumbPallino = { style:{} };   /* (la tessera 3D delle miniature non c'e' piu') */
 
     function vaiAFoto(i, conAnimazione) {
       i = Math.max(0, Math.min(FOTO.length - 1, i));
@@ -780,6 +812,7 @@
       stato.vista = 'foto';
       vFoto.classList.add('attiva');
       v3d.classList.remove('attiva');
+      vCol.classList.remove('attiva');
       /* Il carosello si riallinea SEMPRE alla foto giusta, e di netto.
          Nascondere e riscoprire un contenitore che scorre a scatti lo lascia
          spesso a meta' fra due foto: da li' il dito non lo smuove piu'.
@@ -804,8 +837,38 @@
       ricordaNellIndirizzo();
     }
 
+    function mostraColore() {
+      var src = stato.color && COLORI[stato.color.toLowerCase()];
+      if (!src) { mostra3D(); return; }
+      stato.vista = 'colore';
+      stato.da = 'colore';
+      if (imgCol.getAttribute('src') !== src) {
+        imgCol.classList.add('cambia');          /* dissolvenza breve fra un colore e l'altro */
+        var nuovo = new Image();
+        nuovo.onload = nuovo.onerror = function () {
+          imgCol.src = src;
+          imgCol.alt = 'Bombato ' + stato.nomeColore;
+          requestAnimationFrame(function () { imgCol.classList.remove('cambia'); });
+        };
+        nuovo.src = src;
+      } else {
+        imgCol.alt = 'Bombato ' + stato.nomeColore;
+      }
+      vCol.classList.add('attiva');
+      vFoto.classList.remove('attiva');
+      v3d.classList.remove('attiva');
+      girello(false);
+      gestisciVideo();
+      aggiornaInterruttore();
+      aggiornaThumbAttiva();
+      didascalia();
+      ricordaNellIndirizzo();
+    }
+
     function mostra3D() {
+      if (stato.vista !== '3d') stato.da = stato.vista;
       stato.vista = '3d';
+      vCol.classList.remove('attiva');
       gestisciVideo();
       avviaModello();
       v3d.classList.add('attiva');
@@ -818,16 +881,14 @@
     }
 
     function aggiornaInterruttore() {
-      document.querySelectorAll('.pv-switch button').forEach(function (b) {
-        b.classList.toggle('attiva', b.dataset.vista === stato.vista);
-      });
+      var in3d = (stato.vista === '3d');
+      btn3d.textContent = in3d ? 'Chiudi 3D' : 'Vedi in 3D';
+      btn3d.dataset.vista = in3d ? 'foto' : '3d';
     }
 
     function aggiornaThumbAttiva() {
       thumbs.querySelectorAll('.pv-thumb').forEach(function (t) {
-        var suo = (stato.vista === '3d')
-          ? (t.dataset.vista === '3d')
-          : (t.dataset.foto !== undefined && Number(t.dataset.foto) === stato.foto);
+        var suo = (stato.vista === 'foto') && (t.dataset.foto !== undefined && Number(t.dataset.foto) === stato.foto);
         t.classList.toggle('attivo', suo);
       });
     }
@@ -836,8 +897,10 @@
        lo dicono gia' la pastiglia accesa e la miniatura evidenziata. */
     function didascalia() {
       invito.textContent = (stato.vista === '3d')
-        ? 'Giralo con il dito. Per rivedere le foto reali tocca una miniatura.'
-        : 'Tocca un colore: il vaso diventa 3D e lo puoi girare.';
+        ? 'Giralo con il dito.'
+        : (stato.vista === 'colore')
+          ? 'Per rivedere le foto d’ambiente tocca una miniatura.'
+          : 'Tocca un colore per vedere Bombato in quella tinta.';
     }
 
     thumbs.addEventListener('click', function (e) {
@@ -846,9 +909,10 @@
       else mostraFoto(Number(t.dataset.foto));
     });
 
-    document.querySelector('.pv-switch').addEventListener('click', function (e) {
-      var b = e.target.closest('button'); if (!b) return;
-      if (b.dataset.vista === '3d') mostra3D(); else mostraFoto();
+    btn3d.addEventListener('click', function () {
+      if (stato.vista === '3d') {
+        if (stato.da === 'colore' && stato.color && COLORI[stato.color.toLowerCase()]) mostraColore(); else mostraFoto();
+      } else mostra3D();
     });
 
     /* --------------------------------------------------------------- 3D */
@@ -1011,8 +1075,9 @@
       stato.nomeColore = b.dataset.name;
       nome.textContent = stato.nomeColore;
       thumbPallino.style.background = stato.color;
-      /* IL PASSAGGIO CHIAVE: scegliere un colore accende il 3D, senza cambiare pagina */
-      mostra3D();
+      /* scegliere un colore mostra il render di quel colore, senza cambiare pagina */
+      if (stato.vista === '3d') { avviaModello(); girello(true); ricordaNellIndirizzo(); }
+      else mostraColore();
       if (arQr && !arQr.hidden) disegnaQr();
     });
 
