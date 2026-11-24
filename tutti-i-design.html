@@ -10,6 +10,8 @@
     /* 28/09: catalogo a 2 per riga su telefono, con i prezzi. tutta la scheda e' il link; sotto l'immagine solo nome e prezzo */
     .products-grid .product-card{ text-align:center; }
     .products-grid .product-card .pc-prezzo{ display:block; margin-top:6px; font-size:13px; color:var(--text-muted); letter-spacing:.02em; }
+    /* offerta a tempo (js/shop-config.js): prezzo di partenza barrato accanto al prezzo scontato */
+    .products-grid .product-card .pc-prezzo .pc-pieno{ text-decoration:line-through; text-decoration-thickness:1px; margin-right:6px; opacity:.7; }
     .products-grid .product-card .pc-sotto, .products-grid .product-card .pc-link{ display:none !important; }
     /* telefono e tablet verticale: 2 per riga */
     @media (max-width: 900px){
@@ -135,7 +137,7 @@
 
         <a href="prodotto-zig.html" class="product-card reveal">
           <div class="card-img card-img--flat" style="display:flex; align-items:flex-end; justify-content:center; padding:12px 12px 0;">
-            <img src="images/zig-blu-scontornato-v3.webp" alt="Zig" style="height:52.6%; width:auto; max-width:100%; object-fit:contain; object-position:center bottom; transform:translateY(-16px);">
+            <img src="images/zig-blu-scontornato-v4.webp" alt="Zig" style="height:52.6%; width:auto; max-width:100%; object-fit:contain; object-position:center bottom; transform:translateY(-16px);">
           </div>
           <p class="product-card-title">Zig</p>
           <span class="pc-prezzo" data-prezzo="zig-s"></span>
@@ -254,6 +256,12 @@
       var p=C.prodotti[el.dataset.prezzo]; if(!p) return;
       var t=Cart&&Cart.formatPrice?Cart.formatPrice(p.prezzo):('€ '+p.prezzo.toFixed(2).replace('.',','));
       el.textContent=(el.dataset.prezzo==='zig-s'||el.dataset.prezzo==='spin-s'?'da ':'')+t;
+      /* offerta attiva: prima il prezzo di partenza barrato, poi quello scontato */
+      if(p.prezzoPieno&&p.offertaFinoAl){
+        var pp=Cart&&Cart.formatPrice?Cart.formatPrice(p.prezzoPieno):('€ '+p.prezzoPieno.toFixed(2).replace('.',','));
+        var sb=document.createElement('s'); sb.className='pc-pieno'; sb.textContent=pp;
+        el.insertBefore(sb,el.firstChild);
+      }
     });
   })();
   </script>
