@@ -1220,5 +1220,6 @@ window.ShapelessTestiEN = {
   "Giralo con il dito.": "Turn it with your finger.",
   "Per rivedere le foto d’ambiente tocca una miniatura.": "To see the room photos again, tap a thumbnail.",
   "Tocca un colore per vedere Torsione in quella tinta.": "Tap a colour to see Torsione in that shade.",
-  "Tocca un colore per vedere Bombato in quella tinta.": "Tap a colour to see Bombato in that shade."
+  "Tocca un colore per vedere Bombato in quella tinta.": "Tap a colour to see Bombato in that shade.",
+  "Tocca un colore per vedere Zig in quella tinta.": "Tap a colour to see Zig in that shade."
 };
