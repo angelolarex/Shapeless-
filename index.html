@@ -371,9 +371,37 @@
     .perche-foto.lampada-foto picture { display:block; }
     @media (max-width: 600px) {
       .perche-foto.lampada-foto { width:100vw; margin-left:calc(50% - 50vw); margin-right:calc(50% - 50vw); border-radius:0; }
-      .perche-foto.lampada-foto img { aspect-ratio:920/1100; object-position:50% 50%; border-radius:0; }
+      .perche-foto.lampada-foto img { aspect-ratio:1/1; object-position:50% 50%; border-radius:0; }
       .nl3-foto { max-width:none; width:100vw; margin-left:calc(50% - 50vw); margin-right:calc(50% - 50vw); }
       .nl3-foto img { aspect-ratio:2000/1497 !important; object-position:50% 50% !important; border-radius:0; }
+    }
+  </style>
+  <style>
+    /* ===== 28/11/2026 stampa e fiere: riprova sociale (dove siamo stati + cosa hanno scritto) ===== */
+    .stampa .st-label { margin:0 0 20px; font-size:11px; font-weight:600; letter-spacing:.2em; text-transform:uppercase; color:var(--accent); }
+    .fiere-lista { list-style:none; margin:0 0 clamp(56px, 7vw, 96px); padding:0; display:grid; grid-template-columns:repeat(3, 1fr); gap:clamp(20px, 3vw, 48px); }
+    .fiere-lista li { display:flex; flex-direction:column; gap:14px; min-height:168px; padding:22px 0 0; border-top:1px solid var(--text); }
+    .ft-num { font-size:12px; letter-spacing:.16em; color:var(--text-muted); }
+    .ft-nome { font-size:clamp(28px, 3vw, 44px); font-weight:300; line-height:1.08; letter-spacing:-.02em; color:var(--text); }
+    .ft-luogo { margin-top:auto; font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--text-muted); }
+    .stampa .citazioni { max-width:none; grid-template-columns:repeat(2, 1fr); gap:clamp(16px, 2.4vw, 32px); }
+    .stampa .cit { position:relative; gap:22px; padding:clamp(26px, 3vw, 44px); background:#fff; border:1px solid var(--border); border-radius:2px; transition:box-shadow .3s ease, transform .3s ease; }
+    .stampa .cit::before { content:''; position:absolute; top:0; left:clamp(26px, 3vw, 44px); width:32px; height:2px; background:var(--accent); }
+    .stampa .cit-titolo { font-size:clamp(22px, 2vw, 30px); font-weight:300; line-height:1.28; letter-spacing:-.01em; }
+    .stampa .cit:hover { box-shadow:0 14px 40px rgba(0,0,0,.07); transform:translateY(-2px); }
+    @media (max-width: 900px), (max-width: 1024px) and (orientation: portrait) {
+      .stampa .citazioni { grid-template-columns:1fr; gap:16px; }
+    }
+    @media (max-width: 700px) {
+      .fiere-lista { grid-template-columns:1fr; gap:0; margin-bottom:44px; }
+      .fiere-lista li { flex-direction:row; align-items:baseline; gap:16px; min-height:0; padding:20px 0; border-top:1px solid var(--border); }
+      .fiere-lista li:first-child { border-top:1px solid var(--text); }
+      .fiere-lista li:last-child { border-bottom:1px solid var(--border); }
+      .ft-nome { flex:1; font-size:26px; }
+      .ft-luogo { margin-top:0; font-size:10px; text-align:right; }
+      .stampa .cit { padding:28px 24px 24px; }
+      .stampa .cit::before { left:24px; }
+      .stampa .cit-titolo { font-size:23px; }
     }
   </style>
   <style>
@@ -712,7 +740,7 @@
           <p>Basta un oggetto per cambiare il modo in cui vivi una stanza.</p>
           <p>Ogni forma Shapeless entra nello spazio senza confondersi con esso: lo attraversa, ne cattura la luce, gli dà un punto di vista.</p>
         </header>
-        <figure class="perche-foto lampada-foto" id="lampadaFoto"><picture><source media="(max-width: 600px)" srcset="images/lampada-home-mobile-600.jpg 600w, images/lampada-home-mobile-920.jpg 920w" sizes="100vw"><img loading="lazy" decoding="async" src="images/lampada-home-credenza-1024.jpg" srcset="images/lampada-home-credenza-700.jpg 700w, images/lampada-home-credenza-1024.jpg 1024w" sizes="(max-width: 900px) 100vw, 50vw" alt="Lampada Shapeless accesa su una credenza, accanto a libri, occhiali e rami di eucalipto" loading="lazy"></picture></figure>
+        <figure class="perche-foto lampada-foto" id="lampadaFoto"><picture><source media="(max-width: 600px)" srcset="images/lampada-home-mobile-c-640.jpg 640w, images/lampada-home-mobile-c-1000.jpg 1000w" sizes="100vw"><img loading="lazy" decoding="async" src="images/lampada-home-credenza-1024.jpg" srcset="images/lampada-home-credenza-700.jpg 700w, images/lampada-home-credenza-1024.jpg 1024w" sizes="(max-width: 900px) 100vw, 50vw" alt="Lampada Shapeless accesa su una credenza, accanto a libri, occhiali e rami di eucalipto" loading="lazy"></picture></figure>
       </div>
     </div>
   </section>
@@ -791,11 +819,13 @@
         <h2>Shapeless, <strong>fuori dallo studio.</strong></h2>
         <p class="sez-intro">Dove abbiamo portato le nostre forme, e chi ne ha scritto.</p>
       </header>
-      <ul class="fiere-riga" aria-label="Fiere">
-        <li>Milano Design Week</li>
-        <li>Milano Home</li>
-        <li>Vebo Napoli</li>
-      </ul>
+      <p class="st-label">Dove siamo stati</p>
+      <ol class="fiere-lista" aria-label="Fiere">
+        <li><span class="ft-num">01</span><span class="ft-nome">Milano Design Week</span><span class="ft-luogo">Fiera · Milano</span></li>
+        <li><span class="ft-num">02</span><span class="ft-nome">Milano Home</span><span class="ft-luogo">Fiera · Milano</span></li>
+        <li><span class="ft-num">03</span><span class="ft-nome">Vebo Napoli</span><span class="ft-luogo">Fiera · Napoli</span></li>
+      </ol>
+      <p class="st-label">Cosa hanno scritto</p>
       <div class="citazioni">
         <a class="cit" href="https://thenycjournal.com/top-10-interior-designers-to-look-out-for-in-2024/" target="_blank" rel="noopener">
           <span class="cit-testata">The NYC Journal · 2024</span>
@@ -875,7 +905,7 @@
   </footer>
 
   <script src="js/main.js?v=20261004nl"></script>
-  <script src="js/lang-testi.js?v=20261110a"></script>
+  <script src="js/lang-testi.js?v=20261128a"></script>
   <script src="js/lang.js?v=20260928lancio"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="js/blade_geo.js"></script>
