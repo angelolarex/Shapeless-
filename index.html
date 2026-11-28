@@ -367,6 +367,16 @@
     .nl3-foto img { aspect-ratio:16/10 !important; object-position:50% 38% !important; }
   </style>
   <style>
+    /* ===== 28/11/2026 telefono: foto lampada e foto newsletter a tutta larghezza, senza margini ===== */
+    .perche-foto.lampada-foto picture { display:block; }
+    @media (max-width: 600px) {
+      .perche-foto.lampada-foto { width:100vw; margin-left:calc(50% - 50vw); margin-right:calc(50% - 50vw); border-radius:0; }
+      .perche-foto.lampada-foto img { aspect-ratio:920/1100; object-position:50% 50%; border-radius:0; }
+      .nl3-foto { max-width:none; width:100vw; margin-left:calc(50% - 50vw); margin-right:calc(50% - 50vw); }
+      .nl3-foto img { aspect-ratio:2000/1497 !important; object-position:50% 50% !important; border-radius:0; }
+    }
+  </style>
+  <style>
     /* ===== Lampada che si accende allo scroll (sezione "Non riempiamo gli spazi") ===== */
     .perche-foto.lampada-foto { overflow:hidden; border-radius:2px; background:#0d0b10; }
     .perche-foto.lampada-foto img { aspect-ratio:1/1; object-position:50% 55%; }
@@ -702,7 +712,7 @@
           <p>Basta un oggetto per cambiare il modo in cui vivi una stanza.</p>
           <p>Ogni forma Shapeless entra nello spazio senza confondersi con esso: lo attraversa, ne cattura la luce, gli dà un punto di vista.</p>
         </header>
-        <figure class="perche-foto lampada-foto" id="lampadaFoto"><img loading="lazy" decoding="async" src="images/lampada-home-credenza-1024.jpg" srcset="images/lampada-home-credenza-700.jpg 700w, images/lampada-home-credenza-1024.jpg 1024w" sizes="(max-width: 900px) 100vw, 50vw" alt="Lampada Shapeless accesa su una credenza, accanto a libri, occhiali e rami di eucalipto" loading="lazy"></figure>
+        <figure class="perche-foto lampada-foto" id="lampadaFoto"><picture><source media="(max-width: 600px)" srcset="images/lampada-home-mobile-600.jpg 600w, images/lampada-home-mobile-920.jpg 920w" sizes="100vw"><img loading="lazy" decoding="async" src="images/lampada-home-credenza-1024.jpg" srcset="images/lampada-home-credenza-700.jpg 700w, images/lampada-home-credenza-1024.jpg 1024w" sizes="(max-width: 900px) 100vw, 50vw" alt="Lampada Shapeless accesa su una credenza, accanto a libri, occhiali e rami di eucalipto" loading="lazy"></picture></figure>
       </div>
     </div>
   </section>
