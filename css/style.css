@@ -2086,3 +2086,21 @@ footer { padding:48px 0 28px; background:#efedea; }
 .nl-codice-riga code { flex: 1; padding: 14px 18px; font-family: inherit; font-size: 20px; font-weight: 500; letter-spacing: .28em; color: var(--accent, #6b1f45); }
 .nl-codice-riga button { border: 0; background: var(--accent, #6b1f45); color: #fff; padding: 0 22px; font: inherit; font-size: 12px; letter-spacing: .16em; text-transform: uppercase; cursor: pointer; }
 .nl-codice-n { font-size: 13.5px; color: var(--text-muted, #4a4848); margin: 12px 0 0; line-height: 1.5; }
+
+
+/* ===== 28/11/2026 — piè di pagina più basso (~10%), sempre ordinato, uguale in tutte le pagine ===== */
+footer { padding:40px 0 24px; }
+.footer-grid { gap:36px; margin-bottom:30px; }
+.footer-col h5 { margin:0 0 11px; }
+.footer-col a { padding:3px 0; }
+.footer-bottom { padding-top:18px; }
+@media (max-width: 900px), (max-width: 1024px) and (orientation: portrait) {
+  footer { padding:30px 0 20px; }
+  .footer-grid { gap:22px 24px; margin-bottom:22px; }
+  .footer-logo-img { height:76px; margin:-25px 0 -15px; }
+  .footer-brand > p { line-height:1.5; }
+  .footer-brand .social-links { margin-top:12px !important; }
+  .footer-col h5 { margin:0 0 8px; }
+  .footer-col a { padding:2px 0; }
+  .footer-bottom { padding-top:14px; gap:8px; }
+}

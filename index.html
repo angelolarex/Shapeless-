@@ -6,7 +6,7 @@
   <title>Shapeless | Design in movimento — vasi e lampade progettati in Italia</title>
   <link rel="canonical" href="https://shapeless.shop/">
   <meta name="description" content="Vasi e lampade progettati in Italia per dare movimento e carattere agli spazi che vivi. Realizzati su ordinazione, in un materiale di origine vegetale. Scopri Bombato, Blade e Vulcano.">
-  <link rel="stylesheet" href="css/style.css?v=20261003codice">
+  <link rel="stylesheet" href="css/style.css?v=20261128footer">
   <style>
     /* Homepage: label hero più marcata */
     .hero .label { font-weight: 600; letter-spacing: 0.22em; }
@@ -371,9 +371,7 @@
     .perche-foto.lampada-foto picture { display:block; }
     @media (max-width: 600px) {
       .perche-foto.lampada-foto { width:100vw; margin-left:calc(50% - 50vw); margin-right:calc(50% - 50vw); border-radius:0; }
-      .perche-foto.lampada-foto img { aspect-ratio:1/1; object-position:50% 50%; border-radius:0; }
-      .nl3-foto { max-width:none; width:100vw; margin-left:calc(50% - 50vw); margin-right:calc(50% - 50vw); }
-      .nl3-foto img { aspect-ratio:2000/1497 !important; object-position:50% 50% !important; border-radius:0; }
+      .perche-foto.lampada-foto img { aspect-ratio:4/3; object-position:50% 48%; border-radius:0; }
     }
   </style>
   <style>
@@ -394,14 +392,19 @@
     }
     @media (max-width: 700px) {
       .fiere-lista { grid-template-columns:1fr; gap:0; margin-bottom:44px; }
-      .fiere-lista li { flex-direction:row; align-items:baseline; gap:16px; min-height:0; padding:20px 0; border-top:1px solid var(--border); }
+      .fiere-lista li { flex-direction:row; align-items:baseline; gap:12px; min-height:0; padding:14px 0; border-top:1px solid var(--border); }
       .fiere-lista li:first-child { border-top:1px solid var(--text); }
       .fiere-lista li:last-child { border-bottom:1px solid var(--border); }
-      .ft-nome { flex:1; font-size:26px; }
-      .ft-luogo { margin-top:0; font-size:10px; text-align:right; }
-      .stampa .cit { padding:28px 24px 24px; }
-      .stampa .cit::before { left:24px; }
-      .stampa .cit-titolo { font-size:23px; }
+      .ft-nome { flex:1; font-size:20px; }
+      .ft-luogo { margin-top:0; font-size:9px; letter-spacing:.14em; text-align:right; }
+      .stampa .sez-testa h2 { font-size:26px; line-height:1.15; }
+      .stampa .sez-intro { font-size:14px; line-height:1.55; margin-top:10px; }
+      .stampa .st-label { margin-bottom:12px; font-size:10px; }
+      .fiere-lista { margin-bottom:32px; }
+      .ft-num { font-size:10px; }
+      .stampa .cit { padding:22px 20px 20px; gap:14px; }
+      .stampa .cit::before { left:20px; }
+      .stampa .cit-titolo { font-size:18px; }
     }
   </style>
   <style>
@@ -409,7 +412,7 @@
     .perche-foto.lampada-foto { overflow:hidden; border-radius:2px; background:#0d0b10; }
     .perche-foto.lampada-foto img { aspect-ratio:1/1; object-position:50% 55%; }
     @media (max-width: 600px) {
-      .perche-foto.lampada-foto img { aspect-ratio:4/5; object-position:50% 46%; }
+      .perche-foto.lampada-foto img { aspect-ratio:4/3; object-position:50% 48%; }
     }
     /* Computer e tablet orizzontale: titolo accanto alla foto, foto verticale, valori uno sotto l'altro */
     .perche-testa-pc { display:none; }
@@ -419,7 +422,7 @@
       .perche-testa-pc h2 { margin:0; font-size:clamp(30px, 2.7vw, 44px); line-height:1.12; }
       .perche-testa-pc .sez-intro { margin:18px 0 0; max-width:32em; }
       .perche { grid-template-columns:1fr 1fr; gap:88px; align-items:center; }
-      .perche-foto.lampada-foto img { aspect-ratio:4/5; object-position:50% 46%; }
+      .perche-foto.lampada-foto img { aspect-ratio:4/3; object-position:50% 48%; }
       .valori li { grid-template-columns:1fr; gap:6px; padding:20px 0; }
       .valori p { max-width:34em; }
     }
@@ -468,6 +471,9 @@
     .home-banda { margin:0; border-bottom:1px solid var(--border); background:var(--bg); }
     .home-banda img { display:block; width:100%; height:auto; }
     @media (max-width:700px){ .home-banda img { aspect-ratio:3/2; object-fit:cover; object-position:50% 50%; } }
+    .home-banda-zig { border-top:1px solid var(--border); }
+    .home-banda-zig img { aspect-ratio:16/9; object-fit:cover; object-position:50% 52%; }
+    @media (max-width:700px){ .home-banda-zig img { aspect-ratio:3/2; object-position:50% 48%; } }
     /* le tre righe entrano scalando, ogni volta che la sezione torna nello schermo */
     .filo.pronta .filo-righe p, .filo.pronta .filo-chiusa { opacity:0; transform:translateX(-28px); }
     .filo.in-vista .filo-righe p, .filo.in-vista .filo-chiusa { opacity:1; transform:none; transition:opacity .9s ease, transform 1.1s cubic-bezier(.2,.7,.2,1); }
@@ -557,7 +563,7 @@
       .fiere-riga li { font-size:16px; font-weight:400; color:var(--text); padding:0 0 0 22px; border:0; position:relative; }
       .fiere-riga li, .fiere-riga li:first-child { padding-left:24px; }
       .fiere-riga li::before { content:''; position:absolute; left:0; top:.72em; width:12px; height:1px; background:var(--accent); }
-      .stampa { padding-bottom:40px; }
+      .stampa { padding-top:44px; padding-bottom:40px; }
       .citazioni { border-bottom:0; }
       .cit:last-child { padding-bottom:8px; }
       /* emozione → filosofia: meno vuoto tra la foto e il testo */
@@ -808,6 +814,8 @@
       <div class="prove-link"><a href="chi-siamo.html" class="link-freccia">La nostra storia <span>→</span></a><a href="il-mais.html" class="link-freccia">Il materiale <span>→</span></a></div>
     </div>
   </section>
+
+  <figure class="home-banda home-banda-zig"><img loading="lazy" decoding="async" src="images/home-zig-tavolo-1024.jpg" srcset="images/home-zig-tavolo-640.jpg 640w, images/home-zig-tavolo-1024.jpg 1024w" sizes="100vw" width="1024" height="819" alt="Due vasi Shapeless a zig-zag, uno nero e oro e uno blu e verde, su un tavolino in marmo davanti a un divano chiaro"></figure>
 
   <!-- 06 3D / ESPERIENZA: tolta il 20/11/2026 (il Blade 3D non c'e' piu' sul sito; copia in _versioni/20261120_blade-foto-colori-senza-3d/index.html) -->
 
