@@ -1009,6 +1009,7 @@ window.ShapelessTestiEN = {
   "Leggi": "Read",
   "Leggi l'intervista": "Read the interview",
   "Cosa hanno scritto": "What they wrote",
+  "Offerta valida fino al 13 dicembre": "Offer valid until 13 December",
   "Fiera · Milano": "Fair · Milan",
   "Fiera · Napoli": "Fair · Naples",
   "Nuove forme,": "New forms,",
